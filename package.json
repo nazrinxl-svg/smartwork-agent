@@ -17,7 +17,8 @@
     "runtime:test": "node scripts/smartwork-runtime-test.mjs",
     "open:siaga": "node scripts/smartwork-open-siaga-browser.mjs",
     "siaga:login-test": "node scripts/smartwork-siaga-login-test.mjs",
-    "siaga:logout-test": "node scripts/smartwork-siaga-logout-test.mjs"
+    "siaga:logout-test": "node scripts/smartwork-siaga-logout-test.mjs",
+    "siaga:absensi-scout": "node scripts/smartwork-siaga-absensi-scout.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.1"
