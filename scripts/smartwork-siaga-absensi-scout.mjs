@@ -10,15 +10,15 @@ fs.mkdirSync(reportsDir, { recursive: true });
 
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 const allowedHost = "siagapendis.kemenag.go.id";
-const loginUrl = "https://siagapendis.kemenag.go.id/login";
+const homeUrl = "https://siagapendis.kemenag.go.id/index/beranda";
 
 const report = {
-  id: `siaga-absensi-scout-${stamp}`,
+  id: `siaga-absensi-open-v2-${stamp}`,
   target: "SIAGA Pendis Kemenag",
-  mode: "absensi-scout",
+  mode: "absensi-open-v2",
   dryRun: true,
   safety: {
-    action: "navigate_and_screenshot_only",
+    action: "open_absensi_only",
     saveAllowed: false,
     sendAllowed: false,
     deleteAllowed: false,
@@ -42,8 +42,7 @@ function step(name, status, note = "") {
 
 function safeUrl(url) {
   try {
-    const u = new URL(url);
-    return u.hostname === allowedHost;
+    return new URL(url).hostname === allowedHost;
   } catch {
     return false;
   }
@@ -82,104 +81,21 @@ async function bodyText(page) {
   return await page.locator("body").innerText({ timeout: 10000 }).catch(() => "");
 }
 
-async function firstVisible(page, selectors, timeout = 2000) {
-  for (const selector of selectors) {
-    const loc = page.locator(selector).first();
-    try {
-      if (await loc.count()) {
-        await loc.waitFor({ state: "visible", timeout });
-        return { selector, loc };
-      }
-    } catch {}
-  }
-  return null;
-}
-
-async function clickIfVisible(page, selectors, timeout = 2000) {
-  const found = await firstVisible(page, selectors, timeout);
-  if (!found) return null;
-
-  await found.loc.scrollIntoViewIfNeeded().catch(() => {});
-  await waitHuman(300);
-  await found.loc.click({ timeout: 7000 });
-  return found.selector;
-}
-
-async function ensureLoggedIn(page) {
-  await page.goto(loginUrl, { waitUntil: "domcontentloaded", timeout: 45000 }).catch(() => {});
-  await waitHuman(2200);
-
-  const text = await bodyText(page);
-  const url = page.url();
-
-  const isLogin =
-    /\/login/i.test(url) &&
-    /masukkan nomor akun|masukkan kata kunci|masuk/i.test(text.slice(0, 1500));
-
-  if (isLogin) {
-    return {
-      loggedIn: false,
-      reason: "Masih di halaman login. Jalankan npm run siaga:login-test dulu."
-    };
-  }
-
-  if (!safeUrl(url)) {
-    return {
-      loggedIn: false,
-      reason: `Domain tidak diizinkan: ${url}`
-    };
-  }
-
-  return {
-    loggedIn: true,
-    reason: url
-  };
-}
-
-async function openSideMenuIfNeeded(page, context) {
-  const text = await bodyText(page);
-
-  if (/Absensi/i.test(text)) {
-    step("side_menu_visible", "OK", "Menu Absensi sudah terlihat.");
-    return true;
-  }
-
-  const clicked = await clickIfVisible(page, [
-    'button:has-text("☰")',
-    'button[aria-label*="menu" i]',
-    '.navbar-toggler',
-    '.fa-bars',
-    'i.fa-bars',
-    'a:has(.fa-bars)',
-    'button:has(svg)'
-  ], 2000);
-
-  if (clicked) {
-    step("open_side_menu", "OK", `selector=${clicked}`);
-    await waitHuman(1000);
-    await cdpShot(context, page, "02-menu-opened");
-    return true;
-  }
-
-  step("open_side_menu", "WARN", "Tombol menu tidak ditemukan, lanjut cari Absensi langsung.");
-  return false;
-}
-
 async function writeReport() {
-  const jsonFile = path.join(reportsDir, `${stamp}-siaga-absensi-scout.json`);
-  const mdFile = path.join(reportsDir, `${stamp}-siaga-absensi-scout.md`);
+  const jsonFile = path.join(reportsDir, `${stamp}-siaga-absensi-open-v2.json`);
+  const mdFile = path.join(reportsDir, `${stamp}-siaga-absensi-open-v2.md`);
 
   fs.writeFileSync(jsonFile, JSON.stringify(report, null, 2), "utf8");
 
   fs.writeFileSync(
     mdFile,
     [
-      "# SmartWork SIAGA Absensi Scout V1",
+      "# SmartWork SIAGA Absensi Open V2",
       "",
       "- Target: SIAGA Pendis Kemenag",
-      "- Mode: absensi-scout",
+      "- Mode: absensi-open-v2",
       `- Result: ${report.result || "UNKNOWN"}`,
-      "- Action: navigate and screenshot only",
+      "- Action: open Absensi only",
       "- Save/Send/Delete: disabled",
       "",
       "## Steps",
@@ -201,8 +117,66 @@ async function writeReport() {
   console.log("SMARTWORK_BROWSER_LEFT_OPEN=TRUE");
 }
 
+async function clickAbsensiPrecise(page) {
+  // Cara 1: klik link atau item yang teksnya tepat Absensi.
+  const candidates = [
+    'a:has-text("Absensi")',
+    'li:has-text("Absensi")',
+    'span:has-text("Absensi")',
+    'div:has-text("Absensi")',
+    'text=Absensi'
+  ];
+
+  for (const selector of candidates) {
+    try {
+      const loc = page.locator(selector).filter({ hasText: /^Absensi$/ }).first();
+      if (await loc.count()) {
+        await loc.scrollIntoViewIfNeeded().catch(() => {});
+        await waitHuman(300);
+
+        const box = await loc.boundingBox();
+        if (box) {
+          await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+          await waitHuman(250);
+          await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+          return `mouse:${selector}`;
+        }
+
+        await loc.click({ timeout: 7000 });
+        return selector;
+      }
+    } catch {}
+  }
+
+  // Cara 2: evaluasi semua elemen, cari teks Absensi, klik koordinatnya.
+  const item = await page.evaluate(() => {
+    const all = Array.from(document.querySelectorAll("a, li, span, div, button"));
+    const found = all.find((el) => (el.innerText || el.textContent || "").trim() === "Absensi");
+    if (!found) return null;
+
+    const rect = found.getBoundingClientRect();
+    return {
+      text: (found.innerText || found.textContent || "").trim(),
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+      width: rect.width,
+      height: rect.height,
+      tag: found.tagName
+    };
+  });
+
+  if (item && item.width > 0 && item.height > 0) {
+    await page.mouse.move(item.x, item.y);
+    await waitHuman(250);
+    await page.mouse.click(item.x, item.y);
+    return `mouse:evaluate:${item.tag}`;
+  }
+
+  return null;
+}
+
 async function main() {
-  console.log("=== SMARTWORK SIAGA ABSENSI SCOUT V1 ===");
+  console.log("=== SMARTWORK SIAGA ABSENSI OPEN V2 ===");
 
   let browser;
   try {
@@ -218,67 +192,77 @@ async function main() {
   const context = browser.contexts()[0] || await browser.newContext();
   let page = context.pages().find((p) => safeUrl(p.url())) || context.pages()[0];
 
-  if (!page) {
-    page = await context.newPage();
-  }
+  if (!page) page = await context.newPage();
 
   await page.bringToFront().catch(() => {});
+  await waitHuman(700);
 
-  const loginCheck = await ensureLoggedIn(page);
+  if (!safeUrl(page.url())) {
+    await page.goto(homeUrl, { waitUntil: "domcontentloaded", timeout: 45000 }).catch(() => {});
+    await waitHuman(1500);
+  }
 
-  if (!loginCheck.loggedIn) {
-    step("login_check", "STOP", loginCheck.reason);
+  if (!safeUrl(page.url())) {
+    throw new Error(`Domain tidak diizinkan: ${page.url()}`);
+  }
+
+  const beforeText = await bodyText(page);
+  const isLogin =
+    /\/login/i.test(page.url()) ||
+    /Masukkan Nomor Akun|Masukan Kata Kunci|Masuk/i.test(beforeText.slice(0, 1200));
+
+  if (isLogin) {
+    step("login_check", "STOP", "Masih di halaman login. Jalankan npm run siaga:login-test dulu.");
     await cdpShot(context, page, "01-login-required");
     report.result = "STOP_LOGIN_REQUIRED";
     report.finalUrl = page.url();
-    report.bodyPreview = (await bodyText(page)).slice(0, 1000);
+    report.bodyPreview = beforeText.slice(0, 1200);
     await writeReport();
     return;
   }
 
-  step("login_check", "OK", loginCheck.reason);
-  await cdpShot(context, page, "01-dashboard-before-absensi");
+  step("login_check", "OK", page.url());
+  await cdpShot(context, page, "01-before-click-absensi");
 
-  await openSideMenuIfNeeded(page, context);
+  if (!/Absensi/i.test(beforeText)) {
+    step("menu_absensi_visible", "WARN", "Teks Absensi belum terlihat di body. Pastikan sidebar terbuka.");
+  } else {
+    step("menu_absensi_visible", "OK", "Teks Absensi terlihat di sidebar.");
+  }
 
-  const clickedAbsensi = await clickIfVisible(page, [
-    'a:has-text("Absensi")',
-    'button:has-text("Absensi")',
-    'li:has-text("Absensi") a',
-    'text=Absensi'
-  ], 3500);
+  const clicked = await clickAbsensiPrecise(page);
 
-  if (!clickedAbsensi) {
-    step("click_absensi", "FAILED", "Menu Absensi tidak ditemukan.");
-    await cdpShot(context, page, "03-absensi-not-found");
+  if (!clicked) {
+    step("click_absensi", "FAILED", "Tidak menemukan teks Absensi untuk diklik.");
+    await cdpShot(context, page, "02-absensi-not-found");
     report.result = "FAILED_ABSENSI_MENU_NOT_FOUND";
     report.finalUrl = page.url();
-    report.bodyPreview = (await bodyText(page)).slice(0, 1200);
+    report.bodyPreview = beforeText.slice(0, 1500);
     await writeReport();
     return;
   }
 
-  step("click_absensi", "OK", `selector=${clickedAbsensi}`);
+  step("click_absensi", "OK", clicked);
 
   await page.waitForLoadState("domcontentloaded", { timeout: 15000 }).catch(() => {});
-  await waitHuman(2500);
+  await waitHuman(3000);
 
-  const finalText = await bodyText(page);
+  const afterText = await bodyText(page);
   report.finalUrl = page.url();
-  report.bodyPreview = finalText.slice(0, 1500);
+  report.bodyPreview = afterText.slice(0, 1800);
 
-  const absensiDetected =
-    /absensi|kehadiran|hadir|tanggal|jadwal|tugas/i.test(finalText) ||
+  const opened =
+    /Absensi|Kehadiran|Hadir|Tidak Hadir|Tanggal|Jadwal/i.test(afterText) ||
     /absensi/i.test(page.url());
 
-  if (absensiDetected) {
-    step("absensi_page_detected", "OK", "Halaman/area Absensi terdeteksi.");
-    await cdpShot(context, page, "04-absensi-page");
+  if (opened) {
+    step("absensi_page_detected", "OK", "Halaman/area Absensi terbuka atau terdeteksi.");
+    await cdpShot(context, page, "03-absensi-opened");
     report.result = "OK_ABSENSI_OPENED";
   } else {
-    step("absensi_page_detected", "WARN", "Klik Absensi berhasil, tapi halaman belum pasti terdeteksi.");
-    await cdpShot(context, page, "04-after-click-absensi-unknown");
-    report.result = "WARN_ABSENSI_CLICKED_UNKNOWN_PAGE";
+    step("absensi_page_detected", "WARN", "Klik berhasil, tapi halaman Absensi belum pasti.");
+    await cdpShot(context, page, "03-after-click-unknown");
+    report.result = "WARN_ABSENSI_CLICKED_UNKNOWN";
   }
 
   await writeReport();
