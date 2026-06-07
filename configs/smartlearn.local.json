@@ -1,0 +1,20 @@
+{
+  "id": "smartlearn-local",
+  "name": "SmartLearn Pro Local",
+  "url": "http://localhost:5173",
+  "allowedHosts": [
+    "localhost:5173",
+    "127.0.0.1"
+  ],
+  "login": {
+    "role": "Guru",
+    "email": "tes.guru.pai02@gmail.com",
+    "password": "12345678"
+  },
+  "permissions": {
+    "dryRun": true,
+    "allowWrite": false,
+    "allowDelete": false,
+    "allowSend": false
+  }
+}

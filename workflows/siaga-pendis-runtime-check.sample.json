@@ -1,0 +1,63 @@
+﻿{
+  "id": "siaga-pendis-runtime-check-v1",
+  "name": "SIAGA Pendis Runtime Check V1",
+  "targetConfig": "configs/siaga-pendis.kemenag.json",
+  "mode": "dryRun",
+  "goal": "Buka halaman SIAGA Pendis, cek login page, tunggu login manual bila diperlukan, screenshot dashboard, lalu buat report.",
+  "browser": {
+    "engine": "chrome",
+    "debugPort": 9222
+  },
+  "rules": {
+    "doNotBypassLogin": true,
+    "doNotBypassCaptcha": true,
+    "doNotBypassOtp": true,
+    "saveAllowed": false,
+    "sendAllowed": false,
+    "deleteAllowed": false,
+    "requireScreenshotEveryStage": true,
+    "requireReport": true
+  },
+  "steps": [
+    {
+      "id": "open_login",
+      "action": "goto",
+      "url": "https://siagapendis.kemenag.go.id/login",
+      "screenshot": true
+    },
+    {
+      "id": "detect_login_form",
+      "action": "detect",
+      "targets": [
+        "input",
+        "button",
+        "form",
+        "captcha",
+        "otp"
+      ],
+      "screenshot": true
+    },
+    {
+      "id": "manual_login_if_needed",
+      "action": "wait_for_user",
+      "reason": "Login akun resmi, CAPTCHA, atau OTP harus diselesaikan manual oleh pengguna."
+    },
+    {
+      "id": "detect_dashboard",
+      "action": "detect",
+      "targets": [
+        "dashboard",
+        "menu",
+        "profil",
+        "layanan",
+        "data"
+      ],
+      "screenshot": true
+    },
+    {
+      "id": "write_report",
+      "action": "report",
+      "format": "json+markdown"
+    }
+  ]
+}

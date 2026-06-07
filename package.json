@@ -1,0 +1,25 @@
+{
+  "name": "smartwork-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone AI UI Work Agent for safe browser workflow automation.",
+  "scripts": {
+    "agent": "node scripts/smartwork-agent.mjs",
+    "brain": "node scripts/smartwork-brain.mjs",
+    "guard": "node scripts/smartwork-guard.mjs",
+    "plan": "node scripts/smartwork-plan.mjs",
+    "doctor": "node scripts/smartwork-agent.mjs --doctor",
+    "nilai": "node scripts/smartwork-nilai-agent.mjs",
+    "open:browser": "node scripts/smartwork-open-browser.mjs",
+    "login": "node scripts/smartwork-login-agent.mjs",
+    "shot": "node scripts/smartwork-shot-agent.mjs",
+    "runtime:test": "node scripts/smartwork-runtime-test.mjs",
+    "open:siaga": "node scripts/smartwork-open-siaga-browser.mjs",
+    "siaga:login-test": "node scripts/smartwork-siaga-login-test.mjs",
+    "siaga:logout-test": "node scripts/smartwork-siaga-logout-test.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.1"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "smartlearn-input-nilai-kelas-vi",
+  "name": "Input Nilai Kelas VI SmartLearn",
+  "targetConfig": "configs/smartlearn.local.json",
+  "intent": "input_scores",
+  "mode": "training",
+  "permissions": {
+    "dryRun": true,
+    "allowWrite": false,
+    "allowDelete": false,
+    "allowSend": false
+  },
+  "steps": [
+    {
+      "type": "login",
+      "using": "targetConfig.login"
+    },
+    {
+      "type": "navigate",
+      "target": "Rapor Digital"
+    },
+    {
+      "type": "click",
+      "target": "Input Nilai"
+    },
+    {
+      "type": "click",
+      "target": "KELAS VI"
+    },
+    {
+      "type": "click",
+      "target": "Nilai TP"
+    },
+    {
+      "type": "edit",
+      "target": "score_inputs",
+      "values": [82, 84, 86, 88, 90]
+    },
+    {
+      "type": "screenshot",
+      "target": "main"
+    }
+  ]
+}

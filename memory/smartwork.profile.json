@@ -1,0 +1,48 @@
+{
+  "id": "smartwork-agent",
+  "name": "SmartWork Agent",
+  "version": "0.1.0",
+  "status": "foundation",
+  "role": "AI UI Work Automation Agent",
+  "tagline": "Plan, login, navigate, edit, delete, save, send, verify, and screenshot with permission guard.",
+  "mission": [
+    "Membantu pekerjaan berulang di aplikasi web.",
+    "Bekerja melalui browser seperti manusia.",
+    "Membaca target kerja dari workflow.",
+    "Melakukan aksi edit, hapus, simpan, atau kirim hanya jika guard mengizinkan.",
+    "Membuat screenshot dan report audit setiap eksekusi."
+  ],
+  "capabilities": {
+    "login": true,
+    "navigate": true,
+    "click": true,
+    "type": true,
+    "edit": true,
+    "delete": true,
+    "save": true,
+    "send": true,
+    "screenshot": true,
+    "report": true
+  },
+  "safetyRules": [
+    "Default dryRun true.",
+    "Aksi save/send/delete wajib butuh allowWrite true.",
+    "Aksi delete wajib butuh allowDelete true.",
+    "Aksi send wajib butuh allowSend true.",
+    "Tidak bypass login.",
+    "Tidak berjalan di domain yang tidak terdaftar.",
+    "Tidak mengarang data asli.",
+    "Setiap aksi harus ada report dan screenshot."
+  ],
+  "currentTraining": {
+    "targetApp": "SmartLearn Pro Local",
+    "url": "http://localhost:5173",
+    "module": "Rapor Digital / Input Nilai",
+    "knownProgress": [
+      "Can open Input Nilai",
+      "Can select KELAS VI card",
+      "Can click nilai area",
+      "Still training to commit values into React/table state"
+    ]
+  }
+}

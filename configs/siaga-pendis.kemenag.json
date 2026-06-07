@@ -1,0 +1,33 @@
+﻿{
+  "id": "siaga-pendis-kemenag",
+  "name": "SIAGA Pendis Kemenag",
+  "type": "work-web-app",
+  "baseUrl": "https://siagapendis.kemenag.go.id",
+  "loginUrl": "https://siagapendis.kemenag.go.id/login",
+  "allowedDomains": [
+    "siagapendis.kemenag.go.id"
+  ],
+  "browser": "chrome",
+  "safety": {
+    "dryRun": true,
+    "allowSave": false,
+    "allowSend": false,
+    "allowDelete": false,
+    "requireScreenshot": true,
+    "requireReport": true,
+    "noBypassLogin": true,
+    "noBypassCaptcha": true,
+    "noBypassOtp": true
+  },
+  "humanApproval": {
+    "beforeSave": true,
+    "beforeSend": true,
+    "beforeDelete": true
+  },
+  "notes": [
+    "Digunakan hanya untuk membantu pekerjaan resmi pemilik akun.",
+    "Login tetap menggunakan akun resmi pengguna.",
+    "Jika ada CAPTCHA atau OTP, pengguna menyelesaikan manual.",
+    "Aksi simpan/kirim/hapus wajib izin eksplisit."
+  ]
+}
