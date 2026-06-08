@@ -72,7 +72,8 @@
                     "batch:delivery":  "node scripts/smartwork-batch-delivery-runner-agent.mjs",
                     "batch:summary":  "node scripts/smartwork-batch-summary-agent.mjs",
                     "batch:run":  "node scripts/smartwork-batch-orchestrator-agent.mjs",
-                    "batch:missing-pdf":  "node scripts/smartwork-missing-pdf-worker-planner-agent.mjs"
+                    "batch:missing-pdf":  "node scripts/smartwork-missing-pdf-worker-planner-agent.mjs",
+                    "proof:report":  "node scripts/smartwork-siaga-proof-report-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
