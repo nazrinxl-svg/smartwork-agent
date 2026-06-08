@@ -56,7 +56,10 @@
                     "siaga:job:time-plan-preview":  "node scripts/smartwork-siaga-job-time-plan-preview.mjs",
                     "siaga:job:input-preview-no-save":  "node scripts/smartwork-siaga-job-input-preview-no-save.mjs",
                     "siaga:job:save-confirmed":  "node scripts/smartwork-siaga-job-save-confirmed.mjs",
-                    "siaga:diagnose:create-form-state":  "node scripts/smartwork-siaga-diagnose-create-form-state.mjs"
+                    "siaga:diagnose:create-form-state":  "node scripts/smartwork-siaga-diagnose-create-form-state.mjs",
+                    "siaga:job:export-download":  "node scripts/smartwork-siaga-job-export-download.mjs",
+                    "siaga:job:download-template":  "node scripts/smartwork-siaga-job-export-download.mjs",
+                    "siaga:job:download-presensi-pdf":  "node scripts/smartwork-siaga-job-download-presensi-pdf.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
