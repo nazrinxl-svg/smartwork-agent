@@ -52,7 +52,8 @@
                     "siaga:parallel:absensi-juni-find-preview":  "node scripts/smartwork-siaga-parallel-absensi-juni-find-preview.mjs",
                     "siaga:target-month:create-preview":  "node scripts/smartwork-siaga-parallel-target-month-create-preview.mjs",
                     "siaga:job:plan":  "node scripts/smartwork-siaga-job-planner.mjs",
-                    "siaga:job:runner-preview":  "node scripts/smartwork-siaga-job-runner-preview.mjs"
+                    "siaga:job:runner-preview":  "node scripts/smartwork-siaga-job-runner-preview.mjs",
+                    "siaga:job:time-plan-preview":  "node scripts/smartwork-siaga-job-time-plan-preview.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
