@@ -36,3 +36,4 @@ shots/*real*
 reports/*real*
 
 .smartwork-visible-chrome/
+data/siaga-attendance-request.local.json

@@ -1,4 +1,4 @@
-﻿{
+{
     "name":  "smartwork-agent",
     "version":  "0.1.0",
     "private":  true,
@@ -50,7 +50,8 @@
                     "siaga:parallel:absensi-open-preview":  "node scripts/smartwork-siaga-parallel-absensi-open-preview.mjs",
                     "siaga:juni:detail-verify-preview":  "node scripts/smartwork-siaga-absensi-juni-detail-verify-preview.mjs",
                     "siaga:parallel:absensi-juni-find-preview":  "node scripts/smartwork-siaga-parallel-absensi-juni-find-preview.mjs",
-                    "siaga:target-month:create-preview":  "node scripts/smartwork-siaga-parallel-target-month-create-preview.mjs"
+                    "siaga:target-month:create-preview":  "node scripts/smartwork-siaga-parallel-target-month-create-preview.mjs",
+                    "siaga:job:plan":  "node scripts/smartwork-siaga-job-planner.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
