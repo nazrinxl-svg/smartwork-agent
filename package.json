@@ -68,7 +68,8 @@
                     "delivery:run":  "node scripts/smartwork-delivery-orchestrator-agent.mjs",
                     "job:final":  "node scripts/smartwork-job-final-runner-agent.mjs",
                     "intake:validate":  "node scripts/smartwork-intake-validator-agent.mjs",
-                    "batch:plan":  "node scripts/smartwork-batch-planner-agent.mjs"
+                    "batch:plan":  "node scripts/smartwork-batch-planner-agent.mjs",
+                    "batch:delivery":  "node scripts/smartwork-batch-delivery-runner-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
