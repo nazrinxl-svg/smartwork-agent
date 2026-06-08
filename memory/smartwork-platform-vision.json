@@ -1,0 +1,38 @@
+﻿{
+  "id": "smartwork-platform-vision",
+  "name": "SmartWork Agent Platform Vision",
+  "status": "active",
+  "updatedAt": "20260608-102303",
+  "summary": "SmartWork Agent is a modular multi-agent platform. SIAGA is only the first agent/module, not the whole product.",
+  "principles": {
+    "multiAgent": true,
+    "siagaIsFirstModuleOnly": true,
+    "publicAppFuture": true,
+    "playStoreFuture": true,
+    "modularAgentArchitecture": true,
+    "userConfirmationForRiskyActions": true,
+    "screenshotsAndReportsRequired": true,
+    "protectCredentials": true,
+    "doNotCommitSecrets": true
+  },
+  "futureAgents": [
+    "SIAGA Agent",
+    "Absensi Agent",
+    "Operator Sekolah Agent",
+    "File Admin Agent",
+    "Report Agent",
+    "Screenshot Agent",
+    "Guard Agent",
+    "SmartBrowser Agent"
+  ],
+  "futureUi": [
+    "Agent marketplace/dashboard",
+    "Choose agent",
+    "Choose task",
+    "Preview plan",
+    "Run",
+    "Show progress",
+    "Approve save/delete/submit",
+    "Show screenshots and reports"
+  ]
+}

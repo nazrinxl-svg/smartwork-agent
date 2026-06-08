@@ -6,6 +6,7 @@ const root = process.cwd();
 const doctrinePath = path.join(root, "memory", "smartwork-agent-doctrine.json");
 const siagaPath = path.join(root, "memory", "siaga-absensi-stable-workflow.json");
 const jamRulesPath = path.join(root, "memory", "siaga-absensi-jam-rules.json");
+const platformVisionPath = path.join(root, "memory", "smartwork-platform-vision.json");
 
 function readJsonSafe(file) {
   if (!fs.existsSync(file)) return null;
@@ -29,6 +30,7 @@ function readJsonSafe(file) {
 const doctrine = readJsonSafe(doctrinePath);
 const siaga = readJsonSafe(siagaPath);
 const jamRules = readJsonSafe(jamRulesPath);
+const platformVision = readJsonSafe(platformVisionPath);
 
 console.log("=== SMARTWORK BRAIN ===");
 
@@ -88,5 +90,18 @@ if (jamRules && !jamRules.__error) {
   console.log("Jam Pulang Sabtu: " + jamRules.rules?.jamPulang?.sabtu?.start + " - " + jamRules.rules?.jamPulang?.sabtu?.end);
 }
 
+if (platformVision && !platformVision.__error) {
+  console.log("\n=== SMARTWORK PLATFORM VISION FOUND ===");
+  console.log(`PLATFORM_STATUS=${platformVision.status}`);
+  console.log(`PLATFORM_UPDATED=${platformVision.updatedAt}`);
+  console.log(`PLATFORM_SUMMARY=${platformVision.summary}`);
+  console.log("Future agents:");
+  for (const agent of platformVision.futureAgents || []) {
+    console.log(`- ${agent}`);
+  }
+  console.log("Decision: SmartWork must stay modular. SIAGA is only the first agent/module.");
+}
+
 console.log("SMARTWORK_BRAIN=OK");
+
 

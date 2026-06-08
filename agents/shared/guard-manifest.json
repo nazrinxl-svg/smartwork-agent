@@ -1,0 +1,12 @@
+﻿{
+  "id": "shared-guard",
+  "name": "Shared Guard Agent",
+  "status": "planned",
+  "rules": [
+    "Confirm before save/delete/submit",
+    "Never expose credentials",
+    "Screenshot before/after important actions",
+    "Report every workflow",
+    "No zoom/viewport mutation unless explicitly required"
+  ]
+}

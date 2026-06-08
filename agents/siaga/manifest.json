@@ -1,0 +1,10 @@
+﻿{
+  "id": "siaga",
+  "name": "SIAGA Agent",
+  "category": "Absensi dan Administrasi Guru",
+  "status": "prototype-stable",
+  "description": "Agent pertama SmartWork untuk SIAGA Pendis. Menangani login, absensi utama, detail jam, screenshot, report, dan guarded save/delete.",
+  "dangerActions": ["save", "delete", "submit"],
+  "requiresConfirmation": true,
+  "moduleType": "browser-agent"
+}
