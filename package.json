@@ -47,7 +47,9 @@
                     "siaga:parallel:login-check":  "node scripts/smartwork-siaga-parallel-login-check.mjs",
                     "siaga:parallel:dashboard-check":  "node scripts/smartwork-siaga-parallel-dashboard-check.mjs",
                     "siaga:parallel:dashboard-preview":  "node scripts/smartwork-siaga-parallel-dashboard-preview.mjs",
-                    "siaga:parallel:absensi-open-preview":  "node scripts/smartwork-siaga-parallel-absensi-open-preview.mjs"
+                    "siaga:parallel:absensi-open-preview":  "node scripts/smartwork-siaga-parallel-absensi-open-preview.mjs",
+                    "siaga:juni:detail-verify-preview":  "node scripts/smartwork-siaga-absensi-juni-detail-verify-preview.mjs",
+                    "siaga:parallel:absensi-juni-find-preview":  "node scripts/smartwork-siaga-parallel-absensi-juni-find-preview.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
