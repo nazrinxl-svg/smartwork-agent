@@ -28,3 +28,9 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 .vscode/
+data/teacher-accounts.local.json
+data/*.secret.json
+vault/*.json
+browser-profile/parallel-siaga-real/
+shots/*real*
+reports/*real*

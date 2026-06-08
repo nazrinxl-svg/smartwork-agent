@@ -66,6 +66,12 @@ const actions = {
     command: "node",
     args: ["scripts/smartwork-siaga-delete-continue-detail-juni-2026.mjs"],
     destructive: true
+  },
+  "parallel-dummy": {
+    label: "Run Dummy Parallel",
+    command: "npm",
+    args: ["run", "parallel:dummy"],
+    destructive: false
   }
 };
 
@@ -259,6 +265,36 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    if (pathname === "/api/parallel-report") {
+      const reportPath = path.join(root, "reports", "parallel-runner-report.json");
+
+      if (!fs.existsSync(reportPath)) {
+        return json(res, 200, {
+          ok: true,
+          exists: false,
+          report: null
+        });
+      }
+
+      try {
+        const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+        return json(res, 200, {
+          ok: true,
+          exists: true,
+          report
+        });
+      } catch (error) {
+        return json(res, 500, {
+          ok: false,
+          error: error.message
+        });
+      }
+    }
+
+
+
+
+
     const staticResult = serveStatic(req, res, pathname);
     if (staticResult !== false) return;
 
@@ -273,3 +309,6 @@ server.listen(PORT, () => {
   console.log(`URL=http://localhost:${PORT}`);
   console.log("RULE=LOCAL_ONLY_NO_AUTO_SIAGA_ACTION");
 });
+
+
+

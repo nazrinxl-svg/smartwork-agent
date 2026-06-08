@@ -3,23 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SmartWork Agent Control Panel</title>
+  <title>SmartWork Agent Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f5f7fb;
+      --bg: #f6f8fc;
       --card: #ffffff;
-      --text: #102033;
-      --muted: #6b7280;
-      --border: #dbe3ef;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
       --blue: #2563eb;
       --blue-soft: #eff6ff;
-      --red: #dc2626;
-      --red-soft: #fef2f2;
       --green: #16a34a;
-      --green-soft: #f0fdf4;
+      --green-soft: #ecfdf5;
       --amber: #d97706;
       --amber-soft: #fffbeb;
-      --shadow: 0 18px 50px rgba(15, 23, 42, .08);
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --shadow: 0 18px 48px rgba(15, 23, 42, .08);
+      --radius: 22px;
     }
 
     * { box-sizing: border-box; }
@@ -28,75 +32,101 @@
       margin: 0;
       font-family: Inter, "Segoe UI", system-ui, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, .12), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(14, 165, 233, .10), transparent 28%),
-        var(--bg);
+        radial-gradient(circle at top left, rgba(37, 99, 235, .12), transparent 32%),
+        linear-gradient(180deg, #ffffff, var(--bg));
       color: var(--text);
-      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
     }
 
     .shell {
-      width: min(1180px, calc(100vw - 32px));
-      margin: 24px auto 40px;
+      width: min(1220px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white;
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1.4fr .8fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: 26px;
-      letter-spacing: -.03em;
-    }
-
-    .hero p {
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      line-height: 1.6;
-    }
-
-    .badge-row {
+    .topbar {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 16px 34px rgba(37, 99, 235, .25);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 27px;
+      letter-spacing: -.04em;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
+      justify-content: flex-end;
     }
 
     .badge {
-      border: 1px solid rgba(255,255,255,.2);
-      background: rgba(255,255,255,.10);
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       border-radius: 999px;
-      padding: 6px 10px;
+      padding: 8px 12px;
+      background: var(--blue-soft);
+      color: #1d4ed8;
+      font-weight: 800;
       font-size: 12px;
+      border: 1px solid #bfdbfe;
     }
 
     .grid {
-      margin-top: 18px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 18px;
+      align-items: start;
     }
 
     .card {
-      background: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.88);
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .card-head {
-      padding: 16px 18px;
+      padding: 18px 18px 14px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -104,220 +134,821 @@
       gap: 12px;
     }
 
-    .card-head h2 {
-      margin: 0;
+    .card-title {
       font-size: 15px;
-      letter-spacing: -.01em;
+      font-weight: 900;
+      margin: 0;
     }
 
-    .sub {
-      color: var(--muted);
+    .card-sub {
+      margin-top: 4px;
       font-size: 12px;
-      margin-top: 3px;
+      color: var(--muted);
+      line-height: 1.45;
     }
 
     .card-body {
       padding: 18px;
     }
 
-    .actions {
+    .hero {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
+      grid-template-columns: 1fr 270px;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-card {
+      background:
+        radial-gradient(circle at 10% 10%, rgba(96,165,250,.22), transparent 32%),
+        linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: white;
+      border-radius: 26px;
+      padding: 24px;
+      min-height: 190px;
+      box-shadow: 0 22px 54px rgba(15, 23, 42, .18);
+    }
+
+    .hero-card h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -.05em;
+      line-height: 1.1;
+    }
+
+    .hero-card p {
+      margin: 12px 0 0;
+      max-width: 640px;
+      color: rgba(255,255,255,.76);
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .hero-pill {
+      border-radius: 999px;
+      padding: 8px 11px;
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.9);
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .status-panel {
+      display: grid;
       gap: 10px;
     }
 
-    button {
-      border: 1px solid var(--border);
+    .status-item {
       background: var(--card);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 12px 12px;
-      cursor: pointer;
-      font-weight: 650;
-      transition: .15s ease;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 15px;
+    }
+
+    .status-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-value {
+      margin-top: 6px;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .action-btn {
+      min-height: 76px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 13px;
+      background: white;
       text-align: left;
-      min-height: 54px;
+      transition: .16s ease;
     }
 
-    button:hover {
+    .action-btn:hover {
       transform: translateY(-1px);
-      border-color: #93c5fd;
-      box-shadow: 0 10px 24px rgba(37, 99, 235, .10);
+      box-shadow: 0 14px 30px rgba(15,23,42,.08);
     }
 
-    button.primary {
+    .action-btn strong {
+      display: block;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .action-btn span {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .action-btn.primary {
       background: var(--blue-soft);
       border-color: #bfdbfe;
-      color: #1d4ed8;
     }
 
-    button.safe {
+    .action-btn.safe {
       background: var(--green-soft);
       border-color: #bbf7d0;
-      color: #15803d;
     }
 
-    button.warn {
+    .action-btn.warn {
       background: var(--amber-soft);
       border-color: #fde68a;
-      color: #b45309;
     }
 
-    button.danger {
+    .action-btn.danger {
       background: var(--red-soft);
       border-color: #fecaca;
-      color: var(--red);
     }
 
-    button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .terminal {
-      background: #08111f;
-      color: #d1e7ff;
-      border-radius: 16px;
+    .danger-zone {
+      margin-top: 14px;
       padding: 14px;
-      height: 420px;
-      overflow: auto;
-      font-family: "Cascadia Code", Consolas, monospace;
+      border-radius: 18px;
+      background: var(--red-soft);
+      border: 1px solid #fecaca;
+    }
+
+    .danger-zone h3 {
+      margin: 0;
+      color: #991b1b;
+      font-size: 14px;
+    }
+
+    .danger-zone p {
+      margin: 7px 0 0;
+      color: #991b1b;
       font-size: 12px;
-      white-space: pre-wrap;
       line-height: 1.5;
     }
 
-    .file-list {
+    .log-box {
+      height: 350px;
+      overflow: auto;
+      background: #020617;
+      color: #dbeafe;
+      border-radius: 18px;
+      padding: 14px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .files {
       display: grid;
       gap: 10px;
-      max-height: 330px;
-      overflow: auto;
     }
 
     .file-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
       border: 1px solid var(--border);
-      background: white;
-      border-radius: 14px;
-      padding: 10px 12px;
-      display: grid;
-      gap: 4px;
+      border-radius: 16px;
+      background: #fff;
     }
 
     .file-item a {
-      color: #1d4ed8;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 12px;
       text-decoration: none;
-      font-weight: 650;
-      overflow-wrap: anywhere;
+      word-break: break-all;
     }
 
     .file-meta {
       color: var(--muted);
       font-size: 11px;
+      white-space: nowrap;
     }
 
-    .status {
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 22px, 1220px);
+        padding-top: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card h2 {
+        font-size: 23px;
+      }
+    }
+  
+    /* SMARTWORK_TYPO_POLISH_V1 */
+    body,
+    button {
+      font-weight: 400;
+    }
+
+    .subtitle,
+    .card-sub,
+    .hero-card p,
+    .status-label,
+    .badge,
+    .hero-pill,
+    .action-btn span,
+    .danger-zone p,
+    .file-meta,
+    .footer-note {
+      font-weight: 400 !important;
+    }
+
+    h1,
+    .hero-card h2,
+    .card-title,
+    .danger-zone h3 {
+      font-weight: 800 !important;
+    }
+
+    .action-btn strong {
+      font-weight: 600 !important;
+    }
+
+    .status-value {
+      font-weight: 650 !important;
+    }
+
+    .logo {
+      font-weight: 800 !important;
+    }
+
+    .action-btn {
+      box-shadow: none;
+    }
+
+    .action-btn:focus {
+      outline: 2px solid rgba(37, 99, 235, .18);
+      outline-offset: 2px;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(15,23,42,.06);
+    }
+  
+    /* SMARTWORK_FILE_TEXT_NORMAL_V1 */
+    .file-item a {
+      font-weight: 500 !important;
+      font-size: 12px !important;
+      line-height: 1.35 !important;
+      color: #2563eb !important;
+    }
+
+    .file-meta {
+      font-weight: 400 !important;
+      font-size: 11px !important;
+      color: #64748b !important;
+    }
+
+    .footer-note {
+      font-weight: 400 !important;
+      color: #64748b !important;
+    }
+  
+    /* SMARTWORK_MULTI_APP_DASHBOARD_V2 */
+    .app-section {
+      margin: 0 0 18px;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .app-card {
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 12px 28px rgba(15,23,42,.055);
+    }
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(226,232,240,.9);
+    }
+
+    .app-icon.siaga { background: #eff6ff; }
+    .app-icon.ekinerja { background: #ecfdf5; }
+    .app-icon.pmm { background: #f5f3ff; }
+    .app-icon.custom { background: #fffbeb; }
+
+    .app-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+
+    .app-desc {
+      margin: 7px 0 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .app-status {
+      display: inline-flex;
+      margin-top: 12px;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 400;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: #475569;
+    }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .flow-step {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.9);
+      border-radius: 18px;
+      padding: 13px;
+    }
+
+    .flow-step strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .flow-step span {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    @media (max-width: 980px) {
+      .app-grid,
+      .flow-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .app-grid,
+      .flow-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    /* SMARTWORK_FONT_JAKARTA_V1 */
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: "Plus Jakarta Sans", Inter, "Segoe UI", system-ui, sans-serif !important;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    h1,
+    .hero-card h2,
+    .card-title,
+    .app-title,
+    .danger-zone h3 {
+      font-family: "Plus Jakarta Sans", Inter, "Segoe UI", system-ui, sans-serif !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.035em;
+    }
+
+    .subtitle,
+    .card-sub,
+    .hero-card p,
+    .app-desc,
+    .flow-step span,
+    .danger-zone p,
+    .footer-note {
+      font-weight: 400 !important;
+      letter-spacing: -0.005em;
+    }
+
+    .badge,
+    .hero-pill,
+    .app-status {
+      font-weight: 500 !important;
+      letter-spacing: -0.005em;
+    }
+
+    .action-btn strong,
+    .flow-step strong {
+      font-weight: 600 !important;
+      letter-spacing: -0.01em;
+    }
+
+    .action-btn span,
+    .file-meta {
+      font-weight: 400 !important;
+      letter-spacing: 0;
+    }
+
+    .file-item a {
+      font-weight: 500 !important;
+      letter-spacing: -0.005em;
+    }
+
+    .log-box {
+      font-family: Consolas, "SFMono-Regular", "Cascadia Code", monospace !important;
+      letter-spacing: 0;
+    }
+
+
+
+    /* SMARTWORK_PARALLEL_JOBS_PANEL_V1 */
+    .parallel-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .parallel-stat {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .parallel-stat span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    .parallel-stat strong {
+      display: block;
+      font-size: 18px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .job-table {
+      display: grid;
+      gap: 9px;
+    }
+
+    .job-row {
+      display: grid;
+      grid-template-columns: 1.1fr .8fr 1fr .7fr;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
       font-size: 12px;
       color: var(--muted);
+      font-weight: 400;
     }
 
-    .two {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
+    .job-row strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .job-status {
+      justify-self: start;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--green-soft);
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .job-status.failed {
+      background: var(--red-soft);
+      color: #b91c1c;
+      border-color: #fecaca;
+    }
+
+    .parallel-empty {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
     @media (max-width: 900px) {
-      .hero, .grid, .two { grid-template-columns: 1fr; }
-      .actions { grid-template-columns: 1fr; }
+      .parallel-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .job-row {
+        grid-template-columns: 1fr;
+      }
     }
+
   </style>
 </head>
 <body>
   <main class="shell">
-    <section class="hero">
-      <div>
-        <h1>SmartWork Agent Control Panel</h1>
-        <p>Panel lokal untuk menjalankan agent stabil: brain, doctor, SIAGA, report, screenshot, dan aksi penting dengan konfirmasi.</p>
-        <div class="badge-row">
-          <span class="badge">Localhost only</span>
-          <span class="badge">No zoom / viewport</span>
-          <span class="badge">Save/delete perlu konfirmasi</span>
-          <span class="badge">SmartLearn-style doctrine</span>
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">SW</div>
+        <div>
+          <h1>SmartWork Agent Web</h1>
+          <div class="subtitle">Panel pribadi untuk menjalankan agent kerja sekolah secara aman di localhost.</div>
         </div>
       </div>
-      <div>
-        <div class="status" id="clock">Loading...</div>
-        <div class="status" id="serverState">Server ready</div>
+
+      <div class="top-actions">
+        <span class="badge">Local only</span>
+        <span class="badge">No auto save</span>
+        <span class="badge" id="clock">Loading...</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <h2>AI Agent untuk kerja admin, absensi, dan aplikasi sekolah.</h2>
+        <p>
+          Fokus awal: SIAGA Pendis. Agent boleh membuka halaman, mengisi form, mengecek data,
+          dan mengambil screenshot. Aksi Simpan, Submit, Hapus tetap wajib konfirmasi.
+        </p>
+        <div class="hero-pills">
+          <span class="hero-pill">SIAGA Agent</span>
+          <span class="hero-pill">Screenshot Bukti</span>
+          <span class="hero-pill">Guard Mode</span>
+          <span class="hero-pill">Private Web</span>
+        </div>
+      </div>
+
+      <div class="status-panel">
+        <div class="status-item">
+          <div class="status-label">Server</div>
+          <div class="status-value" id="serverState">Ready</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Job terakhir</div>
+          <div class="status-value" id="lastJob">Belum ada</div>
+        </div>
       </div>
     </section>
 
+    
+    <section class="app-section">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <p class="card-title">Aplikasi Agent</p>
+            <div class="card-sub">SmartWork disiapkan sebagai platform multi-aplikasi, bukan hanya SIAGA.</div>
+          </div>
+          <span class="badge">Multi-app mode</span>
+        </div>
+        <div class="card-body">
+          <div class="app-grid">
+            <div class="app-card">
+              <div class="app-icon siaga">🕌</div>
+              <p class="app-title">SIAGA Pendis</p>
+              <p class="app-desc">Modul awal untuk absensi, cuti, data guru, dan workflow Pendis yang sudah kita latih.</p>
+              <span class="app-status">Prototype aktif</span>
+            </div>
+
+            <div class="app-card">
+              <div class="app-icon ekinerja">📊</div>
+              <p class="app-title">e-Kinerja</p>
+              <p class="app-desc">Modul berikutnya untuk SKP, laporan kinerja, bukti kerja, dan screenshot hasil.</p>
+              <span class="app-status">Disiapkan</span>
+            </div>
+
+            <div class="app-card">
+              <div class="app-icon pmm">🎓</div>
+              <p class="app-title">PMM / GTK</p>
+              <p class="app-desc">Cek status, buka tugas, bantu dokumentasi, dan buat report tanpa submit final otomatis.</p>
+              <span class="app-status">Rencana</span>
+            </div>
+
+            <div class="app-card">
+              <div class="app-icon custom">🧩</div>
+              <p class="app-title">Custom Web Agent</p>
+              <p class="app-desc">Untuk sistem sekolah lain dengan URL, akun, workflow, guard, dan report sendiri.</p>
+              <span class="app-status">Rencana</span>
+            </div>
+          </div>
+
+          <div class="flow-strip">
+            <div class="flow-step">
+              <strong>1. Intake</strong>
+              <span>Guru isi Google Form, web form, atau nanti via WhatsApp.</span>
+            </div>
+            <div class="flow-step">
+              <strong>2. Mapping</strong>
+              <span>SmartWork membaca aplikasi tujuan dan tugas per guru.</span>
+            </div>
+            <div class="flow-step">
+              <strong>3. Parallel</strong>
+              <span>Beberapa worker berjalan bersamaan dengan browser profile berbeda.</span>
+            </div>
+            <div class="flow-step">
+              <strong>4. Guard</strong>
+              <span>Simpan, submit, hapus, dan aksi final tetap dikunci.</span>
+            </div>
+            <div class="flow-step">
+              <strong>5. Report</strong>
+              <span>Screenshot, log, dan status tersimpan per guru dan aplikasi.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="grid">
       <div class="card">
         <div class="card-head">
           <div>
-            <h2>Agent Actions</h2>
-            <div class="sub">Jalankan script stabil dari package.json dan scripts folder.</div>
+            <p class="card-title">Command Agent</p>
+            <div class="card-sub">Tombol aman dan tombol berisiko dipisah otomatis dari server.</div>
           </div>
-          <button class="primary" onclick="refreshFiles()">Refresh files</button>
+          <button class="action-btn primary" style="min-height:auto;padding:10px 13px;" onclick="refreshAll()">
+            <strong>Refresh</strong>
+          </button>
         </div>
+
         <div class="card-body">
-          <div class="actions" id="actions"></div>
+          <div class="actions" id="safeActions"></div>
+
+          <div class="danger-zone">
+            <h3>Zona Perlu Izin</h3>
+            <p>
+              Area ini untuk Save, Delete, atau aksi yang bisa mengubah data. Sistem akan meminta konfirmasi browser sebelum menjalankan.
+            </p>
+            <div class="actions" id="dangerActions" style="margin-top:12px;"></div>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-head">
           <div>
-            <h2>Terminal Output</h2>
-            <div class="sub">Output job terakhir akan tampil di sini.</div>
+            <p class="card-title">Log Agent</p>
+            <div class="card-sub">Output job yang sedang berjalan atau terakhir dijalankan.</div>
           </div>
-          <span class="status" id="jobStatus">Idle</span>
         </div>
         <div class="card-body">
-          <div class="terminal" id="terminal">Belum ada job berjalan.</div>
+          <div class="log-box" id="output">Menunggu command...</div>
         </div>
       </div>
     </section>
 
-    <section class="two">
+
+    
+
+
+    
+
+    
+
+    <section class="card" style="margin-top:18px;">
+      <div class="card-head">
+        <div>
+          <p class="card-title">Parallel Jobs</p>
+          <div class="card-sub">Status worker paralel terakhir dari laporan dummy runner.</div>
+        </div>
+        <button class="action-btn safe" style="min-height:auto;padding:10px 13px;" onclick="refreshParallelReport()">
+          <strong>Refresh jobs</strong>
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="parallel-summary">
+          <div class="parallel-stat">
+            <span>Total job</span>
+            <strong id="parallelTotal">0</strong>
+          </div>
+          <div class="parallel-stat">
+            <span>Selesai</span>
+            <strong id="parallelDone">0</strong>
+          </div>
+          <div class="parallel-stat">
+            <span>Gagal</span>
+            <strong id="parallelFailed">0</strong>
+          </div>
+          <div class="parallel-stat">
+            <span>Limit paralel</span>
+            <strong id="parallelLimit">0</strong>
+          </div>
+        </div>
+        <div class="job-table" id="parallelJobs">
+          <div class="parallel-empty">Belum ada laporan parallel runner.</div>
+        </div>
+      </div>
+    </section>
+
+
+<section class="grid" style="margin-top:18px;">
       <div class="card">
         <div class="card-head">
           <div>
-            <h2>Reports</h2>
-            <div class="sub">Report terbaru dari folder reports.</div>
+            <p class="card-title">Screenshot Bukti</p>
+            <div class="card-sub">File terbaru dari folder shots.</div>
           </div>
+          <button class="action-btn safe" style="min-height:auto;padding:10px 13px;" onclick="refreshFiles()">
+            <strong>Refresh files</strong>
+          </button>
         </div>
         <div class="card-body">
-          <div class="file-list" id="reports"></div>
+          <div class="files" id="shots">Belum ada screenshot.</div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-head">
           <div>
-            <h2>Screenshots</h2>
-            <div class="sub">Screenshot terbaru dari folder shots.</div>
+            <p class="card-title">Reports</p>
+            <div class="card-sub">Laporan terbaru dari folder reports.</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="file-list" id="shots"></div>
+          <div class="files" id="reports">Belum ada report.</div>
         </div>
       </div>
     </section>
+
+    <div class="footer-note">
+      SmartWork Agent Web Pribadi • Localhost only • Aksi final tetap dikunci
+    </div>
   </main>
 
   <script>
     let currentJobId = null;
     let pollTimer = null;
 
-    function fmtDate(iso) {
-      try { return new Date(iso).toLocaleString("id-ID"); } catch { return iso; }
-    }
-
     function tickClock() {
-      document.getElementById("clock").textContent = new Date().toLocaleString("id-ID");
+      const clock = document.getElementById("clock");
+      if (clock) {
+        clock.textContent = new Date().toLocaleTimeString("id-ID", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      }
     }
 
     setInterval(tickClock, 1000);
@@ -328,69 +959,107 @@
         headers: { "Content-Type": "application/json" },
         ...options
       });
-      return await res.json();
+      return res.json();
+    }
+
+    function classifyAction(id, action) {
+      if (action.destructive) return "danger";
+      if (id.includes("brain") || id.includes("doctor")) return "primary";
+      if (id.includes("dry-run")) return "warn";
+      return "safe";
+    }
+
+    function actionHint(id, action) {
+      if (action.destructive) return "Perlu konfirmasi sebelum jalan";
+      if (id.includes("open")) return "Membuka halaman/browser";
+      if (id.includes("stable")) return "Isi/check tanpa simpan";
+      if (id.includes("brain")) return "Cek arah kerja agent";
+      if (id.includes("doctor")) return "Cek kesehatan project";
+      return action.command;
     }
 
     async function loadActions() {
       const data = await api("/api/actions");
-      const wrap = document.getElementById("actions");
-      wrap.innerHTML = "";
+      const safeWrap = document.getElementById("safeActions");
+      const dangerWrap = document.getElementById("dangerActions");
 
-      Object.entries(data.actions).forEach(([id, action]) => {
+      safeWrap.innerHTML = "";
+      dangerWrap.innerHTML = "";
+
+      Object.entries(data.actions || {}).forEach(([id, action]) => {
         const btn = document.createElement("button");
-        btn.className = action.destructive ? "danger" : (id.includes("brain") || id.includes("doctor") ? "primary" : "safe");
-        if (id.includes("dry-run")) btn.className = "warn";
-        btn.innerHTML = `<div>${action.label}</div><div class="sub">${action.command}</div>`;
+        const tone = classifyAction(id, action);
+        btn.className = "action-btn " + tone;
+        btn.innerHTML = `
+          <strong>${action.label}</strong>
+          <span>${actionHint(id, action)}</span>
+          <span>${action.command}</span>
+        `;
         btn.onclick = () => runAction(id, action);
-        wrap.appendChild(btn);
+
+        if (action.destructive) {
+          dangerWrap.appendChild(btn);
+        } else {
+          safeWrap.appendChild(btn);
+        }
       });
     }
 
     async function runAction(id, action) {
+      const output = document.getElementById("output");
+      const serverState = document.getElementById("serverState");
+      const lastJob = document.getElementById("lastJob");
+
       if (action.destructive) {
-        const ok = confirm(`Aksi ini bisa mengubah data:\n\n${action.label}\n\nLanjutkan?`);
+        const ok = confirm(
+          "Aksi ini bisa mengubah data. Jalankan hanya jika sudah yakin dan sudah dapat izin user. Lanjut?"
+        );
         if (!ok) return;
       }
 
-      document.getElementById("terminal").textContent = `Starting: ${action.label}\n`;
-      document.getElementById("jobStatus").textContent = "Running...";
-      currentJobId = null;
+      output.textContent = "Menjalankan: " + action.label + "\n" + action.command + "\n\n";
+      serverState.textContent = "Running";
+      lastJob.textContent = action.label;
 
       const data = await api("/api/run", {
         method: "POST",
         body: JSON.stringify({
           actionId: id,
-          confirm: action.destructive ? true : false
+          confirm: action.destructive === true
         })
       });
 
       if (!data.ok) {
-        document.getElementById("terminal").textContent = data.error || "Failed";
-        document.getElementById("jobStatus").textContent = "Error";
+        output.textContent += "ERROR: " + data.error;
+        serverState.textContent = "Error";
         return;
       }
 
       currentJobId = data.job.id;
-      startPoll();
-    }
 
-    function startPoll() {
       if (pollTimer) clearInterval(pollTimer);
-      pollTimer = setInterval(loadJob, 1000);
-      loadJob();
+      pollTimer = setInterval(pollJob, 900);
+      pollJob();
     }
 
-    async function loadJob() {
+    async function pollJob() {
       if (!currentJobId) return;
 
-      const data = await api(`/api/jobs/${currentJobId}`);
+      const data = await api("/api/jobs/" + currentJobId);
       if (!data.ok) return;
 
       const job = data.job;
-      const term = document.getElementById("terminal");
-      term.textContent = job.output || "Running...";
-      term.scrollTop = term.scrollHeight;
-      document.getElementById("jobStatus").textContent = `${job.status}${job.exitCode !== null ? " / exit " + job.exitCode : ""}`;
+      const output = document.getElementById("output");
+      const serverState = document.getElementById("serverState");
+
+      output.textContent =
+        "JOB=" + job.label + "\n" +
+        "STATUS=" + job.status + "\n" +
+        "COMMAND=" + job.command + "\n\n" +
+        (job.output || "");
+
+      output.scrollTop = output.scrollHeight;
+      serverState.textContent = job.status;
 
       if (job.status === "done" || job.status === "failed" || job.status === "error") {
         clearInterval(pollTimer);
@@ -399,30 +1068,95 @@
       }
     }
 
-    async function refreshFiles() {
-      const data = await api("/api/files");
+    function renderFiles(targetId, files, emptyText) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
 
-      const reports = document.getElementById("reports");
-      reports.innerHTML = "";
-      data.reports.forEach(file => {
-        const div = document.createElement("div");
-        div.className = "file-item";
-        div.innerHTML = `<a href="${file.path}" target="_blank">${file.name}</a><div class="file-meta">${fmtDate(file.modified)} • ${file.size} bytes</div>`;
-        reports.appendChild(div);
-      });
+      if (!files || files.length === 0) {
+        target.textContent = emptyText;
+        return;
+      }
 
-      const shots = document.getElementById("shots");
-      shots.innerHTML = "";
-      data.shots.forEach(file => {
-        const div = document.createElement("div");
-        div.className = "file-item";
-        div.innerHTML = `<a href="${file.path}" target="_blank">${file.name}</a><div class="file-meta">${fmtDate(file.modified)} • ${file.size} bytes</div>`;
-        shots.appendChild(div);
-      });
+      target.innerHTML = files.slice(0, 8).map(file => `
+        <div class="file-item">
+          <a href="${file.path}" target="_blank">${file.name}</a>
+          <span class="file-meta">${new Date(file.modified).toLocaleString("id-ID")}</span>
+        </div>
+      `).join("");
     }
 
-    loadActions();
-    refreshFiles();
+
+
+
+
+
+
+
+
+    async function refreshParallelReport() {
+      const total = document.getElementById("parallelTotal");
+      const done = document.getElementById("parallelDone");
+      const failed = document.getElementById("parallelFailed");
+      const limit = document.getElementById("parallelLimit");
+      const jobsWrap = document.getElementById("parallelJobs");
+
+      if (!jobsWrap) return;
+
+      try {
+        const data = await api("/api/parallel-report");
+
+        if (!data.ok || !data.exists || !data.report) {
+          total.textContent = "0";
+          done.textContent = "0";
+          failed.textContent = "0";
+          limit.textContent = "0";
+          jobsWrap.innerHTML = '<div class="parallel-empty">Belum ada laporan parallel runner.</div>';
+          return;
+        }
+
+        const report = data.report;
+        total.textContent = String(report.totalJobs || 0);
+        done.textContent = String((report.summary && report.summary.done) || 0);
+        failed.textContent = String((report.summary && report.summary.failed) || 0);
+        limit.textContent = String(report.parallelLimit || 0);
+
+        jobsWrap.innerHTML = (report.jobs || []).map((job) => {
+          const failedClass = job.status === "failed" ? " failed" : "";
+          return `
+            <div class="job-row">
+              <div><strong>${job.teacherName || "-"}</strong><br>${job.teacherId || "-"}</div>
+              <div>${job.appName || job.appId || "-"}</div>
+              <div>${job.task || "-"}</div>
+              <div><span class="job-status${failedClass}">${job.status || "-"}</span></div>
+            </div>
+          `;
+        }).join("");
+      } catch (error) {
+        jobsWrap.innerHTML = '<div class="parallel-empty">Gagal membaca parallel report: ' + error.message + '</div>';
+      }
+    }
+
+
+    async function refreshFiles() {
+      const data = await api("/api/files");
+      renderFiles("shots", data.shots, "Belum ada screenshot.");
+      renderFiles("reports", data.reports, "Belum ada report.");
+    }
+
+    async function refreshAll() {
+      await loadActions();
+      await refreshFiles();
+      await refreshParallelReport();
+    }
+
+    refreshAll();
   </script>
 </body>
 </html>
+
+
+
+
+
+
+

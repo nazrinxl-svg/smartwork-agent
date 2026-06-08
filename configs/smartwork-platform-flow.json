@@ -1,0 +1,91 @@
+﻿{
+  "id": "smartwork-multi-app-platform-flow",
+  "version": "0.1.0",
+  "status": "planning-locked",
+  "principle": "SmartWork Agent is a guarded multi-application parallel work automation platform, not only a SIAGA helper.",
+  "intakeSources": [
+    {
+      "id": "google_form",
+      "name": "Google Form",
+      "role": "Early intake source for teacher account and task data"
+    },
+    {
+      "id": "smartwork_web_form",
+      "name": "SmartWork Web Form",
+      "role": "Future first-party intake form"
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "role": "Notification and confirmation channel, not unsafe password storage"
+    }
+  ],
+  "applications": [
+    {
+      "appId": "siaga",
+      "name": "SIAGA Pendis",
+      "initialTasks": [
+        "absensi",
+        "cuti",
+        "data_guru"
+      ],
+      "guard": "No save/submit/delete without explicit confirmation"
+    },
+    {
+      "appId": "ekinerja",
+      "name": "e-Kinerja",
+      "initialTasks": [
+        "login",
+        "open_skp_or_kinerja",
+        "input_laporan",
+        "upload_bukti",
+        "screenshot_report"
+      ],
+      "guard": "No save/submit/delete without explicit confirmation"
+    },
+    {
+      "appId": "pmm_gtk",
+      "name": "PMM / GTK",
+      "initialTasks": [
+        "check_status",
+        "open_task",
+        "report"
+      ],
+      "guard": "No final submission without confirmation"
+    },
+    {
+      "appId": "custom_web",
+      "name": "Custom Web Agent",
+      "initialTasks": [
+        "open_url",
+        "login",
+        "guided_steps",
+        "screenshot_report"
+      ],
+      "guard": "All irreversible actions require confirmation"
+    }
+  ],
+  "parallelWorkerRules": {
+    "oneAccountOneWorker": true,
+    "oneWorkerOneBrowserProfile": true,
+    "doNotShareSessionBetweenAccounts": true,
+    "recommendedInitialParallelLimit": 2,
+    "scaleAfterStable": [
+      3,
+      5
+    ]
+  },
+  "credentialRules": {
+    "doNotPasteCredentialsIntoChatGPT": true,
+    "prototypeMayUseDummyData": true,
+    "finalStorage": "encrypted_vault",
+    "googleSheetUse": "prototype_intake_only",
+    "whatsappUse": "notifications_and_confirmations"
+  },
+  "finalActionGuard": {
+    "save": "requires_confirmation",
+    "submit": "requires_confirmation",
+    "delete": "requires_confirmation",
+    "sendFinal": "requires_confirmation"
+  }
+}
