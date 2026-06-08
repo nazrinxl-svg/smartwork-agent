@@ -1,0 +1,12 @@
+{
+  "jobId": "siaga-guru-001-juni-2026",
+  "teacherId": "guru-001",
+  "teacherName": "Nazrin",
+  "targetMonth": "Juni",
+  "targetYear": "2026",
+  "pdfName": "Presensi_Nazrin_Juni_2026.pdf",
+  "delivery": {
+    "email": "nazrinxl@gmail.com",
+    "whatsapp": "6281234567890"
+  }
+}
