@@ -2,9 +2,11 @@
 import path from "path";
 import crypto from "crypto";
 
-const MODE = "SMARTWORK_EMAIL_DRAFT_EML_NO_SEND";
+const MODE = "SMARTWORK_EMAIL_DRAFT_EML_NO_SEND_WITH_PROOF";
 const PREVIEW_REPORT_PATH =
   process.env.PREVIEW_REPORT_PATH || "reports/smartwork-delivery-preview-report.json";
+const PROOF_REPORT_TEXT_PATH =
+  process.env.PROOF_REPORT_TEXT_PATH || "reports/proof/smartwork-siaga-proof-report.txt";
 const OUT_DIR = process.env.OUT_DIR || "reports/delivery-drafts";
 
 const rules = {
@@ -13,6 +15,8 @@ const rules = {
   save: false,
   submit: false,
   delete: false,
+  attachPdf: true,
+  attachProofReport: true,
 };
 
 function readJson(filePath) {
@@ -42,29 +46,51 @@ function encodeHeader(value) {
   return `=?UTF-8?B?${Buffer.from(text, "utf8").toString("base64")}?=`;
 }
 
-function buildEmailBody(report) {
+function buildEmailBody(report, attachments) {
   const teacherName = report?.job?.teacherName || "Guru";
   const month = report?.job?.targetMonth || "bulan target";
   const year = report?.job?.targetYear || "tahun target";
-  const fileName = report?.pdf?.fileName || "file presensi SIAGA.pdf";
 
   return [
     "Assalamu'alaikum.",
     "",
-    `Berikut kami kirimkan file Presensi SIAGA atas nama ${teacherName} untuk periode ${month} ${year}.`,
+    `Berikut kami kirimkan hasil pekerjaan SmartWork SIAGA atas nama ${teacherName} untuk periode ${month} ${year}.`,
     "",
-    `File terlampir: ${fileName}`,
+    "Berkas terlampir:",
+    ...attachments.map((item, index) => `${index + 1}. ${item.filename}`),
     "",
     "Terima kasih.",
   ].join("\r\n");
 }
 
-function buildEml({ from, to, subject, body, attachmentPath, attachmentName }) {
-  const boundary = `smartwork_${crypto.randomBytes(16).toString("hex")}`;
-  const attachmentBuffer = fs.readFileSync(attachmentPath);
-  const attachmentBase64 = foldBase64(attachmentBuffer.toString("base64"));
+function getContentType(filename) {
+  const lower = filename.toLowerCase();
+  if (lower.endsWith(".pdf")) return "application/pdf";
+  if (lower.endsWith(".txt")) return "text/plain; charset=\"UTF-8\"";
+  if (lower.endsWith(".json")) return "application/json; charset=\"UTF-8\"";
+  return "application/octet-stream";
+}
+
+function buildAttachmentPart(boundary, attachment) {
+  const buffer = fs.readFileSync(attachment.path);
+  const base64 = foldBase64(buffer.toString("base64"));
+  const contentType = getContentType(attachment.filename);
 
   return [
+    `--${boundary}`,
+    `Content-Type: ${contentType}; name="${attachment.filename}"`,
+    `Content-Transfer-Encoding: base64`,
+    `Content-Disposition: attachment; filename="${attachment.filename}"`,
+    "",
+    base64,
+    "",
+  ].join("\r\n");
+}
+
+function buildEml({ from, to, subject, body, attachments }) {
+  const boundary = `smartwork_${crypto.randomBytes(16).toString("hex")}`;
+
+  const parts = [
     `From: ${from}`,
     `To: ${to}`,
     `Subject: ${encodeHeader(subject)}`,
@@ -78,21 +104,40 @@ function buildEml({ from, to, subject, body, attachmentPath, attachmentName }) {
     "",
     body,
     "",
-    `--${boundary}`,
-    `Content-Type: application/pdf; name="${attachmentName}"`,
-    `Content-Transfer-Encoding: base64`,
-    `Content-Disposition: attachment; filename="${attachmentName}"`,
-    "",
-    attachmentBase64,
-    "",
-    `--${boundary}--`,
-    "",
-  ].join("\r\n");
+  ];
+
+  for (const attachment of attachments) {
+    parts.push(buildAttachmentPart(boundary, attachment));
+  }
+
+  parts.push(`--${boundary}--`, "");
+
+  return parts.join("\r\n");
+}
+
+function buildAttachments(pdfPath, pdfName) {
+  const attachments = [];
+
+  attachments.push({
+    type: "pdf",
+    filename: pdfName,
+    path: pdfPath,
+  });
+
+  if (fs.existsSync(PROOF_REPORT_TEXT_PATH)) {
+    attachments.push({
+      type: "proof-report",
+      filename: path.basename(PROOF_REPORT_TEXT_PATH),
+      path: PROOF_REPORT_TEXT_PATH,
+    });
+  }
+
+  return attachments;
 }
 
 async function main() {
   console.log(`MODE=${MODE}`);
-  console.log("RULE=NO_SEND_NO_SAVE_NO_SUBMIT_NO_DELETE");
+  console.log("RULE=NO_SEND_ATTACH_PDF_AND_PROOF_REPORT");
 
   const report = readJson(PREVIEW_REPORT_PATH);
 
@@ -116,15 +161,17 @@ async function main() {
   const month = report?.job?.targetMonth || "Bulan";
   const year = report?.job?.targetYear || "Tahun";
 
+  const attachments = buildAttachments(pdfPath, pdfName);
+
   const from = process.env.MAIL_FROM || "SmartWork Agent <no-send@smartwork.local>";
   const to = email;
-  const subject = `Presensi SIAGA ${teacherName} - ${month} ${year}`;
-  const body = buildEmailBody(report);
+  const subject = `Bukti SmartWork SIAGA ${teacherName} - ${month} ${year}`;
+  const body = buildEmailBody(report, attachments);
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   const draftBaseName = sanitizeFileName(
-    `Draft_Email_Presensi_${teacherName}_${month}_${year}.eml`
+    `Draft_Email_Bukti_SmartWork_SIAGA_${teacherName}_${month}_${year}.eml`
   );
 
   const draftPath = path.join(OUT_DIR, draftBaseName);
@@ -134,14 +181,12 @@ async function main() {
     to,
     subject,
     body,
-    attachmentPath: pdfPath,
-    attachmentName: pdfName,
+    attachments,
   });
 
   fs.writeFileSync(draftPath, eml, "utf8");
 
   const draftStat = fs.statSync(draftPath);
-  const pdfStat = fs.statSync(pdfPath);
 
   const emailDraftReport = {
     ok: true,
@@ -149,17 +194,20 @@ async function main() {
     generatedAt: new Date().toISOString(),
     rules,
     sourcePreviewReport: PREVIEW_REPORT_PATH,
+    proofReportTextPath: fs.existsSync(PROOF_REPORT_TEXT_PATH) ? PROOF_REPORT_TEXT_PATH : null,
     email: {
       from,
       to,
       subject,
       body,
     },
-    attachment: {
-      filePath: pdfPath,
-      fileName: pdfName,
-      sizeBytes: pdfStat.size,
-    },
+    attachments: attachments.map((item) => ({
+      type: item.type,
+      filePath: item.path,
+      fileName: item.filename,
+      exists: fs.existsSync(item.path),
+      sizeBytes: fs.statSync(item.path).size,
+    })),
     draft: {
       filePath: draftPath,
       fileName: path.basename(draftPath),
@@ -168,7 +216,7 @@ async function main() {
     },
     sent: false,
     nextSafeStep:
-      "Draft .eml sudah dibuat. Lanjut SMTP/API email sender hanya setelah konfigurasi .env.local dan konfirmasi kirim.",
+      "Draft .eml sudah dibuat dengan PDF dan laporan bukti. Lanjut real SMTP/API email sender hanya setelah konfigurasi valid dan konfirmasi kirim.",
   };
 
   const reportPath = path.join(OUT_DIR, "smartwork-email-draft-report.json");
@@ -176,10 +224,12 @@ async function main() {
 
   console.log(`REPORT=${reportPath}`);
   console.log(`EMAIL_TO=${to}`);
-  console.log(`PDF_ATTACHED=true`);
+  console.log(`ATTACHMENT_COUNT=${attachments.length}`);
+  console.log(`PDF_ATTACHED=${attachments.some((item) => item.type === "pdf")}`);
+  console.log(`PROOF_ATTACHED=${attachments.some((item) => item.type === "proof-report")}`);
   console.log(`DRAFT_EML=${draftPath}`);
   console.log(`SENT_EMAIL=false`);
-  console.log("STATUS=EMAIL_DRAFT_READY_NO_SEND");
+  console.log("STATUS=EMAIL_DRAFT_READY_WITH_PROOF_NO_SEND");
 }
 
 main().catch((error) => {
