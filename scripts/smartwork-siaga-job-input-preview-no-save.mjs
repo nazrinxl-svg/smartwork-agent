@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { chromium } from "playwright";
 
@@ -267,8 +267,13 @@ async function runOneTeacher(teacherPlan) {
         status: fillResult.ok ? "filled_no_save" : "failed_fill"
       });
 
-      // Stop setelah 1 target / preview kecil. Jangan save, jangan lanjut massal.
-      break;
+      // PREVIEW ONLY:
+      // Tidak klik Simpan. Untuk target berikutnya, kembali ke detail list.
+      // Input sebelumnya otomatis tidak permanen karena tidak disimpan.
+      if (plannedRows.length > 1) {
+        await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+        await page.waitForTimeout(1200);
+      }
     }
 
     const finalUrl = page.url();
@@ -318,7 +323,7 @@ async function runOneTeacher(teacherPlan) {
 
 async function main() {
   console.log("SMARTWORK_SIAGA_JOB_INPUT_PREVIEW_NO_SAVE=START");
-  console.log("RULE=CLICK_TAMBAH_FILL_ONE_TARGET_NO_SAVE_NO_SUBMIT_NO_DELETE");
+  console.log("RULE=CLICK_TAMBAH_FILL_TARGET_LIMIT_NO_SAVE_NO_SUBMIT_NO_DELETE");
   console.log("TARGET_TEACHER_ID=" + TARGET_TEACHER_ID);
   console.log("TARGET_LIMIT=" + TARGET_LIMIT);
 
@@ -339,7 +344,7 @@ async function main() {
   const report = {
     ok: Boolean(result.ok),
     mode: "siaga-job-input-preview-no-save",
-    rule: "CLICK_TAMBAH_FILL_ONE_TARGET_NO_SAVE_NO_SUBMIT_NO_DELETE",
+    rule: "CLICK_TAMBAH_FILL_TARGET_LIMIT_NO_SAVE_NO_SUBMIT_NO_DELETE",
     targetTeacherId: TARGET_TEACHER_ID,
     targetLimit: TARGET_LIMIT,
     startedAt: now(),
@@ -369,7 +374,7 @@ main().catch((error) => {
   const report = {
     ok: false,
     mode: "siaga-job-input-preview-no-save",
-    rule: "CLICK_TAMBAH_FILL_ONE_TARGET_NO_SAVE_NO_SUBMIT_NO_DELETE",
+    rule: "CLICK_TAMBAH_FILL_TARGET_LIMIT_NO_SAVE_NO_SUBMIT_NO_DELETE",
     error: error.message,
     endedAt: now()
   };
