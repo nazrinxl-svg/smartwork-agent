@@ -151,6 +151,8 @@ async function main() {
   const subject = `Presensi SIAGA ${teacherName} - ${month} ${year}`;
   const text = buildEmailBody(preview);
 
+  console.log("SMTP_CONNECTING=true");
+
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: SMTP_PORT,
@@ -159,7 +161,16 @@ async function main() {
       user: SMTP_USER,
       pass: SMTP_PASS,
     },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 30000,
   });
+
+  console.log("SMTP_VERIFY_START=true");
+  await transporter.verify();
+  console.log("SMTP_VERIFY_OK=true");
+
+  console.log("EMAIL_SEND_START=true");
 
   const info = await transporter.sendMail({
     from: MAIL_FROM,
