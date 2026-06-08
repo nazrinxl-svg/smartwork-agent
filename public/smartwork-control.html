@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartWork Agent Control Panel</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #102033;
+      --muted: #6b7280;
+      --border: #dbe3ef;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --green: #16a34a;
+      --green-soft: #f0fdf4;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, .12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, .10), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 24px auto 40px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: white;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.4fr .8fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      letter-spacing: -.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      line-height: 1.6;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.10);
+      color: white;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-head h2 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -.01em;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 12px;
+      cursor: pointer;
+      font-weight: 650;
+      transition: .15s ease;
+      text-align: left;
+      min-height: 54px;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: #93c5fd;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, .10);
+    }
+
+    button.primary {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    button.safe {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+      color: #15803d;
+    }
+
+    button.warn {
+      background: var(--amber-soft);
+      border-color: #fde68a;
+      color: #b45309;
+    }
+
+    button.danger {
+      background: var(--red-soft);
+      border-color: #fecaca;
+      color: var(--red);
+    }
+
+    button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .terminal {
+      background: #08111f;
+      color: #d1e7ff;
+      border-radius: 16px;
+      padding: 14px;
+      height: 420px;
+      overflow: auto;
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 10px;
+      max-height: 330px;
+      overflow: auto;
+    }
+
+    .file-item {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .file-item a {
+      color: #1d4ed8;
+      text-decoration: none;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+
+    .file-meta {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid, .two { grid-template-columns: 1fr; }
+      .actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <h1>SmartWork Agent Control Panel</h1>
+        <p>Panel lokal untuk menjalankan agent stabil: brain, doctor, SIAGA, report, screenshot, dan aksi penting dengan konfirmasi.</p>
+        <div class="badge-row">
+          <span class="badge">Localhost only</span>
+          <span class="badge">No zoom / viewport</span>
+          <span class="badge">Save/delete perlu konfirmasi</span>
+          <span class="badge">SmartLearn-style doctrine</span>
+        </div>
+      </div>
+      <div>
+        <div class="status" id="clock">Loading...</div>
+        <div class="status" id="serverState">Server ready</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Agent Actions</h2>
+            <div class="sub">Jalankan script stabil dari package.json dan scripts folder.</div>
+          </div>
+          <button class="primary" onclick="refreshFiles()">Refresh files</button>
+        </div>
+        <div class="card-body">
+          <div class="actions" id="actions"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Terminal Output</h2>
+            <div class="sub">Output job terakhir akan tampil di sini.</div>
+          </div>
+          <span class="status" id="jobStatus">Idle</span>
+        </div>
+        <div class="card-body">
+          <div class="terminal" id="terminal">Belum ada job berjalan.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="two">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Reports</h2>
+            <div class="sub">Report terbaru dari folder reports.</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="file-list" id="reports"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Screenshots</h2>
+            <div class="sub">Screenshot terbaru dari folder shots.</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="file-list" id="shots"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentJobId = null;
+    let pollTimer = null;
+
+    function fmtDate(iso) {
+      try { return new Date(iso).toLocaleString("id-ID"); } catch { return iso; }
+    }
+
+    function tickClock() {
+      document.getElementById("clock").textContent = new Date().toLocaleString("id-ID");
+    }
+
+    setInterval(tickClock, 1000);
+    tickClock();
+
+    async function api(path, options = {}) {
+      const res = await fetch(path, {
+        headers: { "Content-Type": "application/json" },
+        ...options
+      });
+      return await res.json();
+    }
+
+    async function loadActions() {
+      const data = await api("/api/actions");
+      const wrap = document.getElementById("actions");
+      wrap.innerHTML = "";
+
+      Object.entries(data.actions).forEach(([id, action]) => {
+        const btn = document.createElement("button");
+        btn.className = action.destructive ? "danger" : (id.includes("brain") || id.includes("doctor") ? "primary" : "safe");
+        if (id.includes("dry-run")) btn.className = "warn";
+        btn.innerHTML = `<div>${action.label}</div><div class="sub">${action.command}</div>`;
+        btn.onclick = () => runAction(id, action);
+        wrap.appendChild(btn);
+      });
+    }
+
+    async function runAction(id, action) {
+      if (action.destructive) {
+        const ok = confirm(`Aksi ini bisa mengubah data:\n\n${action.label}\n\nLanjutkan?`);
+        if (!ok) return;
+      }
+
+      document.getElementById("terminal").textContent = `Starting: ${action.label}\n`;
+      document.getElementById("jobStatus").textContent = "Running...";
+      currentJobId = null;
+
+      const data = await api("/api/run", {
+        method: "POST",
+        body: JSON.stringify({
+          actionId: id,
+          confirm: action.destructive ? true : false
+        })
+      });
+
+      if (!data.ok) {
+        document.getElementById("terminal").textContent = data.error || "Failed";
+        document.getElementById("jobStatus").textContent = "Error";
+        return;
+      }
+
+      currentJobId = data.job.id;
+      startPoll();
+    }
+
+    function startPoll() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(loadJob, 1000);
+      loadJob();
+    }
+
+    async function loadJob() {
+      if (!currentJobId) return;
+
+      const data = await api(`/api/jobs/${currentJobId}`);
+      if (!data.ok) return;
+
+      const job = data.job;
+      const term = document.getElementById("terminal");
+      term.textContent = job.output || "Running...";
+      term.scrollTop = term.scrollHeight;
+      document.getElementById("jobStatus").textContent = `${job.status}${job.exitCode !== null ? " / exit " + job.exitCode : ""}`;
+
+      if (job.status === "done" || job.status === "failed" || job.status === "error") {
+        clearInterval(pollTimer);
+        pollTimer = null;
+        refreshFiles();
+      }
+    }
+
+    async function refreshFiles() {
+      const data = await api("/api/files");
+
+      const reports = document.getElementById("reports");
+      reports.innerHTML = "";
+      data.reports.forEach(file => {
+        const div = document.createElement("div");
+        div.className = "file-item";
+        div.innerHTML = `<a href="${file.path}" target="_blank">${file.name}</a><div class="file-meta">${fmtDate(file.modified)} • ${file.size} bytes</div>`;
+        reports.appendChild(div);
+      });
+
+      const shots = document.getElementById("shots");
+      shots.innerHTML = "";
+      data.shots.forEach(file => {
+        const div = document.createElement("div");
+        div.className = "file-item";
+        div.innerHTML = `<a href="${file.path}" target="_blank">${file.name}</a><div class="file-meta">${fmtDate(file.modified)} • ${file.size} bytes</div>`;
+        shots.appendChild(div);
+      });
+    }
+
+    loadActions();
+    refreshFiles();
+  </script>
+</body>
+</html>

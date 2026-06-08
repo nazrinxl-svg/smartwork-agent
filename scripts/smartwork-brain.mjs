@@ -5,6 +5,7 @@ const root = process.cwd();
 
 const doctrinePath = path.join(root, "memory", "smartwork-agent-doctrine.json");
 const siagaPath = path.join(root, "memory", "siaga-absensi-stable-workflow.json");
+const jamRulesPath = path.join(root, "memory", "siaga-absensi-jam-rules.json");
 
 function readJsonSafe(file) {
   if (!fs.existsSync(file)) return null;
@@ -27,6 +28,7 @@ function readJsonSafe(file) {
 
 const doctrine = readJsonSafe(doctrinePath);
 const siaga = readJsonSafe(siagaPath);
+const jamRules = readJsonSafe(jamRulesPath);
 
 console.log("=== SMARTWORK BRAIN ===");
 
@@ -77,4 +79,14 @@ if (siaga && !siaga.__error) {
   console.log(`SIAGA_UPDATED=${siaga.updatedAt}`);
 }
 
+if (jamRules && !jamRules.__error) {
+  console.log("\n=== SIAGA JAM RULES FOUND ===");
+  console.log(`JAM_RULES_STATUS=${jamRules.status}`);
+  console.log(`JAM_RULES_UPDATED=${jamRules.updatedAt}`);
+  console.log("Jam Masuk default: " + jamRules.rules?.jamMasuk?.default?.start + " - " + jamRules.rules?.jamMasuk?.default?.end);
+  console.log("Jam Pulang Jumat: " + jamRules.rules?.jamPulang?.jumat?.start + " - " + jamRules.rules?.jamPulang?.jumat?.end);
+  console.log("Jam Pulang Sabtu: " + jamRules.rules?.jamPulang?.sabtu?.start + " - " + jamRules.rules?.jamPulang?.sabtu?.end);
+}
+
 console.log("SMARTWORK_BRAIN=OK");
+

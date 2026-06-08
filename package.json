@@ -39,7 +39,8 @@
     "siaga:bulan-juni": "node scripts/smartwork-siaga-bulan-juni.mjs",
     "siaga:memory": "node scripts/smartwork-siaga-memory.mjs",
     "siaga:stable": "node scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
-    "siaga:save": "node scripts/smartwork-siaga-smart-fill-and-save.mjs"
+    "siaga:save": "node scripts/smartwork-siaga-smart-fill-and-save.mjs",
+    "app": "node app/smartwork-control-server.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.1"

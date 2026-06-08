@@ -1,0 +1,52 @@
+﻿{
+  "id": "siaga-absensi-jam-rules",
+  "name": "SIAGA Absensi Jam Masuk Pulang Rules",
+  "status": "stable",
+  "updatedAt": "20260608-093826",
+  "rules": {
+    "randomizeMinutes": true,
+    "doNotMakeMonotone": true,
+    "diagnoseDomBeforeFill": true,
+    "saveOnlyWhenUserAllows": true,
+    "jamMasuk": {
+      "default": {
+        "start": "06:50",
+        "end": "07:00",
+        "note": "Jam masuk tidak boleh lewat dari 07:00."
+      }
+    },
+    "jamPulang": {
+      "senin": {
+        "start": "14:15",
+        "end": "14:30"
+      },
+      "selasa": {
+        "start": "14:15",
+        "end": "14:30"
+      },
+      "rabu": {
+        "start": "14:15",
+        "end": "14:30"
+      },
+      "kamis": {
+        "start": "14:15",
+        "end": "14:30"
+      },
+      "jumat": {
+        "start": "11:30",
+        "end": "11:35",
+        "note": "Jumat tidak boleh di bawah 11:30 dan tidak boleh lewat 11:35."
+      },
+      "sabtu": {
+        "start": "15:15",
+        "end": "15:30",
+        "note": "Sabtu jam pulang tidak boleh di bawah 15:15 dan tidak boleh lebih dari 15:30."
+      }
+    }
+  },
+  "notes": [
+    "Jam masuk Sabtu tetap mengikuti aturan jam masuk normal 06:50-07:00.",
+    "Gunakan random menit agar tidak monoton.",
+    "Jangan klik Simpan Detail Absensi sampai user mengizinkan."
+  ]
+}
