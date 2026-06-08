@@ -40,7 +40,8 @@
     "siaga:memory": "node scripts/smartwork-siaga-memory.mjs",
     "siaga:stable": "node scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
     "siaga:save": "node scripts/smartwork-siaga-smart-fill-and-save.mjs",
-    "app": "node app/smartwork-control-server.mjs"
+    "app": "node app/smartwork-control-server.mjs",
+    "dev": "npm run app"
   },
   "dependencies": {
     "playwright": "^1.49.1"
