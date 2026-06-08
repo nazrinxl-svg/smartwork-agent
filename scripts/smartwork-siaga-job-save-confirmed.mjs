@@ -1,0 +1,531 @@
+﻿import fs from "fs";
+import path from "path";
+import { chromium } from "playwright";
+
+const root = process.cwd();
+const reportsDir = path.join(root, "reports");
+const shotsDir = path.join(root, "shots");
+const profileRoot = path.join(root, "browser-profile", "parallel-siaga-real");
+
+fs.mkdirSync(reportsDir, { recursive: true });
+fs.mkdirSync(shotsDir, { recursive: true });
+
+const timePlanPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.json");
+const outputPath = path.join(reportsDir, "siaga-job-save-confirmed-report.json");
+
+const CONFIRM_SAVE = process.env.CONFIRM_SAVE || "";
+const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
+const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 0);
+
+function now() {
+  return new Date().toISOString();
+}
+
+function slugify(value) {
+  return String(value || "worker")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "worker";
+}
+
+function readJsonSafe(filePath, fallback = null) {
+  if (!fs.existsSync(filePath)) return fallback;
+  const raw = fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "").trim();
+  if (!raw) return fallback;
+  return JSON.parse(raw);
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function targetDateFromRow(row) {
+  return `2026-06-${pad2(row.tanggal)}`;
+}
+
+async function screenshot(page, name, fullPage = false) {
+  const file = path.join(
+    shotsDir,
+    `${new Date().toISOString().replace(/[:.]/g, "-")}-${name}.png`
+  );
+  await page.screenshot({ path: file, fullPage });
+  return file;
+}
+
+async function getTambahHref(page, target) {
+  return await page.evaluate(({ target }) => {
+    const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+
+    const rows = Array.from(document.querySelectorAll("table tbody tr, table tr")).map((tr, index) => {
+      const text = clean(tr.innerText || tr.textContent);
+      const links = Array.from(tr.querySelectorAll("a, button")).map((el) => ({
+        text: clean(el.innerText || el.textContent || el.value),
+        href: el.href || el.getAttribute("href") || "",
+        tag: el.tagName,
+        className: String(el.className || "")
+      }));
+
+      return { index, text, links };
+    });
+
+    const row = rows.find((r) => {
+      const parts = r.text.split(" ");
+      return parts[0] === String(target.tanggal) && new RegExp(target.hari, "i").test(r.text);
+    });
+
+    if (!row) {
+      return {
+        ok: false,
+        step: "find_row",
+        reason: `Row tanggal ${target.tanggal} ${target.hari} tidak ditemukan`,
+        rows: rows.map((r) => ({ index: r.index, text: r.text })).slice(0, 40)
+      };
+    }
+
+    const alreadyFilled =
+      /\d{2}:\d{2}:\d{2}/.test(row.text) ||
+      /Ubah/i.test(row.text);
+
+    if (alreadyFilled) {
+      return {
+        ok: true,
+        skipped: true,
+        step: "already_filled",
+        rowText: row.text
+      };
+    }
+
+    const tambah =
+      row.links.find((x) => /^Tambah$/i.test(x.text)) ||
+      row.links.find((x) => /Tambah/i.test(x.text)) ||
+      row.links.find((x) => /create/i.test(x.href));
+
+    if (!tambah) {
+      return {
+        ok: false,
+        step: "find_tambah",
+        reason: `Tombol Tambah tanggal ${target.tanggal} tidak ditemukan`,
+        rowText: row.text,
+        links: row.links
+      };
+    }
+
+    return {
+      ok: true,
+      skipped: false,
+      step: "found_tambah_href",
+      rowIndex: row.index,
+      rowText: row.text,
+      href: tambah.href ? new URL(tambah.href, location.origin).href : null,
+      text: tambah.text
+    };
+  }, { target });
+}
+
+async function fillTime(page, target) {
+  return await page.evaluate(({ target }) => {
+    const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+
+    function fire(el) {
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+      el.dispatchEvent(new Event("blur", { bubbles: true }));
+    }
+
+    const tanggal = document.querySelector('input[name="tanggal"]');
+    const masuk = document.querySelector('input[name="jam_masuk"]') || document.querySelector("#jam_masuk");
+    const pulang = document.querySelector('input[name="jam_pulang"]') || document.querySelector("#jam_pulang");
+
+    if (!tanggal || tanggal.value !== target.date) {
+      return {
+        ok: false,
+        step: "verify_date",
+        reason: `Form bukan tanggal ${target.date}`,
+        tanggalValue: tanggal ? tanggal.value : null,
+        url: location.href,
+        bodyPreview: clean(document.body.innerText || "").slice(0, 800)
+      };
+    }
+
+    if (!masuk || !pulang) {
+      return {
+        ok: false,
+        step: "find_time_inputs",
+        reason: "Input jam_masuk/jam_pulang tidak ditemukan",
+        inputNames: Array.from(document.querySelectorAll("input")).map((el) => ({
+          name: el.name || "",
+          id: el.id || "",
+          type: el.type || "",
+          value: el.value || ""
+        }))
+      };
+    }
+
+    masuk.focus();
+    masuk.value = target.masuk;
+    fire(masuk);
+
+    pulang.focus();
+    pulang.value = target.pulang;
+    fire(pulang);
+
+    return {
+      ok: true,
+      step: "filled_before_save",
+      tanggal: tanggal.value,
+      jamMasuk: masuk.value,
+      jamPulang: pulang.value,
+      bodyPreview: clean(document.body.innerText || "").slice(0, 800)
+    };
+  }, { target });
+}
+
+async function clickSaveDetail(page) {
+  const beforeUrl = page.url();
+
+  const clicked = await page.evaluate(() => {
+    const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+
+    const candidates = Array.from(document.querySelectorAll("button, input[type='submit'], a")).map((el) => ({
+      el,
+      text: clean(el.innerText || el.value || el.textContent),
+      tag: el.tagName,
+      type: el.getAttribute("type") || ""
+    }));
+
+    const target =
+      candidates.find((x) => /Simpan Detail Absensi/i.test(x.text)) ||
+      candidates.find((x) => /^Simpan$/i.test(x.text)) ||
+      candidates.find((x) => /Simpan/i.test(x.text));
+
+    if (!target) {
+      return { ok: false, reason: "simpan_button_not_found" };
+    }
+
+    target.el.click();
+
+    return {
+      ok: true,
+      clickedText: target.text,
+      tag: target.tag,
+      type: target.type
+    };
+  });
+
+  if (!clicked.ok) return { ...clicked, beforeUrl };
+
+  await page.waitForLoadState("domcontentloaded", { timeout: 20000 }).catch(() => {});
+  await page.waitForTimeout(2500);
+
+  return {
+    ...clicked,
+    beforeUrl,
+    afterUrl: page.url()
+  };
+}
+
+async function verifySavedOnDetail(page, detailUrl, target) {
+  await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+  await page.waitForTimeout(2500);
+
+  return await page.evaluate(({ target }) => {
+    const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+
+    const rows = Array.from(document.querySelectorAll("table tbody tr, table tr")).map((tr, index) => ({
+      index,
+      text: clean(tr.innerText || tr.textContent)
+    }));
+
+    const row = rows.find((r) => {
+      const parts = r.text.split(" ");
+      return parts[0] === String(target.tanggal) && new RegExp(target.hari, "i").test(r.text);
+    });
+
+    if (!row) {
+      return {
+        ok: false,
+        step: "verify_row_not_found",
+        rows: rows.slice(0, 40)
+      };
+    }
+
+    const hasMasuk = row.text.includes(target.masuk);
+    const hasPulang = row.text.includes(target.pulang);
+    const hasUbah = /Ubah/i.test(row.text);
+
+    return {
+      ok: hasMasuk && hasPulang && hasUbah,
+      step: "verify_saved_row",
+      rowText: row.text,
+      hasMasuk,
+      hasPulang,
+      hasUbah
+    };
+  }, { target });
+}
+
+async function runOneTeacher(teacherPlan) {
+  const startedAt = now();
+  const teacherId = teacherPlan.teacherId;
+  const profileDir = path.join(profileRoot, `${teacherId}-siaga`);
+  const detailUrl = teacherPlan.detailUrl;
+
+  const plannedRows = (teacherPlan.rows || [])
+    .filter((row) => row.status === "needs_plan")
+    .slice(0, TARGET_LIMIT);
+
+  const log = [];
+  const results = [];
+  const screenshots = [];
+
+  log.push(`[${now()}] START teacher=${teacherId}`);
+  log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_LIMIT_${TARGET_LIMIT}`);
+  log.push(`[${now()}] DETAIL_URL=${detailUrl}`);
+
+  let browser;
+
+  try {
+    browser = await chromium.launchPersistentContext(profileDir, {
+      headless: false,
+      viewport: { width: 1280, height: 720 },
+      args: ["--start-maximized"]
+    });
+
+    const page = browser.pages()[0] || await browser.newPage();
+
+    await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+    await page.waitForTimeout(2500);
+
+    screenshots.push({
+      label: "before",
+      path: path.relative(root, await screenshot(page, `${slugify(teacherId)}-save-confirmed-before`, true)).replaceAll("\\", "/")
+    });
+
+    for (const row of plannedRows) {
+      const target = {
+        tanggal: String(row.tanggal),
+        hari: row.hari,
+        date: targetDateFromRow(row),
+        masuk: row.plan.masuk,
+        pulang: row.plan.pulang,
+        rule: row.plan.rule
+      };
+
+      log.push(`[${now()}] TARGET=${JSON.stringify(target)}`);
+
+      await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+      await page.waitForTimeout(1200);
+
+      const hrefResult = await getTambahHref(page, target);
+      log.push(`[${now()}] HREF_RESULT=${JSON.stringify(hrefResult)}`);
+
+      if (!hrefResult.ok || hrefResult.skipped || !hrefResult.href) {
+        results.push({
+          target,
+          ok: false,
+          hrefResult,
+          status: hrefResult.skipped ? "skipped_already_filled" : "failed_find_tambah"
+        });
+        break;
+      }
+
+      await page.goto(hrefResult.href, { waitUntil: "domcontentloaded", timeout: 45000 });
+      await page.waitForTimeout(1500);
+
+      const fillResult = await fillTime(page, target);
+      log.push(`[${now()}] FILL_RESULT=${JSON.stringify(fillResult)}`);
+
+      screenshots.push({
+        label: `before-save-${target.date}`,
+        path: path.relative(root, await screenshot(page, `${slugify(teacherId)}-before-save-${target.date}`, false)).replaceAll("\\", "/")
+      });
+
+      if (!fillResult.ok) {
+        results.push({
+          target,
+          ok: false,
+          hrefResult,
+          fillResult,
+          status: "failed_fill_before_save"
+        });
+        break;
+      }
+
+      const saveResult = await clickSaveDetail(page);
+      log.push(`[${now()}] SAVE_RESULT=${JSON.stringify(saveResult)}`);
+
+      screenshots.push({
+        label: `after-save-${target.date}`,
+        path: path.relative(root, await screenshot(page, `${slugify(teacherId)}-after-save-${target.date}`, false)).replaceAll("\\", "/")
+      });
+
+      const verifyResult = await verifySavedOnDetail(page, detailUrl, target);
+      log.push(`[${now()}] VERIFY_RESULT=${JSON.stringify(verifyResult)}`);
+
+      screenshots.push({
+        label: `verify-${target.date}`,
+        path: path.relative(root, await screenshot(page, `${slugify(teacherId)}-verify-${target.date}`, true)).replaceAll("\\", "/")
+      });
+
+      results.push({
+        target,
+        ok: Boolean(saveResult.ok && verifyResult.ok),
+        hrefResult,
+        fillResult,
+        saveResult,
+        verifyResult,
+        status: saveResult.ok && verifyResult.ok ? "saved_and_verified" : "save_needs_check"
+      });
+
+      if (!saveResult.ok || !verifyResult.ok) {
+        break;
+      }
+    }
+
+    const finalUrl = page.url();
+    const finalBody = await page.locator("body").innerText({ timeout: 5000 }).catch(() => "");
+
+    // Browser sengaja dibiarkan terbuka agar hasil bisa dicek manual.
+    return {
+      ok: results.length > 0 && results.every((item) => item.ok),
+      teacherId,
+      teacherName: teacherPlan.teacherName,
+      detailUrl,
+      startedAt,
+      endedAt: now(),
+      status: results.length > 0 && results.every((item) => item.ok)
+        ? "save_confirmed_success"
+        : "save_confirmed_needs_check",
+      finalUrl,
+      finalBodyPreview: finalBody.replace(/\s+/g, " ").slice(0, 1500),
+      plannedRowsCount: plannedRows.length,
+      results,
+      screenshots,
+      log
+    };
+  } catch (error) {
+    log.push(`[${now()}] ERROR=${error.message}`);
+
+    return {
+      ok: false,
+      teacherId,
+      teacherName: teacherPlan.teacherName,
+      detailUrl,
+      startedAt,
+      endedAt: now(),
+      status: "failed",
+      error: error.message,
+      results,
+      screenshots,
+      log
+    };
+  }
+}
+
+async function main() {
+  console.log("SMARTWORK_SIAGA_JOB_SAVE_CONFIRMED=START");
+  console.log("RULE=REQUIRES_CONFIRM_SAVE_YES_THEN_CLICK_SAVE_DETAIL_ABSENSI");
+  console.log("CONFIRM_SAVE=" + CONFIRM_SAVE);
+  console.log("TARGET_TEACHER_ID=" + TARGET_TEACHER_ID);
+  console.log("TARGET_LIMIT=" + TARGET_LIMIT);
+
+  if (CONFIRM_SAVE !== "YES") {
+    const report = {
+      ok: false,
+      mode: "siaga-job-save-confirmed",
+      status: "blocked_missing_confirm_save",
+      rule: "SAVE_BLOCKED_UNLESS_CONFIRM_SAVE_EQUALS_YES",
+      confirmSave: CONFIRM_SAVE,
+      targetTeacherId: TARGET_TEACHER_ID,
+      targetLimit: TARGET_LIMIT,
+      summary: {
+        blocked: 1,
+        saved: 0,
+        submitted: 0,
+        deleted: 0
+      },
+      endedAt: now()
+    };
+
+    fs.writeFileSync(outputPath, JSON.stringify(report, null, 2), "utf8");
+
+    console.error("SMARTWORK_SIAGA_JOB_SAVE_CONFIRMED=BLOCKED");
+    console.error("CONFIRM_SAVE harus YES untuk klik Simpan.");
+    console.error("REPORT=" + outputPath);
+    process.exit(1);
+  }
+
+  if (!TARGET_TEACHER_ID) {
+    throw new Error("TARGET_TEACHER_ID wajib diisi.");
+  }
+
+  if (!TARGET_LIMIT || TARGET_LIMIT < 1 || TARGET_LIMIT > 5) {
+    throw new Error("TARGET_LIMIT wajib 1 sampai 5 untuk safety.");
+  }
+
+  const timePlan = readJsonSafe(timePlanPath);
+
+  if (!timePlan?.ok) {
+    throw new Error("Time plan report belum ok. Jalankan npm run siaga:job:time-plan-preview dulu.");
+  }
+
+  const teacherPlan = (timePlan.results || []).find((item) => item.teacherId === TARGET_TEACHER_ID);
+
+  if (!teacherPlan) {
+    throw new Error(`Teacher plan tidak ditemukan: ${TARGET_TEACHER_ID}`);
+  }
+
+  const result = await runOneTeacher(teacherPlan);
+
+  const savedCount = (result.results || []).filter((item) => item.status === "saved_and_verified").length;
+
+  const report = {
+    ok: Boolean(result.ok),
+    mode: "siaga-job-save-confirmed",
+    rule: "REQUIRES_CONFIRM_SAVE_YES_THEN_CLICK_SAVE_DETAIL_ABSENSI",
+    targetTeacherId: TARGET_TEACHER_ID,
+    targetLimit: TARGET_LIMIT,
+    startedAt: now(),
+    endedAt: now(),
+    summary: {
+      success: result.status === "save_confirmed_success" ? 1 : 0,
+      needsCheck: result.status === "save_confirmed_needs_check" ? 1 : 0,
+      failed: result.status === "failed" ? 1 : 0,
+      saved: savedCount,
+      submitted: 0,
+      deleted: 0
+    },
+    result
+  };
+
+  fs.writeFileSync(outputPath, JSON.stringify(report, null, 2), "utf8");
+
+  console.log("SMARTWORK_SIAGA_JOB_SAVE_CONFIRMED=DONE");
+  console.log("REPORT=" + outputPath);
+  console.log(JSON.stringify(report.summary, null, 2));
+
+  if (!report.ok) process.exitCode = 1;
+}
+
+main().catch((error) => {
+  const report = {
+    ok: false,
+    mode: "siaga-job-save-confirmed",
+    rule: "REQUIRES_CONFIRM_SAVE_YES_THEN_CLICK_SAVE_DETAIL_ABSENSI",
+    error: error.message,
+    endedAt: now(),
+    summary: {
+      saved: 0,
+      submitted: 0,
+      deleted: 0
+    }
+  };
+
+  fs.writeFileSync(outputPath, JSON.stringify(report, null, 2), "utf8");
+
+  console.error("SMARTWORK_SIAGA_JOB_SAVE_CONFIRMED=FAILED");
+  console.error(error.message);
+  console.error("REPORT=" + outputPath);
+  process.exit(1);
+});

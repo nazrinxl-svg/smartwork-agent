@@ -54,7 +54,8 @@
                     "siaga:job:plan":  "node scripts/smartwork-siaga-job-planner.mjs",
                     "siaga:job:runner-preview":  "node scripts/smartwork-siaga-job-runner-preview.mjs",
                     "siaga:job:time-plan-preview":  "node scripts/smartwork-siaga-job-time-plan-preview.mjs",
-                    "siaga:job:input-preview-no-save":  "node scripts/smartwork-siaga-job-input-preview-no-save.mjs"
+                    "siaga:job:input-preview-no-save":  "node scripts/smartwork-siaga-job-input-preview-no-save.mjs",
+                    "siaga:job:save-confirmed":  "node scripts/smartwork-siaga-job-save-confirmed.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
