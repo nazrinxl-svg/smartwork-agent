@@ -1,0 +1,61 @@
+﻿{
+  "id": "siaga-system-time-rules",
+  "version": "0.1.0",
+  "purpose": "System-owned SIAGA attendance time rules. Users do not manually define these in intake form.",
+  "rules": {
+    "normalDays": {
+      "days": ["Senin", "Selasa", "Rabu", "Kamis"],
+      "jamMasuk": {
+        "randomStart": "06:50",
+        "randomEnd": "07:00",
+        "mustNotBeLaterThan": "07:00"
+      },
+      "jamPulang": {
+        "randomStart": "14:15",
+        "randomEnd": "14:30",
+        "mustNotBeEarlierThan": "14:15"
+      }
+    },
+    "friday": {
+      "day": "Jumat",
+      "jamMasuk": {
+        "randomStart": "06:50",
+        "randomEnd": "07:00",
+        "mustNotBeLaterThan": "07:00"
+      },
+      "jamPulang": {
+        "randomStart": "11:30",
+        "randomEnd": "11:35",
+        "mustNotBeEarlierThan": "11:30",
+        "mustNotBeLaterThan": "11:35"
+      }
+    },
+    "saturday": {
+      "day": "Sabtu",
+      "jamMasuk": {
+        "randomStart": "06:50",
+        "randomEnd": "07:00",
+        "mustNotBeLaterThan": "07:00"
+      },
+      "jamPulang": {
+        "randomStart": "15:15",
+        "randomEnd": "15:30",
+        "mustNotBeEarlierThan": "15:15"
+      }
+    },
+    "sunday": {
+      "day": "Minggu",
+      "action": "skip",
+      "reason": "Minggu tidak diisi"
+    },
+    "holidayOrLeave": {
+      "action": "skip_or_special_status_after_user_confirmation",
+      "default": "skip"
+    }
+  },
+  "randomization": {
+    "enabled": true,
+    "purpose": "Avoid monotonous identical values while staying inside safe official time ranges.",
+    "doNotUseSameMinuteEveryDay": true
+  }
+}

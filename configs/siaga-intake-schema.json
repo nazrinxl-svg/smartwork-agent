@@ -1,0 +1,71 @@
+﻿{
+  "id": "siaga-intake-schema",
+  "version": "0.1.0",
+  "purpose": "User-facing intake schema for SmartWork SIAGA attendance automation.",
+  "rules": {
+    "credentials": {
+      "doNotSendToChat": true,
+      "storeOnlyLocallyOrSecureVault": true,
+      "mustBeIgnoredByGit": true
+    },
+    "userShouldNotFillTimeRules": true,
+    "saveSubmitDeleteRequireExplicitConfirmation": true
+  },
+  "requiredUserFields": {
+    "teacherId": "Unique local worker id, example: guru-001",
+    "teacherName": "Display name for report and UI",
+    "wa": "Optional WhatsApp number for future notification",
+    "apps": [
+      {
+        "appId": "siaga",
+        "username": "Local-only username. Never send to chat.",
+        "password": "Local-only password. Never send to chat."
+      }
+    ],
+    "target": {
+      "month": "Target month, example: Juni",
+      "year": 2026
+    },
+    "holidays": [
+      {
+        "date": "2026-06-03",
+        "reason": "Libur sekolah / libur nasional"
+      }
+    ],
+    "leaveDays": [
+      {
+        "date": "2026-06-10",
+        "type": "cuti | izin | sakit | dinas_luar",
+        "reason": "Optional reason"
+      }
+    ]
+  },
+  "forbiddenUserFields": {
+    "jamMasuk": "User must not manually define SIAGA jam masuk.",
+    "jamPulang": "User must not manually define SIAGA jam pulang.",
+    "saveMode": "User confirmation must happen at execution time, not by default form value."
+  },
+  "example": {
+    "teacherId": "guru-001",
+    "teacherName": "Nama Guru",
+    "wa": "628xxxxxxxxxx",
+    "apps": [
+      {
+        "appId": "siaga",
+        "username": "ISI_DI_FILE_LOCAL",
+        "password": "ISI_DI_FILE_LOCAL"
+      }
+    ],
+    "target": {
+      "month": "Juni",
+      "year": 2026
+    },
+    "holidays": [
+      {
+        "date": "2026-06-03",
+        "reason": "Libur sekolah"
+      }
+    ],
+    "leaveDays": []
+  }
+}

@@ -34,3 +34,5 @@ vault/*.json
 browser-profile/parallel-siaga-real/
 shots/*real*
 reports/*real*
+
+.smartwork-visible-chrome/
