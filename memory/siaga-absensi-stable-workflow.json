@@ -1,0 +1,66 @@
+{
+  "id": "siaga-absensi-stable-workflow",
+  "name": "SIAGA Absensi Stable Workflow",
+  "status": "stable",
+  "updatedAt": "20260608-091031",
+  "project": "smartwork-agent",
+  "path": "D:\\1. myapps\\smartwork-agent",
+  "rules": {
+    "microAgent": true,
+    "avoidLongFlowUnlessRequested": true,
+    "doNotUseZoomAgent": true,
+    "doNotUseViewportResize": true,
+    "doNotUsePageSetViewportSize": true,
+    "doNotUseEmulationPageScaleFactor": true,
+    "doNotUseCssZoom": true,
+    "screenshotMustNotChangeBrowserSize": true,
+    "saveOnlyWhenUserAllows": true
+  },
+  "stableFlow": [
+    "Pastikan Chrome debug SIAGA aktif",
+    "Jika berada di beranda umum /index/beranda, arahkan ke /guru",
+    "Buka /guru/absensi/create",
+    "Isi hanya field yang kurang",
+    "Set Sekolah = SDN 4 DWI TUNGGAL menggunakan select[name='sekolah_id'] value 16870",
+    "Set Bulan = Juni value 6",
+    "Set Tahun = 2026 value 2026",
+    "Set Status Cuti = Tidak ada cuti value 0",
+    "Ambil screenshot sebelum simpan",
+    "Klik Simpan hanya jika user mengizinkan",
+    "Ambil screenshot hasil setelah simpan"
+  ],
+  "knownValues": {
+    "sekolah": {
+      "label": "SDN 4 DWI TUNGGAL",
+      "select": "select[name='sekolah_id']",
+      "value": "16870",
+      "type": "native select with Select2 UI",
+      "method": "set native select value, dispatch input/change, trigger jQuery change if available"
+    },
+    "bulan": {
+      "label": "Juni",
+      "select": "select[name='bulan']",
+      "value": "6"
+    },
+    "tahun": {
+      "label": "2026",
+      "select": "select[name='tahun']",
+      "value": "2026"
+    },
+    "statusCuti": {
+      "label": "Tidak ada cuti",
+      "input": "input[name='status_cuti'][value='0']",
+      "value": "0"
+    }
+  },
+  "stableScripts": [
+    "scripts/smartwork-siaga-beranda-to-tambah-only.mjs",
+    "scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
+    "scripts/smartwork-siaga-smart-fill-and-save.mjs",
+    "scripts/smartwork-siaga-set-sekolah-select2-value-only.mjs",
+    "scripts/smartwork-siaga-tahun-2026-native-only.mjs",
+    "scripts/smartwork-siaga-bulan-juni.mjs"
+  ],
+  "expectedDuplicateMessage": "Data absensi di bulan, tahun dan sekolah ini sudah ada!",
+  "note": "Duplicate message untuk Juni 2026 SDN 4 DWI TUNGGAL adalah wajar karena data sudah pernah tersimpan."
+}

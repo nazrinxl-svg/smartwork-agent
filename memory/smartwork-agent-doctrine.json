@@ -1,0 +1,79 @@
+{
+  "id": "smartwork-agent-doctrine",
+  "name": "SmartWork Agent Doctrine",
+  "status": "active",
+  "sourceStyle": "SmartLearn Pro Agent Army",
+  "updatedAt": "20260608-091203",
+  "purpose": "Prevent SmartWork Agent from looping, guessing, using long unsafe flows, changing viewport/zoom, or saving without permission.",
+  "coreRules": {
+    "brainFirst": true,
+    "diagnoseBeforePatchOrAction": true,
+    "guardBeforeRiskyAction": true,
+    "backupBeforeEditingScripts": true,
+    "microAgentOneStepAtATime": true,
+    "noLongFlowUntilStable": true,
+    "doNotRepeatLoginDashboardTambahIfAlreadyOnForm": true,
+    "screenshotAfterImportantAction": true,
+    "saveOnlyWhenUserExplicitlyAllows": true,
+    "noZoomAgent": true,
+    "noViewportResize": true,
+    "noPageSetViewportSize": true,
+    "noEmulationPageScaleFactor": true,
+    "noCssZoom": true,
+    "screenshotMustNotChangeBrowserSize": true
+  },
+  "siagaAbsensiStableWorkflow": {
+    "status": "stable",
+    "openFlow": [
+      "If on /index/beranda, go to /guru",
+      "Open /guru/absensi/create",
+      "Do not refill fields that are already correct",
+      "Fill only missing fields",
+      "Take screenshot/report"
+    ],
+    "fields": {
+      "sekolah": {
+        "selector": "select[name='sekolah_id']",
+        "value": "16870",
+        "text": "SDN 4 DWI TUNGGAL",
+        "method": "native select value + input/change + jQuery trigger change if available",
+        "warning": "Do not rely only on clicking visible Select2 text."
+      },
+      "bulan": {
+        "selector": "select[name='bulan']",
+        "value": "6",
+        "text": "Juni"
+      },
+      "tahun": {
+        "selector": "select[name='tahun']",
+        "value": "2026",
+        "text": "2026"
+      },
+      "statusCuti": {
+        "selector": "input[name='status_cuti'][value='0']",
+        "value": "0",
+        "text": "Tidak ada cuti"
+      }
+    },
+    "expectedDuplicateMessage": "Data absensi di bulan, tahun dan sekolah ini sudah ada!"
+  },
+  "stableScripts": [
+    "scripts/smartwork-siaga-beranda-to-tambah-only.mjs",
+    "scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
+    "scripts/smartwork-siaga-smart-fill-and-save.mjs",
+    "scripts/smartwork-siaga-set-sekolah-select2-value-only.mjs",
+    "scripts/smartwork-siaga-tahun-2026-native-only.mjs",
+    "scripts/smartwork-siaga-bulan-juni.mjs"
+  ],
+  "badPatternsToAvoid": [
+    "Repeating login when already logged in",
+    "Repeating dashboard/open tambah when already on /guru/absensi/create",
+    "Using ArrowDown when native select value is known",
+    "Changing browser zoom from agent",
+    "Using page.setViewportSize",
+    "Using Emulation.setPageScaleFactor",
+    "Using document.body.style.zoom",
+    "Clicking Simpan without explicit user permission",
+    "Creating new agent scripts before diagnosing existing stable scripts"
+  ]
+}

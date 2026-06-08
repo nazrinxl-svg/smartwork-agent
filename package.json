@@ -9,7 +9,7 @@
     "brain": "node scripts/smartwork-brain.mjs",
     "guard": "node scripts/smartwork-guard.mjs",
     "plan": "node scripts/smartwork-plan.mjs",
-    "doctor": "node scripts/smartwork-agent.mjs --doctor",
+    "doctor": "node scripts/smartwork-doctor.mjs",
     "nilai": "node scripts/smartwork-nilai-agent.mjs",
     "open:browser": "node scripts/smartwork-open-browser.mjs",
     "login": "node scripts/smartwork-login-agent.mjs",
@@ -36,7 +36,10 @@
     "siaga:open-tambah": "node scripts/smartwork-siaga-open-tambah-only.mjs",
     "siaga:pilih-sekolah": "node scripts/smartwork-siaga-pilih-sekolah.mjs",
     "siaga:set-bulan-tahun": "node scripts/smartwork-siaga-set-bulan-tahun.mjs",
-    "siaga:bulan-juni": "node scripts/smartwork-siaga-bulan-juni.mjs"
+    "siaga:bulan-juni": "node scripts/smartwork-siaga-bulan-juni.mjs",
+    "siaga:memory": "node scripts/smartwork-siaga-memory.mjs",
+    "siaga:stable": "node scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
+    "siaga:save": "node scripts/smartwork-siaga-smart-fill-and-save.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.1"

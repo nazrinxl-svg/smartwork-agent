@@ -18,7 +18,6 @@ const TARGET_SCHOOL_TEXT = "SDN 4 DWI TUNGGAL";
 
 async function shot(context, page, file) {
   await page.bringToFront().catch(() => {});
-  await page.setViewportSize({ width: 1366, height: 768 }).catch(() => {});
   await page.waitForTimeout(300);
 
   const session = await context.newCDPSession(page);
@@ -217,3 +216,4 @@ main().catch(error => {
   console.error(error.stack || error.message);
   process.exit(1);
 });
+
