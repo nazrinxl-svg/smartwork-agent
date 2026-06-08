@@ -3,7 +3,7 @@ import path from "path";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.local", override: true });
 
 const MODE = "SMARTWORK_EMAIL_SEND_GUARDED";
 const PREVIEW_REPORT_PATH =
@@ -11,7 +11,10 @@ const PREVIEW_REPORT_PATH =
 const SEND_REPORT_PATH =
   process.env.SEND_REPORT_PATH || "reports/delivery-send/smartwork-email-send-report.json";
 
-const CONFIRM_SEND_EMAIL = process.env.CONFIRM_SEND_EMAIL || "NO";
+const CONFIRM_SEND_EMAIL =
+  process.env.SMARTWORK_CONFIRM_SEND_EMAIL ||
+  process.env.CONFIRM_SEND_EMAIL ||
+  "NO";
 
 const SMTP_HOST = process.env.SMTP_HOST || "";
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
@@ -23,6 +26,7 @@ const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER || "";
 const rules = {
   requiresConfirmSendEmail: true,
   confirmValueRequired: "YES",
+  runtimeConfirmEnv: "SMARTWORK_CONFIRM_SEND_EMAIL",
   sendWhatsApp: false,
   save: false,
   submit: false,
