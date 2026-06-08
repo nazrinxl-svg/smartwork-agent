@@ -66,7 +66,8 @@
                     "delivery:whatsapp-preview":  "node scripts/smartwork-whatsapp-preview-agent.mjs",
                     "delivery:summary":  "node scripts/smartwork-delivery-summary-agent.mjs",
                     "delivery:run":  "node scripts/smartwork-delivery-orchestrator-agent.mjs",
-                    "job:final":  "node scripts/smartwork-job-final-runner-agent.mjs"
+                    "job:final":  "node scripts/smartwork-job-final-runner-agent.mjs",
+                    "intake:validate":  "node scripts/smartwork-intake-validator-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
