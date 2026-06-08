@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { chromium } from "playwright";
 
@@ -13,6 +13,9 @@ fs.mkdirSync(shotsDir, { recursive: true });
 const runnerReportPath = path.join(reportsDir, "siaga-job-runner-preview-report.json");
 const requestPath = path.join(root, "data", "siaga-attendance-request.local.json");
 const outputPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.json");
+
+const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
+const TARGET_DETAIL_URL = process.env.TARGET_DETAIL_URL || "";
 
 function now() {
   return new Date().toISOString();
@@ -103,10 +106,22 @@ function isExceptionDate(dayNumber, request) {
 }
 
 function collectDetailJobs(runnerReport) {
+  if (TARGET_TEACHER_ID && TARGET_DETAIL_URL) {
+    return [{
+      index: 0,
+      teacherId: TARGET_TEACHER_ID,
+      teacherName: TARGET_TEACHER_ID,
+      wa: "",
+      detailUrl: TARGET_DETAIL_URL,
+      profileDir: path.join(profileRoot, `${TARGET_TEACHER_ID}-siaga`)
+    }];
+  }
+
   const results = runnerReport?.reports?.juniFind?.results || [];
 
   return results
     .filter((item) => item?.status === "juni_detail_preview_success" && item?.currentUrl)
+    .filter((item) => !TARGET_TEACHER_ID || item.teacherId === TARGET_TEACHER_ID)
     .map((item, index) => ({
       index,
       teacherId: item.teacherId,
@@ -289,14 +304,19 @@ async function main() {
   const runnerReport = readJsonSafe(runnerReportPath);
   const request = readJsonSafe(requestPath, {});
 
-  if (!runnerReport?.ok) {
-    throw new Error("Runner report belum ok. Jalankan npm run siaga:job:runner-preview dulu.");
+  if (!TARGET_DETAIL_URL && !runnerReport?.reports?.juniFind?.results?.length) {
+    throw new Error("Runner report belum punya hasil juniFind. Jalankan npm run siaga:job:runner-preview dulu.");
   }
 
   const jobs = collectDetailJobs(runnerReport);
 
   if (jobs.length === 0) {
-    throw new Error("Tidak ada detail job dari runner report.");
+    throw new Error(`Tidak ada detail job dari runner report untuk target: ${TARGET_TEACHER_ID || "ALL"}`);
+  }
+
+  if (!runnerReport?.ok) {
+    console.log("RUNNER_REPORT_PARTIAL_OK_FOR_TARGET=true");
+    console.log("TARGET_TEACHER_ID=" + (TARGET_TEACHER_ID || "ALL"));
   }
 
   const results = [];
@@ -312,6 +332,8 @@ async function main() {
     mode: "siaga-job-time-plan-preview",
     rule: "NO_CLICK_TAMBAH_NO_INPUT_JAM_NO_SAVE_NO_SUBMIT_NO_DELETE",
     target: runnerReport?.reports?.planner?.request?.target || null,
+    targetTeacherId: TARGET_TEACHER_ID || null,
+    targetDetailUrl: TARGET_DETAIL_URL || null,
     totalJobs: jobs.length,
     startedAt: now(),
     endedAt: now(),
