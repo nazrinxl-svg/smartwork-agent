@@ -1,6 +1,9 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
 
 const MODE = "SMARTWORK_EMAIL_SEND_GUARDED";
 const PREVIEW_REPORT_PATH =
