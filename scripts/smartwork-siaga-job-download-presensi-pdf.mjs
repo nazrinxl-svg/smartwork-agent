@@ -13,6 +13,7 @@ fs.mkdirSync(downloadsDir, { recursive: true });
 fs.mkdirSync(shotsDir, { recursive: true });
 
 const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-001";
+const TARGET_TEACHER_NAME = process.env.TARGET_TEACHER_NAME || "Nazrin";
 const TARGET_MONTH = process.env.TARGET_MONTH || "Juni";
 const TARGET_YEAR = String(process.env.TARGET_YEAR || "2026");
 const ABSENSI_URL = process.env.ABSENSI_URL || "https://siagapendis.kemenag.go.id/guru/absensi";
@@ -264,7 +265,7 @@ async function main() {
       suggested = `${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-presensi.pdf`;
     }
 
-    const outputFileName = `${stamp}-${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-${safeName(suggested)}`;
+    const outputFileName = `Presensi_${safeName(TARGET_TEACHER_NAME)}_${safeName(TARGET_MONTH)}_${safeName(TARGET_YEAR)}.pdf`;
     outputPath = path.join(downloadsDir, outputFileName);
 
     const buffer = await response.body();
@@ -294,7 +295,7 @@ async function main() {
         suggested = `${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-presensi.pdf`;
       }
 
-      const outputFileName = `${stamp}-${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-${safeName(suggested)}`;
+      const outputFileName = `Presensi_${safeName(TARGET_TEACHER_NAME)}_${safeName(TARGET_MONTH)}_${safeName(TARGET_YEAR)}.pdf`;
       outputPath = path.join(downloadsDir, outputFileName);
 
       await download.saveAs(outputPath);
@@ -323,7 +324,7 @@ async function main() {
       }
 
       suggested = `${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-presensi.pdf`;
-      const outputFileName = `${stamp}-${safeName(TARGET_TEACHER_ID)}-${safeName(TARGET_MONTH)}-${safeName(TARGET_YEAR)}-${safeName(suggested)}`;
+      const outputFileName = `Presensi_${safeName(TARGET_TEACHER_NAME)}_${safeName(TARGET_MONTH)}_${safeName(TARGET_YEAR)}.pdf`;
       outputPath = path.join(downloadsDir, outputFileName);
 
       const buffer = await response.body();
