@@ -45,7 +45,8 @@
                     "parallel:dummy":  "node scripts/smartwork-parallel-runner.mjs",
                     "siaga:parallel:open":  "node scripts/smartwork-siaga-parallel-open-profiles.mjs",
                     "siaga:parallel:login-check":  "node scripts/smartwork-siaga-parallel-login-check.mjs",
-                    "siaga:parallel:dashboard-check":  "node scripts/smartwork-siaga-parallel-dashboard-check.mjs"
+                    "siaga:parallel:dashboard-check":  "node scripts/smartwork-siaga-parallel-dashboard-check.mjs",
+                    "siaga:parallel:dashboard-preview":  "node scripts/smartwork-siaga-parallel-dashboard-preview.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
