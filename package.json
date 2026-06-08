@@ -40,8 +40,6 @@
                     "siaga:memory":  "node scripts/smartwork-siaga-memory.mjs",
                     "siaga:stable":  "node scripts/smartwork-siaga-smart-fill-current-form-no-save.mjs",
                     "siaga:save":  "node scripts/smartwork-siaga-smart-fill-and-save.mjs",
-                    "app":  "node app/smartwork-control-server.mjs",
-                    "dev":  "npm run app",
                     "parallel:dummy":  "node scripts/smartwork-parallel-runner.mjs",
                     "siaga:parallel:open":  "node scripts/smartwork-siaga-parallel-open-profiles.mjs",
                     "siaga:parallel:login-check":  "node scripts/smartwork-siaga-parallel-login-check.mjs",
@@ -74,7 +72,9 @@
                     "batch:run":  "node scripts/smartwork-batch-orchestrator-agent.mjs",
                     "batch:missing-pdf":  "node scripts/smartwork-missing-pdf-worker-planner-agent.mjs",
                     "proof:report":  "node scripts/smartwork-siaga-proof-report-agent.mjs",
-                    "siaga:proof-delivery":  "node scripts/smartwork-siaga-proof-delivery-runner-agent.mjs"
+                    "siaga:proof-delivery":  "node scripts/smartwork-siaga-proof-delivery-runner-agent.mjs",
+                    "app":  "node app/smartwork-control-server.mjs",
+                    "dev":  "npm run app"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",

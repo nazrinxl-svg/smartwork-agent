@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 
 const MODE = "SMARTWORK_INTAKE_VALIDATOR_V1_MULTI_ACCOUNT";
@@ -11,6 +11,7 @@ const OUT_REPORT_PATH =
 
 const allowedServices = new Set(["siaga"]);
 const allowedModes = new Set(["attendance-monthly"]);
+const allowedRequestTypes = new Set(["daily", "bulk-monthly"]);
 
 const safeRules = {
   autoSave: false,
@@ -117,6 +118,18 @@ async function main() {
   if (!isNonEmpty(intake.targetMonth)) errors.push("targetMonth wajib diisi.");
   if (!isNonEmpty(intake.targetYear)) errors.push("targetYear wajib diisi.");
 
+  const requestType = intake.requestType || "bulk-monthly";
+  if (!allowedRequestTypes.has(requestType)) errors.push(`requestType tidak didukung: ${requestType}`);
+  if (requestType === "daily" && !isNonEmpty(intake.dailyTargetDate)) {
+    errors.push("dailyTargetDate wajib diisi untuk requestType daily.");
+  }
+
+  if (intake.schedule) {
+    validateDateList("schedule.holidayDates", intake.schedule.holidayDates || [], errors, warnings, "job");
+    validateDateList("schedule.globalSkipDates", intake.schedule.globalSkipDates || [], errors, warnings, "job");
+    validateDateList("schedule.globalLeaveDates", intake.schedule.globalLeaveDates || [], errors, warnings, "job");
+  }
+
   const email = String(intake?.delivery?.email || "").trim();
   const whatsapp = normalizeWhatsApp(intake?.delivery?.whatsapp || "");
 
@@ -170,12 +183,20 @@ async function main() {
       mode: intake.mode || null,
       targetMonth: intake.targetMonth || null,
       targetYear: intake.targetYear || null,
+      requestType: intake.requestType || "bulk-monthly",
+      dailyTargetDate: intake.dailyTargetDate || null,
     },
     delivery: {
       email,
       emailValid: isValidEmail(email),
       whatsapp,
       whatsappValid: isValidWhatsApp(whatsapp),
+    },
+    schedule: {
+      holidayDates: intake?.schedule?.holidayDates || [],
+      globalSkipDates: intake?.schedule?.globalSkipDates || [],
+      globalLeaveDates: intake?.schedule?.globalLeaveDates || [],
+      dailyReportEnabled: intake?.schedule?.dailyReportEnabled !== false,
     },
     safety: {
       validateOnly: true,

@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartWork Agent - Request Form</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe4ef;
+      --blue: #2563eb;
+      --blue2: #1d4ed8;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 28%),
+        linear-gradient(180deg, #f8fafc, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .shell {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 18px 40px rgba(37,99,235,.22);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -.03em;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 45px rgba(15,23,42,.06);
+      padding: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      letter-spacing: -.01em;
+    }
+
+    .section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(147,197,253,.25);
+    }
+
+    textarea {
+      min-height: 74px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .account-box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: #f8fafc;
+      margin-top: 12px;
+    }
+
+    .account-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    button {
+      border: 0;
+      border-radius: 13px;
+      padding: 11px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      width: 100%;
+      box-shadow: 0 14px 26px rgba(37,99,235,.2);
+    }
+
+    .secondary {
+      background: #eef2ff;
+      color: #1d4ed8;
+    }
+
+    .danger {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 8px 10px;
+    }
+
+    .status {
+      margin-top: 12px;
+      border-radius: 14px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .status.ok {
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    .status.err {
+      border-color: #fecaca;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .mini {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f8fafc;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .check-row input {
+      width: auto;
+      box-shadow: none;
+    }
+
+    .step {
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      margin-bottom: 10px;
+    }
+
+    .step b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 820px) {
+      body { padding: 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .hero { align-items: flex-start; flex-direction: column; }
+      .row, .row-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="hero">
+      <div class="brand">
+        <div class="logo">SW</div>
+        <div>
+          <h1>SmartWork Agent</h1>
+          <div class="subtitle">Form request SIAGA: input absen → PDF → laporan bukti → email/WhatsApp.</div>
+        </div>
+      </div>
+      <div class="badge">Safe mode · no auto save/send</div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Request Pekerjaan SIAGA</h2>
+
+        <form id="requestForm">
+          <div class="row">
+            <div>
+              <label>Nama Pemohon</label>
+              <input name="requesterName" value="Nazrin" required />
+            </div>
+            <div>
+              <label>Job ID</label>
+              <input name="jobId" value="siaga-juni-2026" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Email Tujuan</label>
+              <input name="email" type="email" value="nazrinxl@gmail.com" required />
+            </div>
+            <div>
+              <label>WhatsApp Tujuan</label>
+              <input name="whatsapp" value="6281234567890" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Bulan</label>
+              <select name="targetMonth" required>
+                <option>Januari</option>
+                <option>Februari</option>
+                <option>Maret</option>
+                <option>April</option>
+                <option>Mei</option>
+                <option selected>Juni</option>
+                <option>Juli</option>
+                <option>Agustus</option>
+                <option>September</option>
+                <option>Oktober</option>
+                <option>November</option>
+                <option>Desember</option>
+              </select>
+            </div>
+            <div>
+              <label>Tahun</label>
+              <input name="targetYear" value="2026" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Jenis Permintaan</label>
+              <select name="requestType" required>
+                <option value="daily">Input Harian</option>
+                <option value="bulk-monthly" selected>Input Sekaligus / Bulanan</option>
+              </select>
+            </div>
+            <div>
+              <label>Tanggal Harian Jika Input Harian</label>
+              <input name="dailyTargetDate" placeholder="2026-06-08" />
+            </div>
+          </div>
+
+          <div class="section">
+            <h2>Hari Libur / Cuti / Tanggal Skip</h2>
+            <div class="row">
+              <div>
+                <label>Hari Libur Umum/Sekolah</label>
+                <input name="holidayDates" placeholder="2026-06-06, 2026-06-07" />
+              </div>
+              <div>
+                <label>Tanggal Jangan Diinput</label>
+                <input name="globalSkipDates" placeholder="2026-06-09, 2026-06-10" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label>Tanggal Cuti Umum</label>
+                <input name="globalLeaveDates" placeholder="2026-06-12" />
+              </div>
+              <div>
+                <label>Laporan Progress</label>
+                <div class="check-row">
+                  <input type="checkbox" name="dailyReportEnabled" checked />
+                  <span>Buat laporan harian/progress setelah agent bekerja</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2>Akun Guru</h2>
+            <div id="accounts"></div>
+            <button type="button" class="secondary" id="addAccountBtn">+ Tambah Akun</button>
+          </div>
+
+          <div class="section">
+            <label>Catatan Request</label>
+            <textarea name="notes">Input absensi SIAGA, unduh PDF, buat laporan bukti, lalu siapkan pengiriman email dan WhatsApp.</textarea>
+          </div>
+
+          <div class="section">
+            <button type="submit" class="primary">Simpan Request</button>
+            <div id="status" class="status">Belum ada request disimpan.</div>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card">
+        <h2>Alur SmartWork</h2>
+
+        <div class="step">
+          <b>1. Isi form</b>
+          <div class="mini">User isi email, WhatsApp, bulan/tahun, dan akun guru.</div>
+        </div>
+
+        <div class="step">
+          <b>2. Agent bekerja</b>
+          <div class="mini">SmartWork menjalankan proses SIAGA sesuai request. Save/submit/kirim tetap pakai guard.</div>
+        </div>
+
+        <div class="step">
+          <b>3. Bukti hasil</b>
+          <div class="mini">Setelah selesai, SmartWork siapkan PDF presensi dan laporan bukti kerja.</div>
+        </div>
+
+        <div class="step">
+          <b>4. Delivery</b>
+          <div class="mini">PDF + laporan bukti disiapkan untuk email dan WhatsApp.</div>
+        </div>
+
+        <div class="status ok">
+Command setelah request siap:
+npm run intake:validate
+npm run batch:run
+npm run siaga:proof-delivery
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const accountsEl = document.getElementById("accounts");
+    const statusEl = document.getElementById("status");
+
+    const defaultAccounts = [
+      {
+        teacherId: "guru-001",
+        teacherName: "Nazrin",
+        schoolName: "SDN 4 DWI TUNGGAL",
+        targetPdfName: "Presensi_Nazrin_Juni_2026.pdf",
+      }
+    ];
+
+    function accountTemplate(account = {}, index = 0) {
+      const div = document.createElement("div");
+      div.className = "account-box";
+      div.innerHTML = `
+        <div class="account-title">
+          <span>Akun #${index + 1}</span>
+          <button type="button" class="danger" data-remove>Hapus</button>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Teacher ID</label>
+            <input data-field="teacherId" value="${account.teacherId || ""}" required />
+          </div>
+          <div>
+            <label>Nama Guru</label>
+            <input data-field="teacherName" value="${account.teacherName || ""}" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Nama Sekolah</label>
+            <input data-field="schoolName" value="${account.schoolName || ""}" required />
+          </div>
+          <div>
+            <label>Nama PDF Target</label>
+            <input data-field="targetPdfName" value="${account.targetPdfName || ""}" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Tanggal Libur/Skip (pisah koma, YYYY-MM-DD)</label>
+            <input data-field="skipDates" value="${(account.skipDates || []).join(", ")}" />
+          </div>
+          <div>
+            <label>Tanggal Cuti (pisah koma, YYYY-MM-DD)</label>
+            <input data-field="leaveDates" value="${(account.leaveDates || []).join(", ")}" />
+          </div>
+        </div>
+      `;
+
+      div.querySelector("[data-remove]").addEventListener("click", () => {
+        div.remove();
+        refreshTitles();
+      });
+
+      return div;
+    }
+
+    function refreshTitles() {
+      [...accountsEl.querySelectorAll(".account-box")].forEach((box, index) => {
+        box.querySelector(".account-title span").textContent = `Akun #${index + 1}`;
+      });
+    }
+
+    function addAccount(account = {}) {
+      accountsEl.appendChild(accountTemplate(account, accountsEl.children.length));
+      refreshTitles();
+    }
+
+    function splitDates(value) {
+      return String(value || "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function collectAccounts() {
+      return [...accountsEl.querySelectorAll(".account-box")].map((box) => {
+        const get = (field) => box.querySelector(`[data-field="${field}"]`)?.value?.trim() || "";
+        return {
+          teacherId: get("teacherId"),
+          teacherName: get("teacherName"),
+          schoolName: get("schoolName"),
+          targetPdfName: get("targetPdfName"),
+          skipDates: splitDates(get("skipDates")),
+          leaveDates: splitDates(get("leaveDates")),
+          notes: "Request dari SmartWork user form."
+        };
+      });
+    }
+
+    document.getElementById("addAccountBtn").addEventListener("click", () => {
+      addAccount({
+        teacherId: `guru-${String(accountsEl.children.length + 1).padStart(3, "0")}`,
+        teacherName: "",
+        schoolName: "",
+        targetPdfName: ""
+      });
+    });
+
+    document.getElementById("requestForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      statusEl.className = "status";
+      statusEl.textContent = "Menyimpan request...";
+
+      const form = new FormData(event.currentTarget);
+
+      const payload = {
+        jobId: form.get("jobId"),
+        requesterName: form.get("requesterName"),
+        service: "siaga",
+        mode: "attendance-monthly",
+        targetMonth: form.get("targetMonth"),
+        targetYear: form.get("targetYear"),
+        requestType: form.get("requestType"),
+        dailyTargetDate: form.get("dailyTargetDate"),
+        schedule: {
+          holidayDates: splitDates(form.get("holidayDates")),
+          globalSkipDates: splitDates(form.get("globalSkipDates")),
+          globalLeaveDates: splitDates(form.get("globalLeaveDates")),
+          dailyReportEnabled: Boolean(form.get("dailyReportEnabled")),
+        },
+        delivery: {
+          email: form.get("email"),
+          whatsapp: form.get("whatsapp"),
+        },
+        rules: {
+          skipSundays: true,
+          autoSave: false,
+          autoSubmit: false,
+          autoDelete: false,
+          sendEmailAutomatically: false,
+          sendWhatsAppAutomatically: false,
+        },
+        accounts: collectAccounts(),
+        notes: form.get("notes"),
+      };
+
+      try {
+        const res = await fetch("/api/requests", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload, null, 2),
+        });
+
+        const json = await res.json();
+
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || "Gagal menyimpan request.");
+        }
+
+        statusEl.className = "status ok";
+        statusEl.textContent =
+          `Request berhasil disimpan.\n` +
+          `File: ${json.filePath}\n` +
+          `Intake aktif: ${json.activeIntakePath}\n\n` +
+          `Lanjut terminal:\n` +
+          `npm run intake:validate\n` +
+          `npm run batch:run`;
+      } catch (error) {
+        statusEl.className = "status err";
+        statusEl.textContent = error.message || String(error);
+      }
+    });
+
+    defaultAccounts.forEach(addAccount);
+  </script>
+</body>
+</html>

@@ -1,314 +1,228 @@
-﻿import http from "http";
 import fs from "fs";
 import path from "path";
-import { spawn } from "child_process";
+import http from "http";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const root = process.cwd();
+const ROOT = path.resolve(__dirname, "..");
 
-const PORT = Number(process.env.SMARTWORK_APP_PORT || 3107);
+const PORT = Number(process.env.PORT || 3107);
 
-const jobs = new Map();
+const PUBLIC_DIR = path.join(ROOT, "public");
+const REQUEST_DIR = path.join(ROOT, "intake", "requests");
+const ACTIVE_INTAKE_PATH = path.join(ROOT, "intake", "smartwork-job-request.sample.json");
 
-const actions = {
-  brain: {
-    label: "Brain",
-    command: "npm",
-    args: ["run", "brain"],
-    destructive: false
-  },
-  doctor: {
-    label: "Doctor",
-    command: "npm",
-    args: ["run", "doctor"],
-    destructive: false
-  },
-  "open-siaga": {
-    label: "Open SIAGA Browser",
-    command: "npm",
-    args: ["run", "open:siaga"],
-    destructive: false
-  },
-  "siaga-stable": {
-    label: "SIAGA Stable No Save",
-    command: "npm",
-    args: ["run", "siaga:stable"],
-    destructive: false
-  },
-  "siaga-save": {
-    label: "SIAGA Save",
-    command: "npm",
-    args: ["run", "siaga:save"],
-    destructive: true
-  },
-  "siaga-open-input-juni": {
-    label: "Open Input Juni 2026",
-    command: "node",
-    args: ["scripts/smartwork-siaga-open-input-juni-2026-only.mjs"],
-    destructive: false
-  },
-  "siaga-fill-week1-rabu-libur": {
-    label: "Fill Week 1 Rabu Libur",
-    command: "node",
-    args: ["scripts/smartwork-siaga-fill-week1-juni-2026-rabu-libur.mjs"],
-    destructive: true
-  },
-  "siaga-dry-run-delete-juni": {
-    label: "Dry Run Delete Juni",
-    command: "node",
-    args: ["scripts/smartwork-siaga-dry-run-delete-juni-2026.mjs"],
-    destructive: false
-  },
-  "siaga-delete-continue-juni": {
-    label: "Continue Delete Juni",
-    command: "node",
-    args: ["scripts/smartwork-siaga-delete-continue-detail-juni-2026.mjs"],
-    destructive: true
-  },
-  "parallel-dummy": {
-    label: "Run Dummy Parallel",
-    command: "npm",
-    args: ["run", "parallel:dummy"],
-    destructive: false
-  }
-};
-
-function json(res, status, data) {
+function sendJson(res, status, data) {
   const body = JSON.stringify(data, null, 2);
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store"
+    "Content-Length": Buffer.byteLength(body),
   });
   res.end(body);
 }
 
-function text(res, status, body, contentType = "text/plain; charset=utf-8") {
+function sendText(res, status, text, contentType = "text/plain; charset=utf-8") {
   res.writeHead(status, {
     "Content-Type": contentType,
-    "Cache-Control": "no-store"
+    "Content-Length": Buffer.byteLength(text),
   });
-  res.end(body);
+  res.end(text);
 }
 
-function safeJoin(base, rel) {
-  const resolved = path.resolve(base, rel);
-  if (!resolved.startsWith(path.resolve(base))) {
-    throw new Error("Invalid path");
+function safeFileName(input) {
+  return String(input || "smartwork-request")
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, "_")
+    .replace(/\s+/g, "_")
+    .slice(0, 140);
+}
+
+function readRequestBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+      if (body.length > 2_000_000) {
+        reject(new Error("Request terlalu besar."));
+        req.destroy();
+      }
+    });
+
+    req.on("end", () => resolve(body));
+    req.on("error", reject);
+  });
+}
+
+function validatePayload(payload) {
+  const errors = [];
+
+  if (!payload.jobId) errors.push("jobId wajib diisi.");
+  if (!payload.targetMonth) errors.push("targetMonth wajib diisi.");
+  if (!payload.targetYear) errors.push("targetYear wajib diisi.");
+  if (!["daily", "bulk-monthly"].includes(payload.requestType || "bulk-monthly")) {
+    errors.push("requestType tidak valid. Gunakan daily atau bulk-monthly.");
   }
-  return resolved;
-}
-
-function listRecent(dir, limit = 25) {
-  const full = path.join(root, dir);
-  if (!fs.existsSync(full)) return [];
-
-  return fs.readdirSync(full)
-    .map(name => {
-      const file = path.join(full, name);
-      const st = fs.statSync(file);
-      return {
-        name,
-        path: `/${dir}/${encodeURIComponent(name)}`,
-        size: st.size,
-        modified: st.mtime.toISOString()
-      };
-    })
-    .sort((a, b) => b.modified.localeCompare(a.modified))
-    .slice(0, limit);
-}
-
-function startJob(actionId) {
-  const action = actions[actionId];
-
-  if (!action) {
-    throw new Error(`Unknown action: ${actionId}`);
+  if ((payload.requestType || "bulk-monthly") === "daily" && !payload.dailyTargetDate) {
+    errors.push("dailyTargetDate wajib diisi untuk input harian.");
+  }
+  if (!payload?.delivery?.email) errors.push("delivery.email wajib diisi.");
+  if (!payload?.delivery?.whatsapp) errors.push("delivery.whatsapp wajib diisi.");
+  if (!Array.isArray(payload.accounts) || payload.accounts.length === 0) {
+    errors.push("Minimal 1 akun guru wajib diisi.");
   }
 
-  const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  for (const [index, account] of (payload.accounts || []).entries()) {
+    if (!account.teacherId) errors.push(`accounts[${index}].teacherId wajib diisi.`);
+    if (!account.teacherName) errors.push(`accounts[${index}].teacherName wajib diisi.`);
+    if (!account.schoolName) errors.push(`accounts[${index}].schoolName wajib diisi.`);
+  }
 
-  const job = {
-    id,
-    actionId,
-    label: action.label,
-    command: `${action.command} ${action.args.join(" ")}`,
-    status: "running",
-    startedAt: new Date().toISOString(),
-    endedAt: null,
-    exitCode: null,
-    output: ""
+  return errors;
+}
+
+function normalizeDateArray(value) {
+  return Array.isArray(value) ? value.filter(Boolean) : [];
+}
+
+function normalizePayload(payload) {
+  return {
+    jobId: payload.jobId,
+    requesterName: payload.requesterName || "",
+    service: "siaga",
+    mode: "attendance-monthly",
+    targetMonth: payload.targetMonth,
+    targetYear: payload.targetYear,
+    requestType: payload.requestType || "bulk-monthly",
+    dailyTargetDate: payload.dailyTargetDate || "",
+    schedule: {
+      holidayDates: normalizeDateArray(payload?.schedule?.holidayDates),
+      globalSkipDates: normalizeDateArray(payload?.schedule?.globalSkipDates),
+      globalLeaveDates: normalizeDateArray(payload?.schedule?.globalLeaveDates),
+      dailyReportEnabled: payload?.schedule?.dailyReportEnabled !== false,
+    },
+    delivery: {
+      email: payload.delivery.email,
+      whatsapp: payload.delivery.whatsapp,
+    },
+    rules: {
+      skipSundays: true,
+      autoSave: false,
+      autoSubmit: false,
+      autoDelete: false,
+      sendEmailAutomatically: false,
+      sendWhatsAppAutomatically: false,
+    },
+    accounts: (payload.accounts || []).map((account) => ({
+      teacherId: account.teacherId,
+      teacherName: account.teacherName,
+      schoolName: account.schoolName,
+      targetPdfName: account.targetPdfName || "",
+      skipDates: Array.isArray(account.skipDates) ? account.skipDates : [],
+      leaveDates: Array.isArray(account.leaveDates) ? account.leaveDates : [],
+      notes: account.notes || "",
+    })),
+    notes: payload.notes || "",
+    createdAt: new Date().toISOString(),
+    source: "smartwork-user-request-form",
   };
-
-  jobs.set(id, job);
-
-  const child = spawn(action.command, action.args, {
-    cwd: root,
-    shell: true,
-    env: process.env
-  });
-
-  child.stdout.on("data", chunk => {
-    job.output += chunk.toString();
-  });
-
-  child.stderr.on("data", chunk => {
-    job.output += chunk.toString();
-  });
-
-  child.on("error", error => {
-    job.status = "error";
-    job.endedAt = new Date().toISOString();
-    job.output += `\nPROCESS_ERROR=${error.message}\n`;
-  });
-
-  child.on("close", code => {
-    job.status = code === 0 ? "done" : "failed";
-    job.exitCode = code;
-    job.endedAt = new Date().toISOString();
-  });
-
-  return job;
 }
 
-function serveStatic(req, res, pathname) {
-  if (pathname === "/" || pathname === "/app") {
-    const htmlPath = path.join(root, "public", "smartwork-control.html");
-    return text(res, 200, fs.readFileSync(htmlPath, "utf8"), "text/html; charset=utf-8");
-  }
-
-  if (pathname.startsWith("/shots/")) {
-    const name = decodeURIComponent(pathname.replace("/shots/", ""));
-    const file = safeJoin(path.join(root, "shots"), name);
-    if (!fs.existsSync(file)) return text(res, 404, "Not found");
-    res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "no-store" });
-    return fs.createReadStream(file).pipe(res);
-  }
-
-  if (pathname.startsWith("/reports/")) {
-    const name = decodeURIComponent(pathname.replace("/reports/", ""));
-    const file = safeJoin(path.join(root, "reports"), name);
-    if (!fs.existsSync(file)) return text(res, 404, "Not found");
-    return text(res, 200, fs.readFileSync(file, "utf8"), name.endsWith(".json") ? "application/json; charset=utf-8" : "text/plain; charset=utf-8");
-  }
-
-  return false;
-}
-
-const server = http.createServer(async (req, res) => {
+async function handleCreateRequest(req, res) {
   try {
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    const pathname = url.pathname;
+    const raw = await readRequestBody(req);
+    const payload = JSON.parse(raw || "{}");
 
-    if (pathname === "/api/actions") {
-      return json(res, 200, {
-        ok: true,
-        actions: Object.fromEntries(
-          Object.entries(actions).map(([id, a]) => [
-            id,
-            {
-              label: a.label,
-              command: `${a.command} ${a.args.join(" ")}`,
-              destructive: a.destructive
-            }
-          ])
-        )
-      });
-    }
-
-    if (pathname === "/api/run") {
-      if (req.method !== "POST") return json(res, 405, { ok: false, error: "Method not allowed" });
-
-      let body = "";
-      req.on("data", chunk => body += chunk.toString());
-      req.on("end", () => {
-        try {
-          const payload = body ? JSON.parse(body) : {};
-          const actionId = String(payload.actionId || "");
-
-          const action = actions[actionId];
-          if (!action) return json(res, 400, { ok: false, error: "Unknown action" });
-
-          if (action.destructive && payload.confirm !== true) {
-            return json(res, 400, {
-              ok: false,
-              error: "Confirmation required for destructive action"
-            });
-          }
-
-          const job = startJob(actionId);
-          return json(res, 200, { ok: true, job });
-        } catch (error) {
-          return json(res, 500, { ok: false, error: error.message });
-        }
+    const errors = validatePayload(payload);
+    if (errors.length) {
+      sendJson(res, 400, {
+        ok: false,
+        error: "Request belum valid.",
+        errors,
       });
       return;
     }
 
-    if (pathname === "/api/jobs") {
-      const data = Array.from(jobs.values()).sort((a, b) => b.startedAt.localeCompare(a.startedAt));
-      return json(res, 200, { ok: true, jobs: data });
-    }
+    const normalized = normalizePayload(payload);
 
-    if (pathname.startsWith("/api/jobs/")) {
-      const id = pathname.split("/").pop();
-      const job = jobs.get(id);
-      if (!job) return json(res, 404, { ok: false, error: "Job not found" });
-      return json(res, 200, { ok: true, job });
-    }
+    fs.mkdirSync(REQUEST_DIR, { recursive: true });
+    fs.mkdirSync(path.dirname(ACTIVE_INTAKE_PATH), { recursive: true });
 
-    if (pathname === "/api/files") {
-      return json(res, 200, {
-        ok: true,
-        reports: listRecent("reports", 30),
-        shots: listRecent("shots", 30)
-      });
-    }
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const fileName = `${stamp}-${safeFileName(normalized.jobId)}.json`;
+    const filePath = path.join(REQUEST_DIR, fileName);
 
-    if (pathname === "/api/parallel-report") {
-      const reportPath = path.join(root, "reports", "parallel-runner-report.json");
+    fs.writeFileSync(filePath, JSON.stringify(normalized, null, 2), "utf8");
+    fs.writeFileSync(ACTIVE_INTAKE_PATH, JSON.stringify(normalized, null, 2), "utf8");
 
-      if (!fs.existsSync(reportPath)) {
-        return json(res, 200, {
-          ok: true,
-          exists: false,
-          report: null
-        });
-      }
-
-      try {
-        const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
-        return json(res, 200, {
-          ok: true,
-          exists: true,
-          report
-        });
-      } catch (error) {
-        return json(res, 500, {
-          ok: false,
-          error: error.message
-        });
-      }
-    }
-
-
-
-
-
-    const staticResult = serveStatic(req, res, pathname);
-    if (staticResult !== false) return;
-
-    return text(res, 404, "Not found");
+    sendJson(res, 200, {
+      ok: true,
+      filePath: path.relative(ROOT, filePath),
+      activeIntakePath: path.relative(ROOT, ACTIVE_INTAKE_PATH),
+      jobId: normalized.jobId,
+      accountCount: normalized.accounts.length,
+      nextCommands: [
+        "npm run intake:validate",
+        "npm run batch:run",
+      ],
+    });
   } catch (error) {
-    return json(res, 500, { ok: false, error: error.message });
+    sendJson(res, 500, {
+      ok: false,
+      error: error?.message || String(error),
+    });
   }
+}
+
+function serveStatic(req, res) {
+  const url = new URL(req.url, `http://localhost:${PORT}`);
+  let pathname = decodeURIComponent(url.pathname);
+
+  if (pathname === "/") pathname = "/index.html";
+
+  const filePath = path.normalize(path.join(PUBLIC_DIR, pathname));
+
+  if (!filePath.startsWith(PUBLIC_DIR)) {
+    sendText(res, 403, "Forbidden");
+    return;
+  }
+
+  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+    sendText(res, 404, "Not found");
+    return;
+  }
+
+  const ext = path.extname(filePath).toLowerCase();
+  const contentType =
+    ext === ".html" ? "text/html; charset=utf-8" :
+    ext === ".js" ? "application/javascript; charset=utf-8" :
+    ext === ".css" ? "text/css; charset=utf-8" :
+    ext === ".json" ? "application/json; charset=utf-8" :
+    "application/octet-stream";
+
+  const body = fs.readFileSync(filePath);
+  res.writeHead(200, {
+    "Content-Type": contentType,
+    "Content-Length": body.length,
+  });
+  res.end(body);
+}
+
+const server = http.createServer(async (req, res) => {
+  if (req.method === "POST" && req.url === "/api/requests") {
+    await handleCreateRequest(req, res);
+    return;
+  }
+
+  if (req.method === "GET") {
+    serveStatic(req, res);
+    return;
+  }
+
+  sendText(res, 405, "Method not allowed");
 });
 
 server.listen(PORT, () => {
-  console.log("SMARTWORK_CONTROL_PANEL=OK");
-  console.log(`URL=http://localhost:${PORT}`);
-  console.log("RULE=LOCAL_ONLY_NO_AUTO_SIAGA_ACTION");
+  console.log(`SMARTWORK_CONTROL_SERVER=http://localhost:${PORT}`);
+  console.log("Open the URL above to submit a SmartWork SIAGA request.");
 });
-
-
-
