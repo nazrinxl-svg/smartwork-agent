@@ -63,7 +63,8 @@
                     "delivery:preview":  "node scripts/smartwork-delivery-preview-agent.mjs",
                     "delivery:email-draft":  "node scripts/smartwork-email-draft-agent.mjs",
                     "delivery:email-send":  "node scripts/smartwork-email-send-agent.mjs",
-                    "delivery:whatsapp-preview":  "node scripts/smartwork-whatsapp-preview-agent.mjs"
+                    "delivery:whatsapp-preview":  "node scripts/smartwork-whatsapp-preview-agent.mjs",
+                    "delivery:summary":  "node scripts/smartwork-delivery-summary-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
