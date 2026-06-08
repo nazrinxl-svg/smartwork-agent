@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { chromium } from "playwright";
 
@@ -38,6 +38,13 @@ function readJsonSafe(filePath, fallback = null) {
 
 function pad2(n) {
   return String(n).padStart(2, "0");
+}
+
+function toHHMM(value) {
+  const text = String(value || "").trim();
+  const match = text.match(/^(\d{1,2}):(\d{2})/);
+  if (!match) return text;
+  return `${String(match[1]).padStart(2, "0")}:${match[2]}`;
 }
 
 function targetDateFromRow(row) {
@@ -184,44 +191,51 @@ async function fillTime(page, target) {
 async function clickSaveDetail(page) {
   const beforeUrl = page.url();
 
-  const clicked = await page.evaluate(() => {
-    const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+  const button =
+    page.locator('button:has-text("Simpan Detail Absensi")').first();
 
-    const candidates = Array.from(document.querySelectorAll("button, input[type='submit'], a")).map((el) => ({
-      el,
-      text: clean(el.innerText || el.value || el.textContent),
-      tag: el.tagName,
-      type: el.getAttribute("type") || ""
-    }));
+  let count = await button.count().catch(() => 0);
+  let clickedText = "Simpan Detail Absensi";
 
-    const target =
-      candidates.find((x) => /Simpan Detail Absensi/i.test(x.text)) ||
-      candidates.find((x) => /^Simpan$/i.test(x.text)) ||
-      candidates.find((x) => /Simpan/i.test(x.text));
+  if (!count) {
+    const fallback = page.locator('button:has-text("Simpan"), input[type="submit"], a:has-text("Simpan")').first();
+    count = await fallback.count().catch(() => 0);
 
-    if (!target) {
-      return { ok: false, reason: "simpan_button_not_found" };
+    if (!count) {
+      return {
+        ok: false,
+        reason: "simpan_button_not_found",
+        beforeUrl
+      };
     }
 
-    target.el.click();
+    clickedText = await fallback.innerText({ timeout: 2000 }).catch(() => "Simpan");
+    await fallback.scrollIntoViewIfNeeded().catch(() => {});
+    await page.waitForTimeout(300);
 
-    return {
-      ok: true,
-      clickedText: target.text,
-      tag: target.tag,
-      type: target.type
-    };
-  });
+    await Promise.all([
+      page.waitForLoadState("domcontentloaded", { timeout: 20000 }).catch(() => {}),
+      fallback.click({ timeout: 10000 })
+    ]);
+  } else {
+    clickedText = await button.innerText({ timeout: 2000 }).catch(() => "Simpan Detail Absensi");
+    await button.scrollIntoViewIfNeeded().catch(() => {});
+    await page.waitForTimeout(300);
 
-  if (!clicked.ok) return { ...clicked, beforeUrl };
+    await Promise.all([
+      page.waitForLoadState("domcontentloaded", { timeout: 20000 }).catch(() => {}),
+      button.click({ timeout: 10000 })
+    ]);
+  }
 
-  await page.waitForLoadState("domcontentloaded", { timeout: 20000 }).catch(() => {});
-  await page.waitForTimeout(2500);
+  await page.waitForTimeout(3500);
 
   return {
-    ...clicked,
+    ok: true,
+    clickedText,
     beforeUrl,
-    afterUrl: page.url()
+    afterUrl: page.url(),
+    clickMode: "playwright_locator_click"
   };
 }
 
@@ -250,8 +264,10 @@ async function verifySavedOnDetail(page, detailUrl, target) {
       };
     }
 
-    const hasMasuk = row.text.includes(target.masuk);
-    const hasPulang = row.text.includes(target.pulang);
+    const targetMasukHHMM = String(target.masuk || "").slice(0, 5);
+    const targetPulangHHMM = String(target.pulang || "").slice(0, 5);
+    const hasMasuk = row.text.includes(target.masuk) || row.text.includes(`${targetMasukHHMM}:00`) || row.text.includes(targetMasukHHMM);
+    const hasPulang = row.text.includes(target.pulang) || row.text.includes(`${targetPulangHHMM}:00`) || row.text.includes(targetPulangHHMM);
     const hasUbah = /Ubah/i.test(row.text);
 
     return {
@@ -307,8 +323,8 @@ async function runOneTeacher(teacherPlan) {
         tanggal: String(row.tanggal),
         hari: row.hari,
         date: targetDateFromRow(row),
-        masuk: row.plan.masuk,
-        pulang: row.plan.pulang,
+        masuk: toHHMM(row.plan.masuk),
+        pulang: toHHMM(row.plan.pulang),
         rule: row.plan.rule
       };
 
@@ -335,6 +351,24 @@ async function runOneTeacher(teacherPlan) {
 
       const fillResult = await fillTime(page, target);
       log.push(`[${now()}] FILL_RESULT=${JSON.stringify(fillResult)}`);
+
+      if (fillResult.ok) {
+        const masukInput = page.locator('input[name="jam_masuk"], #jam_masuk').first();
+        const pulangInput = page.locator('input[name="jam_pulang"], #jam_pulang').first();
+
+        await masukInput.fill(target.masuk, { timeout: 10000 });
+        await masukInput.press("Tab").catch(() => {});
+        await pulangInput.fill(target.pulang, { timeout: 10000 });
+        await pulangInput.press("Tab").catch(() => {});
+        await page.waitForTimeout(800);
+
+        const realFillState = await page.evaluate(() => ({
+          jamMasuk: document.querySelector('input[name="jam_masuk"], #jam_masuk')?.value || "",
+          jamPulang: document.querySelector('input[name="jam_pulang"], #jam_pulang')?.value || ""
+        }));
+
+        log.push(`[${now()}] REAL_PLAYWRIGHT_FILL_STATE=${JSON.stringify(realFillState)}`);
+      }
 
       screenshots.push({
         label: `before-save-${target.date}`,
