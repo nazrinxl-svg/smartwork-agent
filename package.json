@@ -60,7 +60,8 @@
                     "siaga:job:export-download":  "node scripts/smartwork-siaga-job-export-download.mjs",
                     "siaga:job:download-template":  "node scripts/smartwork-siaga-job-export-download.mjs",
                     "siaga:job:download-presensi-pdf":  "node scripts/smartwork-siaga-job-download-presensi-pdf.mjs",
-                    "delivery:preview":  "node scripts/smartwork-delivery-preview-agent.mjs"
+                    "delivery:preview":  "node scripts/smartwork-delivery-preview-agent.mjs",
+                    "delivery:email-draft":  "node scripts/smartwork-email-draft-agent.mjs"
                 },
     "dependencies":  {
                          "playwright":  "^1.49.1"
