@@ -239,6 +239,47 @@ async function clickSaveDetail(page) {
   };
 }
 
+async function waitDetailTableReady(page, detailUrl, log, label = "detail") {
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+    await page.waitForTimeout(2500);
+
+    const state = await page.evaluate(() => {
+      const clean = (t) => String(t || "").replace(/\s+/g, " ").trim();
+      const bodyText = clean(document.body?.innerText || "");
+      const rows = Array.from(document.querySelectorAll("table tbody tr, table tr")).map((tr, index) => ({
+        index,
+        text: clean(tr.innerText || tr.textContent)
+      }));
+
+      const hasDetailTitle = /Detail Absensi/i.test(bodyText);
+      const hasDateRows = rows.some((r) => /^\d+\s+(Senin|Selasa|Rabu|Kamis|Jum|Sabtu|Minggu)/i.test(r.text));
+
+      return {
+        ok: bodyText.length > 100 && hasDetailTitle && hasDateRows,
+        bodyLength: bodyText.length,
+        hasDetailTitle,
+        hasDateRows,
+        rowCount: rows.length,
+        bodyPreview: bodyText.slice(0, 500),
+        url: location.href
+      };
+    });
+
+    log.push(`[${now()}] WAIT_DETAIL_READY_${label}_ATTEMPT_${attempt}=${JSON.stringify(state)}`);
+
+    if (state.ok) return state;
+
+    await page.reload({ waitUntil: "domcontentloaded", timeout: 45000 }).catch(() => {});
+    await page.waitForTimeout(2000);
+  }
+
+  return {
+    ok: false,
+    reason: "detail_table_not_ready_after_retries",
+    url: page.url()
+  };
+}
 async function verifySavedOnDetail(page, detailUrl, target) {
   await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
   await page.waitForTimeout(2500);
@@ -310,8 +351,10 @@ async function runOneTeacher(teacherPlan) {
 
     const page = browser.pages()[0] || await browser.newPage();
 
-    await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
-    await page.waitForTimeout(2500);
+    const initialReady = await waitDetailTableReady(page, detailUrl, log, "initial");
+    if (!initialReady.ok) {
+      log.push(`[${now()}] INITIAL_DETAIL_NOT_READY=${JSON.stringify(initialReady)}`);
+    }
 
     screenshots.push({
       label: "before",
@@ -330,8 +373,16 @@ async function runOneTeacher(teacherPlan) {
 
       log.push(`[${now()}] TARGET=${JSON.stringify(target)}`);
 
-      await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
-      await page.waitForTimeout(1200);
+      const detailReady = await waitDetailTableReady(page, detailUrl, log, `target_${target.date}`);
+      if (!detailReady.ok) {
+        results.push({
+          target,
+          ok: false,
+          status: "failed_detail_not_ready",
+          detailReady
+        });
+        break;
+      }
 
       const hrefResult = await getTambahHref(page, target);
       log.push(`[${now()}] HREF_RESULT=${JSON.stringify(hrefResult)}`);
