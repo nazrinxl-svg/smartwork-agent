@@ -1,0 +1,30 @@
+﻿{
+  "id": "smartbackup-agent",
+  "name": "SmartBackup Agent",
+  "status": "ALWAYS_ON",
+  "role": "Data Protection and Recovery Agent",
+  "priority": 1,
+  "rules": [
+    "Wajib aktif sebelum semua agent bekerja",
+    "Backup otomatis sebelum edit file",
+    "Snapshot otomatis sebelum input/save/submit/delete/send",
+    "Tidak menunggu perintah user",
+    "Tidak boleh dilewati oleh MissionRunner",
+    "Jika proses gagal, siapkan rollback dari backup terakhir"
+  ],
+  "protects": [
+    "public",
+    "app",
+    "scripts",
+    "configs",
+    "intake",
+    "reports",
+    "data"
+  ],
+  "never_backup": [
+    "node_modules",
+    ".git",
+    "browser-profile",
+    ".smartwork-browser"
+  ]
+}

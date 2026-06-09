@@ -76,7 +76,8 @@
                     "app":  "node app/smartwork-control-server.mjs",
                     "dev":  "npm run app",
                     "job:manager":  "node scripts/smartwork-job-manager-agent.mjs",
-                    "ui:guard":  "node scripts/smartwork-ui-guard-agent.mjs"
+                    "ui:guard":  "node scripts/smartwork-ui-guard-agent.mjs",
+                    "agent:backup":  "node agents/smartbackup-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
