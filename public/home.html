@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    html { overflow-y: scroll; }
 
     * { box-sizing: border-box; }
 
@@ -675,6 +676,29 @@
     color: #0f62fe !important;
     font-weight: 600 !important;
   }
+/* SMARTWORK NOTIFICATION POPUP */
+.notify-wrap{position:relative}
+.notify-dot{
+  position:absolute;right:7px;top:7px;width:8px;height:8px;border-radius:99px;
+  background:#22c55e;border:2px solid #fff;box-shadow:0 0 0 3px rgba(34,197,94,.12)
+}
+.notify-panel{
+  position:absolute;right:-6px;top:50px;width:286px;z-index:120;
+  background:rgba(255,255,255,.98);border:1px solid #dbe5f2;border-radius:22px;
+  box-shadow:0 18px 45px rgba(15,23,42,.16);padding:12px;
+  opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;
+  transition:.18s ease;
+}
+.notify-panel.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.notify-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.notify-head strong{font-size:13px}
+.notify-head span{font-size:10px;color:#2563eb;background:#eaf2ff;padding:5px 8px;border-radius:999px}
+.notify-item{display:flex;gap:10px;padding:10px;border-radius:16px;background:#f8fbff;border:1px solid #edf2fb;margin-top:8px}
+.notify-ico{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:#dcfce7;color:#16a34a;font-size:14px;flex:0 0 auto}
+.notify-item:nth-child(3) .notify-ico{background:#eaf2ff;color:#2563eb}
+.notify-item:nth-child(4) .notify-ico{background:#fff7ed;color:#f97316}
+.notify-item b{display:block;font-size:11.5px;margin-bottom:3px}
+.notify-item p{margin:0;font-size:10.5px;line-height:1.35;color:#64748b}
 </style>
 </head>
 <body>
@@ -688,8 +712,14 @@
         </div>
       </div>
             <div class="top-icons">
-        <div class="round" title="Notifikasi"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div>
-        <div class="profile-avatar" title="Akun Google">
+        <div class="notify-wrap"><div class="round" id="notifyBell" title="Notifikasi"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="notify-dot"></span></div>
+<div class="notify-panel" id="notifyPanel">
+  <div class="notify-head"><strong>Notifikasi Agent</strong><span>3 baru</span></div>
+  <div class="notify-item"><div class="notify-ico">✓</div><div><b>SIAGA Absen selesai</b><p>Laporan bukti dan PDF presensi sudah siap dicek.</p></div></div>
+  <div class="notify-item"><div class="notify-ico">📄</div><div><b>Report Agent siap</b><p>Ringkasan pekerjaan berhasil dibuat untuk pengguna.</p></div></div>
+  <div class="notify-item"><div class="notify-ico">!</div><div><b>Approval dibutuhkan</b><p>Email/WhatsApp menunggu izin kirim dari pengguna.</p></div></div>
+</div></div>
+<div class="profile-avatar" title="Akun Google">
           <img id="googlePhoto" src="/smartwork-logo.png" alt="Foto akun Google">
           <span></span>
         </div>
@@ -800,12 +830,61 @@
       <nav class="bottom-nav">
   <a class="nav-item active" href="/home.html"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
   <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
-  <a class="nav-item" href="/home.html"><strong><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></strong><span>Agent</span></a>
+  <a class="nav-item" href="/progress.html"><strong><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></strong><span>Progress</span></a>
   <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
+<script>
+  (() => {
+    const savedPhoto = localStorage.getItem("smartwork_profile_photo");
+    const user = JSON.parse(localStorage.getItem("smartwork_user") || "null");
+    const googlePhoto = document.getElementById("googlePhoto");
+
+    if (googlePhoto) {
+      if (savedPhoto) {
+        googlePhoto.src = savedPhoto;
+      } else if (user && user.photoURL) {
+        googlePhoto.src = user.photoURL;
+      }
+    }
+
+    const avatar = document.querySelector(".profile-avatar");
+    if (avatar) {
+      avatar.addEventListener("click", () => {
+        window.location.href = "/profile.html";
+      });
+      avatar.style.cursor = "pointer";
+    }
+  })();
+</script>
+<script>
+  (() => {
+    const bell = document.getElementById("notifyBell");
+    const panel = document.getElementById("notifyPanel");
+
+    if (bell && panel) {
+      bell.addEventListener("click", (event) => {
+        event.stopPropagation();
+        panel.classList.toggle("show");
+      });
+
+      document.addEventListener("click", () => {
+        panel.classList.remove("show");
+      });
+
+      panel.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    }
+  })();
+</script>
 </body>
 </html>
+
+
+
+
+
 
 
 

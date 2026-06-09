@@ -10,19 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+    html { overflow-y: scroll; }
 *{box-sizing:border-box}
 body{
 margin:0;
 font-family:"Plus Jakarta Sans",sans-serif;
-background:#f4f7fc;
+background:#dfe8f5;
 color:#0f172a;
 }
 
 .app{
-max-width:430px;
-margin:auto;
-padding:18px;
-padding-bottom:105px;
+width:100%; max-width:430px; min-height:100vh; margin:auto; padding:14px 14px 92px; background:linear-gradient(180deg,#f8fbff 0%,#edf4ff 48%,#e7effa 100%); box-shadow:0 0 0 1px rgba(15,23,42,.04);
 }
 
 .card{
@@ -250,8 +248,7 @@ color:#0f62fe;
 </head>
 <body>
 
-<div class="app">
-
+<main class="app">
 <div class="card">
 <div class="logo-wrap">
 <div class="photo-frame">
@@ -266,10 +263,7 @@ color:#0f62fe;
 </div>
 </div>
 
-<h1>SmartWork-Agent</h1>
-<div class="sub">
-Platform multi-agent untuk otomatisasi pekerjaan sekolah dan administrasi.
-</div>
+<h1>Smart<span style="color:#2563eb">Work</span></h1><div class="sub">Profil</div>
 </div>
 
 <div class="card">
@@ -332,12 +326,9 @@ Platform multi-agent untuk otomatisasi pekerjaan sekolah dan administrasi.
   </div>
 </div>
 
-<button class="btn" onclick="history.back()">
-Kembali
-</button>
 
-</div>
 
+</main>
 <script>
 const user = JSON.parse(localStorage.getItem("smartwork_user") || "null");
 const savedPhoto = localStorage.getItem("smartwork_profile_photo");
@@ -381,12 +372,18 @@ document.querySelectorAll(".info-row").forEach((row) => {
 <nav class="bottom-nav">
   <a class="nav-item" href="/home.html?from=profile"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
   <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
-  <a class="nav-item" href="/home.html?from=profile#agents"><strong><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></strong><span>Agent</span></a>
+  <a class="nav-item" href="/progress.html"><strong><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></strong><span>Progress</span></a>
   <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item active" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
