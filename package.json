@@ -74,7 +74,9 @@
                     "proof:report":  "node scripts/smartwork-siaga-proof-report-agent.mjs",
                     "siaga:proof-delivery":  "node scripts/smartwork-siaga-proof-delivery-runner-agent.mjs",
                     "app":  "node app/smartwork-control-server.mjs",
-                    "dev":  "npm run app"
+                    "dev":  "npm run app",
+                    "job:manager":  "node scripts/smartwork-job-manager-agent.mjs",
+                    "ui:guard":  "node scripts/smartwork-ui-guard-agent.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",

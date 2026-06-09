@@ -1,0 +1,408 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwayat Request - SmartWork Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      background: #dfe8f6;
+      color: #061a40;
+      display: flex;
+      justify-content: center;
+    }
+    .phone {
+      width: 430px;
+      max-width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+      padding: 18px 14px 92px;
+    }
+    .top-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(59, 130, 246, .22), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #eef6ff 45%, #e8f0ff 100%);
+  border: 1px solid #d7e4f7;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, .08);
+}
+
+.top-hero::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -42px;
+  top: -48px;
+  border-radius: 50%;
+  background: rgba(15, 98, 254, .10);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+    .back {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      border: 1px solid #d8e3f5;
+      background: #fff;
+      color: #0f62fe;
+      font-size: 22px;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+    }
+    .title h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.4px;
+    }
+    .title p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 400;
+    }
+    .summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1;
+}
+    .mini {
+  border: 1px solid rgba(216, 227, 245, .95);
+  background: rgba(255,255,255,.82);
+  border-radius: 20px;
+  padding: 12px 10px 11px;
+  text-align: center;
+  box-shadow: 0 14px 28px rgba(15,23,42,.06);
+  backdrop-filter: blur(12px);
+}
+    .mini b {
+  display: block;
+  color: #0f62fe;
+  font-size: 21px;
+  line-height: 1.05;
+  margin-bottom: 2px;
+}
+    .mini span {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin: 4px 2px 12px;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -0.2px;
+    }
+    .section-title span {
+      font-size: 11px;
+      color: #64748b;
+    }
+    .history-list {
+      display: grid;
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid #d8e3f5;
+      background: rgba(255,255,255,.94);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 16px 34px rgba(15,23,42,.07);
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .agent-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      border: 1px solid #dbe7f7;
+      background: #fff;
+      object-fit: contain;
+      padding: 7px;
+      flex: 0 0 46px;
+    }
+    .content {
+      flex: 1;
+      min-width: 0;
+    }
+    .content h3 {
+      margin: 1px 0 4px;
+      font-size: 13px;
+      line-height: 1.25;
+      letter-spacing: -0.15px;
+    }
+    .content p {
+      margin: 0;
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.45;
+      font-weight: 400;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .done { background: #dcfce7; color: #15803d; }
+    .process { background: #fef3c7; color: #b45309; }
+    .wait { background: #dbeafe; color: #1d4ed8; }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .meta {
+      margin-top: 11px;
+      padding-top: 11px;
+      border-top: 1px solid #edf2f7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .meta small {
+      color: #64748b;
+      font-size: 11px;
+    }
+    .detail {
+      border: 0;
+      background: #0f62fe;
+      color: #fff;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+.nav-item {
+  text-decoration: none;
+  color: #64748b;
+  font-size: 10px;
+  text-align: center;
+  font-weight: 500;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  border-radius: 16px;
+  min-width: 0;
+}
+
+.nav-item strong {
+  display: grid;
+  place-items: center;
+}
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-item.active {
+  background: #eaf2ff;
+  color: #0f62fe;
+}
+    /* NAV CONSISTENT WITH DASHBOARD */
+
+  /* NAV FINAL CONSISTENT */
+  .bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 12px !important;
+    transform: translateX(-50%) !important;
+    width: min(402px, calc(100% - 28px)) !important;
+    height: 56px !important;
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid #d8e3f5 !important;
+    border-radius: 22px !important;
+    padding: 5px 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
+    box-shadow: 0 8px 22px rgba(15,23,42,.10) !important;
+    backdrop-filter: blur(14px) !important;
+    z-index: 99 !important;
+  }
+
+  .bottom-nav .nav-item {
+    text-decoration: none !important;
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    gap: 1px !important;
+    font-size: 10px !important; line-height: 1 !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    border-radius: 14px !important;
+    background: transparent !important;
+    min-width: 0 !important;
+  }
+
+  .bottom-nav .nav-item strong {
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: currentColor !important;
+  }
+
+  .bottom-nav .nav-item svg {
+    width: 17px !important;
+    height: 17px !important;
+    stroke: currentColor !important;
+    stroke-width: 1.9 !important;
+    fill: none !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+    .bottom-nav .nav-item span {
+    margin-top: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .bottom-nav .nav-item.active {
+    background: #eaf2ff !important; box-shadow: none !important;
+    color: #0f62fe !important;
+  }
+
+  .bottom-nav .nav-item.active span {
+    color: #0f62fe !important;
+    font-weight: 600 !important;
+  }
+</style>
+</head>
+<body>
+  <main class="phone">
+    <section class="top-hero"><div class="topbar">
+      <a class="back" href="index.html">‹</a>
+      <div class="title">
+        <h1>Riwayat Request</h1>
+        <p>Lacak pekerjaan agent dan bukti hasilnya.</p>
+      </div>
+    </div>
+
+    <section class="summary">
+      <div class="mini"><b>3</b><span>Total</span></div>
+      <div class="mini"><b>1</b><span>Proses</span></div>
+      <div class="mini"><b>1</b><span>Selesai</span></div>
+    </section></section>
+
+    <div class="section-title">
+      <h2>Juni 2026</h2>
+      <span>Request terbaru</span>
+    </div>
+
+    <section class="history-list">
+      <article class="card">
+        <div class="row">
+          <img class="agent-logo" src="SIAGA LOGO.png" alt="SIAGA">
+          <div class="content">
+            <h3>SIAGA Absensi</h3>
+            <p>Nazrin • 01 Jun 2026 - 30 Jun 2026</p>
+          </div>
+          <span class="status done"><i class="dot"></i>Selesai</span>
+        </div>
+        <div class="meta">
+          <small>PDF dan bukti kerja tersedia.</small>
+          <a class="detail" href="#">Lihat Bukti</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="row">
+          <img class="agent-logo" src="LOGO KABUPATEN MERANTI.png" alt="Meranti">
+          <div class="content">
+            <h3>e-Kinerja Meranti</h3>
+            <p>Nazrin • Target bulan Juni 2026</p>
+          </div>
+          <span class="status process"><i class="dot"></i>Diproses</span>
+        </div>
+        <div class="meta">
+          <small>Agent sedang menyiapkan progres.</small>
+          <a class="detail" href="#">Lihat Progress</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="row">
+          <img class="agent-logo" src="smartwork-logo.png" alt="SmartWork">
+          <div class="content">
+            <h3>Custom Agent</h3>
+            <p>User • Request pekerjaan baru</p>
+          </div>
+          <span class="status wait"><i class="dot"></i>Menunggu</span>
+        </div>
+        <div class="meta">
+          <small>Menunggu agent dijalankan.</small>
+          <a class="detail" href="#">Lihat Detail</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+  <a class="nav-item" href="/"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
+  <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
+  <a class="nav-item" href="/"><strong><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></strong><span>Agent</span></a>
+  <a class="nav-item active" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
+  <a class="nav-item" href="#"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

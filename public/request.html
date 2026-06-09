@@ -1,0 +1,471 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartWork Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      background: #e8eef8;
+      color: #071833;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      padding: 14px 12px 92px;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.13), transparent 34%),
+        linear-gradient(180deg, #f9fbff 0%, #eef4fb 100%);
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 4px 12px;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 13px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      overflow: hidden;
+      padding: 2px;
+      box-shadow: 0 14px 28px rgba(37,99,235,.14);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #64748b;
+    }
+
+    .card {
+      background: rgba(255,255,255,.96);
+      border: 1px solid #dbe5f2;
+      border-radius: 22px;
+      padding: 14px;
+      box-shadow: 0 20px 50px rgba(15,23,42,.09);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf2f8;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      white-space: nowrap;
+      border-radius: 999px;
+      background: #eef6ff;
+      color: #2563eb;
+      border: 1px solid #dbeafe;
+      padding: 5px 9px;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .section-title {
+      margin: 13px 0 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .field { margin-bottom: 9px; }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #0f2548;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #dbe5f2;
+      border-radius: 13px;
+      background: #fbfdff;
+      min-height: 40px;
+      padding: 0 12px;
+      font-family: inherit;
+      font-size: 12px;
+      color: #071833;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 72px;
+      padding-top: 10px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #2563eb;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+    }
+
+    .date-wrap {
+      position: relative;
+    }
+
+    .date-wrap::after {
+      display: block;
+      content: "";
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background-color: #eef6ff;
+      box-shadow: inset 0 0 0 1px #dbeafe;
+      background-position: center;
+      transform: translateY(-50%);
+      background-repeat: no-repeat;
+      background-size: 15px 15px;
+      opacity: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='4' y='5' width='16' height='16' rx='3' stroke='%232563eb' stroke-width='2'/%3E%3Cpath d='M8 3v4M16 3v4M4 10h16' stroke='%232563eb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .date-wrap input {
+      padding-right: 43px;
+      cursor: pointer;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0;
+      filter: invert(37%) sepia(91%) saturate(1681%) hue-rotate(211deg) brightness(93%) contrast(91%);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px;
+      border: 1px solid #dbe5f2;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f8fbff, #f1f7ff);
+      margin: 4px 0 12px;
+    }
+
+    .check input {
+      width: 16px;
+      height: 16px;
+      min-height: 16px;
+      margin-top: 2px;
+      accent-color: #2563eb;
+    }
+
+    .check span {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    button {
+      width: 100%;
+      height: 42px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 15px 30px rgba(37,99,235,.25);
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: block;
+      width: 100%;
+      height: 40px;
+      margin-top: 9px;
+      border-radius: 13px;
+      border: 1px solid #dbe5f2;
+      background: #f8fbff;
+      color: #2563eb;
+      text-align: center;
+      line-height: 40px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .saved {
+      margin-top: 11px;
+      padding: 11px 12px;
+      border: 1px solid #dbe5f2;
+      border-radius: 14px;
+      background: #f8fbff;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #64748b;
+    }
+    /* REQUEST LOGO SQUARE FIX */
+    .hero .logo {
+      width: 42px !important;
+      height: 42px !important;
+      min-width: 42px !important;
+      min-height: 42px !important;
+      border-radius: 15px !important;
+      background: #ffffff !important;
+      border: 1px solid #dbeafe !important;
+      padding: 3px !important;
+      overflow: hidden !important;
+      flex: 0 0 42px !important;
+    }
+
+    .hero .logo img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      display: block !important;
+    }
+    /* NAV FINAL CONSISTENT */
+  .bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 12px !important;
+    transform: translateX(-50%) !important;
+    width: min(402px, calc(100% - 28px)) !important;
+    height: 56px !important;
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid #d8e3f5 !important;
+    border-radius: 22px !important;
+    padding: 5px 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
+    box-shadow: 0 8px 22px rgba(15,23,42,.10) !important;
+    backdrop-filter: blur(14px) !important;
+    z-index: 99 !important;
+  }
+
+  .bottom-nav .nav-item {
+    text-decoration: none !important;
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    gap: 1px !important;
+    font-size: 10px !important; line-height: 1 !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    border-radius: 14px !important;
+    background: transparent !important;
+    min-width: 0 !important;
+  }
+
+  .bottom-nav .nav-item strong {
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: currentColor !important;
+  }
+
+  .bottom-nav .nav-item svg {
+    width: 17px !important;
+    height: 17px !important;
+    stroke: currentColor !important;
+    stroke-width: 1.9 !important;
+    fill: none !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+    .bottom-nav .nav-item span {
+    margin-top: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .bottom-nav .nav-item.active {
+    background: #eaf2ff !important; box-shadow: none !important;
+    color: #0f62fe !important;
+  }
+
+  .bottom-nav .nav-item.active span {
+    color: #0f62fe !important;
+    font-weight: 600 !important;
+  }
+</style>
+</head>
+
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>
+      <div>
+        <h1>SmartWork Agent</h1>
+        <p class="subtitle">Request kerja agent: input SIAGA, laporan, PDF, email dan WhatsApp.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h2 class="card-title">Form Request User</h2>
+          <p class="subtitle">Data ini dibaca agent sebelum menjalankan pekerjaan.</p>
+        </div>
+        <div class="badge">SIAGA</div>
+      </div>
+
+      <form id="requestForm">
+        <div class="section-title">Data Pemohon</div>
+
+        <div class="field">
+          <label>Nama</label>
+          <input name="requesterName" value="Nazrin" required />
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Email</label>
+            <input name="email" type="email" value="nazrinxl@gmail.com" required />
+          </div>
+
+          <div class="field">
+            <label>WhatsApp</label>
+            <input name="whatsapp" value="6281234567890" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Username</label>
+          <input name="username" placeholder="Masukkan username SIAGA" required />
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input name="password" type="password" placeholder="Masukkan password SIAGA" required />
+        </div>
+
+
+        <div class="field">
+          <label>Dari Tanggal - Ke Tanggal</label>
+          <div class="grid-2">
+            <div class="date-wrap"><input name="startDate" type="date" value="2026-06-01" /></div>
+            <div class="date-wrap"><input name="endDate" type="date" value="2026-06-30" /></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Hari Libur / Cuti</label>
+          <input name="holidays" placeholder="Contoh: 3, 4, 5, 10" />
+        </div>
+
+        <label class="check">
+          <input name="dailyReport" type="checkbox" checked />
+          <span>Buat laporan harian/progress setelah agent bekerja.</span>
+        </label>
+
+        <div class="field">
+          <label>Catatan</label>
+          <textarea name="notes">Input absensi SIAGA, unduh PDF, buat laporan bukti, lalu siapkan pengiriman email dan WhatsApp.</textarea>
+        </div>
+
+        <button type="submit">Simpan Request</button>
+      </form>
+
+      <div id="savedBox" class="saved">Belum ada request disimpan.</div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("requestForm");
+    const savedBox = document.getElementById("savedBox");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.dailyReport = form.dailyReport.checked;
+      localStorage.setItem("smartwork_request", JSON.stringify(data, null, 2));
+      savedBox.textContent = "Request tersimpan. Agent siap membaca data request.";
+    });
+  </script>
+<nav class="bottom-nav">
+  <a class="nav-item" href="/"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
+  <a class="nav-item active" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
+  <a class="nav-item" href="/"><strong><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></strong><span>Agent</span></a>
+  <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
+  <a class="nav-item" href="#"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
