@@ -1,0 +1,396 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil Aplikasi - SmartWork Agent</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:"Plus Jakarta Sans",sans-serif;
+background:#f4f7fc;
+color:#0f172a;
+}
+
+.app{
+max-width:430px;
+margin:auto;
+padding:18px;
+padding-bottom:105px;
+}
+
+.card{
+background:#fff;
+border:1px solid #dbe5f2;
+border-radius:22px;
+padding:18px;
+margin-bottom:14px;
+box-shadow:0 10px 25px rgba(15,23,42,.05);
+}
+
+.logo-wrap{
+text-align:center;
+padding:10px 0;
+display:flex;
+justify-content:center;
+}
+
+.logo-wrap img{
+width:104px;
+height:104px;
+object-fit:cover;
+border-radius:30px;
+border:1px solid #dbeafe;
+background:#fff;
+box-shadow:0 14px 32px rgba(37,99,235,.12);
+}
+
+h1{
+font-size:18px;
+margin:10px 0 4px;
+text-align:center;
+}
+
+.sub{
+font-size:12px;
+color:#64748b;
+text-align:center;
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eef2f7;
+font-size:13px;
+}
+
+.item:last-child{
+border-bottom:none;
+}
+
+.label{
+color:#64748b;
+}
+
+.value{
+font-weight:600;
+}
+
+.photo-frame{
+position:relative;
+width:104px;
+height:104px;
+}
+
+.photo-btn{
+position:absolute;
+right:-7px;
+bottom:-7px;
+width:36px;
+height:36px;
+border:1px solid #bfdbfe;
+border-radius:999px;
+background:#eff6ff;
+color:#2563eb;
+display:grid;
+place-items:center;
+cursor:pointer;
+box-shadow:0 10px 22px rgba(37,99,235,.16);
+transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.photo-btn:hover{
+transform:translateY(-2px) scale(1.04);
+background:#2563eb;
+color:#ffffff;
+box-shadow:0 14px 28px rgba(37,99,235,.24);
+}
+
+.photo-btn svg{
+width:17px;
+height:17px;
+stroke:currentColor;
+stroke-width:2;
+fill:none;
+stroke-linecap:round;
+stroke-linejoin:round;
+}
+
+.btn{
+width:100%;
+height:46px;
+border:none;
+border-radius:14px;
+background:#2563eb;
+color:white;
+font-family:inherit;
+font-size:13px;
+cursor:pointer;
+}
+.info-card{
+  padding:0 18px;
+}
+
+.info-row{
+  width:100%;
+  min-height:58px;
+  border:0;
+  border-bottom:1px solid #eef2f7;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0;
+  font-family:inherit;
+  color:#526b91;
+  cursor:pointer;
+  text-align:left;
+}
+
+.info-row span{
+  font-size:13px;
+  font-weight:500;
+}
+
+.info-row b{
+  font-size:20px;
+  font-weight:500;
+  color:#94a3b8;
+  transition:transform .18s ease;
+}
+
+.info-row.active b{
+  transform:rotate(90deg);
+  color:#2563eb;
+}
+
+.info-detail{
+  display:none;
+  padding:0 0 15px;
+  margin-top:-4px;
+  border-bottom:1px solid #eef2f7;
+  font-size:11.5px;
+  font-weight:400;
+  line-height:1.65;
+  color:#64748b;
+}
+
+.info-detail.open{
+  display:block;
+}
+
+.bottom-nav{
+position:fixed;
+left:50%;
+bottom:12px;
+transform:translateX(-50%);
+width:min(402px,calc(100% - 28px));
+height:56px;
+background:rgba(255,255,255,.95);
+border:1px solid #d8e3f5;
+border-radius:22px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:4px;
+padding:6px;
+box-shadow:0 18px 40px rgba(15,23,42,.10);
+z-index:99;
+}
+
+.nav-item{
+text-decoration:none;
+display:grid;
+align-content:center;
+justify-items:center;
+gap:1px;
+font-size:10px;
+line-height:1;
+font-weight:500;
+color:#64748b;
+border-radius:14px;
+}
+
+.nav-item strong{
+display:grid;
+place-items:center;
+width:20px;
+height:20px;
+margin:0;
+color:currentColor;
+}
+
+.nav-item svg{
+width:17px;
+height:17px;
+stroke:currentColor;
+stroke-width:1.9;
+fill:none;
+stroke-linecap:round;
+stroke-linejoin:round;
+}
+
+.nav-item.active{
+background:#eaf2ff;
+color:#0f62fe;
+}
+
+.nav-item.active span{
+font-weight:600;
+color:#0f62fe;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<div class="card">
+<div class="logo-wrap">
+<div class="photo-frame">
+<img id="profilePhoto" src="/smartwork-logo.png" alt="Foto Profil">
+<button class="photo-btn" type="button" title="Ganti Foto Profil" onclick="document.getElementById('photoInput').click()">
+<svg viewBox="0 0 24 24">
+<path d="M14 5l1.5 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4.5L10 5h4Z"/>
+<circle cx="12" cy="13" r="3.5"/>
+</svg>
+</button>
+<input id="photoInput" type="file" accept="image/*" hidden>
+</div>
+</div>
+
+<h1>SmartWork-Agent</h1>
+<div class="sub">
+Platform multi-agent untuk otomatisasi pekerjaan sekolah dan administrasi.
+</div>
+</div>
+
+<div class="card">
+<div class="item">
+<span class="label">Versi</span>
+<span class="value">v0.1.0</span>
+</div>
+
+<div class="item">
+<span class="label">Mode</span>
+<span class="value">Production Preview</span>
+</div>
+
+<div class="item">
+<span class="label">Login</span>
+<span class="value">Google Account</span>
+</div>
+
+<div class="item">
+<span class="label">Keamanan</span>
+<span class="value">Guard Mode Aktif</span>
+</div>
+</div>
+
+<div class="card info-card">
+  <button class="info-row" type="button">
+    <span>Tentang Aplikasi</span><b>›</b>
+  </button>
+  <div class="info-detail">
+    SmartWork-Agent adalah platform AI multi-agent yang membantu pengguna menyelesaikan pekerjaan administrasi, pendidikan, dan tugas digital secara lebih cepat, aman, dan terstruktur.
+  </div>
+
+  <button class="info-row" type="button">
+    <span>Kebijakan Privasi</span><b>›</b>
+  </button>
+  <div class="info-detail">
+    Kami menghargai privasi pengguna. Data akun, dokumen, dan aktivitas diproses sesuai kebijakan privasi dan tidak dibagikan kepada pihak ketiga tanpa izin pengguna.
+  </div>
+
+  <button class="info-row" type="button">
+    <span>Syarat & Ketentuan</span><b>›</b>
+  </button>
+  <div class="info-detail">
+    Dengan menggunakan SmartWork-Agent, pengguna menyetujui penggunaan layanan sesuai ketentuan yang berlaku dan bertanggung jawab atas data yang diberikan kepada sistem.
+  </div>
+
+  <button class="info-row" type="button">
+    <span>Keamanan Data</span><b>›</b>
+  </button>
+  <div class="info-detail">
+    SmartWork-Agent menerapkan mekanisme keamanan untuk melindungi data pengguna serta memastikan tindakan penting memerlukan persetujuan pengguna.
+  </div>
+
+  <button class="info-row" type="button">
+    <span>Hubungi Kami</span><b>›</b>
+  </button>
+  <div class="info-detail">
+    Email: nazrinxl@gmail.com<br>
+    Website: smartwork-agent.app
+  </div>
+</div>
+
+<button class="btn" onclick="history.back()">
+Kembali
+</button>
+
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("smartwork_user") || "null");
+const savedPhoto = localStorage.getItem("smartwork_profile_photo");
+const photoEl = document.getElementById("profilePhoto");
+const inputEl = document.getElementById("photoInput");
+
+if (savedPhoto) {
+  photoEl.src = savedPhoto;
+} else if (user && user.photoURL) {
+  photoEl.src = user.photoURL;
+}
+
+inputEl.addEventListener("change", () => {
+  const file = inputEl.files && inputEl.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    localStorage.setItem("smartwork_profile_photo", reader.result);
+    photoEl.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+<script>
+document.querySelectorAll(".info-row").forEach((row) => {
+  row.addEventListener("click", () => {
+    const detail = row.nextElementSibling;
+    const isOpen = detail.classList.contains("open");
+
+    document.querySelectorAll(".info-row").forEach((item) => item.classList.remove("active"));
+    document.querySelectorAll(".info-detail").forEach((item) => item.classList.remove("open"));
+
+    if (!isOpen) {
+      row.classList.add("active");
+      detail.classList.add("open");
+    }
+  });
+});
+</script>
+<nav class="bottom-nav">
+  <a class="nav-item" href="/home.html?from=profile"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
+  <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
+  <a class="nav-item" href="/home.html?from=profile#agents"><strong><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></strong><span>Agent</span></a>
+  <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
+  <a class="nav-item active" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+
+
