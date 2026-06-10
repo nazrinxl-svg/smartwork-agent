@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { chromium } from "playwright";
 
@@ -16,6 +16,7 @@ const outputPath = path.join(reportsDir, "siaga-job-save-confirmed-report.json")
 const CONFIRM_SAVE = process.env.CONFIRM_SAVE || "";
 const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
 const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 0);
+const TARGET_DATE = String(process.env.TARGET_DATE || "").slice(0, 10);
 
 function now() {
   return new Date().toISOString();
@@ -327,17 +328,21 @@ async function runOneTeacher(teacherPlan) {
   const teacherId = teacherPlan.teacherId;
   const profileDir = path.join(profileRoot, `${teacherId}-siaga`);
   const detailUrl = teacherPlan.detailUrl;
+  let plannedRows = (teacherPlan.rows || [])
+    .filter((row) => row.status === "needs_plan");
 
-  const plannedRows = (teacherPlan.rows || [])
-    .filter((row) => row.status === "needs_plan")
-    .slice(0, TARGET_LIMIT);
+  if (TARGET_DATE) {
+    plannedRows = plannedRows.filter((row) => targetDateFromRow(row) === TARGET_DATE);
+  } else {
+    plannedRows = plannedRows.slice(0, TARGET_LIMIT);
+  }
 
   const log = [];
   const results = [];
   const screenshots = [];
 
   log.push(`[${now()}] START teacher=${teacherId}`);
-  log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_LIMIT_${TARGET_LIMIT}`);
+  log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_${TARGET_DATE || `LIMIT_${TARGET_LIMIT}`}`);
   log.push(`[${now()}] DETAIL_URL=${detailUrl}`);
 
   let browser;
@@ -514,6 +519,7 @@ async function main() {
   console.log("CONFIRM_SAVE=" + CONFIRM_SAVE);
   console.log("TARGET_TEACHER_ID=" + TARGET_TEACHER_ID);
   console.log("TARGET_LIMIT=" + TARGET_LIMIT);
+  console.log("TARGET_DATE=" + (TARGET_DATE || "-"));
 
   if (CONFIRM_SAVE !== "YES") {
     const report = {
@@ -524,6 +530,7 @@ async function main() {
       confirmSave: CONFIRM_SAVE,
       targetTeacherId: TARGET_TEACHER_ID,
       targetLimit: TARGET_LIMIT,
+      targetDate: TARGET_DATE || null,
       summary: {
         blocked: 1,
         saved: 0,
@@ -545,8 +552,8 @@ async function main() {
     throw new Error("TARGET_TEACHER_ID wajib diisi.");
   }
 
-  if (!TARGET_LIMIT || TARGET_LIMIT < 1 || TARGET_LIMIT > 5) {
-    throw new Error("TARGET_LIMIT wajib 1 sampai 5 untuk safety.");
+  if (!TARGET_DATE && (!TARGET_LIMIT || TARGET_LIMIT < 1 || TARGET_LIMIT > 5)) {
+    throw new Error("TARGET_LIMIT wajib 1 sampai 5 untuk safety jika TARGET_DATE kosong.");
   }
 
   const timePlan = readJsonSafe(timePlanPath);
@@ -571,6 +578,7 @@ async function main() {
     rule: "REQUIRES_CONFIRM_SAVE_YES_THEN_CLICK_SAVE_DETAIL_ABSENSI",
     targetTeacherId: TARGET_TEACHER_ID,
     targetLimit: TARGET_LIMIT,
+      targetDate: TARGET_DATE || null,
     startedAt: now(),
     endedAt: now(),
     summary: {
@@ -614,3 +622,4 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
