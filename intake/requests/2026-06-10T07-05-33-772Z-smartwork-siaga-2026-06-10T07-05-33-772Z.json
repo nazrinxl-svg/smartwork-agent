@@ -1,5 +1,5 @@
 {
-  "jobId": "smartwork-siaga-2026-06-10T08-58-24-813Z",
+  "jobId": "smartwork-siaga-2026-06-10T07-05-33-772Z",
   "requesterName": "Nazrin",
   "service": "siaga",
   "mode": "attendance-monthly",
@@ -15,7 +15,7 @@
   },
   "delivery": {
     "email": "nazrinxl@gmail.com",
-    "whatsapp": "6281234567890"
+    "whatsapp": "081365707282"
   },
   "rules": {
     "skipSundays": true,
@@ -41,6 +41,6 @@
     }
   ],
   "notes": "Input absensi SIAGA, unduh PDF, buat laporan bukti, lalu siapkan pengiriman email dan WhatsApp.",
-  "createdAt": "2026-06-10T08:58:24.835Z",
+  "createdAt": "2026-06-10T07:05:33.772Z",
   "source": "smartwork-user-request-form"
 }

@@ -765,8 +765,8 @@ async function handleStartJob(req, res) {
   delete job.resultReadyAt;
   delete job.result;
   job.runner = {
-    mode: "SAFE_PREVIEW_NO_SAVE",
-    script: "scripts/smartwork-request-runner-agent.mjs",
+    mode: "AUTO_REAL_SAVE_FROM_REQUEST",
+    script: "scripts/smartwork-v6-auto-request-pipeline.mjs",
     startedAt: job.startedAt
   };
 
@@ -777,14 +777,14 @@ async function handleStartJob(req, res) {
     fs.unlinkSync(runnerReportPath);
   }
 
-  const child = spawn("node", ["scripts/smartwork-request-runner-agent.mjs"], {
+  const child = spawn("node", ["scripts/smartwork-v6-auto-request-pipeline.mjs"], {
     cwd: ROOT,
     shell: true,
     stdio: "ignore",
     env: {
       ...process.env,
-      CONFIRM_SAVE: "NO",
-      SMARTWORK_RUN_MODE: "SAFE_PREVIEW_NO_SAVE"
+      CONFIRM_SAVE: "YES",
+      SMARTWORK_RUN_mode: "AUTO_REAL_SAVE_FROM_REQUEST"
     }
   });
 
@@ -957,6 +957,8 @@ server.listen(PORT, () => {
   console.log(`SMARTWORK_CONTROL_SERVER=http://localhost:${PORT}`);
   console.log("Open the URL above to submit a SmartWork SIAGA request.");
 });
+
+
 
 
 
