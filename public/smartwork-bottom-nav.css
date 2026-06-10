@@ -1,0 +1,106 @@
+﻿/* SmartWork shared bottom navigation - one style for all mobile pages */
+.bottom-nav,
+.bottom,
+nav.bottom-nav,
+nav.bottom {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 0 !important;
+  transform: translateX(-50%) !important;
+  width: min(100%, 430px) !important;
+  max-width: 430px !important;
+  height: 64px !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-top: 1px solid #dbe7f7 !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  z-index: 999 !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 -8px 22px rgba(15, 23, 42, 0.04) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.bottom-nav a,
+.bottom a,
+.bottom-nav .nav,
+.bottom .nav,
+.bottom-nav .nav-item,
+.bottom .nav-item {
+  min-width: 0 !important;
+  height: 64px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  color: #64748b !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.bottom-nav svg,
+.bottom svg {
+  width: 19px !important;
+  height: 19px !important;
+  stroke: currentColor !important;
+}
+
+.bottom-nav .navIcon,
+.bottom .navIcon,
+.bottom-nav .bubble,
+.bottom .bubble,
+.bottom-nav .icon-wrap,
+.bottom .icon-wrap {
+  min-width: 32px !important;
+  min-height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.bottom-nav .active,
+.bottom .active,
+.bottom-nav a.active,
+.bottom a.active,
+.bottom-nav .nav.active,
+.bottom .nav.active,
+.bottom-nav .nav-item.active,
+.bottom .nav-item.active {
+  color: #2563eb !important;
+  font-weight: 800 !important;
+}
+
+.bottom-nav .active .navIcon,
+.bottom .active .navIcon,
+.bottom-nav a.active .navIcon,
+.bottom a.active .navIcon,
+.bottom-nav .active .bubble,
+.bottom .active .bubble,
+.bottom-nav .active .icon-wrap,
+.bottom .active .icon-wrap {
+  background: #eaf2ff !important;
+  border-radius: 14px !important;
+  padding: 6px 10px 4px !important;
+  min-width: 42px !important;
+  min-height: 30px !important;
+  margin-bottom: -2px !important;
+}
+
+.app,
+.phone,
+main.app,
+main.phone {
+  width: min(100%, 430px) !important;
+  max-width: 430px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-bottom: 88px !important;
+}

@@ -427,16 +427,270 @@
   color:#2563eb!important;
   font-weight:500!important;
 }
+
+  /* SMARTWORK_BOTTOM_NAV_LOCKED_CLICK_STATE_V7 */
+  .bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 0 !important;
+    transform: translateX(-50%) !important;
+    width: min(415px, calc(100% - 15px)) !important;
+    height: 58px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    align-items: center !important;
+    justify-items: stretch !important;
+    background: #ffffff !important;
+    border-top: 1px solid #dfe8f4 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-radius: 0 !important;
+    padding: 7px 9px 9px !important;
+    box-shadow: none !important;
+    z-index: 99 !important;
+    box-sizing: border-box !important;
+  }
+
+  .bottom-nav .nav-item,
+  .bottom-nav .nav-item:visited,
+  .bottom-nav .nav-item:hover,
+  .bottom-nav .nav-item:focus,
+  .bottom-nav .nav-item:active,
+  .bottom-nav .nav-item.active {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 41px !important;
+    min-height: 41px !important;
+    max-height: 41px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: grid !important;
+    grid-template-rows: 28px 10px !important;
+    place-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    text-decoration: none !important;
+    color: #64748b !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    line-height: 10px !important;
+    box-sizing: border-box !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .bottom-nav .nav-item strong,
+  .bottom-nav .nav-item .navIcon {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: currentColor !important;
+    box-shadow: none !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .bottom-nav .nav-item svg {
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    display: block !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  .bottom-nav .nav-item span:last-child {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    line-height: 10px !important;
+    letter-spacing: 0 !important;
+    white-space: nowrap !important;
+    color: currentColor !important;
+    transform: none !important;
+  }
+
+  .bottom-nav .nav-item.active,
+  .bottom-nav .nav-item.active:hover,
+  .bottom-nav .nav-item.active:focus,
+  .bottom-nav .nav-item.active:active {
+    color: #2563eb !important;
+    background: transparent !important;
+    width: 100% !important;
+    height: 41px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .bottom-nav .nav-item.active strong,
+  .bottom-nav .nav-item.active .navIcon {
+    background: #eaf2ff !important;
+    color: #2563eb !important;
+    width: 32px !important;
+    height: 28px !important;
+    transform: none !important;
+  }
+
+  .bottom-nav .nav-item.active span:last-child {
+    color: #2563eb !important;
+    font-weight: 500 !important;
+    width: auto !important;
+    height: 10px !important;
+    transform: none !important;
+  }
+
+/* SMARTWORK_REQUEST_HEADING_PROFILE_V1 */
+.request-heading {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 58px !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 4px 0 12px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.request-heading .heading-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  height: 42px !important;
+}
+
+.request-heading .logo {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  border-radius: 15px !important;
+  background: #ffffff !important;
+  padding: 3px !important;
+  overflow: hidden !important;
+  flex: 0 0 42px !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 10px 24px rgba(15,23,42,.08) !important;
+  box-sizing: border-box !important;
+}
+
+.request-heading .logo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  border-radius: 13px !important;
+}
+
+.request-heading h1 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  line-height: 20.7px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  color: #071833 !important;
+}
+
+.request-heading .subtitle {
+  margin: 4px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 17.4px !important;
+  font-weight: 400 !important;
+  color: #64748b !important;
+}
+
+.request-heading .heading-profile {
+  position: relative !important;
+  width: 38px !important;
+  height: 38px !important;
+  flex: 0 0 38px !important;
+  border-radius: 14px !important;
+  border: 1px solid #dbe7f5 !important;
+  background: rgba(255,255,255,.86) !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  text-decoration: none !important;
+  box-shadow: 0 10px 24px rgba(15,23,42,.06) !important;
+}
+
+.request-heading .heading-profile img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 13px !important;
+  display: block !important;
+}
+
+.request-heading .heading-profile i {
+  position: absolute !important;
+  right: -1px !important;
+  bottom: -1px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 999px !important;
+  background: #22c55e !important;
+  border: 2px solid #ffffff !important;
+}
 </style>
 </head>
 
 <body>
   <main class="app">
-    <section class="hero">
-      <div class="logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>
-      <div>
-        <h1>Smart<span style="color:#2563eb">Work</span></h1><p class="subtitle">Request</p>
+        <section class="hero request-heading">
+      <div class="heading-brand">
+        <div class="logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>
+        <div>
+          <h1>Smart<span style="color:#2563eb">Work</span></h1>
+          <p class="subtitle">Request</p>
+        </div>
       </div>
+
+      <a class="heading-profile" href="/profile.html" aria-label="Profil">
+        <img id="requestProfilePhoto" src="/smartwork-logo.png" alt="Profil">
+        <i></i>
+      </a>
     </section>
 
     <section class="card">
@@ -585,8 +839,27 @@
   <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
+
+<script>
+/* SMARTWORK_REQUEST_HEADING_PROFILE_PHOTO_SYNC_V1 */
+(() => {
+  const img = document.getElementById("requestProfilePhoto");
+  if (!img) return;
+
+  const savedPhoto = localStorage.getItem("smartwork_profile_photo");
+  const user = JSON.parse(localStorage.getItem("smartwork_user") || "null");
+
+  if (savedPhoto) {
+    img.src = savedPhoto;
+  } else if (user && user.photoURL) {
+    img.src = user.photoURL;
+  }
+})();
+</script>
 </body>
 </html>
+
+
 
 
 

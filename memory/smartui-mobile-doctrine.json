@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "name": "SmartUI Precision Agent Doctrine",
+  "version": "SMARTUI_PRECISION_AGENT_V1",
+  "updatedAt": "2026-06-11T02:45:36",
+  "purpose": "Make UI agents diagnose precisely before patching and keep mobile UI consistent across pages.",
+  "coreRules": [
+    "Never guess UI causes from screenshots only when code/DOM can be diagnosed.",
+    "Before patching UI, compare static HTML/CSS, rendered DOM, computed CSS, and screenshot evidence.",
+    "Use a known-good page/component as baseline when a page looks inconsistent.",
+    "When a component differs, identify exact deltas: markup, class names, active state, width, height, padding, gap, fontSize, fontWeight, lineHeight, border, background, icon wrapper, and click/focus states.",
+    "Do not stack random CSS overrides. First remove stale/duplicate patch blocks, then apply one clean final block.",
+    "Do not use broad global replacements unless diagnosis proves it is safe.",
+    "When bottom nav differs, compare all pages and use one master nav structure. Markup consistency beats CSS patch stacking.",
+    "Always test active, hover, focus, and click state because UI can change after tap/click.",
+    "When a UI bug appears after navigation, verify before/after rect stability.",
+    "For SmartWork mobile pages, bottom nav should remain stable: same width, height, item width, icon size, label size, gap, and active bubble across Home, Request, Progress, Riwayat, Profil.",
+    "Avoid opening many terminal windows. Do not use powershell -NoExit for diagnosis. Prefer current terminal or background Job.",
+    "Every UI patch must create backup, patch, run SmartUI check, save report JSON, save screenshot, and print concise summary.",
+    "If a patch makes UI worse, rollback from backup first, then diagnose; do not continue layering patches."
+  ],
+  "smartUIDiagnosisChecklist": {
+    "staticSource": [
+      "Find matching HTML block in all relevant pages.",
+      "Compare class names and element wrappers.",
+      "Find old patch markers and duplicated CSS blocks."
+    ],
+    "renderedDOM": [
+      "Capture DOM element tree.",
+      "Capture boundingClientRect for container, items, icon wrapper, svg, label.",
+      "Capture computed styles for display, grid/flex, width, height, padding, margin, gap, font, line-height, background, transform."
+    ],
+    "interactionState": [
+      "Capture before click.",
+      "Click active item.",
+      "Capture after click.",
+      "Check navStable and linksStable.",
+      "Check active/focus/hover selectors do not change width or height."
+    ],
+    "visualProof": [
+      "Save screenshot at 430x900.",
+      "Compare against baseline page screenshot.",
+      "Only patch when exact diff is known."
+    ]
+  },
+  "bottomNavStandard": {
+    "pages": ["home.html", "request.html", "progress.html", "history.html", "profile.html"],
+    "labels": ["Home", "Request", "Progress", "Riwayat", "Profil"],
+    "container": {
+      "class": "bottom-nav",
+      "position": "fixed",
+      "bottom": "0",
+      "width": "min(415px, calc(100% - 15px))",
+      "height": "58px",
+      "display": "grid",
+      "columns": "repeat(5, minmax(0, 1fr))",
+      "gap": "3px",
+      "padding": "7px 9px 9px"
+    },
+    "item": {
+      "class": "nav-item",
+      "height": "41px",
+      "fontSize": "10px",
+      "fontWeight": "500",
+      "lineHeight": "10px",
+      "activeMustNotChangeSize": true
+    },
+    "iconWrapper": {
+      "tag": "strong",
+      "width": "32px",
+      "height": "28px",
+      "activeBackground": "#eaf2ff"
+    },
+    "svg": {
+      "width": "18px",
+      "height": "18px"
+    }
+  },
+  "kpiCardStandard": {
+    "rule": "Do not split KPI text with JavaScript when HTML already has statIcon/statNum/statLabel.",
+    "layout": "Use CSS grid: icon left spanning two rows, number top right, label bottom right.",
+    "antiPattern": "Do not run DOM scripts that delete or rewrite stat cards unless static markup is broken."
+  },
+  "requiredReportFormat": {
+    "mustPrint": [
+      "summary",
+      "preciseDiff",
+      "navStable",
+      "linksStable",
+      "screenshot",
+      "git status"
+    ],
+    "mustSaveToReports": true,
+    "mustSaveScreenshotToShots": true
+  }
+}
