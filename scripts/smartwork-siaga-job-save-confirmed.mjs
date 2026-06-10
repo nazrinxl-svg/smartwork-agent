@@ -17,6 +17,50 @@ const CONFIRM_SAVE = process.env.CONFIRM_SAVE || "";
 const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-001";
 const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 1);
 const TARGET_DATE = String(process.env.TARGET_DATE || "").slice(0, 10);
+/* SMARTWORK_UI_REQUEST_TARGET_GUARD_V1 */
+const UI_REQUEST_LOCAL_PATH = path.join(process.cwd(), "data", "siaga-attendance-request.local.json");
+
+function readJsonSafeForUiGuard(file, fallback = null) {
+  try {
+    if (!fs.existsSync(file)) return fallback;
+    return JSON.parse(fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "").trim());
+  } catch {
+    return fallback;
+  }
+}
+
+function activeUiRequestRangeForSaveGuard() {
+  const request = readJsonSafeForUiGuard(UI_REQUEST_LOCAL_PATH, {});
+  const account = Array.isArray(request?.accounts) ? request.accounts[0] : {};
+  const startDate = request?.startDate || account?.startDate || null;
+  const endDate = request?.endDate || account?.endDate || null;
+  const source = request?.source || null;
+  return { source, startDate, endDate };
+}
+
+function assertTargetDateInsideActiveUiRequest() {
+  const range = activeUiRequestRangeForSaveGuard();
+
+  if (range.source !== "smartwork-user-request-form") return;
+
+  if (!range.startDate || !range.endDate) {
+    throw new Error("UI request aktif tidak punya startDate/endDate. Stop save-confirmed.");
+  }
+
+  if (!TARGET_DATE) {
+    throw new Error(
+      `TARGET_DATE wajib eksplisit untuk UI request ${range.startDate}..${range.endDate}. Jangan pakai TARGET_LIMIT fallback.`
+    );
+  }
+
+  if (TARGET_DATE < range.startDate || TARGET_DATE > range.endDate) {
+    throw new Error(
+      `TARGET_DATE ${TARGET_DATE} di luar UI request aktif ${range.startDate}..${range.endDate}. Stop supaya tidak input tanggal lama.`
+    );
+  }
+}
+/* END_SMARTWORK_UI_REQUEST_TARGET_GUARD_V1 */
+
 
 function now() {
   return new Date().toISOString();
@@ -520,6 +564,7 @@ async function main() {
   console.log("TARGET_TEACHER_ID=" + TARGET_TEACHER_ID);
   console.log("TARGET_LIMIT=" + TARGET_LIMIT);
   console.log("TARGET_DATE=" + (TARGET_DATE || "-"));
+  assertTargetDateInsideActiveUiRequest();
 
   if (CONFIRM_SAVE !== "YES") {
     const report = {

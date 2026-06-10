@@ -1,6 +1,6 @@
 {
   "mode": "SMARTWORK_CURRENT_CHECKPOINT_MEMORY",
-  "updatedAt": "2026-06-10T16:24:43.111Z",
+  "updatedAt": "2026-06-10T17:21:06.140Z",
   "branch": "feature/autosave-orchestrator",
   "projectPath": "D:\\1. myapps\\smartwork-agent",
   "mainDirection": "Do not wander. Focus on SmartWork user request pipeline until request from UI can run end-to-end.",
@@ -66,17 +66,17 @@
   },
   "notDoneYet": {
     "realSaveUiRequest": {
-      "status": "NOT_DONE",
+      "status": "OK",
       "requestRange": "2026-06-16..2026-06-20",
-      "note": "Do not claim real save is done. Only dry-run is proven."
+      "note": "UI request 2026-06-16..2026-06-20 completed and verified."
     },
     "finalPdfProofDeliveryForUiRequest": {
-      "status": "REPLACED_BY_APP_ARTIFACT_DISPLAY",
+      "status": "OK_APP_ARTIFACTS_ONLY",
       "requestRange": "2026-06-16..2026-06-20",
-      "note": "Email/WhatsApp delivery is disabled. After real save, generate PDF and proof report, then display both in app."
+      "note": "PDF and proof report are ready in the application. Email/WhatsApp disabled."
     },
     "safeCommit": {
-      "status": "NOT_DONE",
+      "status": "PENDING_CURRENT_PATCH_COMMIT",
       "note": "Working tree still dirty. Commit only after final verify."
     }
   },
@@ -91,12 +91,30 @@
       "Do not run email/WhatsApp delivery. SmartWork output is app download PDF + proof report only."
     ],
     "ifUserOrAgentRepeatsOldStep": "Print SMARTWORK_REPEAT_WARNING with the already-green evidence and redirect to the next incomplete step.",
-    "nextIncompleteStep": "Run guarded real save for UI request 2026-06-16..2026-06-20, verify, generate PDF/proof, and show app download artifacts. Do not run email/WhatsApp delivery."
+    "nextIncompleteStep": "Commit completed UI request patches. Do not input SIAGA again for 2026-06-16..2026-06-20 unless user creates a new request."
   },
   "deliveryPolicy": {
     "status": "APP_DOWNLOAD_ONLY",
     "email": "DISABLED",
     "whatsapp": "DISABLED",
     "note": "Show PDF download and proof report in the application only."
+  },
+  "completedUiRequest": {
+    "status": "OK",
+    "requestRange": "2026-06-16..2026-06-20",
+    "teacherId": "guru-001",
+    "teacherName": "Nazrin",
+    "verifyComplete": true,
+    "pdfReady": true,
+    "proofReady": true,
+    "outputMode": "APP_DOWNLOAD_PDF_AND_PROOF_ONLY",
+    "emailDisabled": true,
+    "whatsappDisabled": true,
+    "reports": {
+      "finalProgress": "reports/smartwork-final-progress-report.json",
+      "appArtifacts": "reports/smartwork-app-artifacts-report.json",
+      "proofReport": "reports/proof/smartwork-siaga-proof-report.json",
+      "pdfFile": "reports/downloads/Presensi_Nazrin_Juni_2026.pdf"
+    }
   }
 }

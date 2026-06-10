@@ -10,6 +10,44 @@ const reportsDir = path.join(root, "reports");
 
 fs.mkdirSync(reportsDir, { recursive: true });
 
+
+/* SMARTWORK_PLANNER_UI_REQUEST_SCHEMA_COMPAT_V1 */
+function smartworkNormalizeUiRequestSchemaForPlanner(request) {
+  if (!request || typeof request !== "object") return request;
+
+  request.target = request.target && typeof request.target === "object" ? request.target : {};
+
+  if (!request.target.month && request.targetMonth) {
+    request.target.month = request.targetMonth;
+  }
+
+  if ((request.target.year == null || request.target.year === "") && request.targetYear) {
+    const y = Number(request.targetYear);
+    request.target.year = Number.isFinite(y) ? y : request.targetYear;
+  }
+
+  if (!request.appId && request.service) {
+    request.appId = request.service;
+  }
+
+  if (!request.requestId && request.jobId) {
+    request.requestId = request.jobId;
+  }
+
+  request.rules = request.rules && typeof request.rules === "object" ? request.rules : {};
+  if (request.source === "smartwork-user-request-form") {
+    request.rules.userDoesNotProvideTimeRules = true;
+    request.rules.saveRequiresExplicitPermission = true;
+  }
+
+  request.schedule = request.schedule && typeof request.schedule === "object" ? request.schedule : {};
+  if (!Array.isArray(request.schedule.holidayDates)) request.schedule.holidayDates = request.holidays || [];
+  if (!Array.isArray(request.schedule.globalLeaveDates)) request.schedule.globalLeaveDates = request.leaveDays || [];
+
+  return request;
+}
+/* END_SMARTWORK_PLANNER_UI_REQUEST_SCHEMA_COMPAT_V1 */
+
 function now() {
   return new Date().toISOString();
 }
@@ -198,7 +236,8 @@ function main() {
   console.log("SMARTWORK_SIAGA_JOB_PLANNER=START");
   console.log("RULE=PLAN_ONLY_NO_BROWSER_NO_LOGIN_NO_SAVE");
 
-  const request = readJsonSafe(requestPath, "Request lokal SIAGA");
+  let request = readJsonSafe(requestPath, "Request lokal SIAGA");
+request = smartworkNormalizeUiRequestSchemaForPlanner(request);
   const timeRules = readJsonSafe(timeRulesPath, "SIAGA system time rules");
   const accounts = readAccounts();
 
