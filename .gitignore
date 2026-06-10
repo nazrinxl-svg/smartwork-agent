@@ -39,3 +39,18 @@ reports/*real*
 data/siaga-attendance-request.local.json
 
 public/firebase-config.local.js
+
+# SmartWork runtime/private request data
+intake/requests/*.json
+data/jobs/*.json
+data/siaga-attendance-request.local.json
+
+# SmartWork temporary patch/scratch scripts
+tools/scratch-scripts/*.mjs
+scripts/smartwork-fix-*.mjs
+scripts/smartwork-patch-*.mjs
+
+# SmartWork generated run reports/logs
+reports/*.log
+reports/*-report.json
+reports/*-decision.json
