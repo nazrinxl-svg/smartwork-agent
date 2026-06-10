@@ -35,7 +35,8 @@ function readLocalAccounts() {
   const rawText = fs.readFileSync(dataPath, "utf8").replace(/^\uFEFF/, "").trim();
   const raw = JSON.parse(rawText);
 
-  const parallelLimit = Number(raw.parallelLimit || 2);
+  const targetTeacherId = (process.env.TARGET_TEACHER_ID || "").trim();
+const parallelLimit = targetTeacherId ? 1 : Number(raw.parallelLimit || 2);
   const accounts = Array.isArray(raw.accounts)
     ? raw.accounts
     : Array.isArray(raw.teachers)
@@ -43,16 +44,27 @@ function readLocalAccounts() {
       : [];
 
   const jobs = accounts
-    .filter((item) => item && item.enabled !== false)
+    .filter((item, index) => {
+      if (!item || item.enabled === false) return false;
+      if (!targetTeacherId) return true;
+      const teacherId = item.teacherId || `guru-${String(index + 1).padStart(3, "0")}`;
+      return teacherId === targetTeacherId;
+    })
     .map((item, index) => ({
       teacherId: item.teacherId || `guru-${String(index + 1).padStart(3, "0")}`,
       teacherName: item.teacherName || item.name || `Guru ${index + 1}`,
       wa: item.wa || "",
+      username: item.username || item.user || item.nik || "",
+      password: item.password || item.pass || "",
       profileDir: path.join(profileRoot, slugify(item.teacherId || `guru-${index + 1}`) + "-siaga")
     }));
 
   if (jobs.length === 0) {
     throw new Error("Tidak ada akun enabled di data/teacher-accounts.local.json");
+  }
+
+  if (targetTeacherId && jobs.length !== 1) {
+    throw new Error("TARGET_TEACHER_ID tidak ditemukan atau tidak unique: " + targetTeacherId);
   }
 
   return { parallelLimit, jobs };
@@ -120,6 +132,75 @@ async function findJuniDetail(page, log) {
     best: candidates[0] || null
   };
 }
+async function ensureGuruSession(page, worker, log) {
+  await page.goto(SIAGA_GURU_URL, { waitUntil: "domcontentloaded", timeout: 45000 });
+  await page.waitForTimeout(2500);
+
+  if (page.url().includes("/guru")) {
+    log.push(`[${now()}] SESSION_OK_ALREADY_GURU=true`);
+    return true;
+  }
+
+  const bodyText = await page.locator("body").innerText({ timeout: 10000 }).catch(() => "");
+  const looksLogin = page.url().includes("/login") || /login|username|password|masuk/i.test(bodyText);
+
+  if (!looksLogin) {
+    log.push(`[${now()}] SESSION_UNKNOWN_URL=${page.url()}`);
+    return false;
+  }
+
+  if (!worker.username || !worker.password) {
+    log.push(`[${now()}] LOGIN_FALLBACK_BLOCKED_MISSING_CREDENTIAL=true`);
+    return false;
+  }
+
+  log.push(`[${now()}] LOGIN_FALLBACK_START=true`);
+
+  const usernameSelectors = [
+    "input[name='username']",
+    "input[name='email']",
+    "input[type='text']"
+  ];
+
+  const passwordSelectors = [
+    "input[name='password']",
+    "input[type='password']"
+  ];
+
+  let filledUsername = false;
+  for (const selector of usernameSelectors) {
+    const el = page.locator(selector).first();
+    if (await el.count().catch(() => 0)) {
+      await el.fill(worker.username);
+      log.push(`[${now()}] LOGIN_FILL_USERNAME=OK selector=${selector}`);
+      filledUsername = true;
+      break;
+    }
+  }
+
+  let filledPassword = false;
+  for (const selector of passwordSelectors) {
+    const el = page.locator(selector).first();
+    if (await el.count().catch(() => 0)) {
+      await el.fill(worker.password);
+      log.push(`[${now()}] LOGIN_FILL_PASSWORD=OK selector=${selector}`);
+      filledPassword = true;
+      break;
+    }
+  }
+
+  if (!filledUsername || !filledPassword) {
+    log.push(`[${now()}] LOGIN_FALLBACK_FAILED_INPUT_NOT_FOUND=true`);
+    return false;
+  }
+
+  const submit = page.locator("button[type='submit'], input[type='submit'], button:has-text('Login'), button:has-text('Masuk')").first();
+  await submit.click({ timeout: 15000 });
+  await page.waitForTimeout(5000);
+
+  log.push(`[${now()}] LOGIN_FALLBACK_AFTER_URL=${page.url()}`);
+  return page.url().includes("/guru");
+}
 async function runWorker(worker, index) {
   const startedAt = now();
   const log = [];
@@ -143,11 +224,10 @@ async function runWorker(worker, index) {
     const page = browser.pages()[0] || await browser.newPage();
 
     log.push(`[${now()}] OPEN_DASHBOARD=${SIAGA_GURU_URL}`);
-    await page.goto(SIAGA_GURU_URL, { waitUntil: "domcontentloaded", timeout: 45000 });
-    await page.waitForTimeout(2500);
+    const sessionOk = await ensureGuruSession(page, worker, log);
 
-    if (!page.url().includes("/guru")) {
-      throw new Error("Session belum masuk /guru. Jalankan dashboard preview/login dulu.");
+    if (!sessionOk) {
+      throw new Error("Session belum masuk /guru dan auto-login fallback gagal.");
     }
 
     log.push(`[${now()}] OPEN_ABSENSI=${SIAGA_ABSENSI_URL}`);
@@ -302,6 +382,8 @@ main().catch((error) => {
   console.error(error.message);
   process.exit(1);
 });
+
+
 
 
 
