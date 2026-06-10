@@ -1,0 +1,20 @@
+﻿{
+  "jobId": "smartwork-siaga-autosave-test-001",
+  "service": "siaga",
+  "requesterName": "Nazrin",
+  "email": "nazrinxl@gmail.com",
+  "whatsapp": "6281234567890",
+  "startDate": "2026-06-01",
+  "endDate": "2026-06-09",
+  "holidays": [],
+  "accounts": [
+    {
+      "teacherId": "guru-001",
+      "username": "141048000394",
+      "password": "336549",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-09",
+      "detailUrl": "https://siagapendis.kemenag.go.id/guru/absensi/detail/8860825"
+    }
+  ]
+}
