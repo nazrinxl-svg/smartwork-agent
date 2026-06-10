@@ -77,9 +77,9 @@ function buildText(report) {
   lines.push("");
 
   lines.push("BUKTI & PENGIRIMAN");
-  lines.push(`- Email Draft: ${report.delivery.emailDraftReady ? "Siap" : "Belum siap"}`);
-  lines.push(`- Email Otomatis: ${report.delivery.emailSent ? "Terkirim" : "Belum terkirim"}`);
-  lines.push(`- WhatsApp Preview: ${report.delivery.whatsappPreviewReady ? "Siap" : "Belum siap"}`);
+  lines.push(`- Email/WhatsApp: Dinonaktifkan`);
+  lines.push(`- Mode Delivery: Aplikasi / Download`);
+  lines.push(`- File: PDF dan bukti laporan tersedia di aplikasi`);
   lines.push(`- Tujuan Email: ${safe(report.delivery.emailTo)}`);
   lines.push(`- Tujuan WhatsApp: ${safe(report.delivery.whatsappTo)}`);
   lines.push("");
@@ -139,9 +139,9 @@ async function main() {
     summary?.files?.pdf?.name ||
     (pdfPath ? path.basename(pdfPath) : null);
 
-  const emailDraftReady = Boolean(summary?.checks?.emailDraftReady || summary?.delivery?.email?.draftReady);
-  const emailSent = Boolean(summary?.checks?.emailSent || summary?.delivery?.email?.sent);
-  const whatsappPreviewReady = Boolean(summary?.checks?.whatsappPreviewReady || summary?.delivery?.whatsapp?.previewReady);
+  const emailDraftReady = false;
+  const emailSent = false;
+  const whatsappPreviewReady = false;
 
   const emailTo =
     request?.delivery?.email ||
@@ -155,16 +155,12 @@ async function main() {
 
   const attendanceStatus = pdfFound ? "Selesai / bukti PDF tersedia" : "Belum lengkap / PDF belum ditemukan";
 
-  const ok = Boolean(pdfFound && (emailDraftReady || whatsappPreviewReady));
+  const ok = Boolean(pdfFound);
 
-  const note = emailSent
-    ? "Email otomatis sudah terkirim."
-    : emailDraftReady && whatsappPreviewReady
-      ? "Email otomatis belum terkirim jika SMTP belum valid, tetapi draft email dan preview WhatsApp sudah siap."
-      : "Bukti delivery belum lengkap. Cek PDF, email draft, atau WhatsApp preview.";
+  const note = "Email dan WhatsApp dinonaktifkan. PDF presensi dan bukti laporan tersedia melalui aplikasi.";
 
   const conclusion = ok
-    ? "Pekerjaan SIAGA sudah memiliki bukti hasil. PDF presensi tersedia dan laporan siap dikirim/dibagikan."
+    ? "Pekerjaan SIAGA sudah memiliki bukti hasil. PDF presensi dan bukti laporan tersedia melalui aplikasi."
     : "Pekerjaan belum memiliki bukti lengkap. Perlu cek PDF atau delivery preview.";
 
   const report = {
@@ -191,6 +187,9 @@ async function main() {
       pdfPath,
     },
     delivery: {
+      mode: "APP_DOWNLOAD_ONLY",
+      emailDisabled: true,
+      whatsappDisabled: true,
       emailTo,
       whatsappTo,
       emailDraftReady,
@@ -204,7 +203,7 @@ async function main() {
     note,
     conclusion,
     nextSafeStep: ok
-      ? "Kirim/bagikan laporan dan PDF. Untuk auto-send, gunakan SMTP/WhatsApp provider valid dengan konfirmasi."
+      ? "Unduh PDF presensi dan lihat bukti laporan melalui aplikasi."
       : "Periksa ulang PDF dan jalankan delivery:run sebelum membuat laporan final.",
   };
 
@@ -229,3 +228,4 @@ main().catch((error) => {
   console.error(error?.stack || error?.message || String(error));
   process.exit(1);
 });
+

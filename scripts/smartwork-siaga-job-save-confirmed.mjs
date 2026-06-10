@@ -1,4 +1,8 @@
-import fs from "fs";
+﻿import fs from "fs";
+
+import { registerSmartWorkCleanup, runSmartWorkCleanup, writeSmartWorkExitReport, installSmartWorkProcessGuards } from "./smartwork-node-cleanup-agent.mjs";
+
+installSmartWorkProcessGuards("SMARTWORK_SAVE_CONFIRMED_CLEAN_EXIT");
 import path from "path";
 import { chromium } from "playwright";
 
@@ -14,8 +18,53 @@ const timePlanPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.j
 const outputPath = path.join(reportsDir, "siaga-job-save-confirmed-report.json");
 
 const CONFIRM_SAVE = process.env.CONFIRM_SAVE || "";
-const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
-const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 0);
+const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-001";
+const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 1);
+const TARGET_DATE = String(process.env.TARGET_DATE || "").slice(0, 10);
+/* SMARTWORK_UI_REQUEST_TARGET_GUARD_V1 */
+const UI_REQUEST_LOCAL_PATH = path.join(process.cwd(), "data", "siaga-attendance-request.local.json");
+
+function readJsonSafeForUiGuard(file, fallback = null) {
+  try {
+    if (!fs.existsSync(file)) return fallback;
+    return JSON.parse(fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "").trim());
+  } catch {
+    return fallback;
+  }
+}
+
+function activeUiRequestRangeForSaveGuard() {
+  const request = readJsonSafeForUiGuard(UI_REQUEST_LOCAL_PATH, {});
+  const account = Array.isArray(request?.accounts) ? request.accounts[0] : {};
+  const startDate = request?.startDate || account?.startDate || null;
+  const endDate = request?.endDate || account?.endDate || null;
+  const source = request?.source || null;
+  return { source, startDate, endDate };
+}
+
+function assertTargetDateInsideActiveUiRequest() {
+  const range = activeUiRequestRangeForSaveGuard();
+
+  if (range.source !== "smartwork-user-request-form") return;
+
+  if (!range.startDate || !range.endDate) {
+    throw new Error("UI request aktif tidak punya startDate/endDate. Stop save-confirmed.");
+  }
+
+  if (!TARGET_DATE) {
+    throw new Error(
+      `TARGET_DATE wajib eksplisit untuk UI request ${range.startDate}..${range.endDate}. Jangan pakai TARGET_LIMIT fallback.`
+    );
+  }
+
+  if (TARGET_DATE < range.startDate || TARGET_DATE > range.endDate) {
+    throw new Error(
+      `TARGET_DATE ${TARGET_DATE} di luar UI request aktif ${range.startDate}..${range.endDate}. Stop supaya tidak input tanggal lama.`
+    );
+  }
+}
+/* END_SMARTWORK_UI_REQUEST_TARGET_GUARD_V1 */
+
 
 function now() {
   return new Date().toISOString();
@@ -327,17 +376,21 @@ async function runOneTeacher(teacherPlan) {
   const teacherId = teacherPlan.teacherId;
   const profileDir = path.join(profileRoot, `${teacherId}-siaga`);
   const detailUrl = teacherPlan.detailUrl;
+  let plannedRows = (teacherPlan.rows || [])
+    .filter((row) => row.status === "needs_plan");
 
-  const plannedRows = (teacherPlan.rows || [])
-    .filter((row) => row.status === "needs_plan")
-    .slice(0, TARGET_LIMIT);
+  if (TARGET_DATE) {
+    plannedRows = plannedRows.filter((row) => targetDateFromRow(row) === TARGET_DATE);
+  } else {
+    plannedRows = plannedRows.slice(0, TARGET_LIMIT);
+  }
 
   const log = [];
   const results = [];
   const screenshots = [];
 
   log.push(`[${now()}] START teacher=${teacherId}`);
-  log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_LIMIT_${TARGET_LIMIT}`);
+  log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_${TARGET_DATE || `LIMIT_${TARGET_LIMIT}`}`);
   log.push(`[${now()}] DETAIL_URL=${detailUrl}`);
 
   let browser;
@@ -471,7 +524,17 @@ async function runOneTeacher(teacherPlan) {
     const finalUrl = page.url();
     const finalBody = await page.locator("body").innerText({ timeout: 5000 }).catch(() => "");
 
-    // Browser sengaja dibiarkan terbuka agar hasil bisa dicek manual.
+    const browserCloseResult = await (async () => {
+      try {
+        await browser.close();
+        browser = undefined;
+        return { ok: true, reason: "persistent_context_closed_after_success" };
+      } catch (error) {
+        return { ok: false, error: String(error?.message || error) };
+      }
+    })();
+
+    log.push(`[${now()}] BROWSER_CLOSE=${JSON.stringify(browserCloseResult)}`);
     return {
       ok: results.length > 0 && results.every((item) => item.ok),
       teacherId,
@@ -514,6 +577,8 @@ async function main() {
   console.log("CONFIRM_SAVE=" + CONFIRM_SAVE);
   console.log("TARGET_TEACHER_ID=" + TARGET_TEACHER_ID);
   console.log("TARGET_LIMIT=" + TARGET_LIMIT);
+  console.log("TARGET_DATE=" + (TARGET_DATE || "-"));
+  assertTargetDateInsideActiveUiRequest();
 
   if (CONFIRM_SAVE !== "YES") {
     const report = {
@@ -524,6 +589,7 @@ async function main() {
       confirmSave: CONFIRM_SAVE,
       targetTeacherId: TARGET_TEACHER_ID,
       targetLimit: TARGET_LIMIT,
+      targetDate: TARGET_DATE || null,
       summary: {
         blocked: 1,
         saved: 0,
@@ -545,8 +611,8 @@ async function main() {
     throw new Error("TARGET_TEACHER_ID wajib diisi.");
   }
 
-  if (!TARGET_LIMIT || TARGET_LIMIT < 1 || TARGET_LIMIT > 5) {
-    throw new Error("TARGET_LIMIT wajib 1 sampai 5 untuk safety.");
+  if (!TARGET_DATE && (!TARGET_LIMIT || TARGET_LIMIT < 1 || TARGET_LIMIT > 5)) {
+    throw new Error("TARGET_LIMIT wajib 1 sampai 5 untuk safety jika TARGET_DATE kosong.");
   }
 
   const timePlan = readJsonSafe(timePlanPath);
@@ -571,6 +637,7 @@ async function main() {
     rule: "REQUIRES_CONFIRM_SAVE_YES_THEN_CLICK_SAVE_DETAIL_ABSENSI",
     targetTeacherId: TARGET_TEACHER_ID,
     targetLimit: TARGET_LIMIT,
+      targetDate: TARGET_DATE || null,
     startedAt: now(),
     endedAt: now(),
     summary: {
@@ -614,3 +681,8 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
+
+
+
+

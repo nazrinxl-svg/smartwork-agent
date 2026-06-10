@@ -4,6 +4,285 @@ import { spawn } from "child_process";
 import http from "http";
 import { fileURLToPath } from "url";
 
+
+/* SMARTWORK_REDACT_STATUS_PAYLOAD_V1 */
+function __swRedactStatusPayloadV1(value) {
+  if (Array.isArray(value)) return value.map(__swRedactStatusPayloadV1);
+  if (!value || typeof value !== "object") return value;
+
+  const out = {};
+  for (const [k, v] of Object.entries(value)) {
+    const key = String(k).toLowerCase();
+
+    if (["password", "username", "credential", "credentials", "token", "apikey", "api_key", "secret"].includes(key)) {
+      out[k] = "[REDACTED]";
+      continue;
+    }
+
+    if (typeof v === "string" && /(141048|336549|nazrinxl@gmail\.com)/i.test(v)) {
+      out[k] = "[REDACTED]";
+      continue;
+    }
+
+    out[k] = __swRedactStatusPayloadV1(v);
+  }
+
+  return out;
+}
+/* END_SMARTWORK_REDACT_STATUS_PAYLOAD_V1 */
+
+
+
+/* SMARTWORK_E2E_NATIVE_HTTP_HELPERS_V1 */
+globalThis.__smartworkE2eNativeState = globalThis.__smartworkE2eNativeState || {
+  running: false,
+  startedAt: null,
+  endedAt: null,
+  exitCode: null,
+  lastError: null,
+  lastRunId: null,
+  mode: null
+};
+
+function __swNativeSendJson(res, statusCode, payload) {
+  res.writeHead(statusCode, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  });
+  res.end(JSON.stringify(payload, null, 2));
+}
+
+function __swNativeReadJsonSafe(file, fallback = null) {
+  try {
+    if (!fs.existsSync(file)) return fallback;
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch {
+    return fallback;
+  }
+}
+
+function __swNativeAppendLog(file, text) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.appendFileSync(file, text, "utf8");
+}
+
+function __swNativeProgressPayload() {
+  return __swRedactStatusPayloadV1({
+    ok: true,
+    routeVersion: "SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1",
+    state: globalThis.__smartworkE2eNativeState,
+    finalProgress: __swNativeReadJsonSafe(path.join(process.cwd(), "reports", "smartwork-final-progress-report.json"), null),
+    runnerReport: __swNativeReadJsonSafe(path.join(process.cwd(), "reports", "smartwork-siaga-e2e-runner-report.json"), null),
+    syncReport: __swNativeReadJsonSafe(path.join(process.cwd(), "reports", "smartwork-sync-latest-request-report.json"), null)
+  });
+}
+
+async function __swNativeStartRunner(modeOrRes = "DRY_RUN_NO_SAVE", dryRun = false) {
+  const hasHttpResponse = modeOrRes && typeof modeOrRes.writeHead === "function" && typeof modeOrRes.end === "function";
+  const res = hasHttpResponse ? modeOrRes : null;
+
+  let mode = "DRY_RUN_NO_SAVE";
+  if (hasHttpResponse) {
+    mode = dryRun ? "DRY_RUN_NO_SAVE" : "REAL_SAVE_GUARDED";
+  } else if (typeof modeOrRes === "string") {
+    mode = modeOrRes;
+  } else if (modeOrRes === true) {
+    mode = "DRY_RUN_NO_SAVE";
+  } else if (modeOrRes === false) {
+    mode = "REAL_SAVE_GUARDED";
+  }
+
+  const sendOrReturn = (statusCode, payload) => {
+    if (res) {
+      return __swNativeSendJson(res, statusCode, payload);
+    }
+    return {
+      statusCode,
+      ...payload
+    };
+  };
+
+  const startedAt = new Date().toISOString();
+  const runId = `smartwork-e2e-${startedAt.replace(/[:.]/g, "-")}`;
+const state = globalThis.__smartworkE2eNativeState = globalThis.__smartworkE2eNativeState || {
+    running: false,
+    startedAt: null,
+    endedAt: null,
+    exitCode: null,
+    lastError: null,
+    lastRunId: null,
+    mode: null
+  };
+
+  if (state.running) {
+    return sendOrReturn(409, {
+      ok: false,
+      statusCode: 409,
+      error: "Runner masih berjalan",
+      state: {
+        running: true,
+        startedAt: state.startedAt,
+        endedAt: state.endedAt,
+        exitCode: state.exitCode,
+        lastError: state.lastError,
+        lastRunId: state.lastRunId,
+        mode: state.mode
+      }
+    });
+  }
+
+  const ROOT = process.cwd();
+  const reportsDir = path.join(ROOT, "reports");
+  fs.mkdirSync(reportsDir, { recursive: true });
+
+  const logPath = path.join(reportsDir, "smartwork-siaga-e2e-server-run.log");
+  const runnerPath = path.join(ROOT, "scripts", "smartwork-siaga-e2e-runner.mjs");
+
+  const append = (line = "") => {
+    try {
+      fs.appendFileSync(logPath, line + "\n", "utf8");
+    } catch {}
+  };
+
+  if (!fs.existsSync(runnerPath)) {
+    state.running = false;
+    state.startedAt = startedAt;
+    state.endedAt = new Date().toISOString();
+    state.exitCode = -1;
+    state.lastError = `Runner script not found: ${runnerPath}`;
+    state.lastRunId = runId;
+    state.mode = mode;
+
+    return sendOrReturn(500, {
+      ok: false,
+      statusCode: 500,
+      error: state.lastError,
+      runId,
+      mode
+    });
+  }
+
+  state.running = true;
+  state.startedAt = startedAt;
+  state.endedAt = null;
+  state.exitCode = null;
+  state.lastError = null;
+  state.lastRunId = runId;
+  state.mode = mode;
+
+  append("");
+  append(`[${startedAt}] START runId=${runId} mode=${mode}`);
+  append(`[${startedAt}] COMMAND "${process.execPath}" "${runnerPath}"`);
+
+  let settled = false;
+  let watchdog = null;
+
+  const finish = (patch = {}) => {
+    if (settled) return;
+    settled = true;
+
+    if (watchdog) {
+      clearTimeout(watchdog);
+      watchdog = null;
+    }
+
+    state.running = false;
+    state.endedAt = new Date().toISOString();
+    state.exitCode = Object.prototype.hasOwnProperty.call(patch, "exitCode") ? patch.exitCode : state.exitCode;
+    state.lastError = patch.lastError || null;
+    state.lastRunId = runId;
+    state.mode = mode;
+
+    append(`[${state.endedAt}] END runId=${runId} mode=${mode} exitCode=${state.exitCode} error=${state.lastError || ""}`);
+  };
+
+  let child;
+  try {
+    child = spawn(process.execPath, [runnerPath], {
+      cwd: ROOT,
+      env: {
+        ...process.env,
+        SMARTWORK_E2E_MODE: mode
+      },
+      stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: false
+    });
+  } catch (err) {
+    finish({
+      exitCode: -1,
+      lastError: err?.message || String(err)
+    });
+
+    return {
+      ok: false,
+      statusCode: 500,
+      error: state.lastError,
+      runId,
+      mode,
+      logPath
+    };
+  }
+
+  append(`[${new Date().toISOString()}] CHILD pid=${child.pid || ""}`);
+
+  child.stdout.on("data", (chunk) => {
+    try {
+      fs.appendFileSync(logPath, chunk, "utf8");
+    } catch {}
+  });
+
+  child.stderr.on("data", (chunk) => {
+    try {
+      fs.appendFileSync(logPath, chunk, "utf8");
+    } catch {}
+  });
+
+  child.on("error", (err) => {
+    finish({
+      exitCode: -1,
+      lastError: err?.message || String(err)
+    });
+  });
+
+  child.on("close", (code, signal) => {
+    finish({
+      exitCode: typeof code === "number" ? code : null,
+      lastError: code === 0 ? null : `child closed with code=${code} signal=${signal || ""}`.trim()
+    });
+  });
+
+  const timeoutMs = Number(process.env.SMARTWORK_E2E_SERVER_WATCHDOG_MS || 120000);
+  watchdog = setTimeout(() => {
+    append(`[${new Date().toISOString()}] WATCHDOG_TIMEOUT runId=${runId} timeoutMs=${timeoutMs}`);
+
+    try {
+      if (child && !child.killed) child.kill("SIGTERM");
+    } catch (err) {
+      append(`[${new Date().toISOString()}] WATCHDOG_KILL_ERROR ${err?.message || String(err)}`);
+    }
+
+    finish({
+      exitCode: -2,
+      lastError: "watchdog timeout: child process did not close"
+    });
+  }, timeoutMs);
+
+  return sendOrReturn(202, {
+    ok: true,
+    statusCode: 202,
+    message: "Runner started",
+    runId,
+    mode,
+    pid: child.pid || null,
+    logPath
+    });
+
+}
+/* END_SMARTWORK_E2E_NATIVE_HTTP_HELPERS_V1 */
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..");
@@ -765,8 +1044,8 @@ async function handleStartJob(req, res) {
   delete job.resultReadyAt;
   delete job.result;
   job.runner = {
-    mode: "SAFE_PREVIEW_NO_SAVE",
-    script: "scripts/smartwork-request-runner-agent.mjs",
+    mode: "AUTO_REAL_SAVE_FROM_REQUEST",
+    script: "scripts/smartwork-v6-auto-request-pipeline.mjs",
     startedAt: job.startedAt
   };
 
@@ -777,14 +1056,14 @@ async function handleStartJob(req, res) {
     fs.unlinkSync(runnerReportPath);
   }
 
-  const child = spawn("node", ["scripts/smartwork-request-runner-agent.mjs"], {
+  const child = spawn("node", ["scripts/smartwork-v6-auto-request-pipeline.mjs"], {
     cwd: ROOT,
     shell: true,
     stdio: "ignore",
     env: {
       ...process.env,
-      CONFIRM_SAVE: "NO",
-      SMARTWORK_RUN_MODE: "SAFE_PREVIEW_NO_SAVE"
+      CONFIRM_SAVE: "YES",
+      SMARTWORK_RUN_mode: "AUTO_REAL_SAVE_FROM_REQUEST"
     }
   });
 
@@ -905,6 +1184,51 @@ async function handleCompleteJob(req, res) {
 }
 
 const server = http.createServer(async (req, res) => {
+
+  /* SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1 */
+  try {
+    const __swNativeUrl = new URL(req.url || "/", "http://localhost");
+    const __swNativePath = __swNativeUrl.pathname;
+    const __swNativeMethod = String(req.method || "GET").toUpperCase();
+
+    if (__swNativeMethod === "OPTIONS" && __swNativePath.startsWith("/api/smartwork/siaga/e2e")) {
+      return __swNativeSendJson(res, 200, { ok: true });
+    }
+
+    if (__swNativeMethod === "GET" && __swNativePath === "/api/smartwork/siaga/e2e/ping") {
+      return __swNativeSendJson(res, 200, {
+        ok: true,
+        routeVersion: "SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1",
+        serverType: "native-http"
+      });
+    }
+
+    if (__swNativeMethod === "GET" && (__swNativePath === "/api/smartwork/siaga/e2e/status" || __swNativePath === "/api/job/latest-progress")) {
+      return __swNativeSendJson(res, 200, __swNativeProgressPayload());
+    }
+
+    if (__swNativeMethod === "POST" && __swNativePath === "/api/smartwork/siaga/e2e/run") {
+      return __swNativeStartRunner(res, false);
+    }
+
+    if (__swNativeMethod === "POST" && __swNativePath === "/api/smartwork/siaga/e2e/run-dry") {
+      return __swNativeStartRunner(res, true);
+    }
+
+    if (__swNativeMethod === "POST" && __swNativePath === "/api/job/run-latest-e2e") {
+      return __swNativeStartRunner(res, false);
+    }
+  } catch (err) {
+    if (String(req.url || "").includes("/api/smartwork/siaga/e2e") || String(req.url || "").includes("/api/job/latest-progress")) {
+      return __swNativeSendJson(res, 500, {
+        ok: false,
+        routeVersion: "SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1",
+        error: String(err?.stack || err?.message || err)
+      });
+    }
+  }
+  /* END_SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1 */
+
   if (req.method === "GET" && req.url === "/api/history") {
     handleHistory(req, res);
     return;
@@ -953,10 +1277,20 @@ const server = http.createServer(async (req, res) => {
   sendText(res, 405, "Method not allowed");
 });
 
+
+
+
+
+
+
+
+
 server.listen(PORT, () => {
   console.log(`SMARTWORK_CONTROL_SERVER=http://localhost:${PORT}`);
   console.log("Open the URL above to submit a SmartWork SIAGA request.");
 });
+
+
 
 
 

@@ -1,0 +1,27 @@
+{
+  "mode": "SMARTWORK_DELIVERY_POLICY",
+  "updatedAt": "2026-06-10T16:46:03.286Z",
+  "status": "ACTIVE",
+  "productDecision": "Email and WhatsApp delivery are disabled. SmartWork must show downloadable PDF and proof report inside the application only.",
+  "enabledOutputs": [
+    "downloadable_presensi_pdf",
+    "proof_report_in_app",
+    "final_progress_in_app"
+  ],
+  "disabledOutputs": [
+    "email_send",
+    "email_draft",
+    "whatsapp_send",
+    "whatsapp_preview_as_delivery_step",
+    "delivery_orchestrator_send"
+  ],
+  "rules": {
+    "doNotAskForEmailOrWhatsappDelivery": true,
+    "doNotRunEmailSendScript": true,
+    "doNotRunWhatsappScript": true,
+    "showPdfDownloadInProgressPage": true,
+    "showProofReportInProgressPage": true,
+    "realSendRequiresFutureNewPolicy": true
+  },
+  "nextIncompleteStep": "Run guarded real save for UI request, then verify, download PDF, generate proof report, and show both artifacts in the app."
+}

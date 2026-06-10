@@ -1,0 +1,2658 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartWork Agent Army</title>
+  <style>
+    :root {
+      --bg: #080b16;
+      --panel: rgba(17, 24, 39, .74);
+      --line: rgba(148, 163, 184, .18);
+      --text: #e5e7eb;
+      --muted: #8b99ad;
+      --soft: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(59,130,246,.18), transparent 26%),
+        radial-gradient(circle at 82% 0%, rgba(168,85,247,.16), transparent 28%),
+        linear-gradient(135deg, #050816 0%, #0f172a 55%, #111827 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .13;
+      background-image:
+        linear-gradient(rgba(148,163,184,.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,.14) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .shell {
+      width: min(1280px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 16px 0 34px;
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background:
+        linear-gradient(135deg, rgba(37,99,235,.13), rgba(124,58,237,.10)),
+        rgba(15,23,42,.56);
+      box-shadow: 0 16px 42px rgba(0,0,0,.22);
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      color: #bfdbfe;
+      background: rgba(2,6,23,.28);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.05;
+      letter-spacing: -.035em;
+      font-weight: 500;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: #b8c3d3;
+      font-size: 11px;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: 13px;
+      padding: 9px;
+      background: rgba(2,6,23,.26);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .10em;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 24px 0 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .class-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: flex-end;
+    }
+
+    .class-cloud span {
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.14);
+      background: rgba(15,23,42,.42);
+      color: #b8c3d3;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .squad-section {
+      margin-top: 12px;
+      border: 1px solid rgba(148,163,184,.11);
+      border-radius: 18px;
+      padding: 10px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,.06), transparent 26%),
+        rgba(2,6,23,.14);
+    }
+
+    .squad-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+      margin-bottom: 12px;
+      padding: 0 2px;
+    }
+
+    .squad-title h2 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: -.01em;
+    }
+
+    .squad-title p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    .squad-title span {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(15,23,42,.52);
+      color: #cbd5e1;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .army-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+      gap: 9px;
+    }
+
+    .agent-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 208px;
+      border: 1px solid rgba(148,163,184,.13);
+      border-radius: 16px;
+      padding: 10px;
+      background:
+        linear-gradient(155deg, rgba(15,23,42,.78), rgba(30,41,59,.40)),
+        rgba(15,23,42,.58);
+      box-shadow: 0 10px 26px rgba(0,0,0,.16);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    .agent-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.25);
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: -1px;
+      opacity: .16;
+      background: radial-gradient(circle at 20% 0%, var(--accent), transparent 42%);
+      pointer-events: none;
+    }
+
+    .commander { --accent: #facc15; }
+    .guardian { --accent: #60a5fa; }
+    .medic { --accent: #34d399; }
+    .forge { --accent: #fb923c; }
+    .scout { --accent: #38bdf8; }
+    .gate { --accent: #a78bfa; }
+    .data { --accent: #22c55e; }
+    .visual { --accent: #f472b6; }
+    .analyst { --accent: #818cf8; }
+    .route { --accent: #2dd4bf; }
+    .archive { --accent: #cbd5e1; }
+    .support { --accent: #94a3b8; }
+
+    .card-head,
+    .char-row,
+    .power-line,
+    .mini-info,
+    .desc {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+    }
+
+    .agent-id {
+      color: #9aa8ba;
+      font-size: 11px;
+      letter-spacing: .08em;
+      font-weight: 600;
+    }
+
+    .status {
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: #dbeafe;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+
+    .char-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .agent-figure {
+      position: relative;
+      width: 46px;
+      height: 58px;
+      flex: 0 0 auto;
+      display: grid;
+      justify-items: center;
+      align-items: start;
+      padding-top: 2px;
+      filter: drop-shadow(0 12px 14px rgba(0,0,0,.26));
+      animation: agentFloat 3.8s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    .agent-card:nth-child(3n) .agent-figure { animation-delay: .35s; }
+    .agent-card:nth-child(4n) .agent-figure { animation-delay: .7s; }
+    .agent-card:nth-child(5n) .agent-figure { animation-delay: 1.05s; }
+
+    .agent-card:hover .agent-figure {
+      animation-duration: 2.4s;
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .figure-aura {
+      position: absolute;
+      inset: 2px 0 auto;
+      height: 56px;
+      border-radius: 999px;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, transparent), transparent 64%);
+      opacity: .48;
+      filter: blur(8px);
+      animation: auraPulse 2.9s ease-in-out infinite;
+    }
+
+    .helmet {
+      position: relative;
+      z-index: 2;
+      width: 36px;
+      height: 32px;
+      border-radius: 15px 15px 12px 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        linear-gradient(150deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 38%, rgba(2,6,23,.90)),
+        linear-gradient(180deg, #172033, #070a12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.16),
+        inset 0 -12px 18px rgba(0,0,0,.28),
+        0 0 0 3px rgba(255,255,255,.025);
+    }
+
+    .helmet::before,
+    .helmet::after {
+      content: "";
+      position: absolute;
+      top: 13px;
+      width: 7px;
+      height: 15px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.96);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .helmet::before { left: -5px; }
+    .helmet::after { right: -5px; }
+
+    .helmet-mark {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--accent);
+      font-size: 10px;
+      line-height: 1;
+      opacity: .95;
+      text-shadow: 0 0 12px var(--accent);
+    }
+
+    .visor {
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      top: 17px;
+      height: 9px;
+      border-radius: 999px;
+      background:
+        linear-gradient(90deg, transparent 0 10%, rgba(255,255,255,.70) 18%, transparent 26%),
+        linear-gradient(90deg, rgba(15,23,42,.95), color-mix(in srgb, var(--accent) 72%, #111827), rgba(15,23,42,.95));
+      box-shadow:
+        0 0 14px color-mix(in srgb, var(--accent) 50%, transparent),
+        inset 0 0 7px rgba(255,255,255,.18);
+      animation: visorGlow 2.2s ease-in-out infinite;
+    }
+
+    .neck {
+      position: relative;
+      z-index: 1;
+      width: 18px;
+      height: 9px;
+      margin-top: -1px;
+      border-radius: 0 0 7px 7px;
+      background: #111827;
+      border-left: 1px solid rgba(255,255,255,.09);
+      border-right: 1px solid rgba(255,255,255,.09);
+    }
+
+    .armor {
+      position: relative;
+      z-index: 2;
+      width: 42px;
+      height: 20px;
+      margin-top: -1px;
+      border-radius: 15px 15px 12px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
+        linear-gradient(160deg, rgba(51,65,85,.74), rgba(2,6,23,.94));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.13),
+        0 10px 24px rgba(0,0,0,.22);
+      animation: armorBreath 3.2s ease-in-out infinite;
+      transform-origin: center top;
+    }
+
+    .armor::before,
+    .armor::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      width: 10px;
+      height: 12px;
+      border-radius: 5px;
+      background: rgba(2,6,23,.45);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .armor::before { left: 5px; }
+    .armor::after { right: 5px; }
+
+    .core-dot {
+      position: absolute;
+      left: 50%;
+      top: 7px;
+      transform: translateX(-50%);
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 14px var(--accent);
+    }
+
+    .rank {
+      position: absolute;
+      right: 6px;
+      bottom: 4px;
+      color: rgba(226,232,240,.74);
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .char-name h2 {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.12;
+      font-weight: 400;
+      letter-spacing: -.015em;
+      text-transform: capitalize;
+    }
+
+    .char-name p {
+      margin: 3px 0 0;
+      color: var(--accent);
+      font-size: 8.5px;
+      font-weight: 400;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .power-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(2,6,23,.23);
+      margin-bottom: 7px;
+    }
+
+    .power-line span,
+    .mini-info span {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .power-line b {
+      color: #eef2ff;
+      font-size: 10px;
+      font-weight: 400;
+      text-align: right;
+    }
+
+    .mini-info {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mini-info div {
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 10px;
+      padding: 7px 8px;
+      background: rgba(15,23,42,.30);
+    }
+
+    code {
+      display: block;
+      margin-top: 3px;
+      color: #dbeafe;
+      font-family: "Cascadia Code", "SFMono-Regular", ui-monospace, monospace;
+      font-size: 9px;
+      line-height: 1.3;
+      word-break: break-all;
+      font-weight: 400;
+    }
+
+    .desc {
+      min-height: 28px;
+      margin: 7px 0 0;
+      color: #aebccd;
+      font-size: 10px;
+      line-height: 1.38;
+      font-weight: 400;
+    }
+
+    @keyframes agentFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(-.6deg); }
+    }
+
+    @keyframes auraPulse {
+      0%, 100% { opacity: .32; transform: scale(.94); }
+      50% { opacity: .62; transform: scale(1.08); }
+    }
+
+    @keyframes visorGlow {
+      0%, 100% {
+        opacity: .76;
+        box-shadow:
+          0 0 10px color-mix(in srgb, var(--accent) 36%, transparent),
+          inset 0 0 7px rgba(255,255,255,.16);
+      }
+      50% {
+        opacity: 1;
+        box-shadow:
+          0 0 20px color-mix(in srgb, var(--accent) 70%, transparent),
+          inset 0 0 9px rgba(255,255,255,.24);
+      }
+    }
+
+    @keyframes armorBreath {
+      0%, 100% { transform: scaleX(1) scaleY(1); }
+      50% { transform: scaleX(1.025) scaleY(1.035); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .agent-figure,
+      .figure-aura,
+      .visor,
+      .armor {
+        animation: none;
+      }
+    }
+
+    .command-panel {
+      margin-top: 18px;
+      border: 1px solid rgba(148,163,184,.16);
+      border-radius: 22px;
+      padding: 16px;
+      background: rgba(15,23,42,.54);
+    }
+
+    .command-panel h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .command-panel p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .command-panel ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 8px;
+      padding: 0;
+      margin: 12px 0 0;
+      list-style: none;
+    }
+
+    .command-panel li {
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.12);
+      background: rgba(2,6,23,.28);
+      padding: 9px;
+    }
+
+    .command-panel li span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10.5px;
+      text-transform: capitalize;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-head { align-items: start; flex-direction: column; }
+      .class-cloud { justify-content: flex-start; }
+    }
+
+    @media (max-width: 540px) {
+      .shell { width: min(100% - 20px, 1360px); padding-top: 12px; }
+      .hero { padding: 18px; border-radius: 20px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .army-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <span class="kicker">Black Squad Command</span>
+      <h1>SmartWork Agent Army</h1>
+      <p>
+        Markas pasukan kecil SmartWork. Setiap agent tampil sebagai karakter khusus dengan helmet, armor, class, skill, dan command untuk mempercepat kerja coding secara aman.
+      </p>
+
+      <section class="stats">
+        <div class="stat"><b>38</b><span>Total Agent</span></div>
+        <div class="stat"><b>15</b><span>Core</span></div>
+        <div class="stat"><b>33</b><span>Command</span></div>
+        <div class="stat"><b>4</b><span>Auto Born</span></div>
+      </section>
+    </header>
+
+    <section class="section-head">
+      <div>
+        <h2>Squad Classes</h2>
+        <p>Karakter pasukan berdasarkan tugas agent.</p>
+      </div>
+      <div class="class-cloud">
+        <span>Support</span><span>Ranger</span><span>Archivist</span><span>Gatekeeper</span><span>Commander</span><span>Scout</span><span>Guardian</span><span>Analyst</span><span>Medic</span><span>Smith</span><span>Pathfinder</span><span>Data Guard</span>
+      </div>
+    </section>
+
+    
+        <section class="squad-section command">
+          <div class="squad-title">
+            <div>
+              <h2>Command Core</h2>
+              <p>Komandan, dokter, dan pengawas arah kerja.</p>
+            </div>
+            <span>3 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card commander" data-group="command">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#10</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure commander" aria-label="Commander">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â™›</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>dev brain</h2>
+            <p>Commander</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Orchestrate</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartdev:brain</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartdev-brain.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Komandan workflow</p>
+      </article>
+    
+
+      <article class="agent-card medic" data-group="command">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#13</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure medic" aria-label="Medic">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœš</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>doctor</h2>
+            <p>Medic</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Validate</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run doctor</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartdoctor-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Dokter build dan validasi akhir</p>
+      </article>
+    
+
+      <article class="agent-card guardian" data-group="command">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#24</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure guardian" aria-label="Guardian">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ›¡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>police</h2>
+            <p>Guardian</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Protect</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run police</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartpolice-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Polisi / pengawas arah kerja</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section builder">
+          <div class="squad-title">
+            <div>
+              <h2>Trainer & Builder</h2>
+              <p>Pabrik agent, pelatih skill, dan pencatat pasukan.</p>
+            </div>
+            <span>6 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card support" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#01</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>agent army report</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run agent:army</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartagent-army-report.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#02</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>agent builder</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run agent:make</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartagent-builder.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card archive" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#03</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure archive" aria-label="Archivist">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â–£</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>roster</h2>
+            <p>Archivist</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Archive</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run agent:list</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartagent-roster.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Menampilkan daftar agent SmartWork yang sudah dibuat</p>
+      </article>
+    
+
+      <article class="agent-card commander" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#05</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure commander" aria-label="Commander">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â™›</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>autoforge</h2>
+            <p>Commander</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Orchestrate</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run forge:auto</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartautoforge-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Komandan otomatis pembuat agent</p>
+      </article>
+    
+
+      <article class="agent-card forge" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#16</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure forge" aria-label="Smith">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âš’</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>forge</h2>
+            <p>Smith</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Create</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run forge:agent</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartforge-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pabrik agent manual</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="builder">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#29</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>trainer</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run agent:trainer</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smarttrainer-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section guardian">
+          <div class="squad-title">
+            <div>
+              <h2>Guardian Squad</h2>
+              <p>Benteng proteksi, validasi patch, dan keamanan defensif.</p>
+            </div>
+            <span>4 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card guardian" data-group="guardian">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#11</span>
+          <span class="status">HELPER</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure guardian" aria-label="Guardian">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ›¡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>dev guard bg</h2>
+            <p>Guardian</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Protect</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>Internal Helper</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartdev-guard-bg.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Penjaga keamanan defensif</p>
+      </article>
+    
+
+      <article class="agent-card guardian" data-group="guardian">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#17</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure guardian" aria-label="Guardian">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ›¡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>guard security</h2>
+            <p>Guardian</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Protect</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run security:check</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartguard-security-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Penjaga keamanan defensif</p>
+      </article>
+    
+
+      <article class="agent-card guardian" data-group="guardian">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#18</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure guardian" aria-label="Guardian">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ›¡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>mission guard</h2>
+            <p>Guardian</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Protect</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run mission:guard</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartmission-guard-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Penjaga keamanan defensif</p>
+      </article>
+    
+
+      <article class="agent-card guardian" data-group="guardian">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#23</span>
+          <span class="status">CORE</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure guardian" aria-label="Guardian">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ›¡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>patch guard</h2>
+            <p>Guardian</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Protect</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartpatch:guard</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartpatch-guard.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Penjaga keamanan defensif</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section deploy">
+          <div class="squad-title">
+            <div>
+              <h2>Auth & Deploy Squad</h2>
+              <p>Penjaga login, route publik, Supabase, dan kesiapan Vercel.</p>
+            </div>
+            <span>7 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card gate" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#04</span>
+          <span class="status">AUTO</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure gate" aria-label="Gatekeeper">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ”</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>auth</h2>
+            <p>Gatekeeper</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Access</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run check:auth</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartauth-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Cek login, register, session, dan reset password tanpa patch dulu</p>
+      </article>
+    
+
+      <article class="agent-card scout" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#09</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure scout" aria-label="Scout">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸš€</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>deploy</h2>
+            <p>Scout</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Deploy Check</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run deploy:check</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartdeploy-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek kesiapan deploy</p>
+      </article>
+    
+
+      <article class="agent-card gate" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#25</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure gate" aria-label="Gatekeeper">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ”</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>reset</h2>
+            <p>Gatekeeper</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Access</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run check:reset</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartreset-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek reset password</p>
+      </article>
+    
+
+      <article class="agent-card route" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#26</span>
+          <span class="status">AUTO</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure route" aria-label="Pathfinder">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—‡</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>route</h2>
+            <p>Pathfinder</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Route</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run check:routes</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartroute-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Cek route publik dan halaman penting sebelum deploy</p>
+      </article>
+    
+
+      <article class="agent-card data" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#27</span>
+          <span class="status">AUTO</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure data" aria-label="Data Guard">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—†</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>supabase</h2>
+            <p>Data Guard</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Database</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run check:supabase</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartsupabase-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Cek konfigurasi Supabase defensif tanpa membaca secret sensitif</p>
+      </article>
+    
+
+      <article class="agent-card gate" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#36</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure gate" aria-label="Gatekeeper">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸ”</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui shot preset</h2>
+            <p>Gatekeeper</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Access</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartui:shot</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-shot-preset.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek reset password</p>
+      </article>
+    
+
+      <article class="agent-card scout" data-group="deploy">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#38</span>
+          <span class="status">AUTO</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure scout" aria-label="Scout">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">ðŸš€</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>vercel</h2>
+            <p>Scout</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Deploy Check</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run check:vercel</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartvercel-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Cek kesiapan konfigurasi Vercel tanpa menjalankan deploy</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section visual">
+          <div class="squad-title">
+            <div>
+              <h2>UI & Screenshot Squad</h2>
+              <p>Audit tampilan, screenshot, dan rasa visual aplikasi.</p>
+            </div>
+            <span>8 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#22</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>paste ui</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartpaste:ui</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartpaste-ui-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#30</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui audit</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartui:audit</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-audit.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#31</span>
+          <span class="status">HELPER</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui control</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>Internal Helper</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-control.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#32</span>
+          <span class="status">HELPER</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui designer</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>Internal Helper</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-designer.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#33</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui fast</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartui:fast</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-fast-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#34</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui register judge</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartui:register-judge</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-register-judge.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#35</span>
+          <span class="status">HELPER</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui screenshot</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>Internal Helper</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-screenshot.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+
+      <article class="agent-card visual" data-group="visual">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#37</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure visual" aria-label="Ranger">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âœ¦</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>ui webcheck</h2>
+            <p>Ranger</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Visual</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartui:webcheck</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartui-webcheck.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pengecek UI / screenshot</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section helper">
+          <div class="squad-title">
+            <div>
+              <h2>Internal Helper</h2>
+              <p>Helper internal. Tidak semua perlu command publik.</p>
+            </div>
+            <span>1 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card support" data-group="helper">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#08</span>
+          <span class="status">HELPER</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>clip register</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>Internal Helper</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartclip-register.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Clipboard/helper input</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+        <section class="squad-section support">
+          <div class="squad-title">
+            <div>
+              <h2>Support Squad</h2>
+              <p>Agent pendukung workflow SmartWork.</p>
+            </div>
+            <span>9 agent</span>
+          </div>
+          <div class="army-grid">
+            
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#06</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>clean</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartclean</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartclean-assistant.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#07</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>clip</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartclip</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartclip-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Clipboard/helper input</p>
+      </article>
+    
+
+      <article class="agent-card analyst" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#12</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure analyst" aria-label="Analyst">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">âŒ</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">II</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>diagnose file</h2>
+            <p>Analyst</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Scan</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run diagnose:file</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartdiagnose-file-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Pembaca file / diagnosis target</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#14</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>feature commander</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run feature:plan</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartfeature-commander-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#15</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>flow</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartflow</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartflow-assistant.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#19</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">IV</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>mission runner</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run mission:run</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartmission-runner-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#20</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">V</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>paste auto</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run agent:smartpaste-auto</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartpaste-auto-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#21</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">I</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>paste replace</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smartpaste:replace</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smartpaste-replace-agent.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+
+      <article class="agent-card support" data-group="support">
+        <div class="card-glow"></div>
+
+        <div class="card-head">
+          <span class="agent-id">#28</span>
+          <span class="status">READY</span>
+        </div>
+
+        <div class="char-row">
+          
+          <div class="agent-figure support" aria-label="Support">
+            <div class="figure-aura"></div>
+            <div class="helmet">
+              <span class="helmet-mark">â—</span>
+              <span class="visor"></span>
+            </div>
+            <div class="neck"></div>
+            <div class="armor">
+              <span class="core-dot"></span>
+              <span class="rank">III</span>
+            </div>
+          </div>
+  
+          <div class="char-name">
+            <h2>test</h2>
+            <p>Support</p>
+          </div>
+        </div>
+
+        <div class="power-line">
+          <span>Skill</span>
+          <b>Assist</b>
+        </div>
+
+        <div class="mini-info">
+          <div>
+            <span>Command</span>
+            <code>npm run smarttest</code>
+          </div>
+          <div>
+            <span>File</span>
+            <code>scripts/smarttest-assistant.mjs</code>
+          </div>
+        </div>
+
+        <p class="desc">Agent pendukung SmartWork</p>
+      </article>
+    
+          </div>
+        </section>
+      
+
+    <section class="command-panel">
+      <h2>Quick Commands</h2>
+      <p>Command cepat untuk memanggil pasukan.</p>
+      <ul>
+        <li><code>npm run agent:army</code><span>agent army report</span></li>
+<li><code>npm run agent:make</code><span>agent builder</span></li>
+<li><code>npm run agent:list</code><span>roster</span></li>
+<li><code>npm run check:auth</code><span>auth</span></li>
+<li><code>npm run forge:auto</code><span>autoforge</span></li>
+<li><code>npm run smartclean</code><span>clean</span></li>
+<li><code>npm run smartclip</code><span>clip</span></li>
+<li><code>npm run deploy:check</code><span>deploy</span></li>
+<li><code>npm run smartdev:brain</code><span>dev brain</span></li>
+<li><code>npm run diagnose:file</code><span>diagnose file</span></li>
+<li><code>npm run doctor</code><span>doctor</span></li>
+<li><code>npm run feature:plan</code><span>feature commander</span></li>
+<li><code>npm run smartflow</code><span>flow</span></li>
+<li><code>npm run forge:agent</code><span>forge</span></li>
+<li><code>npm run security:check</code><span>guard security</span></li>
+<li><code>npm run mission:guard</code><span>mission guard</span></li>
+<li><code>npm run mission:run</code><span>mission runner</span></li>
+<li><code>npm run agent:smartpaste-auto</code><span>paste auto</span></li>
+<li><code>npm run smartpaste:replace</code><span>paste replace</span></li>
+<li><code>npm run smartpaste:ui</code><span>paste ui</span></li>
+<li><code>npm run smartpatch:guard</code><span>patch guard</span></li>
+<li><code>npm run police</code><span>police</span></li>
+<li><code>npm run check:reset</code><span>reset</span></li>
+<li><code>npm run check:routes</code><span>route</span></li>
+<li><code>npm run check:supabase</code><span>supabase</span></li>
+<li><code>npm run smarttest</code><span>test</span></li>
+<li><code>npm run agent:trainer</code><span>trainer</span></li>
+<li><code>npm run smartui:audit</code><span>ui audit</span></li>
+<li><code>npm run smartui:fast</code><span>ui fast</span></li>
+<li><code>npm run smartui:register-judge</code><span>ui register judge</span></li>
+<li><code>npm run smartui:shot</code><span>ui shot preset</span></li>
+<li><code>npm run smartui:webcheck</code><span>ui webcheck</span></li>
+<li><code>npm run check:vercel</code><span>vercel</span></li>
+      </ul>
+    </section>
+
+    <footer>
+      Generated: 2026-06-06T23:20:05.283Z
+    </footer>
+  </div>
+</body>
+</html>
+

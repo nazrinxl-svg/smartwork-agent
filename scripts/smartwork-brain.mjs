@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 
 const root = process.cwd();
@@ -104,4 +104,51 @@ if (platformVision && !platformVision.__error) {
 
 console.log("SMARTWORK_BRAIN=OK");
 
+console.log("");
+console.log("=== SMARTWORK REQUEST PIPELINE CURRENT TARGET ===");
+console.log("STATUS=active");
+console.log("FOCUS=UI request must become valid runnable request");
+console.log("PIPELINE=smartwork-user-request-form -> enrich detailUrl by teacherId/account -> selector picks newest valid UI request -> server E2E runner processes request range");
+console.log("CURRENT_BLOCKER=UI request can have username/password/startDate/endDate but detailUrl null; selector will score it invalid until enriched.");
+console.log("DO_NOT_WANDER=Do not switch to UI polish, delivery, e-Kinerja, or unrelated SIAGA form work before UI request pipeline is runnable.");
 
+try {
+  const checkpointPath = "memory/smartwork-current-checkpoint.json";
+  if (fs.existsSync(checkpointPath)) {
+    const checkpoint = JSON.parse(fs.readFileSync(checkpointPath, "utf8"));
+    console.log("");
+    console.log("=== SMARTWORK_CURRENT_CHECKPOINT_MEMORY_FROM_FILE ===");
+    console.log("UPDATED_AT=" + checkpoint.updatedAt);
+    console.log("MAIN_DIRECTION=" + checkpoint.mainDirection);
+    console.log("SUCCESS_NATIVE_HTTP=" + checkpoint.success?.nativeHttpRoutes?.status);
+    console.log("SUCCESS_SERVER_WRAPPER=" + checkpoint.success?.serverRunnerWrapper?.status);
+    console.log("SUCCESS_UI_REQUEST_SELECTION=" + checkpoint.success?.uiRequestSelection?.status);
+    console.log("SUCCESS_DETAILURL_ENRICHMENT=" + checkpoint.success?.detailUrlEnrichment?.status);
+    console.log("SUCCESS_DRY_RUN_UI_REQUEST=" + checkpoint.success?.dryRunUiRequest?.status);
+    console.log("SUCCESS_CREDENTIAL_REDACTION=" + checkpoint.success?.credentialRedaction?.status);
+    console.log("NOT_DONE_REAL_SAVE_UI_REQUEST=" + checkpoint.notDoneYet?.realSaveUiRequest?.status);
+    console.log("NOT_DONE_PDF_PROOF_DELIVERY_UI_REQUEST=" + checkpoint.notDoneYet?.finalPdfProofDeliveryForUiRequest?.status);
+    console.log("NOT_DONE_SAFE_COMMIT=" + checkpoint.notDoneYet?.safeCommit?.status);
+    console.log("ANTI_REPEAT_GUARD=" + checkpoint.antiRepeatGuard?.status);
+    console.log("NEXT_INCOMPLETE_STEP=" + checkpoint.antiRepeatGuard?.nextIncompleteStep);
+  }
+} catch (err) {
+  console.log("SMARTWORK_CURRENT_CHECKPOINT_MEMORY_READ_ERROR=" + (err?.message || String(err)));
+}
+
+
+try {
+  const deliveryPolicyPath = "memory/smartwork-delivery-policy.json";
+  if (fs.existsSync(deliveryPolicyPath)) {
+    const deliveryPolicy = JSON.parse(fs.readFileSync(deliveryPolicyPath, "utf8"));
+    console.log("");
+    console.log("=== SMARTWORK_DELIVERY_POLICY_FROM_FILE ===");
+    console.log("DELIVERY_POLICY_STATUS=" + deliveryPolicy.status);
+    console.log("DELIVERY_POLICY_DECISION=" + deliveryPolicy.productDecision);
+    console.log("EMAIL_DELIVERY=DISABLED");
+    console.log("WHATSAPP_DELIVERY=DISABLED");
+    console.log("OUTPUT_MODE=APP_DOWNLOAD_PDF_AND_PROOF_ONLY");
+  }
+} catch (err) {
+  console.log("SMARTWORK_DELIVERY_POLICY_READ_ERROR=" + (err?.message || String(err)));
+}
