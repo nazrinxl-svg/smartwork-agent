@@ -472,6 +472,156 @@
   border-radius: 18px !important;
   box-shadow: 0 10px 24px rgba(15,23,42,.06) !important;
 }
+
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
+</style>
+
+<style>
+/* HISTORY_DYNAMIC_ICON_FIX */
+.history-list .app-icon,
+.history-list .app-icon img {
+  width: 46px !important;
+  height: 46px !important;
+  max-width: 46px !important;
+  max-height: 46px !important;
+}
+
+.history-list .app-icon {
+  flex: 0 0 46px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: #fff !important;
+  border: 1px solid #dbe7f5 !important;
+}
+
+.history-list .app-icon img {
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
 </style>
 </head>
 <body>
@@ -546,8 +696,101 @@
   <a class="nav-item active" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
+
+<script>
+function esc(value){
+  return String(value ?? "").replace(/[&<>"']/g, (m) => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;"
+  }[m]));
+}
+
+function statusClass(status){
+  if (status === "Selesai") return "done";
+  if (status.includes("Gangguan") || status.includes("Login")) return "wait";
+  if (status.includes("Preview") || status.includes("Diproses")) return "process";
+  return "wait";
+}
+
+function actionButton(item){
+  if (item.primaryAction === "proof" && item.proof?.exists) {
+    return `<a class="detail" href="/progress.html">Lihat Detail</a>`;
+  }
+
+  if (item.pdf?.exists) {
+    return `<a class="detail" href="${item.pdf.downloadUrl}">Unduh PDF</a>`;
+  }
+
+  if (item.proof?.exists) {
+    return `<a class="detail" href="/progress.html">Lihat Detail</a>`;
+  }
+
+  return `<a class="detail" href="/progress.html">Lihat Progress</a>`;
+}
+function renderHistory(items){
+  const list = document.querySelector(".history-list");
+  if (!list) return;
+
+  if (!items.length) {
+    list.innerHTML = `<article class="card"><p>Belum ada request.</p></article>`;
+    return;
+  }
+
+  list.innerHTML = items.map((item) => {
+    const cls = statusClass(item.status);
+    const period = `${item.targetMonth || "-"} ${item.targetYear || ""}`.trim();
+    const note = item.proofReason || (item.pdf?.exists ? "PDF tersedia di Download Center." : "Request tersimpan di SmartWork.");
+    return `
+      <article class="card">
+        <div class="row">
+          <div class="app-info">
+            <div class="app-icon"><img src="/SIAGA LOGO.png" alt="SIAGA"></div>
+            <div>
+              <h3>${esc(item.title || "SIAGA Absensi")}</h3>
+              <p>${esc(item.requesterName || "Nazrin")} • ${esc(period)}</p>
+            </div>
+          </div>
+          <span class="status ${cls}"><i class="dot"></i>${esc(item.status)}</span>
+        </div>
+        <div class="meta">
+          <small>${esc(note)}</small>
+          ${actionButton(item)}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+async function loadHistory(){
+  const res = await fetch("/api/history", { cache: "no-store" });
+  const data = await res.json();
+
+  const stats = document.querySelectorAll(".stat strong, .summary-card strong, .card-stat strong");
+  if (document.getElementById("historyTotal")) document.getElementById("historyTotal").textContent = data.counts?.total ?? 0;
+  if (document.getElementById("historyProcess")) document.getElementById("historyProcess").textContent = data.counts?.processing ?? 0;
+  if (document.getElementById("historyDone")) document.getElementById("historyDone").textContent = data.counts?.done ?? 0;
+
+  if (stats.length >= 3) {
+    stats[0].textContent = data.counts?.total ?? 0;
+    stats[1].textContent = data.counts?.processing ?? 0;
+    stats[2].textContent = data.counts?.done ?? 0;
+  }
+
+  renderHistory(data.items || []);
+}
+
+loadHistory().catch((error) => {
+  const list = document.querySelector(".history-list");
+  if (list) list.innerHTML = `<article class="card"><p>Gagal membaca riwayat: ${esc(error.message)}</p></article>`;
+});
+</script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

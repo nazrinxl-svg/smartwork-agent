@@ -365,6 +365,68 @@
 .card{
   width:100% !important;
 }
+
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
 </style>
 </head>
 
@@ -451,12 +513,69 @@
     const form = document.getElementById("requestForm");
     const savedBox = document.getElementById("savedBox");
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const data = Object.fromEntries(new FormData(form).entries());
       data.dailyReport = form.dailyReport.checked;
       localStorage.setItem("smartwork_request", JSON.stringify(data, null, 2));
-      savedBox.textContent = "Request tersimpan. Agent siap membaca data request.";
+
+      const start = data.startDate ? new Date(data.startDate) : new Date();
+      const monthNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+      const holidayDays = String(data.holidays || "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .map((day) => String(Number(day)).padStart(2, "0"));
+
+      const payload = {
+        jobId: "smartwork-siaga-" + new Date().toISOString().replace(/[:.]/g, "-"),
+        requesterName: data.requesterName || "",
+        targetMonth: monthNames[start.getMonth()],
+        targetYear: String(start.getFullYear()),
+        requestType: "bulk-monthly",
+        schedule: {
+          holidayDates: holidayDays,
+          globalSkipDates: []
+        },
+        accounts: [{
+          teacherId: "guru-001",
+          teacherName: data.requesterName || "Nazrin",
+          schoolName: "SDN 4 DWI TUNGGAL",
+          schoolId: "16870",
+          username: data.username || "",
+          password: data.password || "",
+          startDate: data.startDate || "",
+          endDate: data.endDate || ""
+        }],
+        delivery: {
+          email: data.email || "",
+          whatsapp: data.whatsapp || ""
+        },
+        dailyReport: Boolean(data.dailyReport),
+        notes: data.notes || ""
+      };
+
+      savedBox.textContent = "Menyimpan request ke server...";
+
+      try {
+        const res = await fetch("/api/requests", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok || !result.ok) {
+          throw new Error((result.errors || [result.error || "Request gagal disimpan."]).join(" "));
+        }
+
+        localStorage.setItem("smartwork_request_server", JSON.stringify(result, null, 2));
+        savedBox.textContent = "Request tersimpan di server. Job: " + result.jobId;
+      } catch (err) {
+        savedBox.textContent = "Request tersimpan lokal, tapi gagal kirim server: " + err.message;
+      }
     });
   </script>
 <nav class="bottom-nav">
@@ -468,6 +587,9 @@
 </nav>
 </body>
 </html>
+
+
+
 
 
 

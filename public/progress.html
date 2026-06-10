@@ -6,69 +6,160 @@
   <title>Progress - SmartWork Agent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    html { overflow-y: scroll; }
     *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:#dfe8f5;color:#061a40;display:flex;justify-content:center}
-    .app{width:100%;max-width:430px;min-height:100vh;padding:14px 14px 92px;background:linear-gradient(180deg,#f8fbff 0%,#edf4ff 48%,#e7effa 100%);box-shadow:0 0 0 1px rgba(15,23,42,.04)}
-    .topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-    .logo{width:42px;height:42px;border-radius:15px;background:#fff;border:1px solid #dbeafe;display:grid;place-items:center;box-shadow:0 10px 22px rgba(37,99,235,.10);overflow:hidden}
-    .logo img{width:38px;height:38px;object-fit:contain}
-    h1{margin:0;font-size:20px;letter-spacing:-.04em}.blue{color:#2563eb}.sub{font-size:12px;color:#64748b;margin-top:2px;line-height:1.35}
+    body{margin:0;min-height:100vh;background:#eef3fb;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:#0f172a}
+    .app{max-width:430px;margin:0 auto;min-height:100vh;padding:16px 14px 92px;background:linear-gradient(180deg,#f8fbff,#eef3fb)}
+    .top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .logo{width:42px;height:42px;border-radius:16px;background:#fff;border:1px solid #dbe7f5;display:grid;place-items:center;overflow:hidden}
+    .logo img{width:34px;height:34px;object-fit:contain}
+    h1{margin:0;font-size:18px;letter-spacing:-.04em}
+    .blue{color:#2563eb}.sub{font-size:12px;color:#64748b;margin-top:2px}
     .summary{background:linear-gradient(135deg,#0f2d75,#1455db);border-radius:24px;padding:20px 18px 18px;color:#fff;box-shadow:0 18px 38px rgba(37,99,235,.22);margin-bottom:13px}
-    .status{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:700;background:rgba(255,255,255,.13);padding:7px 10px;border-radius:999px;margin-bottom:13px}
+    .status{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:500;background:rgba(255,255,255,.13);padding:7px 10px;border-radius:999px;margin-bottom:13px}
     .dot{width:8px;height:8px;border-radius:99px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16)}
-    .summary h2{margin:0 0 7px;font-size:23px;letter-spacing:-.05em}.summary p{margin:0;color:#dbeafe;font-size:12px;line-height:1.5line-height:1.55;margin-bottom:16px;}
-    .bar{height:11px;background:rgba(255,255,255,.22);border-radius:99px;margin-top:15px;overflow:hidden}.bar span{display:block;height:100%;width:78%;border-radius:99px;background:#fff}
-    .percent{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#dbeafe}
-    .card{background:rgba(255,255,255,.96);border:1px solid #dbe5f2;border-radius:24px;padding:14px;box-shadow:0 12px 30px rgba(15,23,42,.06);margin-bottom:13px}
-    .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .card-head h3{margin:0;font-size:15px;letter-spacing:-.02em}.pill{font-size:10px;font-weight:700;padding:6px 9px;border-radius:999px;background:#dcfce7;color:#15803d}
+    .summary h2{margin:0 0 7px;font-size:23px;letter-spacing:-.05em}
+    .summary p{margin:0;color:#dbeafe;font-size:12px;line-height:1.55;margin-bottom:16px}
+    .bar{height:9px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+    .bar span{display:block;height:100%;width:0%;background:#fff;border-radius:99px;transition:.25s}
+    .percent{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#dbeafe}.percent strong{font-size:12px;color:#fff}
+    .card{background:#fff;border:1px solid #dfe8f4;border-radius:22px;padding:15px;margin-bottom:12px;box-shadow:0 14px 32px rgba(15,23,42,.06)}
+    .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .card-head h3{margin:0;font-size:15px;letter-spacing:-.02em}
+    .pill{font-size:10px;font-weight:600;padding:6px 9px;border-radius:999px;background:#dcfce7;color:#15803d}
     .job{display:flex;gap:11px;padding:12px;border-radius:18px;background:#f8fbff;border:1px solid #edf2fb;margin-top:9px}
     .ico{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;background:#eaf2ff;color:#2563eb;flex:0 0 auto}
     .ico svg,.nav-item svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-    .job strong{display:block;font-size:12.5px;margin-bottom:3px}.job p{margin:0;font-size:11px;color:#64748b;line-height:1.4}
-    .steps{display:grid;gap:9px}.step{display:flex;align-items:center;gap:10px}.check{width:26px;height:26px;border-radius:10px;display:grid;place-items:center;font-size:12px;font-weight:800;background:#dcfce7;color:#16a34a}.wait{background:#fff7ed;color:#f97316}
+    .job strong{display:block;font-size:12.5px;margin-bottom:3px}
+    .job p{margin:0;font-size:11px;color:#64748b;line-height:1.4}
+    .steps{display:grid;gap:9px}
+    .step{display:flex;align-items:center;gap:10px}
+    .check{width:26px;height:26px;border-radius:10px;display:grid;place-items:center;font-size:12px;font-weight:700;background:#dcfce7;color:#16a34a}
+    .wait{background:#fff7ed;color:#f97316}
+    .idle{background:#f1f5f9;color:#64748b}
     .step div{font-size:12px}.step span{display:block;font-size:10px;color:#64748b;margin-top:1px}
-    .bottom-nav{position:fixed!important;left:50%!important;bottom:12px!important;transform:translateX(-50%)!important;width:min(402px,calc(100% - 28px))!important;height:58px!important;padding:7px!important;background:rgba(255,255,255,.94)!important;border:1px solid #dbe5f2!important;border-radius:24px!important;display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:4px!important;box-shadow:0 8px 22px rgba(15,23,42,.10)!important;backdrop-filter:blur(14px)!important;z-index:99!important}
-    .bottom-nav .nav-item{text-decoration:none!important;display:grid!important;align-content:center!important;justify-items:center!important;gap:1px!important;font-size:10px!important;color:#64748b!important;border-radius:15px!important;min-width:0!important}
-    .bottom-nav .nav-item strong{display:grid!important;place-items:center!important;width:20px!important;height:20px!important}.bottom-nav .nav-item span{line-height:1!important}.bottom-nav .nav-item.active{background:#eaf2ff!important;color:#0f62fe!important}.bottom-nav .nav-item.active span{color:#0f62fe!important;font-weight:600!important}
-  </style>
+    .raw{white-space:pre-wrap;font-size:10.5px;line-height:1.45;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:10px;max-height:150px;overflow:auto}
+    .bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(430px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:3px;background:#fff;border-top:1px solid #dfe8f4;padding:7px 9px 9px}
+    .nav-item{text-decoration:none;color:#64748b;display:grid;place-items:center;gap:3px;font-size:10px}
+    .nav-item strong{width:32px;height:28px;border-radius:12px;display:grid;place-items:center}
+    .nav-item.active{color:#2563eb}.nav-item.active strong{background:#eaf2ff}
+  
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
+</style>
 </head>
 <body>
 <main class="app">
-  <section class="topbar">
+  <section class="top">
     <div class="logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>
     <div>
-      <h1>Smart<span class="blue">Work</span></h1><div class="sub">Progress</div>
+      <h1>Smart<span class="blue">Work</span></h1>
+      <div class="sub">Progress</div>
     </div>
   </section>
 
   <section class="summary">
-    <div class="status"><span class="dot"></span> Sedang Diproses</div>
-    <h2>SIAGA Juni 2026</h2>
-    <p>Agent sedang menyiapkan PDF dan laporan bukti untuk pengiriman email/WhatsApp.</p>
-    <div class="bar"><span></span></div>
-    <div class="percent"><span>Progress</span><strong>78%</strong></div>
+    <div class="status"><span class="dot"></span><span id="statusText">Memuat status...</span></div>
+    <h2 id="titleText">Request SmartWork</h2>
+    <p id="descText">Membaca status request terbaru dari server.</p>
+    <div class="bar"><span id="barFill"></span></div>
+    <div class="percent"><span>Progress</span><strong id="percentText">0%</strong></div>
   </section>
 
   <section class="card">
-    <div class="card-head"><h3>Request Aktif</h3><span class="pill">1 aktif</span></div>
+    <div class="card-head"><h3>Request Aktif</h3><span class="pill" id="activePill">Memuat</span></div>
     <div class="job">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></div>
-      <div><strong>Input Presensi SIAGA</strong><p>Periode 01 Juni 2026 - 30 Juni 2026. Laporan harian aktif.</p></div>
+      <div><strong id="jobName">-</strong><p id="jobMeta">-</p></div>
+    </div>
+  </section>
+
+  <section class="card" id="confirmationCard">
+    <div class="card-head"><h3>Konfirmasi Eksekusi</h3><span class="pill">Preview Berhasil</span></div>
+    <div class="job">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+      <div>
+        <strong>Menunggu izin eksekusi</strong>
+        <p>Akun: Nazrin (guru-001). SmartWork belum menyimpan data SIAGA sebelum kamu konfirmasi.</p>
+      </div>
     </div>
   </section>
 
   <section class="card">
-    <div class="card-head"><h3>Tahapan Pekerjaan</h3><span class="pill">Update</span></div>
-    <div class="steps">
-      <div class="step"><div class="check">✓</div><div>Request diterima<span>Data user sudah dibaca agent.</span></div></div>
-      <div class="step"><div class="check">✓</div><div>Input absensi selesai<span>Data SIAGA berhasil diproses.</span></div></div>
-      <div class="step"><div class="check">✓</div><div>Laporan bukti dibuat<span>Screenshot dan ringkasan tersedia.</span></div></div>
-      <div class="step"><div class="check wait">⏳</div><div>PDF & pengiriman<span>Menunggu finalisasi email dan WhatsApp.</span></div></div>
+    <div class="card-head"><h3>Tahapan Agent</h3><span class="pill" id="stepPill">Menunggu Konfirmasi</span></div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <section class="card" id="downloadCenter">
+    <div class="card-head"><h3>Download Hasil</h3><span class="pill" id="downloadPill">Cek file</span></div>
+    <div class="steps" id="downloadList">
+      <div class="step"><div class="check idle">–</div><div>Memuat file hasil<span>Mencari PDF dan laporan bukti.</span></div></div>
     </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h3>Ringkasan Sistem</h3><span class="pill">Live</span></div>
+    <div class="raw" id="rawBox">Memuat...</div>
   </section>
 </main>
 
@@ -79,8 +170,144 @@
   <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
+
+<script>
+function setText(id, value){
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function step(label, detail, state){
+  const icon = state === "done" ? "✓" : state === "wait" ? "•" : "–";
+  const cls = state === "done" ? "check" : state === "wait" ? "check wait" : "check idle";
+  return `<div class="step"><div class="${cls}">${icon}</div><div>${label}<span>${detail}</span></div></div>`;
+}
+
+function calcProgress(status){
+  const s = String(status || "").toUpperCase();
+
+  // Safe product workflow:
+  // Request/preview ready = 40
+  // Input selesai = 70
+  // PDF siap = 85
+  // Delivery selesai = 100
+  if (s.includes("DELIVERY_DONE") || s.includes("COMPLETED")) return 100;
+  if (s.includes("PDF_READY") || s.includes("READY_FOR_PROOF")) return 85;
+  if (s.includes("INPUT_DONE") || s.includes("SAVE_DONE")) return 70;
+  if (s.includes("PDF") || s.includes("SIAGA") || s.includes("PREVIEW") || s.includes("NEEDS")) return 40;
+  if (s.includes("VALID")) return 30;
+  return 20;
+}
+
+async function loadDownloads(){
+  const wrap = document.getElementById("downloadList");
+  const pill = document.getElementById("downloadPill");
+  if (!wrap) return;
+
+  try {
+    const res = await fetch("/api/downloads/latest", { cache: "no-store" });
+    const data = await res.json();
+
+    const pdf = data.pdf || {};
+    const proof = data.proof || {};
+
+    pill.textContent = (pdf.exists || proof.exists) ? "File tersedia" : "Belum tersedia";
+
+    const item = (title, file) => {
+      if (!file.exists) {
+        return `<div class="step"><div class="check idle">–</div><div>${title}<span>Belum tersedia.</span></div></div>`;
+      }
+
+      const warning = file.tone === "warning";
+      const iconClass = warning ? "check wait" : "check";
+      const iconText = warning ? "!" : "✓";
+      const label = file.label || title;
+      const detail = file.reason || file.name;
+
+      return `<div class="step"><div class="${iconClass}">${iconText}</div><div>${label}<span>${detail}</span><span><a href="${file.downloadUrl}">Unduh</a></span></div></div>`;
+    };
+    wrap.innerHTML = [
+      item("PDF Presensi", pdf),
+      item(proof.label || "Screenshot Bukti Kerja", proof),
+      `<div class="step"><div class="check wait">•</div><div>Email<span>PDF dan screenshot bukti tetap dikirim ke email saat delivery.</span></div></div>`,
+      `<div class="step"><div class="check idle">–</div><div>WhatsApp<span>Hanya notifikasi status, tanpa kirim file.</span></div></div>`
+    ].join("");
+  } catch (error) {
+    pill.textContent = "Error";
+    wrap.innerHTML = `<div class="step"><div class="check wait">!</div><div>Gagal membaca file<span>${error.message}</span></div></div>`;
+  }
+}
+
+async function loadProgress(){
+  const res = await fetch("/api/status", { cache: "no-store" });
+  const data = await res.json();
+
+  const job = data.job || {};
+  const decision = data.decision || {};
+  const plan = data.plan || {};
+  const status = decision.status || plan.status || "REQUEST_PREVIEW_READY";
+  const percent = calcProgress(status);
+
+  const periodText = `${job.targetMonth || "-"} ${job.targetYear || ""}`.trim();
+  const friendlyStatus = percent >= 100
+    ? "Selesai"
+    : percent >= 85
+      ? "PDF siap"
+      : percent >= 70
+        ? "Input selesai"
+        : "Preview Siap";
+
+  setText("statusText", friendlyStatus);
+  setText("titleText", "Presensi SIAGA");
+  setText("descText", `Target ${periodText}. Agent sudah membaca request dan menunggu izin eksekusi.`);
+  setText("percentText", percent + "%");
+  setText("activePill", (job.accountCount || 1) + " akun");
+  setText("jobName", "Input Presensi SIAGA");
+  setText("jobMeta", `Nazrin (guru-001) • Target ${job.targetMonth || "-"} ${job.targetYear || ""} • ${job.requestType || "bulk-monthly"}`);
+
+  document.getElementById("barFill").style.width = percent + "%";
+
+  const hasRequest = Boolean(job.jobId || data.activeIntakeExists || data.counts?.activeIntakeExists);
+  const hasPlan = Boolean(data.plan || plan.status);
+  const needsPdf = String(status).includes("PDF");
+  const deliveryReady = String(status).includes("DELIVERY");
+
+  document.getElementById("steps").innerHTML = [
+    step("Request diterima", "Data user sudah masuk ke server SmartWork.", hasRequest ? "done" : "wait"),
+    step("Akun Nazrin ditemukan", "SmartWork fokus satu akun: guru-001.", "done"),
+    step("Preview SIAGA siap", "Agent melakukan preview sebelum simpan.", hasPlan ? "done" : "wait"),
+    step("Menunggu konfirmasi eksekusi", "Tidak ada save otomatis sebelum izin user.", "wait"),
+    step("Download PDF", "Berjalan setelah input dan verifikasi selesai.", needsPdf || deliveryReady ? "wait" : "idle"),
+    step("Kirim laporan", "Email setelah PDF dan screenshot bukti tersedia. WhatsApp hanya notifikasi.", deliveryReady ? "wait" : "idle")
+  ].join("");
+
+  const summaryLines = [
+    "✓ Request aktif ditemukan",
+    "✓ Akun Nazrin ditemukan",
+    hasPlan ? "✓ Preview SIAGA berhasil" : "○ Preview SIAGA belum tersedia",
+    "○ Menunggu konfirmasi eksekusi",
+    needsPdf ? "○ PDF perlu dibuat/diunduh" : "○ PDF belum tersedia",
+    deliveryReady ? "○ Delivery siap dicek" : "○ Delivery belum tersedia",
+    "",
+    "Langkah aman berikutnya:",
+    data.nextSafeStep || "Jalankan eksekusi hanya setelah konfirmasi user."
+  ];
+
+  document.getElementById("rawBox").textContent = summaryLines.join("\n");
+}
+
+loadDownloads();
+loadProgress().catch((err) => {
+  setText("statusText", "Gagal membaca status");
+  setText("descText", err.message || String(err));
+  document.getElementById("rawBox").textContent = err.stack || err.message || String(err);
+});
+</script>
 </body>
 </html>
+
+
+
 
 
 

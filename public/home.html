@@ -699,6 +699,68 @@
 .notify-item:nth-child(4) .notify-ico{background:#fff7ed;color:#f97316}
 .notify-item b{display:block;font-size:11.5px;margin-bottom:3px}
 .notify-item p{margin:0;font-size:10.5px;line-height:1.35;color:#64748b}
+
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
 </style>
 </head>
 <body>
@@ -880,6 +942,7 @@
 </script>
 </body>
 </html>
+
 
 
 
