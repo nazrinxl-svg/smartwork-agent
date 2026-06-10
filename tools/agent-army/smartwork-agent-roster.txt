@@ -1,0 +1,179 @@
+SMARTLEARN AGENT OUTPUT
+========================================================================
+Updated: 2026-06-06T09:57:11.235Z
+Mode   : applied
+Total  : 16 agent terdeteksi
+
+AGENT BARU DIBUAT OLEH AUTOFORGE
+========================================================================
+
+[auth]
+  script : npm run check:auth
+  file   : scripts/smartauth-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek login, register, session, dan reset password tanpa patch dulu
+
+[route]
+  script : npm run check:routes
+  file   : scripts/smartroute-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek route publik dan halaman penting sebelum deploy
+
+[supabase]
+  script : npm run check:supabase
+  file   : scripts/smartsupabase-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek konfigurasi Supabase defensif tanpa membaca secret sensitif
+
+[vercel]
+  script : npm run check:vercel
+  file   : scripts/smartvercel-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek kesiapan konfigurasi Vercel tanpa menjalankan deploy
+
+AGENT SUDAH ADA / TERDETEKSI
+========================================================================
+
+[autoforge]
+  script : npm run forge:auto
+  file   : scripts/smartautoforge-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[clip]
+  script : npm run smartclip
+  file   : scripts/smartclip-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[deploy]
+  script : npm run deploy:check
+  file   : scripts/smartdeploy-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[diagnose-file]
+  script : npm run diagnose:file
+  file   : scripts/smartdiagnose-file-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[doctor]
+  script : npm run doctor
+  file   : scripts/smartdoctor-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[forge]
+  script : npm run forge:agent
+  file   : scripts/smartforge-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[guard-security]
+  script : npm run security:check
+  file   : scripts/smartguard-security-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[paste-ui]
+  script : npm run smartpaste:ui
+  file   : scripts/smartpaste-ui-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[police]
+  script : npm run police
+  file   : scripts/smartpolice-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[reset]
+  script : npm run check:reset
+  file   : scripts/smartreset-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+[roster]
+  script : npm run agent:list
+  file   : scripts/smartagent-roster.mjs
+  status : known
+  source : existing
+  purpose: Menampilkan daftar agent SmartLearn yang sudah dibuat
+
+[ui-fast]
+  script : npm run smartui:fast
+  file   : scripts/smartui-fast-agent.mjs
+  status : known
+  source : filesystem
+  purpose: Terdeteksi dari folder scripts
+
+AGENT DIRENCANAKAN
+========================================================================
+
+[auth]
+  script : npm run check:auth
+  file   : scripts/smartauth-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek login, register, session, dan reset password tanpa patch dulu
+
+[route]
+  script : npm run check:routes
+  file   : scripts/smartroute-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek route publik dan halaman penting sebelum deploy
+
+[supabase]
+  script : npm run check:supabase
+  file   : scripts/smartsupabase-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek konfigurasi Supabase defensif tanpa membaca secret sensitif
+
+[vercel]
+  script : npm run check:vercel
+  file   : scripts/smartvercel-agent.mjs
+  status : known
+  source : created, planned, filesystem
+  purpose: Cek kesiapan konfigurasi Vercel tanpa menjalankan deploy
+
+COMMAND CEPAT
+========================================================================
+npm run check:auth
+npm run forge:auto
+npm run smartclip
+npm run deploy:check
+npm run diagnose:file
+npm run doctor
+npm run forge:agent
+npm run security:check
+npm run smartpaste:ui
+npm run police
+npm run check:reset
+npm run agent:list
+npm run check:routes
+npm run check:supabase
+npm run smartui:fast
+npm run check:vercel
+
+RINGKASAN
+========================================================================
+Agent dibuat : auth, route, supabase, vercel
+Agent planned: auth, route, supabase, vercel
+Semua agent  : auth, autoforge, clip, deploy, diagnose-file, doctor, forge, guard-security, paste-ui, police, reset, roster, route, supabase, ui-fast, vercel

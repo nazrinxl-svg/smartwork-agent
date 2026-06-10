@@ -1,0 +1,135 @@
+{
+  "exportedAt": "2026-06-06T10:07:18.230Z",
+  "sourceRoster": "agent-roster\\smartagent-roster.json",
+  "totalAgents": 16,
+  "agents": [
+    {
+      "name": "auth",
+      "script": "check:auth",
+      "file": "scripts/smartauth-agent.mjs",
+      "purpose": "Cek login, register, session, dan reset password tanpa patch dulu",
+      "source": "created, planned, filesystem",
+      "status": "known"
+    },
+    {
+      "name": "autoforge",
+      "script": "forge:auto",
+      "file": "scripts/smartautoforge-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "clip",
+      "script": "smartclip",
+      "file": "scripts/smartclip-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "deploy",
+      "script": "deploy:check",
+      "file": "scripts/smartdeploy-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "diagnose-file",
+      "script": "diagnose:file",
+      "file": "scripts/smartdiagnose-file-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "doctor",
+      "script": "doctor",
+      "file": "scripts/smartdoctor-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "forge",
+      "script": "forge:agent",
+      "file": "scripts/smartforge-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "guard-security",
+      "script": "security:check",
+      "file": "scripts/smartguard-security-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "paste-ui",
+      "script": "smartpaste:ui",
+      "file": "scripts/smartpaste-ui-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "police",
+      "script": "police",
+      "file": "scripts/smartpolice-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "reset",
+      "script": "check:reset",
+      "file": "scripts/smartreset-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "roster",
+      "script": "agent:list",
+      "file": "scripts/smartagent-roster.mjs",
+      "purpose": "Menampilkan daftar agent SmartLearn yang sudah dibuat",
+      "source": "existing",
+      "status": "known"
+    },
+    {
+      "name": "route",
+      "script": "check:routes",
+      "file": "scripts/smartroute-agent.mjs",
+      "purpose": "Cek route publik dan halaman penting sebelum deploy",
+      "source": "created, planned, filesystem",
+      "status": "known"
+    },
+    {
+      "name": "supabase",
+      "script": "check:supabase",
+      "file": "scripts/smartsupabase-agent.mjs",
+      "purpose": "Cek konfigurasi Supabase defensif tanpa membaca secret sensitif",
+      "source": "created, planned, filesystem",
+      "status": "known"
+    },
+    {
+      "name": "ui-fast",
+      "script": "smartui:fast",
+      "file": "scripts/smartui-fast-agent.mjs",
+      "purpose": "Terdeteksi dari folder scripts",
+      "source": "filesystem",
+      "status": "known"
+    },
+    {
+      "name": "vercel",
+      "script": "check:vercel",
+      "file": "scripts/smartvercel-agent.mjs",
+      "purpose": "Cek kesiapan konfigurasi Vercel tanpa menjalankan deploy",
+      "source": "created, planned, filesystem",
+      "status": "known"
+    }
+  ]
+}

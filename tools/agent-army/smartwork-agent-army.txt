@@ -1,0 +1,320 @@
+SMARTLEARN AGENT ARMY
+================================================================================
+Generated : 2026-06-06T23:20:05.283Z
+Project   : D:\1. myapps\smartlearn\smartlearn-pro-app-1.9
+Total     : 38 agent
+
+1. agent army report
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run agent:army
+   File    : scripts/smartagent-army-report.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+2. agent builder
+   Peran   : Pengecek UI / screenshot
+   Command : npm run agent:make
+   File    : scripts/smartagent-builder.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+3. roster
+   Peran   : Pencatat daftar pasukan agent
+   Command : npm run agent:list
+   File    : scripts/smartagent-roster.mjs
+   Purpose : Menampilkan daftar agent SmartLearn yang sudah dibuat
+   Source  : existingAgents
+
+4. auth
+   Peran   : Pengecek login/register/session
+   Command : npm run check:auth
+   File    : scripts/smartauth-agent.mjs
+   Purpose : Cek login, register, session, dan reset password tanpa patch dulu
+   Source  : createdAgents, plannedAgents
+
+5. autoforge
+   Peran   : Komandan otomatis pembuat agent
+   Command : npm run forge:auto
+   File    : scripts/smartautoforge-agent.mjs
+   Purpose : Komandan otomatis pembuat agent
+   Source  : filesystem
+
+6. clean
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run smartclean
+   File    : scripts/smartclean-assistant.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+7. clip
+   Peran   : Clipboard/helper input
+   Command : npm run smartclip
+   File    : scripts/smartclip-agent.mjs
+   Purpose : Clipboard/helper input
+   Source  : filesystem
+
+8. clip register
+   Peran   : Clipboard/helper input
+   Command : -
+   File    : scripts/smartclip-register.mjs
+   Purpose : Clipboard/helper input
+   Source  : filesystem
+
+9. deploy
+   Peran   : Pengecek kesiapan deploy
+   Command : npm run deploy:check
+   File    : scripts/smartdeploy-agent.mjs
+   Purpose : Pengecek kesiapan deploy
+   Source  : filesystem
+
+10. dev brain
+   Peran   : Komandan workflow
+   Command : npm run smartdev:brain
+   File    : scripts/smartdev-brain.mjs
+   Purpose : Komandan workflow
+   Source  : filesystem
+
+11. dev guard bg
+   Peran   : Penjaga keamanan defensif
+   Command : -
+   File    : scripts/smartdev-guard-bg.mjs
+   Purpose : Penjaga keamanan defensif
+   Source  : filesystem
+
+12. diagnose file
+   Peran   : Pembaca file / diagnosis target
+   Command : npm run diagnose:file
+   File    : scripts/smartdiagnose-file-agent.mjs
+   Purpose : Pembaca file / diagnosis target
+   Source  : filesystem
+
+13. doctor
+   Peran   : Dokter build dan validasi akhir
+   Command : npm run doctor
+   File    : scripts/smartdoctor-agent.mjs
+   Purpose : Dokter build dan validasi akhir
+   Source  : filesystem
+
+14. feature commander
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run feature:plan
+   File    : scripts/smartfeature-commander-agent.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+15. flow
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run smartflow
+   File    : scripts/smartflow-assistant.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+16. forge
+   Peran   : Pabrik agent manual
+   Command : npm run forge:agent
+   File    : scripts/smartforge-agent.mjs
+   Purpose : Pabrik agent manual
+   Source  : filesystem
+
+17. guard security
+   Peran   : Penjaga keamanan defensif
+   Command : npm run security:check
+   File    : scripts/smartguard-security-agent.mjs
+   Purpose : Penjaga keamanan defensif
+   Source  : filesystem
+
+18. mission guard
+   Peran   : Penjaga keamanan defensif
+   Command : npm run mission:guard
+   File    : scripts/smartmission-guard-agent.mjs
+   Purpose : Penjaga keamanan defensif
+   Source  : filesystem
+
+19. mission runner
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run mission:run
+   File    : scripts/smartmission-runner-agent.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+20. paste auto
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run agent:smartpaste-auto
+   File    : scripts/smartpaste-auto-agent.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+21. paste replace
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run smartpaste:replace
+   File    : scripts/smartpaste-replace-agent.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+22. paste ui
+   Peran   : Pengecek UI / screenshot
+   Command : npm run smartpaste:ui
+   File    : scripts/smartpaste-ui-agent.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+23. patch guard
+   Peran   : Penjaga keamanan defensif
+   Command : npm run smartpatch:guard
+   File    : scripts/smartpatch-guard.mjs
+   Purpose : Penjaga keamanan defensif
+   Source  : filesystem
+
+24. police
+   Peran   : Polisi / pengawas arah kerja
+   Command : npm run police
+   File    : scripts/smartpolice-agent.mjs
+   Purpose : Polisi / pengawas arah kerja
+   Source  : filesystem
+
+25. reset
+   Peran   : Pengecek reset password
+   Command : npm run check:reset
+   File    : scripts/smartreset-agent.mjs
+   Purpose : Pengecek reset password
+   Source  : filesystem
+
+26. route
+   Peran   : Pengecek route publik
+   Command : npm run check:routes
+   File    : scripts/smartroute-agent.mjs
+   Purpose : Cek route publik dan halaman penting sebelum deploy
+   Source  : createdAgents, plannedAgents
+
+27. supabase
+   Peran   : Pengecek konfigurasi Supabase
+   Command : npm run check:supabase
+   File    : scripts/smartsupabase-agent.mjs
+   Purpose : Cek konfigurasi Supabase defensif tanpa membaca secret sensitif
+   Source  : createdAgents, plannedAgents
+
+28. test
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run smarttest
+   File    : scripts/smarttest-assistant.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+29. trainer
+   Peran   : Agent pendukung SmartLearn
+   Command : npm run agent:trainer
+   File    : scripts/smarttrainer-agent.mjs
+   Purpose : Agent pendukung SmartLearn
+   Source  : filesystem
+
+30. ui audit
+   Peran   : Pengecek UI / screenshot
+   Command : npm run smartui:audit
+   File    : scripts/smartui-audit.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+31. ui control
+   Peran   : Pengecek UI / screenshot
+   Command : -
+   File    : scripts/smartui-control.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+32. ui designer
+   Peran   : Pengecek UI / screenshot
+   Command : -
+   File    : scripts/smartui-designer.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+33. ui fast
+   Peran   : Pengecek UI / screenshot
+   Command : npm run smartui:fast
+   File    : scripts/smartui-fast-agent.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+34. ui register judge
+   Peran   : Pengecek UI / screenshot
+   Command : npm run smartui:register-judge
+   File    : scripts/smartui-register-judge.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+35. ui screenshot
+   Peran   : Pengecek UI / screenshot
+   Command : -
+   File    : scripts/smartui-screenshot.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+36. ui shot preset
+   Peran   : Pengecek reset password
+   Command : npm run smartui:shot
+   File    : scripts/smartui-shot-preset.mjs
+   Purpose : Pengecek reset password
+   Source  : filesystem
+
+37. ui webcheck
+   Peran   : Pengecek UI / screenshot
+   Command : npm run smartui:webcheck
+   File    : scripts/smartui-webcheck.mjs
+   Purpose : Pengecek UI / screenshot
+   Source  : filesystem
+
+38. vercel
+   Peran   : Pengecek kesiapan deploy
+   Command : npm run check:vercel
+   File    : scripts/smartvercel-agent.mjs
+   Purpose : Cek kesiapan konfigurasi Vercel tanpa menjalankan deploy
+   Source  : createdAgents, plannedAgents
+
+COMMAND CEPAT
+================================================================================
+npm run agent:army
+npm run agent:make
+npm run agent:list
+npm run check:auth
+npm run forge:auto
+npm run smartclean
+npm run smartclip
+npm run deploy:check
+npm run smartdev:brain
+npm run diagnose:file
+npm run doctor
+npm run feature:plan
+npm run smartflow
+npm run forge:agent
+npm run security:check
+npm run mission:guard
+npm run mission:run
+npm run agent:smartpaste-auto
+npm run smartpaste:replace
+npm run smartpaste:ui
+npm run smartpatch:guard
+npm run police
+npm run check:reset
+npm run check:routes
+npm run check:supabase
+npm run smarttest
+npm run agent:trainer
+npm run smartui:audit
+npm run smartui:fast
+npm run smartui:register-judge
+npm run smartui:shot
+npm run smartui:webcheck
+npm run check:vercel
+
+COMMIT TERAKHIR
+================================================================================
+9480dd1 Polish login role icons and button sizing
+9828e08 Allow manual login for app profiles
+bbc2725 Fix Vercel build dependency conflict
+3387086 Fix Vercel rewrite for SPA deploy
+4f2a0f2 Add Vercel SPA fallback and Supabase env example
+ca469e3 Checkpoint safe build and doctor before Vercel auth testing
+bb84ff8 Guard reset password session from auto login
+c56d1a2 Add dedicated reset password page
+bc56e7d Return to normal login after password reset
+e20f37d Prevent auto login during password reset
