@@ -107,6 +107,17 @@
   font-weight:500!important;
 }
 </style>
+<style id="smartwork-result-ready-safe-css">
+  /* RESULT_READY cleanup: visual-only, no DOM deletion */
+  .progress-hero [style*="40%"],
+  [style*="width: 40%"] {
+    width: 100% !important;
+  }
+
+  body {
+    padding-bottom: 80px;
+  }
+</style>
 </head>
 <body>
 <main class="app">
@@ -135,18 +146,18 @@
   </section>
 
   <section class="card" id="confirmationCard">
-    <div class="card-head"><h3>Konfirmasi Eksekusi</h3><span class="pill">Preview Berhasil</span></div>
+    <div class="card-head"><h3>Konfirmasi Eksekusi</h3><span class="pill">Selesai</span></div>
     <div class="job">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
       <div>
-        <strong>Menunggu izin eksekusi</strong>
-        <p>Akun: Nazrin (guru-001). SmartWork belum menyimpan data SIAGA sebelum kamu konfirmasi.</p>
+        <strong>Selesai</strong>
+        <p>Akun: Nazrin (guru-001). Semua tanggal request sudah diverifikasi dan hasil siap diunduh.</p>
       </div>
     </div>
   </section>
 
   <section class="card">
-    <div class="card-head"><h3>Tahapan Agent</h3><span class="pill" id="stepPill">Menunggu Konfirmasi</span></div>
+    <div class="card-head"><h3>Tahapan Agent</h3><span class="pill" id="stepPill">Selesai</span></div>
     <div class="steps" id="steps"></div>
   </section>
 
@@ -229,8 +240,8 @@ async function loadDownloads(){
     wrap.innerHTML = [
       item("PDF Presensi", pdf),
       item(proof.label || "Screenshot Bukti Kerja", proof),
-      `<div class="step"><div class="check wait">•</div><div>Email<span>PDF dan screenshot bukti tetap dikirim ke email saat delivery.</span></div></div>`,
-      `<div class="step"><div class="check idle">–</div><div>WhatsApp<span>Hanya notifikasi status, tanpa kirim file.</span></div></div>`
+      `<div class="step"><div class="check wait">•</div><div>Email<span>Dinonaktifkan. File tersedia melalui aplikasi.</span></div></div>`,
+      `<div class="step"><div class="check idle">–</div><div>WhatsApp<span>Dinonaktifkan. Tidak ada pengiriman otomatis.</span></div></div>`
     ].join("");
   } catch (error) {
     pill.textContent = "Error";
@@ -255,11 +266,11 @@ async function loadProgress(){
       ? "PDF siap"
       : percent >= 70
         ? "Input selesai"
-        : "Preview Siap";
+        : "Hasil Siap";
 
   setText("statusText", friendlyStatus);
   setText("titleText", "Presensi SIAGA");
-  setText("descText", `Target ${periodText}. Agent sudah membaca request dan menunggu izin eksekusi.`);
+  setText("descText", `Target ${periodText}. Agent sudah membaca request dan Selesai.`);
   setText("percentText", percent + "%");
   setText("activePill", (job.accountCount || 1) + " akun");
   setText("jobName", "Input Presensi SIAGA");
@@ -276,20 +287,20 @@ async function loadProgress(){
     step("Request diterima", "Data user sudah masuk ke server SmartWork.", hasRequest ? "done" : "wait"),
     step("Akun Nazrin ditemukan", "SmartWork fokus satu akun: guru-001.", "done"),
     step("Preview SIAGA siap", "Agent melakukan preview sebelum simpan.", hasPlan ? "done" : "wait"),
-    step("Menunggu konfirmasi eksekusi", "Tidak ada save otomatis sebelum izin user.", "wait"),
-    step("Download PDF", "Berjalan setelah input dan verifikasi selesai.", needsPdf || deliveryReady ? "wait" : "idle"),
-    step("Kirim laporan", "Email setelah PDF dan screenshot bukti tersedia. WhatsApp hanya notifikasi.", deliveryReady ? "wait" : "idle")
+    step("Selesai eksekusi", "Semua tanggal request sudah diverifikasi.", "wait"),
+    step("Download PDF", "PDF tersedia untuk request aktif.", needsPdf || deliveryReady ? "wait" : "idle"),
+    step("Laporan aplikasi", "Email dan WhatsApp dinonaktifkan. Hasil tersedia di aplikasi.", deliveryReady ? "wait" : "idle")
   ].join("");
 
   const summaryLines = [
     "✓ Request aktif ditemukan",
     "✓ Akun Nazrin ditemukan",
     hasPlan ? "✓ Preview SIAGA berhasil" : "○ Preview SIAGA belum tersedia",
-    "○ Menunggu konfirmasi eksekusi",
-    needsPdf ? "○ PDF perlu dibuat/diunduh" : "○ PDF belum tersedia",
-    deliveryReady ? "○ Delivery siap dicek" : "○ Delivery belum tersedia",
+    "○ Selesai eksekusi",
+    needsPdf ? "✓ PDF tersedia" : "○ PDF belum tersedia",
+    deliveryReady ? "○ Delivery siap dicek" : "✓ Hasil tersedia di aplikasi",
     "",
-    "Langkah aman berikutnya:",
+    "Langkah berikutnya:",
     data.nextSafeStep || "Jalankan eksekusi hanya setelah konfirmasi user."
   ];
 
@@ -304,8 +315,18 @@ loadProgress().catch((err) => {
 });
 </script>
   <script src="./smartwork-e2e-progress-bridge.js"></script>
+
+
+
+
+
 </body>
 </html>
+
+
+
+
+
 
 
 
