@@ -71,9 +71,9 @@
       "note": "Do not claim real save is done. Only dry-run is proven."
     },
     "finalPdfProofDeliveryForUiRequest": {
-      "status": "NOT_DONE",
+      "status": "REPLACED_BY_APP_ARTIFACT_DISPLAY",
       "requestRange": "2026-06-16..2026-06-20",
-      "note": "PDF/proof/delivery ready status from old autosave-real 1..13 must not be mixed with new UI request 16..20."
+      "note": "Email/WhatsApp delivery is disabled. After real save, generate PDF and proof report, then display both in app."
     },
     "safeCommit": {
       "status": "NOT_DONE",
@@ -87,9 +87,16 @@
       "Do not re-patch native run-dry wrapper if OK_SERVER_RESET_EXIT_0=true.",
       "Do not re-patch detailUrl enrichment if selectedRequest source is smartwork-user-request-form and selected detailUrl exists.",
       "Do not run autosave-real-request as target unless explicitly testing fallback.",
-      "Do not switch to UI polish, delivery, e-Kinerja, or unrelated SIAGA form work before completing request UI end-to-end."
+      "Do not switch to UI polish, delivery, e-Kinerja, or unrelated SIAGA form work before completing request UI end-to-end.",
+      "Do not run email/WhatsApp delivery. SmartWork output is app download PDF + proof report only."
     ],
     "ifUserOrAgentRepeatsOldStep": "Print SMARTWORK_REPEAT_WARNING with the already-green evidence and redirect to the next incomplete step.",
-    "nextIncompleteStep": "Run guarded real save for UI request 2026-06-16..2026-06-20 only after explicit permission, then verify, PDF/proof/delivery, then commit."
+    "nextIncompleteStep": "Run guarded real save for UI request 2026-06-16..2026-06-20, verify, generate PDF/proof, and show app download artifacts. Do not run email/WhatsApp delivery."
+  },
+  "deliveryPolicy": {
+    "status": "APP_DOWNLOAD_ONLY",
+    "email": "DISABLED",
+    "whatsapp": "DISABLED",
+    "note": "Show PDF download and proof report in the application only."
   }
 }

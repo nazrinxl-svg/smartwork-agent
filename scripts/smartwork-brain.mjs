@@ -135,3 +135,20 @@ try {
 } catch (err) {
   console.log("SMARTWORK_CURRENT_CHECKPOINT_MEMORY_READ_ERROR=" + (err?.message || String(err)));
 }
+
+
+try {
+  const deliveryPolicyPath = "memory/smartwork-delivery-policy.json";
+  if (fs.existsSync(deliveryPolicyPath)) {
+    const deliveryPolicy = JSON.parse(fs.readFileSync(deliveryPolicyPath, "utf8"));
+    console.log("");
+    console.log("=== SMARTWORK_DELIVERY_POLICY_FROM_FILE ===");
+    console.log("DELIVERY_POLICY_STATUS=" + deliveryPolicy.status);
+    console.log("DELIVERY_POLICY_DECISION=" + deliveryPolicy.productDecision);
+    console.log("EMAIL_DELIVERY=DISABLED");
+    console.log("WHATSAPP_DELIVERY=DISABLED");
+    console.log("OUTPUT_MODE=APP_DOWNLOAD_PDF_AND_PROOF_ONLY");
+  }
+} catch (err) {
+  console.log("SMARTWORK_DELIVERY_POLICY_READ_ERROR=" + (err?.message || String(err)));
+}
