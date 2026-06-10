@@ -1,4 +1,977 @@
-﻿<!doctype html><html lang="id"><head>  <meta charset="UTF-8" />  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <title>SmartWork Agent</title>  <link rel="preconnect" href="https://fonts.googleapis.com">  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">  <style>    html { overflow-y: scroll; }    * { box-sizing: border-box; }    body {      margin: 0;      min-height: 100vh;      font-family: "Plus Jakarta Sans", system-ui, sans-serif;      background: #dfe8f5;      color: #071833;      display: flex;      justify-content: center;    }    .app {      width: 100%;      max-width: 430px;      min-height: 100vh;      padding: 14px 14px 92px;      background: linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);    }    .topbar {      display: flex;      align-items: center;      justify-content: space-between;      margin-bottom: 14px;    }    .brand {      display: flex;      align-items: center;      gap: 10px;    }    .brand-logo img,    .hero-bot,    .nav-main img {      display: block;      object-fit: contain;    }    .brand-logo {      width: 42px;      height: 42px;      border-radius: 15px;      display: grid;      place-items: center;      color: white;      font-weight: 800;      background: white;      border: 1px solid #dbeafe;      box-shadow: 0 12px 28px rgba(37,99,235,.16);      overflow: hidden;    }    .brand-logo img {      width: 38px;      height: 38px;    }    .brand h1 {      margin: 0;      font-size: 19px;      letter-spacing: -0.04em;    }    .brand span {      color: #2563eb;    }    .top-icons {      display: flex;      gap: 8px;    }    .round {      width: 36px;      height: 36px;      border-radius: 14px;      border: 1px solid #dbe5f2;      background: white;      display: grid;      place-items: center;      box-shadow: 0 10px 24px rgba(15,23,42,.06);    }    .hero {      border-radius: 25px;      padding: 18px;      color: white;      background:        radial-gradient(circle at 78% 35%, rgba(34,211,238,.45), transparent 28%),        linear-gradient(135deg, #061742 0%, #0b2b7a 55%, #132ee8 100%);      box-shadow: 0 22px 52px rgba(15,23,42,.22);      overflow: hidden;      position: relative;    }.status {      display: inline-flex;      align-items: center;      gap: 7px;      font-size: 12px;      font-weight: 500;      color: #8cff4f;      margin-bottom: 10px;    }    .dot {      width: 10px;      height: 10px;      border-radius: 999px;      background: #55ff44;      box-shadow: 0 0 14px rgba(85,255,68,.9);    }    .hero h2 {      position: relative;      z-index: 1;      margin: 0;      font-size: 27px;      letter-spacing: -0.05em;    }    .hero p {      position: relative;      z-index: 1;      margin: 7px 0 14px;      max-width: 245px;      font-size: 12.5px;      line-height: 1.5;      color: rgba(255,255,255,.82);    }    .hero-bot {      position: relative !important;      width: 128px !important;      height: 128px !important;      object-fit: contain !important;      object-position: center bottom !important;      border-radius: 0 !important;      filter: drop-shadow(0 16px 20px rgba(34,211,238,.32));    }    .login {      position: relative;      z-index: 1;      display: inline-flex;      align-items: center;      gap: 8px;      height: 37px;      padding: 0 16px;      border-radius: 999px;      background: white;      color: #0f172a;      text-decoration: none;      font-size: 12px;      font-weight: 700;      box-shadow: 0 12px 28px rgba(0,0,0,.2);    }    .metrics {      display: grid;      grid-template-columns: repeat(4, 1fr);      gap: 8px;      margin: 13px 0 18px;      background: white;      border: 1px solid #dbe5f2;      border-radius: 21px;      padding: 11px;      box-shadow: 0 18px 40px rgba(15,23,42,.08);    }    .metric {      text-align: center;    }    .metric-icon {      width: 38px;      height: 38px;      margin: 0 auto 6px;      border-radius: 15px;      display: grid;      place-items: center;      background: linear-gradient(135deg, #eef6ff, #dbeafe);      color: #2563eb;      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(37,99,235,.12);    }    .metric:nth-child(2) .metric-icon {      background: linear-gradient(135deg, #ecfdf5, #bbf7d0);      color: #16a34a;      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(22,163,74,.12);    }    .metric:nth-child(3) .metric-icon {      background: linear-gradient(135deg, #fff7ed, #fed7aa);      color: #f97316;      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(249,115,22,.12);    }    .metric:nth-child(4) .metric-icon {      background: linear-gradient(135deg, #f5f3ff, #ddd6fe);      color: #7c3aed;      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(124,58,237,.12);    }    .metric strong {      display: block;      font-size: 18px;      color: #1d4ed8;    }    .metric span {      font-size: 9.5px;      color: #64748b;    }    .section-head {      display: flex;      justify-content: space-between;      align-items: center;      margin: 16px 2px 10px;    }    .section-head h3 {      margin: 0;      font-size: 15px;      letter-spacing: -0.03em;    }    .section-head a {      text-decoration: none;      font-size: 12px;      color: #2563eb;      font-weight: 600;    }    .agents {      display: grid;      grid-template-columns: repeat(4, 1fr);      gap: 9px;    }    .agent {      min-height: 118px;      border: 1px solid #dbe5f2;      border-radius: 20px;      background: white;      text-align: center;      padding: 12px 7px 9px;      text-decoration: none;      color: inherit;      box-shadow: 0 16px 32px rgba(15,23,42,.06);    }    .agent-icon svg,    .metric-icon svg,    .work-card svg,    .mini svg,    .round svg,    .nav-item svg,    .nav-main svg {      width: 19px;      height: 19px;      stroke: currentColor;      stroke-width: 2;      fill: none;      stroke-linecap: round;      stroke-linejoin: round;    }    .agent-icon {      width: 45px;      height: 45px;      border-radius: 16px;      margin: 0 auto 9px;      display: grid;      place-items: center;      font-size: 20px;      color: white;      background: linear-gradient(135deg, #2563eb, #06b6d4);      box-shadow: 0 12px 24px rgba(37,99,235,.22);    }    .agent h4 {      margin: 0;      font-size: 11.5px;      line-height: 1.2;    }    .agent p {      margin: 4px 0 7px;      font-size: 9.5px;      line-height: 1.25;      color: #64748b;    }    .pill {      display: inline-flex;      align-items: center;      gap: 4px;      border-radius: 999px;      padding: 3px 7px;      background: #ecfdf5;      color: #059669;      font-size: 9.5px;      font-weight: 500;    }    .pill.soon { background: #eef2ff; color: #2563eb; }    .pill.train { background: #fff7ed; color: #ea580c; }    .work {      display: grid;      grid-template-columns: 1fr 1fr;      gap: 9px;    }    .work-card {      display: flex;      align-items: center;      gap: 9px;      border: 1px solid #dbe5f2;      border-radius: 18px;      background: white;      padding: 10px;      box-shadow: 0 14px 30px rgba(15,23,42,.06);    }    .work-card .agent-icon {      width: 38px;      height: 38px;      border-radius: 14px;      margin: 0;      font-size: 17px;    }    .work-card strong {      display: block;      font-size: 11px;    }    .work-card span {      display: block;      margin-top: 3px;      font-size: 9.5px;      line-height: 1.3;      color: #64748b;    }    .activity {      border: 1px solid #dbe5f2;      border-radius: 22px;      background: white;      padding: 12px;      box-shadow: 0 16px 34px rgba(15,23,42,.06);    }    .item {      display: flex;      align-items: center;      gap: 10px;      padding: 9px 0;      border-top: 1px solid #edf2f8;    }    .item:first-child { border-top: 0; }    .mini {      width: 32px;      height: 32px;      border-radius: 13px;      display: grid;      place-items: center;      color: white;      background: #22c55e;    }    .item strong {      display: block;      font-size: 11.5px;    }    .item span {      font-size: 10px;      color: #64748b;    }    .nav-item {      font-size: 10px;      color: #64748b;    }    .nav-item strong {      display: block;      font-size: 19px;      margin-bottom: 2px;    }    .nav-main {      width: 58px;      height: 58px;      border-radius: 22px;      background: linear-gradient(135deg, #2563eb, #06b6d4);      color: white;      display: grid;      place-items: center;      margin: -26px auto 0;      box-shadow: 0 16px 34px rgba(37,99,235,.34);      font-size: 26px;      overflow: hidden;    }    .nav-main img {      width: 50px;      height: 50px;    }    /* BOTTOM NAV CLEAN */    .nav-main,    .nav-main img {      display: none !important;    }    /* GOOGLE PROFILE AVATAR */    .profile-avatar {      width: 38px;      height: 38px;      border-radius: 15px;      border: 1px solid #dbeafe;      background: #ffffff;      padding: 2px;      position: relative;      box-shadow: 0 10px 24px rgba(15,23,42,.08);      overflow: visible;    }    .profile-avatar img {      width: 100%;      height: 100%;      border-radius: 13px;      object-fit: cover;      display: block;    }    .profile-avatar span {      position: absolute;      right: -1px;      bottom: -1px;      width: 10px;      height: 10px;      border-radius: 999px;      background: #22c55e;      border: 2px solid #ffffff;    }    /* HERO ROBOT BLEND */    .hero-bot-wrap {      position: absolute;      right: 8px;      bottom: 8px;      width: 132px;      height: 132px;      z-index: 0;      display: grid;      place-items: center;      overflow: visible;      background: transparent !important;      box-shadow: none !important;      border: 0 !important;    }    .hero-orb {      position: absolute;      width: 112px;      height: 112px;      border-radius: 999px;      background: radial-gradient(circle, rgba(34,211,238,.38), rgba(37,99,235,.04) 62%, transparent 70%);      filter: blur(.2px);    }    .hero-bot {      position: relative !important;      width: 128px !important;      height: 128px !important;      object-fit: contain !important;      object-position: center bottom !important;      border-radius: 0 !important;      filter: drop-shadow(0 16px 20px rgba(34,211,238,.32));    }    /* HERO ROBOT ANIMATION */    .hero-bot-wrap {      animation: botFloat 3.8s ease-in-out infinite;    }    .hero-bot {      animation: botGlow 3s ease-in-out infinite;    }    .bot-eye { display:none !important;      position: absolute;      z-index: 3;      width: 8px;      height: 22px;      border-radius: 999px;      background: #67e8f9;      box-shadow: 0 0 12px rgba(103,232,249,.85);      animation: botBlink 4.2s infinite;      pointer-events: none;    }    .bot-eye-left { display:none !important;      right: 80px;      top: 52px;    }    .bot-eye-right { display:none !important;      right: 50px;      top: 52px;    }    @keyframes botFloat {      0%, 100% { transform: translateY(0); }      50% { transform: translateY(-5px); }    }    @keyframes botGlow {      0%, 100% { filter: drop-shadow(0 16px 20px rgba(34,211,238,.28)); }      50% { filter: drop-shadow(0 20px 26px rgba(34,211,238,.46)); }    }    @keyframes botBlink {      0%, 88%, 100% { transform: scaleY(1); opacity: .95; }      90%, 94% { transform: scaleY(.12); opacity: .75; }    }    /* HERO ROBOT SAFE ANIMATION */    .hero-bot-wrap::before {      content: "";      position: absolute;      width: 112px;      height: 112px;      border-radius: 999px;      background: radial-gradient(circle, rgba(34,211,238,.32), rgba(37,99,235,.05) 62%, transparent 72%);      animation: botPulse 3.4s ease-in-out infinite;      z-index: -1;    }    .hero-bot-wrap {      animation: botFloat 3.8s ease-in-out infinite;    }    .hero-bot {      animation: botTilt 4.5s ease-in-out infinite;    }    @keyframes botFloat {      0%, 100% { transform: translateY(0); }      50% { transform: translateY(-5px); }    }    @keyframes botTilt {      0%, 100% { transform: rotate(0deg); }      50% { transform: rotate(1.4deg); }    }    @keyframes botPulse {      0%, 100% { transform: scale(.92); opacity: .55; }      50% { transform: scale(1.08); opacity: .9; }    }    /* SIAGA CARD LOGO */    .siaga-logo-icon {      background: #ffffff !important;      border: 1px solid #dbeafe;      overflow: hidden;      padding: 5px;    }    .siaga-logo-icon img {      width: 100%;      height: 100%;      object-fit: contain;      display: block;    }    /* E-KINERJA MERANTI LOGO */    .ekinerja-meranti-logo {      background: #ffffff !important;      border: 1px solid #dbeafe;      overflow: hidden;      padding: 5px;    }    .ekinerja-meranti-logo img {      width: 86%;      height: 86%;      object-fit: contain;      display: block;      margin: auto;    }    /* NAV AGENT NORMAL */  /* NAV FINAL CONSISTENT */  .bottom-nav {    position: fixed !important;    left: 50% !important;    bottom: 12px !important;    transform: translateX(-50%) !important;    width: min(402px, calc(100% - 28px)) !important;    height: 56px !important;    background: rgba(255,255,255,.94) !important;    border: 1px solid #d8e3f5 !important;    border-radius: 22px !important;    padding: 5px 8px !important;    display: grid !important;    grid-template-columns: repeat(5, 1fr) !important;    gap: 4px !important;    box-shadow: 0 8px 22px rgba(15,23,42,.10) !important;    backdrop-filter: blur(14px) !important;    z-index: 99 !important;  }  .bottom-nav .nav-item {    text-decoration: none !important;    display: grid !important;    align-content: center !important; justify-items: center !important;    gap: 1px !important;    font-size: 10px !important; line-height: 1 !important;    font-weight: 500 !important;    color: #64748b !important;    border-radius: 14px !important;    background: transparent !important;    min-width: 0 !important;  }  .bottom-nav .nav-item strong {    display: grid !important;    align-content: center !important; justify-items: center !important;    width: 20px !important;    height: 20px !important;    margin: 0 !important;    background: transparent !important;    border-radius: 0 !important;    box-shadow: none !important;    color: currentColor !important;  }  .bottom-nav .nav-item svg {    width: 17px !important;    height: 17px !important;    stroke: currentColor !important;    stroke-width: 1.9 !important;    fill: none !important;    stroke-linecap: round !important;    stroke-linejoin: round !important;  }    .bottom-nav .nav-item span {    margin-top: 0 !important;    line-height: 1 !important;  }  .bottom-nav .nav-item.active {    background: #eaf2ff !important; box-shadow: none !important;    color: #0f62fe !important;  }  .bottom-nav .nav-item.active span {    color: #0f62fe !important;    font-weight: 600 !important;  }/* SMARTWORK NOTIFICATION POPUP */.notify-wrap{position:relative}.notify-dot{  position:absolute;right:7px;top:7px;width:8px;height:8px;border-radius:99px;  background:#22c55e;border:2px solid #fff;box-shadow:0 0 0 3px rgba(34,197,94,.12)}.notify-panel{  position:absolute;right:-6px;top:50px;width:286px;z-index:120;  background:rgba(255,255,255,.98);border:1px solid #dbe5f2;border-radius:22px;  box-shadow:0 18px 45px rgba(15,23,42,.16);padding:12px;  opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;  transition:.18s ease;}.notify-panel.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}.notify-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.notify-head strong{font-size:13px}.notify-head span{font-size:10px;color:#2563eb;background:#eaf2ff;padding:5px 8px;border-radius:999px}.notify-item{display:flex;gap:10px;padding:10px;border-radius:16px;background:#f8fbff;border:1px solid #edf2fb;margin-top:8px}.notify-ico{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:#dcfce7;color:#16a34a;font-size:14px;flex:0 0 auto}.notify-item:nth-child(3) .notify-ico{background:#eaf2ff;color:#2563eb}.notify-item:nth-child(4) .notify-ico{background:#fff7ed;color:#f97316}.notify-item b{display:block;font-size:11.5px;margin-bottom:3px}.notify-item p{margin:0;font-size:10.5px;line-height:1.35;color:#64748b}/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */.bottom-nav{  position:fixed!important;  left:50%!important;  bottom:0!important;  transform:translateX(-50%)!important;  width:min(430px,100%)!important;  height:auto!important;  display:grid!important;  grid-template-columns:repeat(5,1fr)!important;  gap:3px!important;  background:#fff!important;  border-top:1px solid #dfe8f4!important;  border-left:0!important;  border-right:0!important;  border-bottom:0!important;  border-radius:0!important;  padding:7px 9px 9px!important;  box-shadow:none!important;  z-index:99!important;}.bottom-nav .nav-item{  text-decoration:none!important;  color:#64748b!important;  display:grid!important;  place-items:center!important;  gap:3px!important;  font-size:10px!important;  font-weight:500!important;  background:transparent!important;  border-radius:0!important;  box-shadow:none!important;}.bottom-nav .nav-item strong{  width:32px!important;  height:28px!important;  border-radius:12px!important;  display:grid!important;  place-items:center!important;  background:transparent!important;}.bottom-nav .nav-item svg{  width:18px!important;  height:18px!important;  fill:none!important;  stroke:currentColor!important;  stroke-width:1.9!important;  stroke-linecap:round!important;  stroke-linejoin:round!important;}.bottom-nav .nav-item.active{  color:#2563eb!important;  background:transparent!important;}.bottom-nav .nav-item.active strong{  background:#eaf2ff!important;}.bottom-nav .nav-item.active span{  color:#2563eb!important;  font-weight:500!important;}/* SMARTWORK EYE BLINK ONLY START */.hero-bot-wrap{  overflow:visible;}/* SMARTWORK EYE BLINK ONLY END */</style></head><body>  <main class="app">    <section class="topbar">      <div class="brand">        <div class="brand-logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>        <div>          <h1>Smart<span>Work</span></h1>          <div style="font-size:12px;color:#64748b">Agent</div>        </div>      </div>            <div class="top-icons">        <div class="notify-wrap"><div class="round" id="notifyBell" title="Notifikasi"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="notify-dot"></span></div><div class="notify-panel" id="notifyPanel">  <div class="notify-head"><strong>Notifikasi Agent</strong><span>3 baru</span></div>  <div class="notify-item"><div class="notify-ico">✓</div><div><b>SIAGA Absen selesai</b><p>Laporan bukti dan PDF presensi sudah siap dicek.</p></div></div>  <div class="notify-item"><div class="notify-ico">📄</div><div><b>Report Agent siap</b><p>Ringkasan pekerjaan berhasil dibuat untuk pengguna.</p></div></div>  <div class="notify-item"><div class="notify-ico">!</div><div><b>Approval dibutuhkan</b><p>Email/WhatsApp menunggu izin kirim dari pengguna.</p></div></div></div></div><div class="profile-avatar" title="Akun Google">          <img id="googlePhoto" src="/smartwork-logo.png" alt="Foto akun Google">          <span></span>        </div>      </div>    </section>    <section class="hero">            <h2>Halo, Naz! 👋</h2>      <p>Banyak aplikasi, satu pusat kendali untuk pekerjaan sekolah.</p>      <a class="login" href="/request.html">Buat Request Baru</a>      <div class="hero-bot-wrap">        <span class="hero-orb"></span>        <img class="hero-bot" src="/PNG logo.png" alt="SmartWork Agent">      </div>    </section>    <section class="metrics">      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></div><strong>8</strong><span>Agent</span></div>      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"/></svg></div><strong>1</strong><span>Aktif</span></div>      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></div><strong>24</strong><span>Bukti</span></div>      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></div><strong>98%</strong><span>Akurasi</span></div>    </section>    <div class="section-head">      <h3>Smart Agents</h3>      <a href="#">Lihat Semua ›</a>    </div>    <section class="agents">      <a class="agent" href="/request.html">        <div class="agent-icon siaga-logo-icon"><img src="/SIAGA LOGO.png" alt="SIAGA"></div>        <h4>SIAGA<br>Agent</h4>        <p>Absensi & Data Guru</p>      </a>      <div class="agent">        <div class="agent-icon ekinerja-meranti-logo"><img src="/LOGO KABUPATEN MERANTI.png" alt="e-Kinerja Meranti"></div>        <h4>e-Kinerja Meranti</h4>        <p>Kinerja ASN Meranti</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></div>        <h4>SIMPKB Agent</h4>        <p>GTK & Pengembangan</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316)"><svg viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"/><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M3 12h18"/></svg></div>        <h4>ARKAS<br>Agent</h4>        <p>Keuangan Sekolah</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>        <h4>Dapodik Agent</h4>        <p>Data Pokok</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#2563eb,#0ea5e9)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-5"/></svg></div>        <h4>EMIS Agent</h4>        <p>Manajemen EMIS</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="M15 9l4-4"/></svg></div>        <h4>e-Kinerja</h4>        <p>Kinerja ASN</p>      </div>      <div class="agent">        <div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#6366f1)"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>        <h4>Custom</h4>        <p>Buat Agent Baru</p>      </div>    </section>    <div class="section-head"><h3>Work Center</h3></div>    <section class="work">      <div class="work-card"><div class="agent-icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="M9 12h6"/><path d="M9 16h6"/></svg></div><div><strong>Tugas Berjalan</strong><span>Lihat tugas agent aktif</span></div></div>      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><svg viewBox="0 0 24 24"><path d="M14 5l1.5 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4.5L10 5h4Z"/><circle cx="12" cy="13" r="3"/></svg></div><div><strong>Screenshot</strong><span>Bukti kerja tersimpan</span></div></div>      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316)"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></div><div><strong>Riwayat Kerja</strong><span>Log aktivitas agent</span></div></div>      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><div><strong>Approval Center</strong><span>Setujui simpan/kirim</span></div></div>    </section>    <div class="section-head">      <h3>Aktivitas Terbaru</h3>      <a href="#">Lihat Semua ›</a>    </div>    <section class="activity">      <div class="item"><div class="mini"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><div><strong>SIAGA Agent membuka halaman absensi</strong><span>Hari ini, 09:30</span></div></div>      <div class="item"><div class="mini" style="background:#2563eb"><svg viewBox="0 0 24 24"><path d="M14 5l1.5 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4.5L10 5h4Z"/><circle cx="12" cy="13" r="3"/></svg></div><div><strong>Screenshot form absensi berhasil disimpan</strong><span>Hari ini, 09:31</span></div></div>      <div class="item"><div class="mini" style="background:#f97316">!</div><div><strong>Simpan data menunggu persetujuan pengguna</strong><span>Hari ini, 09:32</span></div></div>    </section>  </main>      <nav class="bottom-nav">  <a class="nav-item active" href="/home.html"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>  <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>  <a class="nav-item" href="/progress.html"><strong><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></strong><span>Progress</span></a>  <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>  <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a></nav><!-- SMARTWORK AGENT GREETING START --><audio id="agentVoiceGreeting" src="/agent-greeting.mp3" preload="auto"></audio><script>window.addEventListener("load", () => {  const audio = document.getElementById("agentVoiceGreeting");  if (!audio) return;  audio.volume = 0.95;  setTimeout(() => {    audio.play().catch(() => {      document.body.addEventListener("click", () => audio.play(), { once: true });    });  }, 700);});</script><!-- SMARTWORK AGENT GREETING END --></body></html>
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartWork Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html { overflow-y: scroll; }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      background: #dfe8f5;
+      color: #071833;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      padding: 14px 14px 92px;
+      background: linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo img,
+    .hero-bot,
+    .nav-main img {
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      background: white;
+      border: 1px solid #dbeafe;
+      box-shadow: 0 12px 28px rgba(37,99,235,.16);
+      overflow: hidden;
+    }
+
+    .brand-logo img {
+      width: 38px;
+      height: 38px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 19px;
+      letter-spacing: -0.04em;
+    }
+
+    .brand span {
+      color: #2563eb;
+    }
+
+    .top-icons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .round {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      border: 1px solid #dbe5f2;
+      background: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(15,23,42,.06);
+    }
+
+    .hero {
+      border-radius: 25px;
+      padding: 18px;
+      color: white;
+      background:
+        radial-gradient(circle at 78% 35%, rgba(34,211,238,.45), transparent 28%),
+        linear-gradient(135deg, #061742 0%, #0b2b7a 55%, #132ee8 100%);
+      box-shadow: 0 22px 52px rgba(15,23,42,.22);
+      overflow: hidden;
+      position: relative;
+    }
+.status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #8cff4f;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #55ff44;
+      box-shadow: 0 0 14px rgba(85,255,68,.9);
+    }
+
+    .hero h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 27px;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      margin: 7px 0 14px;
+      max-width: 245px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.82);
+    }
+
+    .hero-bot {
+      position: relative !important;
+      width: 128px !important;
+      height: 128px !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      border-radius: 0 !important;
+      filter: drop-shadow(0 16px 20px rgba(34,211,238,.32));
+    }
+
+    .login {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 37px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: white;
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(0,0,0,.2);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 13px 0 18px;
+      background: white;
+      border: 1px solid #dbe5f2;
+      border-radius: 21px;
+      padding: 11px;
+      box-shadow: 0 18px 40px rgba(15,23,42,.08);
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-icon {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 6px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #eef6ff, #dbeafe);
+      color: #2563eb;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(37,99,235,.12);
+    }
+
+    .metric:nth-child(2) .metric-icon {
+      background: linear-gradient(135deg, #ecfdf5, #bbf7d0);
+      color: #16a34a;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(22,163,74,.12);
+    }
+
+    .metric:nth-child(3) .metric-icon {
+      background: linear-gradient(135deg, #fff7ed, #fed7aa);
+      color: #f97316;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(249,115,22,.12);
+    }
+
+    .metric:nth-child(4) .metric-icon {
+      background: linear-gradient(135deg, #f5f3ff, #ddd6fe);
+      color: #7c3aed;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 10px 20px rgba(124,58,237,.12);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 18px;
+      color: #1d4ed8;
+    }
+
+    .metric span {
+      font-size: 9.5px;
+      color: #64748b;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 2px 10px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head a {
+      text-decoration: none;
+      font-size: 12px;
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    .agents {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .agent {
+      min-height: 118px;
+      border: 1px solid #dbe5f2;
+      border-radius: 20px;
+      background: white;
+      text-align: center;
+      padding: 12px 7px 9px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 16px 32px rgba(15,23,42,.06);
+    }
+
+    .agent-icon svg,
+    .metric-icon svg,
+    .work-card svg,
+    .mini svg,
+    .round svg,
+    .nav-item svg,
+    .nav-main svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .agent-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 16px;
+      margin: 0 auto 9px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      box-shadow: 0 12px 24px rgba(37,99,235,.22);
+    }
+
+    .agent h4 {
+      margin: 0;
+      font-size: 11.5px;
+      line-height: 1.2;
+    }
+
+    .agent p {
+      margin: 4px 0 7px;
+      font-size: 9.5px;
+      line-height: 1.25;
+      color: #64748b;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      padding: 3px 7px;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 9.5px;
+      font-weight: 500;
+    }
+
+    .pill.soon { background: #eef2ff; color: #2563eb; }
+    .pill.train { background: #fff7ed; color: #ea580c; }
+
+    .work {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .work-card {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid #dbe5f2;
+      border-radius: 18px;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 14px 30px rgba(15,23,42,.06);
+    }
+
+    .work-card .agent-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .work-card strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .work-card span {
+      display: block;
+      margin-top: 3px;
+      font-size: 9.5px;
+      line-height: 1.3;
+      color: #64748b;
+    }
+
+    .activity {
+      border: 1px solid #dbe5f2;
+      border-radius: 22px;
+      background: white;
+      padding: 12px;
+      box-shadow: 0 16px 34px rgba(15,23,42,.06);
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-top: 1px solid #edf2f8;
+    }
+
+    .item:first-child { border-top: 0; }
+
+    .mini {
+      width: 32px;
+      height: 32px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: #22c55e;
+    }
+
+    .item strong {
+      display: block;
+      font-size: 11.5px;
+    }
+
+    .item span {
+      font-size: 10px;
+      color: #64748b;
+    }
+
+    .nav-item {
+      font-size: 10px;
+      color: #64748b;
+    }
+
+    .nav-item strong {
+      display: block;
+      font-size: 19px;
+      margin-bottom: 2px;
+    }
+
+    .nav-main {
+      width: 58px;
+      height: 58px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white;
+      display: grid;
+      place-items: center;
+      margin: -26px auto 0;
+      box-shadow: 0 16px 34px rgba(37,99,235,.34);
+      font-size: 26px;
+      overflow: hidden;
+    }
+
+    .nav-main img {
+      width: 50px;
+      height: 50px;
+    }
+    /* BOTTOM NAV CLEAN */
+
+    .nav-main,
+    .nav-main img {
+      display: none !important;
+    }
+    /* GOOGLE PROFILE AVATAR */
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 15px;
+      border: 1px solid #dbeafe;
+      background: #ffffff;
+      padding: 2px;
+      position: relative;
+      box-shadow: 0 10px 24px rgba(15,23,42,.08);
+      overflow: visible;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 13px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-avatar span {
+      position: absolute;
+      right: -1px;
+      bottom: -1px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #22c55e;
+      border: 2px solid #ffffff;
+    }
+    /* HERO ROBOT BLEND */
+    .hero-bot-wrap {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      width: 132px;
+      height: 132px;
+      z-index: 0;
+      display: grid;
+      place-items: center;
+      overflow: visible;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: 0 !important;
+    }
+
+    .hero-orb {
+      position: absolute;
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(34,211,238,.38), rgba(37,99,235,.04) 62%, transparent 70%);
+      filter: blur(.2px);
+    }
+
+    .hero-bot {
+      position: relative !important;
+      width: 128px !important;
+      height: 128px !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      border-radius: 0 !important;
+      filter: drop-shadow(0 16px 20px rgba(34,211,238,.32));
+    }
+    /* HERO ROBOT ANIMATION */
+    .hero-bot-wrap {
+      animation: botFloat 3.8s ease-in-out infinite;
+    }
+
+    .hero-bot {
+      animation: botGlow 3s ease-in-out infinite;
+    }
+
+    .bot-eye { display:none !important;
+      position: absolute;
+      z-index: 3;
+      width: 8px;
+      height: 22px;
+      border-radius: 999px;
+      background: #67e8f9;
+      box-shadow: 0 0 12px rgba(103,232,249,.85);
+      animation: botBlink 4.2s infinite;
+      pointer-events: none;
+    }
+
+    .bot-eye-left { display:none !important;
+      right: 80px;
+      top: 52px;
+    }
+
+    .bot-eye-right { display:none !important;
+      right: 50px;
+      top: 52px;
+    }
+
+    @keyframes botFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes botGlow {
+      0%, 100% { filter: drop-shadow(0 16px 20px rgba(34,211,238,.28)); }
+      50% { filter: drop-shadow(0 20px 26px rgba(34,211,238,.46)); }
+    }
+
+    @keyframes botBlink {
+      0%, 88%, 100% { transform: scaleY(1); opacity: .95; }
+      90%, 94% { transform: scaleY(.12); opacity: .75; }
+    }
+    /* HERO ROBOT SAFE ANIMATION */
+    .hero-bot-wrap::before {
+      content: "";
+      position: absolute;
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(34,211,238,.32), rgba(37,99,235,.05) 62%, transparent 72%);
+      animation: botPulse 3.4s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .hero-bot-wrap {
+      animation: botFloat 3.8s ease-in-out infinite;
+    }
+
+    .hero-bot {
+      animation: botTilt 4.5s ease-in-out infinite;
+    }
+
+    @keyframes botFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes botTilt {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(1.4deg); }
+    }
+
+    @keyframes botPulse {
+      0%, 100% { transform: scale(.92); opacity: .55; }
+      50% { transform: scale(1.08); opacity: .9; }
+    }
+    /* SIAGA CARD LOGO */
+    .siaga-logo-icon {
+      background: #ffffff !important;
+      border: 1px solid #dbeafe;
+      overflow: hidden;
+      padding: 5px;
+    }
+
+    .siaga-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    /* E-KINERJA MERANTI LOGO */
+    .ekinerja-meranti-logo {
+      background: #ffffff !important;
+      border: 1px solid #dbeafe;
+      overflow: hidden;
+      padding: 5px;
+    }
+
+    .ekinerja-meranti-logo img {
+      width: 86%;
+      height: 86%;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+    }
+    /* NAV AGENT NORMAL */
+
+  /* NAV FINAL CONSISTENT */
+  .bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 12px !important;
+    transform: translateX(-50%) !important;
+    width: min(402px, calc(100% - 28px)) !important;
+    height: 56px !important;
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid #d8e3f5 !important;
+    border-radius: 22px !important;
+    padding: 5px 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
+    box-shadow: 0 8px 22px rgba(15,23,42,.10) !important;
+    backdrop-filter: blur(14px) !important;
+    z-index: 99 !important;
+  }
+
+  .bottom-nav .nav-item {
+    text-decoration: none !important;
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    gap: 1px !important;
+    font-size: 10px !important; line-height: 1 !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    border-radius: 14px !important;
+    background: transparent !important;
+    min-width: 0 !important;
+  }
+
+  .bottom-nav .nav-item strong {
+    display: grid !important;
+    align-content: center !important; justify-items: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: currentColor !important;
+  }
+
+  .bottom-nav .nav-item svg {
+    width: 17px !important;
+    height: 17px !important;
+    stroke: currentColor !important;
+    stroke-width: 1.9 !important;
+    fill: none !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+    .bottom-nav .nav-item span {
+    margin-top: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .bottom-nav .nav-item.active {
+    background: #eaf2ff !important; box-shadow: none !important;
+    color: #0f62fe !important;
+  }
+
+  .bottom-nav .nav-item.active span {
+    color: #0f62fe !important;
+    font-weight: 600 !important;
+  }
+/* SMARTWORK NOTIFICATION POPUP */
+.notify-wrap{position:relative}
+.notify-dot{
+  position:absolute;right:7px;top:7px;width:8px;height:8px;border-radius:99px;
+  background:#22c55e;border:2px solid #fff;box-shadow:0 0 0 3px rgba(34,197,94,.12)
+}
+.notify-panel{
+  position:absolute;right:-6px;top:50px;width:286px;z-index:120;
+  background:rgba(255,255,255,.98);border:1px solid #dbe5f2;border-radius:22px;
+  box-shadow:0 18px 45px rgba(15,23,42,.16);padding:12px;
+  opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;
+  transition:.18s ease;
+}
+.notify-panel.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.notify-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.notify-head strong{font-size:13px}
+.notify-head span{font-size:10px;color:#2563eb;background:#eaf2ff;padding:5px 8px;border-radius:999px}
+.notify-item{display:flex;gap:10px;padding:10px;border-radius:16px;background:#f8fbff;border:1px solid #edf2fb;margin-top:8px}
+.notify-ico{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:#dcfce7;color:#16a34a;font-size:14px;flex:0 0 auto}
+.notify-item:nth-child(3) .notify-ico{background:#eaf2ff;color:#2563eb}
+.notify-item:nth-child(4) .notify-ico{background:#fff7ed;color:#f97316}
+.notify-item b{display:block;font-size:11.5px;margin-bottom:3px}
+.notify-item p{margin:0;font-size:10.5px;line-height:1.35;color:#64748b}
+
+/* SMARTWORK NAV STANDARD - SAME AS PROGRESS */
+.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(430px,100%)!important;
+  height:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  gap:3px!important;
+  background:#fff!important;
+  border-top:1px solid #dfe8f4!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  padding:7px 9px 9px!important;
+  box-shadow:none!important;
+  z-index:99!important;
+}
+.bottom-nav .nav-item{
+  text-decoration:none!important;
+  color:#64748b!important;
+  display:grid!important;
+  place-items:center!important;
+  gap:3px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.bottom-nav .nav-item strong{
+  width:32px!important;
+  height:28px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item svg{
+  width:18px!important;
+  height:18px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.bottom-nav .nav-item.active{
+  color:#2563eb!important;
+  background:transparent!important;
+}
+.bottom-nav .nav-item.active strong{
+  background:#eaf2ff!important;
+}
+.bottom-nav .nav-item.active span{
+  color:#2563eb!important;
+  font-weight:500!important;
+}
+</style>
+</head>
+<body>
+  <main class="app">
+    <section class="topbar">
+      <div class="brand">
+        <div class="brand-logo"><img src="/smartwork-logo.png" alt="SmartWork"></div>
+        <div>
+          <h1>Smart<span>Work</span></h1>
+          <div style="font-size:12px;color:#64748b">Agent</div>
+        </div>
+      </div>
+            <div class="top-icons">
+        <div class="notify-wrap"><div class="round" id="notifyBell" title="Notifikasi"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><span class="notify-dot"></span></div>
+<div class="notify-panel" id="notifyPanel">
+  <div class="notify-head"><strong>Notifikasi Agent</strong><span>3 baru</span></div>
+  <div class="notify-item"><div class="notify-ico">✓</div><div><b>SIAGA Absen selesai</b><p>Laporan bukti dan PDF presensi sudah siap dicek.</p></div></div>
+  <div class="notify-item"><div class="notify-ico">📄</div><div><b>Report Agent siap</b><p>Ringkasan pekerjaan berhasil dibuat untuk pengguna.</p></div></div>
+  <div class="notify-item"><div class="notify-ico">!</div><div><b>Approval dibutuhkan</b><p>Email/WhatsApp menunggu izin kirim dari pengguna.</p></div></div>
+</div></div>
+<div class="profile-avatar" title="Akun Google">
+          <img id="googlePhoto" src="/smartwork-logo.png" alt="Foto akun Google">
+          <span></span>
+        </div>
+      </div>    </section>
+
+    <section class="hero">
+      
+      <h2>Halo, Naz! 👋</h2>
+      <p>Banyak aplikasi, satu pusat kendali untuk pekerjaan sekolah.</p>
+      <a class="login" href="/request.html">Buat Request Baru</a>
+      <div class="hero-bot-wrap">
+        <span class="hero-orb"></span>
+        <img class="hero-bot" src="/PNG logo.png" alt="SmartWork Agent">
+      </div>
+    </section>
+
+    <section class="metrics">
+      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M8 20h8"/></svg></div><strong>8</strong><span>Agent</span></div>
+      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"/></svg></div><strong>1</strong><span>Aktif</span></div>
+      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></div><strong>24</strong><span>Bukti</span></div>
+      <div class="metric"><div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></div><strong>98%</strong><span>Akurasi</span></div>
+    </section>
+
+    <div class="section-head">
+      <h3>Smart Agents</h3>
+      <a href="#">Lihat Semua ›</a>
+    </div>
+
+    <section class="agents">
+      <a class="agent" href="/request.html">
+        <div class="agent-icon siaga-logo-icon"><img src="/SIAGA LOGO.png" alt="SIAGA"></div>
+        <h4>SIAGA<br>Agent</h4>
+        <p>Absensi & Data Guru</p>
+      </a>
+
+      <div class="agent">
+        <div class="agent-icon ekinerja-meranti-logo"><img src="/LOGO KABUPATEN MERANTI.png" alt="e-Kinerja Meranti"></div>
+        <h4>e-Kinerja Meranti</h4>
+        <p>Kinerja ASN Meranti</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h4>SIMPKB Agent</h4>
+        <p>GTK & Pengembangan</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316)"><svg viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"/><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M3 12h18"/></svg></div>
+        <h4>ARKAS<br>Agent</h4>
+        <p>Keuangan Sekolah</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h4>Dapodik Agent</h4>
+        <p>Data Pokok</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#2563eb,#0ea5e9)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-5"/></svg></div>
+        <h4>EMIS Agent</h4>
+        <p>Manajemen EMIS</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="M15 9l4-4"/></svg></div>
+        <h4>e-Kinerja</h4>
+        <p>Kinerja ASN</p>
+      </div>
+
+      <div class="agent">
+        <div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#6366f1)"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>
+        <h4>Custom</h4>
+        <p>Buat Agent Baru</p>
+      </div>
+    </section>
+
+    <div class="section-head"><h3>Work Center</h3></div>
+
+    <section class="work">
+      <div class="work-card"><div class="agent-icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="M9 12h6"/><path d="M9 16h6"/></svg></div><div><strong>Tugas Berjalan</strong><span>Lihat tugas agent aktif</span></div></div>
+      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><svg viewBox="0 0 24 24"><path d="M14 5l1.5 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4.5L10 5h4Z"/><circle cx="12" cy="13" r="3"/></svg></div><div><strong>Screenshot</strong><span>Bukti kerja tersimpan</span></div></div>
+      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316)"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></div><div><strong>Riwayat Kerja</strong><span>Log aktivitas agent</span></div></div>
+      <div class="work-card"><div class="agent-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><div><strong>Approval Center</strong><span>Setujui simpan/kirim</span></div></div>
+    </section>
+
+    <div class="section-head">
+      <h3>Aktivitas Terbaru</h3>
+      <a href="#">Lihat Semua ›</a>
+    </div>
+
+    <section class="activity">
+      <div class="item"><div class="mini"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><div><strong>SIAGA Agent membuka halaman absensi</strong><span>Hari ini, 09:30</span></div></div>
+      <div class="item"><div class="mini" style="background:#2563eb"><svg viewBox="0 0 24 24"><path d="M14 5l1.5 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4.5L10 5h4Z"/><circle cx="12" cy="13" r="3"/></svg></div><div><strong>Screenshot form absensi berhasil disimpan</strong><span>Hari ini, 09:31</span></div></div>
+      <div class="item"><div class="mini" style="background:#f97316">!</div><div><strong>Simpan data menunggu persetujuan pengguna</strong><span>Hari ini, 09:32</span></div></div>
+    </section>
+  </main>
+
+      <nav class="bottom-nav">
+  <a class="nav-item active" href="/home.html"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
+  <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
+  <a class="nav-item" href="/progress.html"><strong><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></strong><span>Progress</span></a>
+  <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
+  <a class="nav-item" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
+</nav>
+<script>
+  (() => {
+    const savedPhoto = localStorage.getItem("smartwork_profile_photo");
+    const user = JSON.parse(localStorage.getItem("smartwork_user") || "null");
+    const googlePhoto = document.getElementById("googlePhoto");
+
+    if (googlePhoto) {
+      if (savedPhoto) {
+        googlePhoto.src = savedPhoto;
+      } else if (user && user.photoURL) {
+        googlePhoto.src = user.photoURL;
+      }
+    }
+
+    const avatar = document.querySelector(".profile-avatar");
+    if (avatar) {
+      avatar.addEventListener("click", () => {
+        window.location.href = "/profile.html";
+      });
+      avatar.style.cursor = "pointer";
+    }
+  })();
+</script>
+<script>
+  (() => {
+    const bell = document.getElementById("notifyBell");
+    const panel = document.getElementById("notifyPanel");
+
+    if (bell && panel) {
+      bell.addEventListener("click", (event) => {
+        event.stopPropagation();
+        panel.classList.toggle("show");
+      });
+
+      document.addEventListener("click", () => {
+        panel.classList.remove("show");
+      });
+
+      panel.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    }
+  })();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
