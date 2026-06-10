@@ -156,6 +156,8 @@ function normalizePayload(payload) {
       teacherId: account.teacherId,
       teacherName: account.teacherName,
       schoolName: account.schoolName,
+      username: account.username || payload.username || "",
+      password: account.password || payload.password || "",
       startDate: account.startDate || payload.startDate || "",
       endDate: account.endDate || payload.endDate || "",
       targetPdfName: account.targetPdfName || "",
@@ -346,6 +348,82 @@ function handleDownloadFile(req, res) {
   fs.createReadStream(fullPath).pipe(res);
 }
 
+function writeLegacyRunnerBridge(normalized) {
+  const first = normalized.accounts?.[0] || {};
+  const siagaApp = {
+    appId: "siaga",
+    username: normalized.username || first.username || normalized.siagaUsername || "",
+    password: normalized.password || first.password || normalized.siagaPassword || ""
+  };
+
+  const accountFile = {
+    version: "0.1.0",
+    warning: "Generated from SmartWork user request. Do not commit real credentials.",
+    parallelLimit: 1,
+    teachers: [
+      {
+        teacherId: first.teacherId || "guru-001",
+        name: first.teacherName || normalized.requesterName || "User Request",
+        wa: normalized.delivery?.whatsapp || first.wa || "",
+        enabled: true,
+        apps: [siagaApp]
+      }
+    ]
+  };
+
+  const requestFile = {
+    requestId: normalized.jobId,
+    appId: normalized.service || "siaga",
+    target: {
+      month: normalized.targetMonth || "Juni",
+      year: Number(normalized.targetYear || new Date().getFullYear())
+    },
+    parallelLimit: 1,
+    mode: "preview",
+    rules: {
+      userDoesNotProvideTimeRules: true,
+      saveRequiresExplicitPermission: true,
+      skipSunday: normalized.rules?.skipSundays !== false
+    },
+    holidays: normalized.schedule?.holidayDates || [],
+    leaveDays: first.leaveDates || normalized.schedule?.globalLeaveDates || [],
+    startDate: first.startDate || "",
+    endDate: first.endDate || ""
+  };
+
+  fs.mkdirSync(path.join(ROOT, "data"), { recursive: true });
+  fs.writeFileSync(
+    path.join(ROOT, "data", "teacher-accounts.local.json"),
+    JSON.stringify(accountFile, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    path.join(ROOT, "data", "siaga-attendance-request.local.json"),
+    JSON.stringify(requestFile, null, 2),
+    "utf8"
+  );
+}
+function createInternalJsonResponse(label = "internal") {
+  return {
+    statusCode: 200,
+    payload: null,
+    headers: {},
+    writeHead(code, headers = {}) {
+      this.statusCode = code;
+      this.headers = headers;
+    },
+    end(body = "") {
+      try {
+        this.payload = body ? JSON.parse(body) : null;
+      } catch {
+        this.payload = body;
+      }
+      if (this.statusCode >= 400) {
+        console.error(`[${label}] internal response error`, this.statusCode, this.payload);
+      }
+    }
+  };
+}
 async function handleCreateRequest(req, res) {
   try {
     const raw = await readRequestBody(req);
@@ -372,6 +450,7 @@ async function handleCreateRequest(req, res) {
 
     fs.writeFileSync(filePath, JSON.stringify(normalized, null, 2), "utf8");
     fs.writeFileSync(ACTIVE_INTAKE_PATH, JSON.stringify(normalized, null, 2), "utf8");
+    writeLegacyRunnerBridge(normalized);
 
 saveJob({
   jobId: normalized.jobId,
@@ -379,10 +458,19 @@ saveJob({
   teacherId: normalized.accounts?.[0]?.teacherId || "guru-001",
   targetMonth: normalized.targetMonth || null,
   targetYear: normalized.targetYear || null,
-  status: "WAITING_CONFIRMATION",
+  status: "PENDING",
+  autoStart: true,
+  autoStartSource: "request_submit",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString()
 });
+
+setTimeout(() => {
+  handleStartJob(null, createInternalJsonResponse("auto-request-runner"))
+    .catch((error) => {
+      console.error("[auto-request-runner] gagal start job", error);
+    });
+}, 250);
 
     sendJson(res, 200, {
       ok: true,
@@ -684,6 +772,11 @@ async function handleStartJob(req, res) {
 
   fs.writeFileSync(filePath, JSON.stringify(job, null, 2), "utf8");
 
+  const runnerReportPath = path.join(ROOT, "reports", "siaga-job-runner-preview-report.json");
+  if (fs.existsSync(runnerReportPath)) {
+    fs.unlinkSync(runnerReportPath);
+  }
+
   const child = spawn("node", ["scripts/smartwork-request-runner-agent.mjs"], {
     cwd: ROOT,
     shell: true,
@@ -694,8 +787,6 @@ async function handleStartJob(req, res) {
       SMARTWORK_RUN_MODE: "SAFE_PREVIEW_NO_SAVE"
     }
   });
-
-  const runnerReportPath = path.join(ROOT, "reports", "siaga-job-runner-preview-report.json");
 
   const pollRunner = setInterval(() => {
     const report = readJsonSafe(runnerReportPath);
@@ -866,6 +957,10 @@ server.listen(PORT, () => {
   console.log(`SMARTWORK_CONTROL_SERVER=http://localhost:${PORT}`);
   console.log("Open the URL above to submit a SmartWork SIAGA request.");
 });
+
+
+
+
 
 
 
