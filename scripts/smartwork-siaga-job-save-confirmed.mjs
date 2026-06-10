@@ -1,4 +1,8 @@
 ﻿import fs from "fs";
+
+import { registerSmartWorkCleanup, runSmartWorkCleanup, writeSmartWorkExitReport, installSmartWorkProcessGuards } from "./smartwork-node-cleanup-agent.mjs";
+
+installSmartWorkProcessGuards("SMARTWORK_SAVE_CONFIRMED_CLEAN_EXIT");
 import path from "path";
 import { chromium } from "playwright";
 
@@ -520,7 +524,17 @@ async function runOneTeacher(teacherPlan) {
     const finalUrl = page.url();
     const finalBody = await page.locator("body").innerText({ timeout: 5000 }).catch(() => "");
 
-    // Browser sengaja dibiarkan terbuka agar hasil bisa dicek manual.
+    const browserCloseResult = await (async () => {
+      try {
+        await browser.close();
+        browser = undefined;
+        return { ok: true, reason: "persistent_context_closed_after_success" };
+      } catch (error) {
+        return { ok: false, error: String(error?.message || error) };
+      }
+    })();
+
+    log.push(`[${now()}] BROWSER_CLOSE=${JSON.stringify(browserCloseResult)}`);
     return {
       ok: results.length > 0 && results.every((item) => item.ok),
       teacherId,
@@ -667,6 +681,8 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
+
 
 
 
