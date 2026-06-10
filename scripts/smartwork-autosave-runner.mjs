@@ -115,6 +115,24 @@ try {
   run("CREATE PROOF REPORT", "npm", ["run", "proof:report"], baseEnv);
   run("DELIVERY ORCHESTRATOR", "npm", ["run", "delivery:run"], baseEnv);
 
+const finalReport = {
+  ok: true,
+  mode: "smartwork-autosave-v5-end-to-end",
+  status: "DONE_PDF_PROOF_DELIVERY_READY_NO_AUTO_SEND",
+  processedDates: processed,
+  pdfReport: "reports/siaga-job-download-presensi-pdf-report.json",
+  proofReport: "reports/proof/smartwork-siaga-proof-report.json",
+  proofText: "reports/proof/smartwork-siaga-proof-report.txt",
+  emailDraftReport: "reports/delivery-drafts/smartwork-email-draft-report.json",
+  whatsappPreviewReport: "reports/whatsapp-preview/smartwork-whatsapp-preview-report.json",
+  deliverySummaryReport: "reports/delivery-summary/smartwork-delivery-summary-report.json",
+  deliveryRunReport: "reports/delivery-run/smartwork-delivery-run-report.json",
+  createdAt: new Date().toISOString()
+};
+
+writeJson(path.join(ROOT, "reports", "autosave-v5-final-report.json"), finalReport);
+console.log("FINAL_REPORT=reports/autosave-v5-final-report.json");
+
   console.log("");
   console.log("SMARTWORK_AUTOSAVE_V4=END_TO_END_DONE");
   console.log("PROCESSED_DATES=" + processed.join(","));
@@ -124,3 +142,4 @@ try {
   console.error(error);
   process.exit(1);
 }
+

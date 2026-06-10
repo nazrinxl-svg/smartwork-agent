@@ -1,61 +1,38 @@
-﻿{
-    "jobId":  "siaga-batch-juni-2026",
-    "service":  "siaga",
-    "mode":  "attendance-monthly",
-    "targetMonth":  "Juni",
-    "targetYear":  "2026",
-    "delivery":  {
-                     "email":  "nazrinxl@gmail.com",
-                     "whatsapp":  "6281234567890"
-                 },
-    "rules":  {
-                  "skipSundays":  true,
-                  "autoSave":  false,
-                  "autoSubmit":  false,
-                  "autoDelete":  false,
-                  "sendEmailAutomatically":  false,
-                  "sendWhatsAppAutomatically":  false
-              },
-    "accounts":  [
-                     {
-                         "teacherId":  "guru-001",
-                         "teacherName":  "Nazrin",
-                         "schoolName":  "SDN 4 DWI TUNGGAL",
-                         "targetPdfName":  "Presensi_Nazrin_Juni_2026.pdf",
-                         "skipDates":  [
-
-                                       ],
-                         "leaveDates":  [
-
-                                        ],
-                         "notes":  "Akun uji utama. Juni 2026 sudah lengkap dan PDF sudah berhasil diunduh."
-                     },
-                     {
-                         "teacherId":  "guru-002",
-                         "teacherName":  "Sri Murniati",
-                         "schoolName":  "SDN 6 CITRA DAMAI",
-                         "targetPdfName":  "Presensi_Sri_Murniati_Juni_2026.pdf",
-                         "skipDates":  [
-
-                                       ],
-                         "leaveDates":  [
-
-                                        ],
-                         "notes":  "Akun contoh untuk batch berikutnya. Jangan jalankan save/submit tanpa konfirmasi."
-                     }
-                 ],
-    "requestType":  "bulk-monthly",
-    "dailyTargetDate":  "",
-    "schedule":  {
-                     "holidayDates":  [
-
-                                      ],
-                     "globalSkipDates":  [
-
-                                         ],
-                     "globalLeaveDates":  [
-
-                                          ],
-                     "dailyReportEnabled":  true
-                 }
+{
+  "jobId": "smartwork-siaga-autosave-real-001",
+  "requesterName": "Nazrin",
+  "service": "siaga",
+  "mode": "attendance-monthly",
+  "targetMonth": "Juni",
+  "targetYear": "2026",
+  "requestType": "bulk-monthly",
+  "startDate": "2026-06-01",
+  "endDate": "2026-06-13",
+  "delivery": {
+    "email": "nazrinxl@gmail.com",
+    "whatsapp": "6281234567890"
+  },
+  "schedule": {
+    "holidayDates": []
+  },
+  "rules": {
+    "autoSave": true,
+    "autoSubmit": false,
+    "autoDelete": false,
+    "sendEmailAutomatically": false,
+    "sendWhatsAppAutomatically": false
+  },
+  "accounts": [
+    {
+      "teacherId": "guru-001",
+      "teacherName": "Nazrin",
+      "schoolName": "SDN 4 DWI TUNGGAL",
+      "username": "141048000394",
+      "password": "336549",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-13",
+      "detailUrl": "https://siagapendis.kemenag.go.id/guru/absensi/detail/8860825",
+      "targetPdfName": "Presensi_Nazrin_Juni_2026.pdf"
+    }
+  ]
 }

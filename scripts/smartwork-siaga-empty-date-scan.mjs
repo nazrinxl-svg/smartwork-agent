@@ -48,6 +48,131 @@ function inRange(date, startDate, endDate) {
   return true;
 }
 
+async function isLoginPage(page) {
+  return await page.evaluate(() => {
+    const body = String(document.body?.innerText || "").toLowerCase();
+    return location.href.includes("/login") || (
+      body.includes("username") &&
+      body.includes("password")
+    );
+  }).catch(() => false);
+}
+
+async function autoLoginIfNeeded(page, account) {
+  if (!(await isLoginPage(page))) return { ok: true, skipped: true };
+
+  const username = account.username || "";
+  const password = account.password || "";
+
+  if (!username || !password) {
+    return { ok: false, reason: "USERNAME_PASSWORD_EMPTY" };
+  }
+
+  const userInput = page.locator(
+    'input[name="no_akun"], #no_akun, input[name="username"], input[name="email"], input[type="text"]'
+  ).first();
+
+  const passInput = page.locator(
+    'input[name="password"], input[type="password"]'
+  ).first();
+
+  const userCount = await userInput.count().catch(() => 0);
+  const passCount = await passInput.count().catch(() => 0);
+
+  if (!userCount || !passCount) {
+    return { ok: false, reason: "LOGIN_INPUT_NOT_FOUND", url: page.url() };
+  }
+
+  await userInput.click({ timeout: 10000 });
+  await userInput.fill(username, { timeout: 10000 });
+
+  await passInput.click({ timeout: 10000 });
+  await passInput.fill(password, { timeout: 10000 });
+
+  const loginButton = page.locator(
+    'button.btn-login, button[type="submit"], input[type="submit"], button:has-text("Masuk"), button:has-text("Login")'
+  ).first();
+
+  const btnCount = await loginButton.count().catch(() => 0);
+
+  if (btnCount) {
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 45000 }).catch(() => null),
+      loginButton.click({ timeout: 10000 }),
+    ]);
+  } else {
+    await passInput.press("Enter");
+    await page.waitForLoadState("domcontentloaded", { timeout: 45000 }).catch(() => null);
+  }
+
+  await page.waitForTimeout(5000);
+
+  return {
+    ok: !(await isLoginPage(page)),
+    reason: (await isLoginPage(page)) ? "LOGIN_STILL_ON_LOGIN_PAGE" : "",
+    url: page.url(),
+  };
+}
+
+async function openDetailPage(page, detailUrl, account) {
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+    await page.waitForTimeout(2500);
+
+    const loginResult = await autoLoginIfNeeded(page, account);
+    if (!loginResult.ok) {
+      return {
+        ok: false,
+        reason: loginResult.reason || "LOGIN_FAILED",
+        state: loginResult,
+        attempt,
+      };
+    }
+
+    if (!loginResult.skipped) {
+      await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+      await page.waitForTimeout(5000);
+    }
+
+    const state = await page.evaluate(() => {
+      const clean = (v) => String(v || "").replace(/\s+/g, " ").trim();
+      const body = clean(document.body.innerText || "");
+      const rowTexts = Array.from(document.querySelectorAll("table tbody tr, table tr"))
+        .map((tr) => clean(tr.innerText || tr.textContent || ""))
+        .filter(Boolean);
+
+      const hasDetailRows = rowTexts.some((text) =>
+        /^\d+\s+(Senin|Selasa|Rabu|Kamis|Jum'?at|Sabtu|Minggu)\b/i.test(text)
+      );
+
+      const hasMonthRows = rowTexts.some((text) =>
+        /(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+2026/i.test(text)
+      );
+
+      return {
+        url: location.href,
+        title: document.title,
+        bodyPreview: body.slice(0, 600),
+        rowCount: rowTexts.length,
+        firstRows: rowTexts.slice(0, 10),
+        hasDetailRows,
+        hasMonthRows,
+      };
+    });
+
+    if (state.hasDetailRows) return { ok: true, state, attempt };
+
+    if (attempt === 4) {
+      return {
+        ok: false,
+        reason: state.hasMonthRows ? "WRONG_PAGE_MONTH_LIST" : "DETAIL_ROWS_NOT_FOUND",
+        state,
+        attempt,
+      };
+    }
+  }
+}
+
 async function main() {
   const latest = latestRequest();
   const request = readJson(latest.path);
@@ -69,10 +194,34 @@ async function main() {
   });
 
   const page = browser.pages()[0] || await browser.newPage();
-  await page.goto(detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
-  await page.waitForTimeout(2500);
+  const ready = await openDetailPage(page, detailUrl, account);
 
-  const rows = await page.evaluate(({ targetYear, targetMonth }) => {
+  if (!ready.ok) {
+    const report = {
+      ok: false,
+      mode: "siaga-empty-date-scan",
+      requestFile: latest.name,
+      teacherId,
+      detailUrl,
+      error: ready.reason,
+      detailReady: ready,
+      emptyDates: [],
+      summary: {
+        totalRows: 0,
+        emptyCanAdd: 0,
+        filled: 0,
+        skippedSunday: 0,
+        outOfRange: 0,
+        needsCheck: 1,
+      },
+      createdAt: new Date().toISOString(),
+    };
+    writeJson(REPORT_PATH, report);
+    await browser.close();
+    throw new Error(`Scanner gagal masuk detail: ${ready.reason}`);
+  }
+
+  const rows = await page.evaluate(() => {
     const clean = (v) => String(v || "").replace(/\s+/g, " ").trim();
     const trs = Array.from(document.querySelectorAll("table tbody tr, table tr"));
 
@@ -84,7 +233,8 @@ async function main() {
         href: a.href || "",
       }));
 
-      const dayNumber = Number(cells[0] || text.split(" ")[0]);
+      const first = cells[0] || text.split(" ")[0];
+      const dayNumber = Number(first);
       const dayName = cells[1] || "";
       const hasTime = /\d{2}:\d{2}:\d{2}/.test(text) || /\d{2}:\d{2}/.test(text);
       const hasUbah = /Ubah/i.test(text);
@@ -95,12 +245,13 @@ async function main() {
         dayNumber,
         dayName,
         text,
+        links,
         hasTime,
         hasUbah,
         hasTambah,
       };
     }).filter((r) => Number.isFinite(r.dayNumber) && r.dayNumber >= 1 && r.dayNumber <= 31);
-  }, { targetYear, targetMonth });
+  });
 
   const month = monthNumber(targetMonth);
 
@@ -134,6 +285,7 @@ async function main() {
     requestFile: latest.name,
     teacherId,
     detailUrl,
+    currentUrl: page.url(),
     targetMonth,
     targetYear,
     startDate,
@@ -155,17 +307,14 @@ async function main() {
   await browser.close();
 
   console.log(JSON.stringify(report.summary, null, 2));
+  console.log("CURRENT_URL=" + report.currentUrl);
   console.log("EMPTY_DATES=" + emptyDates.join(","));
   console.log("REPORT=" + REPORT_PATH);
 }
 
 main().catch((error) => {
-  writeJson(REPORT_PATH, {
-    ok: false,
-    mode: "siaga-empty-date-scan",
-    error: error.message,
-    createdAt: new Date().toISOString(),
-  });
   console.error(error);
   process.exit(1);
 });
+
+
