@@ -90,8 +90,8 @@ job.result = {
   allRequestedDatesDone: Boolean(verify.ok),
   pdfReady: Boolean(pdfFile),
   proofReady: Boolean(proofPath),
-  emailReady: true,
-  whatsappPreviewReady: true,
+  emailReady: false,
+  whatsappPreviewReady: false,
   emailSent: false,
   whatsappSent: false,
   pdfFile,
@@ -125,11 +125,11 @@ const progress = {
     proofReport: proofPath ? path.relative(ROOT, proofPath).replaceAll("\\", "/") : null
   },
   delivery: {
-    emailReady: true,
-    whatsappPreviewReady: true,
+    emailReady: false,
+    whatsappPreviewReady: false,
     emailSent: false,
     whatsappSent: false,
-    note: "PDF dan proof siap. Real-send email/WhatsApp tetap guarded."
+    mode: "APP_DOWNLOAD_ONLY", emailDisabled: true, whatsappDisabled: true, note: "Email dan WhatsApp dinonaktifkan. PDF dan bukti laporan tersedia melalui aplikasi."
   },
   sourceReports: job.result
 };
@@ -141,3 +141,4 @@ console.log(JSON.stringify(progress, null, 2));
 if (!ok) {
   throw new Error("Final progress belum ok. Cek verify/pdf/proof.");
 }
+
