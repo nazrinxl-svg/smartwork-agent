@@ -7,6 +7,7 @@ import {
   summarizePlan,
 } from "./smartwork-autosave-core.mjs";
 import { runSiagaAutoSaveWorker } from "./smartwork-autosave-worker-siaga.mjs";
+import { buildWorkerQueue, writeQueueReport } from "./smartwork-autosave-queue.mjs";
 
 const ROOT = process.cwd();
 const REQUEST_DIR = path.join(ROOT, "intake", "requests");
@@ -47,6 +48,7 @@ function normalizeRequest(raw) {
 
 async function main() {
   const dryRun = !process.argv.includes("--real");
+  const queueOnly = process.argv.includes("--queue");
   const latest = findLatestRequest();
   const raw = readJson(latest.fullPath);
   const request = normalizeRequest(raw);
@@ -56,6 +58,19 @@ async function main() {
     endDate: request.endDate,
     holidays: request.holidays,
   });
+
+  if (queueOnly) {
+    const queue = buildWorkerQueue({ request, plan });
+    const queueReport = writeQueueReport({
+      request,
+      queue,
+      reportPath: REPORT_PATH,
+    });
+
+    console.log(JSON.stringify(queueReport.queueSummary, null, 2));
+    console.log(`REPORT=${REPORT_PATH}`);
+    return;
+  }
 
   const results = [];
   for (const row of plan) {
@@ -98,3 +113,4 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
