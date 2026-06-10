@@ -86,7 +86,9 @@
     "smartwork:siaga:sync": "node scripts/smartwork-sync-latest-request.mjs",
     "smartwork:siaga:verify": "node scripts/smartwork-verify-request-range-complete.mjs",
     "smartwork:siaga:finalize": "node scripts/smartwork-finalize-progress.mjs",
-    "smartwork:server:e2e:status": "node -e \"fetch('http://localhost:3107/api/smartwork/siaga/e2e/status').then(r=>r.json()).then(j=>console.log(JSON.stringify(j,null,2))).catch(e=>{console.error(e);process.exit(1)})\""
+    "smartwork:server:e2e:status": "node -e \"fetch('http://localhost:3107/api/smartwork/siaga/e2e/status').then(r=>r.json()).then(j=>console.log(JSON.stringify(j,null,2))).catch(e=>{console.error(e);process.exit(1)})\"",
+    "memory:checkpoint": "node scripts/smartwork-anti-repeat-guard.mjs",
+    "guard:repeat": "node scripts/smartwork-anti-repeat-guard.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

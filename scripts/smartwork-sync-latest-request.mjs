@@ -3,7 +3,8 @@ import {
   selectSmartworkRequest,
   buildLocalSiagaRequest,
   upsertSmartworkJob,
-  writeJsonSafe
+  writeJsonSafe,
+  redactSmartworkRequestForReport
 } from "../lib/smartwork-request-selector.mjs";
 
 const ROOT = process.cwd();
@@ -39,7 +40,7 @@ const report = {
     file: selected.file,
     name: selected.name,
     score: selected.score,
-    normalized: selected.normalized
+    normalized: redactSmartworkRequestForReport(selected.normalized)
   },
   localRequestPath,
   jobPath,
@@ -49,7 +50,7 @@ const report = {
     name: x.name,
     score: x.score,
     modifiedAt: x.modifiedAt,
-    normalized: x.normalized
+    normalized: redactSmartworkRequestForReport(x.normalized)
   }))
 };
 

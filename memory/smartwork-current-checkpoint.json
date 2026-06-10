@@ -1,0 +1,95 @@
+{
+  "mode": "SMARTWORK_CURRENT_CHECKPOINT_MEMORY",
+  "updatedAt": "2026-06-10T16:24:43.111Z",
+  "branch": "feature/autosave-orchestrator",
+  "projectPath": "D:\\1. myapps\\smartwork-agent",
+  "mainDirection": "Do not wander. Focus on SmartWork user request pipeline until request from UI can run end-to-end.",
+  "success": {
+    "nativeHttpRoutes": {
+      "status": "OK",
+      "evidence": [
+        "GET /api/smartwork/siaga/e2e/ping OK",
+        "GET /api/smartwork/siaga/e2e/status OK",
+        "POST /api/smartwork/siaga/e2e/run-dry returns HTTP 202",
+        "server state resets to running=false",
+        "exitCode=0"
+      ]
+    },
+    "serverRunnerWrapper": {
+      "status": "OK",
+      "evidence": [
+        "spawn uses process.execPath directly to scripts/smartwork-siaga-e2e-runner.mjs",
+        "SMARTWORK_E2E_MODE=DRY_RUN_NO_SAVE works",
+        "child close handler resets state",
+        "watchdog exists"
+      ]
+    },
+    "uiRequestSelection": {
+      "status": "OK",
+      "selectedRequest": "intake/requests/2026-06-10T15-56-16-153Z-smartwork-siaga-2026-06-10T15-56-16-146Z.json",
+      "source": "smartwork-user-request-form",
+      "range": "2026-06-16..2026-06-20",
+      "teacherId": "guru-001",
+      "teacherName": "Nazrin"
+    },
+    "detailUrlEnrichment": {
+      "status": "OK",
+      "teacherId": "guru-001",
+      "detailUrl": "https://siagapendis.kemenag.go.id/guru/absensi/detail/8860825",
+      "note": "UI request originally had detailUrl null; selector now enriches detailUrl from known valid request/account map."
+    },
+    "dryRunUiRequest": {
+      "status": "OK",
+      "requestRange": "2026-06-16..2026-06-20",
+      "totalInsideRequest": 5,
+      "needsPlanInsideRequest": 5,
+      "plannedDates": [
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20"
+      ],
+      "stoppedBeforeAction": true
+    },
+    "credentialRedaction": {
+      "status": "OK",
+      "evidence": [
+        "sync report selectedRequest normalized.account.username is [REDACTED]",
+        "sync report selectedRequest normalized.account.password is [REDACTED]"
+      ]
+    },
+    "brainDirection": {
+      "status": "OK",
+      "message": "Brain now prints SMARTWORK REQUEST PIPELINE CURRENT TARGET."
+    }
+  },
+  "notDoneYet": {
+    "realSaveUiRequest": {
+      "status": "NOT_DONE",
+      "requestRange": "2026-06-16..2026-06-20",
+      "note": "Do not claim real save is done. Only dry-run is proven."
+    },
+    "finalPdfProofDeliveryForUiRequest": {
+      "status": "NOT_DONE",
+      "requestRange": "2026-06-16..2026-06-20",
+      "note": "PDF/proof/delivery ready status from old autosave-real 1..13 must not be mixed with new UI request 16..20."
+    },
+    "safeCommit": {
+      "status": "NOT_DONE",
+      "note": "Working tree still dirty. Commit only after final verify."
+    }
+  },
+  "antiRepeatGuard": {
+    "status": "ACTIVE",
+    "warnBeforeRepeating": [
+      "Do not re-diagnose server wrapper stuck issue unless status endpoint fails again.",
+      "Do not re-patch native run-dry wrapper if OK_SERVER_RESET_EXIT_0=true.",
+      "Do not re-patch detailUrl enrichment if selectedRequest source is smartwork-user-request-form and selected detailUrl exists.",
+      "Do not run autosave-real-request as target unless explicitly testing fallback.",
+      "Do not switch to UI polish, delivery, e-Kinerja, or unrelated SIAGA form work before completing request UI end-to-end."
+    ],
+    "ifUserOrAgentRepeatsOldStep": "Print SMARTWORK_REPEAT_WARNING with the already-green evidence and redirect to the next incomplete step.",
+    "nextIncompleteStep": "Run guarded real save for UI request 2026-06-16..2026-06-20 only after explicit permission, then verify, PDF/proof/delivery, then commit."
+  }
+}
