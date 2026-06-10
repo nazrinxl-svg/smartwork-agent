@@ -1,0 +1,19 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Reset SmartWork Local State</title>
+</head>
+<body>
+<script>
+localStorage.removeItem("smartwork_request");
+localStorage.removeItem("smartwork_request_server");
+localStorage.removeItem("smartwork_progress");
+localStorage.removeItem("smartwork_history");
+localStorage.removeItem("smartwork_active_request");
+localStorage.removeItem("smartwork_last_job");
+document.body.innerHTML = "<h3>SmartWork web state cleared.</h3><p>Redirecting...</p>";
+setTimeout(() => location.href = "/request.html", 600);
+</script>
+</body>
+</html>

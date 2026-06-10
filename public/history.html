@@ -1149,9 +1149,9 @@
     </div>
   </section>
 <section class="summary">
-      <div class="mini"><b>3</b><span>Total</span></div>
-      <div class="mini"><b>1</b><span>Proses</span></div>
-      <div class="mini"><b>1</b><span>Selesai</span></div>
+      <div class="mini"><b id="historyTotal">0</b><span>Total</span></div>
+      <div class="mini"><b id="historyProcess">0</b><span>Proses</span></div>
+      <div class="mini"><b id="historyDone">0</b><span>Selesai</span></div>
     </section></section>
 
     <div class="section-title">
@@ -1161,48 +1161,7 @@
 
     <section class="history-list">
       <article class="card">
-        <div class="row">
-          <img class="agent-logo" src="SIAGA LOGO.png" alt="SIAGA">
-          <div class="content">
-            <h3>SIAGA Absensi</h3>
-            <p>Nazrin • 01 Jun 2026 - 30 Jun 2026</p>
-          </div>
-          <span class="status done"><i class="dot"></i>Selesai</span>
-        </div>
-        <div class="meta">
-          <small>PDF dan bukti kerja tersedia.</small>
-          <a class="detail" href="#">Lihat Bukti</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="row">
-          <img class="agent-logo" src="LOGO KABUPATEN MERANTI.png" alt="Meranti">
-          <div class="content">
-            <h3>e-Kinerja Meranti</h3>
-            <p>Nazrin • Target bulan Juni 2026</p>
-          </div>
-          <span class="status process"><i class="dot"></i>Diproses</span>
-        </div>
-        <div class="meta">
-          <small>Agent sedang menyiapkan progres.</small>
-          <a class="detail" href="#">Lihat Progress</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="row">
-          <img class="agent-logo" src="smartwork-logo.png" alt="SmartWork">
-          <div class="content">
-            <h3>Custom Agent</h3>
-            <p>User • Request pekerjaan baru</p>
-          </div>
-          <span class="status wait"><i class="dot"></i>Menunggu</span>
-        </div>
-        <div class="meta">
-          <small>Menunggu agent dijalankan.</small>
-          <a class="detail" href="#">Lihat Detail</a>
-        </div>
+        <p>Belum ada riwayat request.</p>
       </article>
     </section>
   </main>
@@ -1300,6 +1259,30 @@ loadHistory().catch((error) => {
   const list = document.querySelector(".history-list");
   if (list) list.innerHTML = `<article class="card"><p>Gagal membaca riwayat: ${esc(error.message)}</p></article>`;
 });
+</script>
+
+<script>
+/* SMARTWORK_EMPTY_HISTORY_GUARD_V1 */
+(() => {
+  const hasServerRequest = localStorage.getItem("smartwork_request_server");
+  const hasLocalRequest = localStorage.getItem("smartwork_request");
+
+  if (!hasServerRequest && !hasLocalRequest) {
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    setText("historyTotal", "0");
+    setText("historyProcess", "0");
+    setText("historyDone", "0");
+
+    const list = document.querySelector(".history-list");
+    if (list) {
+      list.innerHTML = '<article class="card"><p>Belum ada riwayat request.</p></article>';
+    }
+  }
+})();
 </script>
 </body>
 </html>

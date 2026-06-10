@@ -1230,12 +1230,12 @@
     </section>
 
     <section class="hero">
-      <div class="statusPill"><span class="statusDot"></span> <span class="finish-normal-text" data-finish-text>Agent selesai memproses</span></div>
-      <h1 id="heroTitle">Presensi Nazrin Juni 2026</h1>
-      <p id="heroText">Request sudah diverifikasi. File PDF dan proof report siap diunduh dari aplikasi.</p>
+      <div class="statusPill"><span class="statusDot"></span> <span class="finish-normal-text" data-finish-text>Menunggu request</span></div>
+      <h1 id="heroTitle">Belum ada request aktif</h1>
+      <p id="heroText">Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.</p>
       <div class="progressWrap">
         <div class="bar"><div class="barFill"></div></div>
-        <div class="percent">100%</div>
+        <div class="percent">0%</div>
       </div>
     </section>
 
@@ -1313,11 +1313,11 @@
           </svg>
         </div>
         <div>
-          <div class="fileTitle" id="pdfName">Presensi_Nazrin_Juni_2026.pdf</div>
+          <div class="fileTitle" id="pdfName">Belum_ada_file.pdf</div>
           <div class="fileText">Proof report tersedia dan cocok dengan request.</div>
         </div>
         <div class="actions" style="grid-column:1 / -1;">
-          <a class="btn primary" id="pdfLink" href="/reports/downloads/Presensi_Nazrin_Juni_2026.pdf" target="_blank">
+          <a class="btn primary" id="pdfLink" href="/reports/downloads/Belum_ada_file.pdf" target="_blank">
             <svg fill="none" viewBox="0 0 24 24"><path stroke-width="2" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
             Lihat PDF
           </a>
@@ -1343,12 +1343,12 @@
 <script id="smartwork-progress-functions">
 (function(){
   const DEFAULTS = {
-    range: "2026-06-01..2026-06-30",
-    total: 30,
-    filled: 26,
+    range: "",
+    total: 0,
+    filled: 0,
     needsPlan: 0,
-    pdfFile: "reports/downloads/Presensi_Nazrin_Juni_2026.pdf",
-    proofFile: "reports/proof/smartwork-siaga-proof-report.json"
+    pdfFile: "",
+    proofFile: ""
   };
 
   const $ = (id) => document.getElementById(id);
@@ -1391,8 +1391,8 @@
   function applyReady(data){
     const range = data.range || DEFAULTS.range;
 
-    setText("heroTitle", "Presensi Nazrin Juni 2026");
-    setText("heroText", `${prettyRange(range)} File PDF dan proof report siap diunduh dari aplikasi.`);
+    setText("heroTitle", data.reportsSayReady ? "Request selesai" : "Belum ada request aktif");
+    setText("heroText", data.reportsSayReady ? "File PDF dan proof report siap diunduh dari aplikasi." : "Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.");
     setText("total", data.total ?? DEFAULTS.total);
     setText("filled", data.filled ?? DEFAULTS.filled);
     setText("needsPlan", data.needsPlan ?? DEFAULTS.needsPlan);
@@ -1617,6 +1617,49 @@
       }
     });
   }, 15000);
+})();
+</script>
+
+<script>
+/* SMARTWORK_EMPTY_PROGRESS_GUARD_V1 */
+(() => {
+  const hasServerRequest = localStorage.getItem("smartwork_request_server");
+  const hasLocalRequest = localStorage.getItem("smartwork_request");
+
+  if (!hasServerRequest && !hasLocalRequest) {
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    setText("heroTitle", "Belum ada request aktif");
+    setText("heroText", "Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.");
+    setText("totalVal", "0");
+    setText("filledVal", "0");
+    setText("needsVal", "0");
+
+    document.querySelectorAll(".percent").forEach((el) => el.textContent = "0%");
+    document.querySelectorAll(".barFill").forEach((el) => el.style.width = "0%");
+    document.querySelectorAll("[data-flow-time]").forEach((el) => el.textContent = "--:--");
+
+    const pdfName = document.getElementById("pdfName");
+    if (pdfName) pdfName.textContent = "Belum ada file";
+
+    const pdfLink = document.getElementById("pdfLink");
+    const proofLink = document.getElementById("proofLink");
+
+    if (pdfLink) {
+      pdfLink.removeAttribute("href");
+      pdfLink.setAttribute("aria-disabled", "true");
+    }
+
+    if (proofLink) {
+      proofLink.removeAttribute("href");
+      proofLink.setAttribute("aria-disabled", "true");
+    }
+
+    document.body.dataset.smartworkEmpty = "true";
+  }
 })();
 </script>
 </body>
