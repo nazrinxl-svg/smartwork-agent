@@ -14,8 +14,8 @@ const timePlanPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.j
 const outputPath = path.join(reportsDir, "siaga-job-save-confirmed-report.json");
 
 const CONFIRM_SAVE = process.env.CONFIRM_SAVE || "";
-const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
-const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 0);
+const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-001";
+const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 1);
 const TARGET_DATE = String(process.env.TARGET_DATE || "").slice(0, 10);
 
 function now() {
@@ -622,4 +622,6 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
+
 

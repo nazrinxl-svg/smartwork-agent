@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { chromium } from "playwright";
 
@@ -13,7 +13,7 @@ fs.mkdirSync(shotsDir, { recursive: true });
 const timePlanPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.json");
 const outputPath = path.join(reportsDir, "siaga-job-input-preview-no-save-report.json");
 
-const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-002";
+const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "guru-001";
 const TARGET_LIMIT = Number(process.env.TARGET_LIMIT || 1);
 
 function now() {
@@ -386,3 +386,5 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
+
