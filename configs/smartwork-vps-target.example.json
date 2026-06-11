@@ -1,0 +1,21 @@
+﻿{
+  "target": "vps-dry-run",
+  "appDir": "/opt/smartwork-agent",
+  "serviceName": "smartwork-production-worker",
+  "firstRunMode": "dry-run",
+  "queueProvider": "local-file",
+  "browserMode": "headless-later",
+  "requiredEnv": [
+    "SMARTWORK_RUNTIME",
+    "SMARTWORK_NODE_ENV",
+    "SMARTWORK_DRY_RUN",
+    "SMARTWORK_REAL_SAVE_ENABLED",
+    "SMARTWORK_REAL_SEND_ENABLED"
+  ],
+  "safety": {
+    "dryRunRequiredForFirstRun": true,
+    "realSaveMustBeFalse": true,
+    "realSendMustBeFalse": true,
+    "noCredentialsInGit": true
+  }
+}
