@@ -69,5 +69,9 @@ writeJsonSafe(path.join(ROOT, "reports", "smartwork-after-save-verify-request.js
 console.log(JSON.stringify(out, null, 2));
 
 if (!ok) {
-  throw new Error("Verify gagal: masih ada needs_plan dalam rentang request.");
+  if (Number(report?.insideSummary?.total || insideSummary?.total || 0) === 0 && Array.isArray(rowsInsideRequest) && rowsInsideRequest.length === 0) {
+  throw new Error("Verify gagal: tidak ada baris absensi terbaca dalam rentang request. Cek screenshot/DOM detail SIAGA; jangan dianggap selesai.");
+}
+
+throw new Error("Verify gagal: masih ada needs_plan dalam rentang request.");
 }

@@ -319,7 +319,7 @@ async function runForJob(job, request) {
       detailUrl: job.detailUrl,
       startedAt,
       endedAt: now(),
-      status: summary.needsCheck > 0 ? "time_plan_preview_needs_check" : "time_plan_preview_success",
+      status: summary.totalRows === 0 ? "time_plan_preview_empty_rows" : (summary.needsCheck > 0 ? "time_plan_preview_needs_check" : "time_plan_preview_success"),
       summary,
       rows: attendanceRows,
       screenshot: path.relative(root, screenshotPath).replaceAll("\\", "/"),
@@ -377,7 +377,7 @@ async function main() {
   }
 
   const report = {
-    ok: results.every((item) => item.ok),
+    ok: results.every((item) => item.ok) && results.every((item) => Number(item.summary?.totalRows || 0) > 0),
     mode: "siaga-job-time-plan-preview",
     rule: "NO_CLICK_TAMBAH_NO_INPUT_JAM_NO_SAVE_NO_SUBMIT_NO_DELETE",
     target: runnerReport?.reports?.planner?.request?.target || null,

@@ -2,18 +2,36 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <title>Reset SmartWork Local State</title>
+  <title>Reset SmartWork State</title>
 </head>
 <body>
 <script>
-localStorage.removeItem("smartwork_request");
-localStorage.removeItem("smartwork_request_server");
-localStorage.removeItem("smartwork_progress");
-localStorage.removeItem("smartwork_history");
-localStorage.removeItem("smartwork_active_request");
-localStorage.removeItem("smartwork_last_job");
-document.body.innerHTML = "<h3>SmartWork web state cleared.</h3><p>Redirecting...</p>";
-setTimeout(() => location.href = "/request.html", 600);
+const keys = [];
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  if (key && key.toLowerCase().includes("smartwork")) keys.push(key);
+}
+[
+  "smartwork_request",
+  "smartwork_request_server",
+  "smartwork_progress",
+  "smartwork_history",
+  "smartwork_active_request",
+  "smartwork_last_job",
+  "smartwork_latest_job",
+  "smartwork_result",
+  "smartwork_app_artifacts",
+  "smartwork_proof",
+  "smartwork_pdf",
+  "smartwork_siaga_job"
+].forEach((key) => keys.push(key));
+
+[...new Set(keys)].forEach((key) => localStorage.removeItem(key));
+
+sessionStorage.clear();
+
+document.body.innerHTML = "<h3>SmartWork state kosong.</h3><p>Membuka Progress...</p>";
+setTimeout(() => location.href = "/progress.html?empty=" + Date.now(), 500);
 </script>
 </body>
 </html>

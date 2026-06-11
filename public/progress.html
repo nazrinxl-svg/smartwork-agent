@@ -1205,6 +1205,96 @@
     color: #2563eb !important;
   }
 </style>
+
+<script>
+/* SMARTWORK_PROGRESS_FORCE_EMPTY_UNTIL_REQUEST_V2 */
+(() => {
+  function hasActiveRequest() {
+    const keys = [
+      "smartwork_request_server",
+      "smartwork_request",
+      "smartwork_active_request",
+      "smartwork_last_job"
+    ];
+
+    return keys.some((key) => {
+      const value = localStorage.getItem(key);
+      if (!value) return false;
+      try {
+        const parsed = JSON.parse(value);
+        return !!(parsed && (parsed.jobId || parsed.requesterName || parsed.accounts || parsed.startDate || parsed.endDate));
+      } catch {
+        return value.trim().length > 5;
+      }
+    });
+  }
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function forceEmptyProgress() {
+    if (hasActiveRequest()) return;
+
+    document.body.dataset.smartworkEmpty = "true";
+    document.body.dataset.smartworkResultReady = "false";
+
+    const finish = document.querySelector("[data-finish-text]");
+    if (finish) finish.textContent = "Menunggu request";
+
+    setText("heroTitle", "Belum ada request aktif");
+    setText("heroText", "Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.");
+    setText("totalVal", "0");
+    setText("filledVal", "0");
+    setText("needsVal", "0");
+    setText("pdfName", "Belum ada file");
+
+    document.querySelectorAll(".percent").forEach((el) => el.textContent = "0%");
+    document.querySelectorAll(".barFill").forEach((el) => el.style.width = "0%");
+    document.querySelectorAll("[data-flow-time]").forEach((el) => {
+      el.textContent = "--:--";
+      el.title = "Belum ada request aktif";
+    });
+
+    const fileSub = document.querySelector("#pdfName")?.closest(".fileMeta")?.querySelector("p");
+    if (fileSub) fileSub.textContent = "Belum ada proof report.";
+
+    ["pdfLink", "proofLink"].forEach((id) => {
+      const link = document.getElementById(id);
+      if (!link) return;
+      link.href = "#";
+      link.setAttribute("aria-disabled", "true");
+      link.onclick = (event) => {
+        event.preventDefault();
+        alert("Belum ada file. Simpan request baru dulu.");
+      };
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", forceEmptyProgress);
+  window.addEventListener("load", forceEmptyProgress);
+  setTimeout(forceEmptyProgress, 100);
+  setTimeout(forceEmptyProgress, 500);
+  setTimeout(forceEmptyProgress, 1200);
+
+  const originalFetch = window.fetch;
+  window.fetch = async function(input, init) {
+    const url = String(input?.url || input || "");
+    if (!hasActiveRequest() && url.includes("/reports/")) {
+      return new Response(JSON.stringify({
+        ok: false,
+        empty: true,
+        reason: "NO_ACTIVE_REQUEST"
+      }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+    return originalFetch.apply(this, arguments);
+  };
+})();
+</script>
 </head>
 <body>
   <main class="app">
@@ -1314,14 +1404,14 @@
         </div>
         <div>
           <div class="fileTitle" id="pdfName">Belum_ada_file.pdf</div>
-          <div class="fileText">Proof report tersedia dan cocok dengan request.</div>
+          <div class="fileText">Belum ada proof report.</div>
         </div>
         <div class="actions" style="grid-column:1 / -1;">
           <a class="btn primary" id="pdfLink" href="/reports/downloads/Belum_ada_file.pdf" target="_blank">
             <svg fill="none" viewBox="0 0 24 24"><path stroke-width="2" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
             Lihat PDF
           </a>
-          <a class="btn" id="proofLink" href="/reports/proof/smartwork-siaga-proof-report.json" target="_blank">
+          <a class="btn" id="proofLink" href="#" aria-disabled="true" target="_blank">
             <svg fill="none" viewBox="0 0 24 24"><path stroke-width="2" d="M8 7h8M8 11h8M8 15h5M6 3h12v18H6z"/></svg>
             Lihat Proof
           </a>
@@ -1620,50 +1710,9 @@
 })();
 </script>
 
-<script>
-/* SMARTWORK_EMPTY_PROGRESS_GUARD_V1 */
-(() => {
-  const hasServerRequest = localStorage.getItem("smartwork_request_server");
-  const hasLocalRequest = localStorage.getItem("smartwork_request");
-
-  if (!hasServerRequest && !hasLocalRequest) {
-    const setText = (id, value) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    };
-
-    setText("heroTitle", "Belum ada request aktif");
-    setText("heroText", "Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.");
-    setText("totalVal", "0");
-    setText("filledVal", "0");
-    setText("needsVal", "0");
-
-    document.querySelectorAll(".percent").forEach((el) => el.textContent = "0%");
-    document.querySelectorAll(".barFill").forEach((el) => el.style.width = "0%");
-    document.querySelectorAll("[data-flow-time]").forEach((el) => el.textContent = "--:--");
-
-    const pdfName = document.getElementById("pdfName");
-    if (pdfName) pdfName.textContent = "Belum ada file";
-
-    const pdfLink = document.getElementById("pdfLink");
-    const proofLink = document.getElementById("proofLink");
-
-    if (pdfLink) {
-      pdfLink.removeAttribute("href");
-      pdfLink.setAttribute("aria-disabled", "true");
-    }
-
-    if (proofLink) {
-      proofLink.removeAttribute("href");
-      proofLink.setAttribute("aria-disabled", "true");
-    }
-
-    document.body.dataset.smartworkEmpty = "true";
-  }
-})();
-</script>
 </body>
 </html>
+
 
 
 

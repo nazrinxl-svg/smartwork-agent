@@ -1,5 +1,5 @@
 {
-  "jobId": "smartwork-siaga-2026-06-10T15-56-16-146Z",
+  "jobId": "smartwork-siaga-2026-06-10T20-33-25-879Z",
   "requesterName": "Nazrin",
   "service": "siaga",
   "mode": "attendance-monthly",
@@ -8,14 +8,16 @@
   "requestType": "bulk-monthly",
   "dailyTargetDate": "",
   "schedule": {
-    "holidayDates": [],
+    "holidayDates": [
+      "336549"
+    ],
     "globalSkipDates": [],
     "globalLeaveDates": [],
     "dailyReportEnabled": true
   },
   "delivery": {
     "email": "nazrinxl@gmail.com",
-    "whatsapp": "6281234567890"
+    "whatsapp": "081365707282"
   },
   "rules": {
     "skipSundays": true,
@@ -32,15 +34,15 @@
       "schoolName": "SDN 4 DWI TUNGGAL",
       "username": "141048000394",
       "password": "336549",
-      "startDate": "2026-06-16",
-      "endDate": "2026-06-20",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-06",
       "targetPdfName": "",
       "skipDates": [],
       "leaveDates": [],
       "notes": ""
     }
   ],
-  "notes": "Input absensi SIAGA, unduh PDF, buat laporan bukti, lalu siapkan pengiriman email dan WhatsApp.",
-  "createdAt": "2026-06-10T15:56:16.152Z",
+  "notes": "",
+  "createdAt": "2026-06-10T20:33:25.879Z",
   "source": "smartwork-user-request-form"
 }
