@@ -2237,6 +2237,90 @@
 })();
 </script>
 
+
+<script id="SMARTWORK_PHASE5G_PRODUCTION_TO_LIVE_PROGRESS_MIRROR">
+(() => {
+  const PRODUCTION_KEY = "smartwork_production_progress_state";
+  const LIVE_KEY = "smartwork_progress_live_state";
+
+  function readJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function normalizePercent(state) {
+    const direct = Number(state?.percent ?? state?.progress ?? state?.progressPercent ?? state?.percentage);
+    if (Number.isFinite(direct)) return Math.max(0, Math.min(100, direct));
+
+    const rawJob = state?.raw?.job || state?.job || {};
+    const nested = Number(rawJob.percent ?? rawJob.progress ?? rawJob.progressPercent ?? rawJob.percentage);
+    if (Number.isFinite(nested)) return Math.max(0, Math.min(100, nested));
+
+    return 0;
+  }
+
+  function mirrorProductionProgressToLiveState() {
+    const production = readJson(PRODUCTION_KEY);
+    if (!production) return false;
+
+    const percent = normalizePercent(production);
+    const status = String(production.status || production.stage || production.currentStep || production?.raw?.job?.status || "").toLowerCase();
+    const completed = percent >= 100 || /completed|complete|selesai|hasil_siap|done/.test(status);
+
+    const liveState = {
+      mode: "SMARTWORK_PROGRESS_LIVE_STATE",
+      source: "smartwork-production-progress-bridge-live-mirror",
+      updatedAt: new Date().toISOString(),
+      jobId: production.jobId || production?.raw?.job?.jobId || production?.raw?.job?.id || null,
+      status: completed ? "completed" : (production.status || "running"),
+      percent,
+      progress: percent,
+      progressPercent: percent,
+      percentage: percent,
+      stage: completed ? "completed" : (production.stage || production.currentStep || "running"),
+      currentStep: completed ? "completed" : (production.currentStep || production.stage || "running"),
+      message: production.message || "Status production queue terbaca.",
+      requestRange: production.requestRange || production?.raw?.job?.requestRange || null,
+      artifacts: production.artifacts || production?.raw?.job?.artifacts || {},
+      safety: {
+        noSiagaInput: true,
+        noBrowserOpen: true,
+        noRealSave: true,
+        noRealSend: true
+      },
+      production
+    };
+
+    localStorage.setItem(LIVE_KEY, JSON.stringify(liveState));
+    window.dispatchEvent(new CustomEvent("smartwork:progress-live-state-updated", {
+      detail: liveState
+    }));
+
+    return true;
+  }
+
+  mirrorProductionProgressToLiveState();
+
+  let tries = 0;
+  const timer = setInterval(() => {
+    const mirrored = mirrorProductionProgressToLiveState();
+    tries += 1;
+    if (mirrored || tries >= 40) clearInterval(timer);
+  }, 250);
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === PRODUCTION_KEY) mirrorProductionProgressToLiveState();
+  });
+
+  window.__smartworkPhase5gMirrorProductionProgressToLiveState = mirrorProductionProgressToLiveState;
+})();
+</script>
+
 </body>
 </html>
 

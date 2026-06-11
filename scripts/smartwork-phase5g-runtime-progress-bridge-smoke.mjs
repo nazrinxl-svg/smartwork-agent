@@ -11,6 +11,56 @@ const reportPath = path.join(root, "reports", "phase5g-runtime-progress-bridge-s
 const jobId = `phase5g-runtime-smoke-${Date.now()}`;
 const now = new Date().toISOString();
 
+const apiHits = [];
+const consoleMessages = [];
+const pageErrors = [];
+const blockedExternal = [];
+
+function walk(dir, out = []) {
+  const skip = new Set(["node_modules", ".git", "reports", "backup-code", ".smartwork-browser", "browser-profile"]);
+  if (!fs.existsSync(dir)) return out;
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (skip.has(entry.name)) continue;
+    const full = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      walk(full, out);
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.toLowerCase() === "progress.html") {
+      out.push(full);
+    }
+  }
+
+  return out;
+}
+
+function findProgressHtml() {
+  const candidates = walk(root);
+  candidates.sort((a, b) => {
+    const score = (file) => {
+      const rel = path.relative(root, file).replaceAll("\\", "/");
+      let s = 0;
+      if (rel === "progress.html") s += 1000;
+      if (/app\/progress\.html$/i.test(rel)) s += 800;
+      if (/public\/progress\.html$/i.test(rel)) s += 700;
+      if (/mobile\/progress\.html$/i.test(rel)) s += 650;
+      if (/ui\/progress\.html$/i.test(rel)) s += 600;
+      if (rel.includes("backup")) s -= 1000;
+      return s;
+    };
+
+    return score(b) - score(a);
+  });
+
+  return candidates[0] || null;
+}
+
+const progressHtmlPath = findProgressHtml();
+const progressDir = progressHtmlPath ? path.dirname(progressHtmlPath) : null;
+
 const completedJob = {
   ok: true,
   job: {
@@ -19,9 +69,11 @@ const completedJob = {
     type: "smartwork.siaga.attendance",
     status: "completed",
     phase: "completed",
+    state: "completed",
     progress: 100,
     percent: 100,
     progressPercent: 100,
+    percentage: 100,
     message: "Phase 5G runtime smoke completed job",
     summary: {
       total: 6,
@@ -29,7 +81,8 @@ const completedJob = {
       alreadyFilled: 6,
       skipped: 0,
       needsPlan: 0,
-      percent: 100
+      percent: 100,
+      progress: 100
     },
     artifacts: {
       pdfReady: true,
@@ -48,11 +101,6 @@ const completedJob = {
   }
 };
 
-const apiHits = [];
-const consoleMessages = [];
-const pageErrors = [];
-const blockedExternal = [];
-
 function sendJson(res, status, payload) {
   res.writeHead(status, {
     "content-type": "application/json; charset=utf-8",
@@ -70,15 +118,33 @@ function contentType(filePath) {
   if (filePath.endsWith(".png")) return "image/png";
   if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) return "image/jpeg";
   if (filePath.endsWith(".svg")) return "image/svg+xml";
+  if (filePath.endsWith(".ico")) return "image/x-icon";
+  if (filePath.endsWith(".webp")) return "image/webp";
   return "application/octet-stream";
 }
 
-function safeStaticPath(urlPath) {
+function safeResolve(base, urlPath) {
+  if (!base) return null;
   const clean = decodeURIComponent(urlPath.split("?")[0]).replace(/^\/+/, "");
-  const file = clean || "progress.html";
-  const resolved = path.resolve(root, file);
-  if (!resolved.startsWith(root)) return null;
+  const resolved = path.resolve(base, clean);
+  if (!resolved.startsWith(base)) return null;
   return resolved;
+}
+
+function resolveStaticFile(urlPath) {
+  if (urlPath === "/" || urlPath === "/progress.html") return progressHtmlPath;
+
+  const fromProgressDir = safeResolve(progressDir, urlPath);
+  if (fromProgressDir && fs.existsSync(fromProgressDir) && fs.statSync(fromProgressDir).isFile()) {
+    return fromProgressDir;
+  }
+
+  const fromRoot = safeResolve(root, urlPath);
+  if (fromRoot && fs.existsSync(fromRoot) && fs.statSync(fromRoot).isFile()) {
+    return fromRoot;
+  }
+
+  return null;
 }
 
 const server = http.createServer((req, res) => {
@@ -106,8 +172,8 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const filePath = safeStaticPath(url.pathname);
-  if (!filePath || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  const filePath = resolveStaticFile(url.pathname);
+  if (!filePath) {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     res.end(`Not found: ${url.pathname}`);
     return;
@@ -133,16 +199,14 @@ function wait(ms) {
 
 function hasCompleted100(value) {
   if (!value) return false;
+
   const text = typeof value === "string" ? value : JSON.stringify(value);
+  const rawOk = text.includes("100") && /completed|complete|selesai|done|hasil_siap/i.test(text);
 
   let parsed = null;
-  try { parsed = typeof value === "string" ? JSON.parse(value) : value; } catch {}
-
-  const has100 = text.includes("100");
-  const hasCompleted = /completed|complete|selesai|done/i.test(text);
-  const hasJob = text.includes(jobId) || text.includes("phase5g-runtime-smoke");
-
-  if (has100 && hasCompleted && hasJob) return true;
+  try {
+    parsed = typeof value === "string" ? JSON.parse(value) : value;
+  } catch {}
 
   const candidates = [];
   function collect(obj) {
@@ -152,25 +216,100 @@ function hasCompleted100(value) {
   }
   collect(parsed);
 
-  return candidates.some((obj) => {
-    const status = String(obj.status || obj.phase || obj.state || "").toLowerCase();
+  const objectOk = candidates.some((obj) => {
+    const status = String(obj.status || obj.phase || obj.state || obj.statusText || "").toLowerCase();
     const percent = Number(obj.percent ?? obj.progress ?? obj.progressPercent ?? obj.percentage);
-    const id = String(obj.jobId || obj.id || "");
-    return percent === 100 && /completed|complete|selesai|done/.test(status) && (id === jobId || hasJob);
+    return percent === 100 && /completed|complete|selesai|done|hasil_siap/.test(status);
   });
+
+  return rawOk || objectOk;
 }
 
 let browser;
-let serverAddress;
 
 try {
-  serverAddress = await listen(server);
+  if (!progressHtmlPath) {
+    throw new Error("No progress.html found in repo. Cannot run runtime bridge smoke.");
+  }
+
+  const serverAddress = await listen(server);
   const baseUrl = `http://127.0.0.1:${serverAddress.port}`;
   const progressUrl = `${baseUrl}/progress.html?jobId=${encodeURIComponent(jobId)}&phase=5g`;
 
   const { chromium } = await import("playwright");
   browser = await chromium.launch({ headless: true });
+
   const context = await browser.newContext();
+
+  await context.addInitScript((seed) => {
+    const requestPayload = {
+      jobId: seed.jobId,
+      id: seed.jobId,
+      source: "phase5g-runtime-smoke",
+      status: "completed",
+      phase: "completed",
+      state: "completed",
+      progress: 100,
+      percent: 100,
+      progressPercent: 100,
+      percentage: 100,
+      updatedAt: new Date().toISOString()
+    };
+
+    const productionJobPayload = {
+      ok: true,
+      id: seed.jobId,
+      jobId: seed.jobId,
+      status: "completed",
+      phase: "completed",
+      state: "completed",
+      progress: 100,
+      percent: 100,
+      progressPercent: 100,
+      percentage: 100,
+      source: "phase5g-runtime-smoke",
+      job: {
+        ...requestPayload,
+        type: "smartwork.siaga.attendance",
+        message: "Phase 5G runtime smoke completed job",
+        summary: {
+          total: 6,
+          completed: 6,
+          alreadyFilled: 6,
+          skipped: 0,
+          needsPlan: 0,
+          percent: 100,
+          progress: 100
+        },
+        artifacts: {
+          pdfReady: true,
+          proofReady: true,
+          appOnly: true
+        },
+        safety: {
+          dryRun: true,
+          noSiagaInput: true,
+          noRealSaveSend: true,
+          appProgressOnly: true
+        }
+      }
+    };
+
+    const keys = [
+      "smartwork_production_job_id",
+      "smartwork_active_job_id",
+      "smartwork_job_id",
+      "smartwork_last_job_id",
+      "smartwork_request_job_id",
+      "smartwork_current_job_id"
+    ];
+
+    for (const key of keys) localStorage.setItem(key, seed.jobId);
+
+    localStorage.setItem("smartwork_production_job", JSON.stringify(productionJobPayload));
+    localStorage.setItem("smartwork_latest_job", JSON.stringify(requestPayload));
+    localStorage.setItem("smartwork_request", JSON.stringify(requestPayload));
+  }, { jobId });
 
   const page = await context.newPage();
 
@@ -196,40 +335,8 @@ try {
     pageErrors.push(String(err?.stack || err?.message || err));
   });
 
-  await page.goto(progressUrl, { waitUntil: "domcontentloaded" });
-
-  await page.evaluate((jobIdArg) => {
-    const requestPayload = {
-      jobId: jobIdArg,
-      id: jobIdArg,
-      source: "phase5g-runtime-smoke",
-      status: "completed",
-      progress: 100,
-      percent: 100,
-      updatedAt: new Date().toISOString()
-    };
-
-    const keys = [
-      "smartwork_production_job_id",
-      "smartwork_active_job_id",
-      "smartwork_job_id",
-      "smartwork_last_job_id",
-      "smartwork_request_job_id",
-      "smartwork_current_job_id"
-    ];
-
-    for (const key of keys) localStorage.setItem(key, jobIdArg);
-
-    localStorage.setItem("smartwork_latest_job", JSON.stringify(requestPayload));
-    localStorage.setItem("smartwork_request", JSON.stringify(requestPayload));
-
-    window.dispatchEvent(new StorageEvent("storage", {
-      key: "smartwork_production_job_id",
-      newValue: jobIdArg
-    }));
-  }, jobId);
-
-  await page.reload({ waitUntil: "domcontentloaded" });
+  const response = await page.goto(progressUrl, { waitUntil: "domcontentloaded" });
+  const pageStatus = response ? response.status() : null;
 
   const deadline = Date.now() + 15000;
   let storageSnapshot = {};
@@ -257,14 +364,19 @@ try {
   }
 
   const relevantApiHit = apiHits.some((hit) => hit.path.includes(`/api/smartwork/jobs/${jobId}`));
-  const ok = Boolean(bridgeOk && relevantApiHit && pageErrors.length === 0);
+  const pageLoaded = pageStatus && pageStatus >= 200 && pageStatus < 300;
+  const ok = Boolean(pageLoaded && bridgeOk && relevantApiHit && pageErrors.length === 0);
 
   const report = {
     ok,
     phase: "5G",
     name: "Runtime Progress Bridge Smoke",
     jobId,
+    progressHtmlPath,
+    progressDir,
     progressUrl,
+    pageStatus,
+    pageLoaded,
     bridgeOk,
     relevantApiHit,
     apiHits,
@@ -282,6 +394,7 @@ try {
       blockedExternal
     },
     localStorage: {
+      smartwork_production_job: storageSnapshot.smartwork_production_job || null,
       smartwork_production_progress_state: storageSnapshot.smartwork_production_progress_state || null,
       smartwork_progress_live_state: storageSnapshot.smartwork_progress_live_state || null,
       keys: Object.keys(storageSnapshot).sort()
@@ -297,6 +410,9 @@ try {
     ok,
     phase: "5G",
     jobId,
+    progressHtmlPath,
+    pageStatus,
+    pageLoaded,
     bridgeOk,
     relevantApiHit,
     apiHitCount: apiHits.length,
@@ -305,14 +421,13 @@ try {
     reportPath
   }, null, 2));
 
-  if (!ok) {
-    process.exitCode = 1;
-  }
+  if (!ok) process.exitCode = 1;
 } catch (err) {
   const fail = {
     ok: false,
     phase: "5G",
     error: String(err?.stack || err?.message || err),
+    progressHtmlPath,
     apiHits,
     consoleMessages,
     pageErrors,

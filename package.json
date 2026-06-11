@@ -112,7 +112,8 @@
     "prod:api:smoke": "node scripts/smartwork-phase5d-runtime-api-smoke.mjs",
     "prod:worker:lifecycle:check": "node scripts/smartwork-phase5e-worker-lifecycle-bridge-check.mjs",
     "prod:worker:lifecycle:smoke": "node scripts/smartwork-phase5e-worker-lifecycle-bridge.mjs --start-server --smoke",
-    "prod:progress-bridge:check": "node scripts/smartwork-phase5f-app-progress-bridge-check.mjs"
+    "prod:progress-bridge:check": "node scripts/smartwork-phase5f-app-progress-bridge-check.mjs",
+    "prod:progress-runtime-smoke": "node scripts/smartwork-phase5g-runtime-progress-bridge-smoke.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
