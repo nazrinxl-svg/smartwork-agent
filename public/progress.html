@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8" />
@@ -2075,6 +2075,165 @@
   window.addEventListener("load", refresh);
   setInterval(refresh, 1200);
   [50, 200, 600, 1200, 2400].forEach((ms) => setTimeout(refresh, ms));
+})();
+</script>
+
+
+<script id="smartwork-production-progress-bridge-v1">
+/* SMARTWORK_PRODUCTION_PROGRESS_BRIDGE_V1
+   Reads production queue job status from /api/smartwork/jobs/:jobId.
+   Preserves existing app artifact progress flow.
+   No SIAGA input. No browser automation. No real save/send. */
+(function () {
+  if (window.__smartworkProductionProgressBridgeInstalled) return;
+  window.__smartworkProductionProgressBridgeInstalled = true;
+
+  function safeJsonParse(value, fallback) {
+    try {
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function findJobId() {
+    const params = new URLSearchParams(location.search);
+    const fromQuery = params.get("jobId") || params.get("productionJobId");
+    if (fromQuery) return fromQuery;
+
+    const savedJob = safeJsonParse(localStorage.getItem("smartwork_production_job"), null);
+    return (
+      savedJob?.jobId ||
+      savedJob?.job?.id ||
+      savedJob?.id ||
+      localStorage.getItem("smartwork_production_job_id") ||
+      ""
+    );
+  }
+
+  function normalizeJobState(apiResult) {
+    const job = apiResult?.job || {};
+    const progress = job.progress || {};
+    const status = apiResult?.status || job.status || "unknown";
+
+    return {
+      mode: "SMARTWORK_PRODUCTION_PROGRESS_STATE",
+      source: "smartwork-production-progress-bridge",
+      updatedAt: new Date().toISOString(),
+      jobId: apiResult?.id || job.id || findJobId(),
+      status,
+      percent: Number(progress.percent ?? (status === "completed" ? 100 : status === "running" ? 5 : 0)),
+      stage: progress.stage || status,
+      currentStep: progress.stage || status,
+      message: progress.message || "Status production queue terbaca.",
+      requestRange: job.requestRange || null,
+      artifacts: {
+        pdfReady: Boolean(job.result?.pdfReady || job.artifacts?.pdfReady),
+        proofReady: Boolean(job.result?.proofReady || job.artifacts?.proofReady)
+      },
+      safety: {
+        noSiagaInput: true,
+        noBrowserOpen: true,
+        noRealSave: true,
+        noRealSend: true
+      },
+      raw: apiResult
+    };
+  }
+
+  function writeState(state) {
+    try {
+      localStorage.setItem("smartwork_production_progress_state", JSON.stringify(state));
+      localStorage.setItem("smartwork_progress_live_state", JSON.stringify({
+        mode: "SMARTWORK_PROGRESS_LIVE_STATE",
+        source: "production-queue-bridge",
+        updatedAt: state.updatedAt,
+        jobId: state.jobId,
+        status: String(state.status || "").toUpperCase(),
+        percent: state.percent,
+        stage: state.stage,
+        currentStep: state.currentStep,
+        message: state.message,
+        artifacts: state.artifacts,
+        requestRange: state.requestRange
+      }));
+    } catch {}
+  }
+
+  function paintState(state) {
+    const pairs = [
+      ["productionJobId", state.jobId],
+      ["jobId", state.jobId],
+      ["productionStatus", state.status],
+      ["jobStatus", state.status],
+      ["progressStatus", state.status],
+      ["productionStage", state.stage],
+      ["progressStage", state.stage],
+      ["productionMessage", state.message],
+      ["progressMessage", state.message],
+      ["productionPercent", String(state.percent)],
+      ["progressPercent", String(state.percent)]
+    ];
+
+    for (const [id, value] of pairs) {
+      const el = document.getElementById(id);
+      if (el && value !== undefined && value !== null) el.textContent = value;
+    }
+
+    for (const el of document.querySelectorAll("[data-smartwork-production-field]")) {
+      const key = el.getAttribute("data-smartwork-production-field");
+      if (key && state[key] !== undefined) el.textContent = String(state[key]);
+    }
+
+    for (const el of document.querySelectorAll("[data-smartwork-progress-percent]")) {
+      el.textContent = String(state.percent);
+    }
+  }
+
+  async function refreshProductionProgress() {
+    const jobId = findJobId();
+
+    if (!jobId) {
+      return {
+        ok: false,
+        skipped: true,
+        reason: "missing_production_job_id"
+      };
+    }
+
+    const res = await fetch("/api/smartwork/jobs/" + encodeURIComponent(jobId));
+    const json = await res.json().catch(() => ({
+      ok: false,
+      error: "invalid_json_response"
+    }));
+
+    if (!res.ok || json.ok === false) {
+      throw new Error(json.error || "Production progress belum terbaca.");
+    }
+
+    const state = normalizeJobState(json);
+    writeState(state);
+    paintState(state);
+    return {
+      ok: true,
+      jobId,
+      state
+    };
+  }
+
+  window.SmartWorkProductionProgressBridge = {
+    findJobId,
+    refresh: refreshProductionProgress,
+    normalizeJobState
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    refreshProductionProgress().catch(function (error) {
+      try {
+        localStorage.setItem("smartwork_production_progress_error", String(error?.message || error));
+      } catch {}
+    });
+  });
 })();
 </script>
 

@@ -6,7 +6,7 @@
   "description": "Standalone AI UI Work Agent for safe browser workflow automation.",
   "scripts": {
     "agent": "node scripts/smartwork-agent.mjs",
-    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs && node scripts/smartwork-production-brain-check.mjs && node scripts/smartwork-production-health-check.mjs && node scripts/smartwork-cloud-queue-connector.mjs && node scripts/smartwork-vps-dry-run-deploy-check.mjs && node scripts/smartwork-production-env-guard.mjs && node scripts/smartwork-vps-first-run-validator.mjs && node scripts/smartwork-phase5-backend-queue-api-check.mjs && node scripts/smartwork-phase5c-app-submit-bridge-check.mjs && node scripts/smartwork-phase5e-worker-lifecycle-bridge-check.mjs",
+    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs && node scripts/smartwork-production-brain-check.mjs && node scripts/smartwork-production-health-check.mjs && node scripts/smartwork-cloud-queue-connector.mjs && node scripts/smartwork-vps-dry-run-deploy-check.mjs && node scripts/smartwork-production-env-guard.mjs && node scripts/smartwork-vps-first-run-validator.mjs && node scripts/smartwork-phase5-backend-queue-api-check.mjs && node scripts/smartwork-phase5c-app-submit-bridge-check.mjs && node scripts/smartwork-phase5e-worker-lifecycle-bridge-check.mjs && node scripts/smartwork-phase5f-app-progress-bridge-check.mjs",
     "guard": "node scripts/smartwork-guard.mjs",
     "plan": "node scripts/smartwork-plan.mjs",
     "doctor": "node scripts/smartwork-doctor.mjs",
@@ -111,7 +111,8 @@
     "prod:app-bridge:check": "node scripts/smartwork-phase5c-app-submit-bridge-check.mjs",
     "prod:api:smoke": "node scripts/smartwork-phase5d-runtime-api-smoke.mjs",
     "prod:worker:lifecycle:check": "node scripts/smartwork-phase5e-worker-lifecycle-bridge-check.mjs",
-    "prod:worker:lifecycle:smoke": "node scripts/smartwork-phase5e-worker-lifecycle-bridge.mjs --start-server --smoke"
+    "prod:worker:lifecycle:smoke": "node scripts/smartwork-phase5e-worker-lifecycle-bridge.mjs --start-server --smoke",
+    "prod:progress-bridge:check": "node scripts/smartwork-phase5f-app-progress-bridge-check.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
