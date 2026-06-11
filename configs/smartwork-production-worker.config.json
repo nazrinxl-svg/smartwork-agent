@@ -1,0 +1,37 @@
+﻿{
+  "runtime": "production-worker",
+  "mode": "dry-run-foundation",
+  "service": {
+    "name": "smartwork-production-worker",
+    "target": "VPS/cloud/server",
+    "autoStart": true,
+    "localLaptopDependency": false
+  },
+  "queue": {
+    "pendingDir": "data/production-queue/pending",
+    "runningDir": "data/production-queue/running",
+    "completedDir": "data/production-queue/completed",
+    "failedDir": "data/production-queue/failed"
+  },
+  "artifacts": {
+    "rootDir": "artifacts/production",
+    "reportsDir": "reports/production-worker"
+  },
+  "modules": {
+    "siaga": {
+      "enabled": true,
+      "mode": "guarded",
+      "realSaveRequiresPolicy": true
+    },
+    "ekinerja": {
+      "enabled": false,
+      "mode": "placeholder"
+    }
+  },
+  "safety": {
+    "noRealCredentialsInGit": true,
+    "noRepeatVerifiedDates": true,
+    "canonicalProgressRequired": true,
+    "dryRunDefault": true
+  }
+}

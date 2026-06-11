@@ -1,0 +1,36 @@
+﻿{
+  "name": "SmartWork Production Worker Blueprint",
+  "finalTarget": "24/7 VPS/cloud/server worker without local laptop dependency",
+  "phase": "production-worker-foundation",
+  "status": "active",
+  "localPrototypeCheckpoint": {
+    "commit": "5c0ce91",
+    "requestRange": "2026-06-22..2026-06-27",
+    "status": "HASIL_SIAP",
+    "percent": 100,
+    "total": 6,
+    "terisi": 6,
+    "brainGuard": "PASS"
+  },
+  "productionComponents": [
+    "mobile/web app request intake",
+    "backend queue",
+    "production worker service",
+    "agent module router",
+    "browser runtime",
+    "canonical progress writer",
+    "artifact manager",
+    "job history",
+    "admin control panel"
+  ],
+  "rules": [
+    "do not depend on local laptop",
+    "do not commit credentials",
+    "do not re-input verified dates",
+    "use canonical progress as source of truth",
+    "worker must be idempotent",
+    "worker must support retry and resume",
+    "local watcher is prototype only"
+  ],
+  "nextStep": "create production worker skeleton and dry-run queue diagnosis"
+}

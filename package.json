@@ -6,7 +6,7 @@
   "description": "Standalone AI UI Work Agent for safe browser workflow automation.",
   "scripts": {
     "agent": "node scripts/smartwork-agent.mjs",
-    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs",
+    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs && node scripts/smartwork-production-brain-check.mjs",
     "guard": "node scripts/smartwork-guard.mjs",
     "plan": "node scripts/smartwork-plan.mjs",
     "doctor": "node scripts/smartwork-doctor.mjs",
@@ -97,7 +97,10 @@
     "smartui:precision": "node tools/diagnose/smartui-precision-agent.mjs",
     "brain:smartwork-baseline": "node scripts/smartwork-brain-warning-check.mjs",
     "brain:smartwork-guard": "node scripts/smartwork-auto-brain-guard.mjs --label=manual",
-    "brain:smartwork-guard:strict": "node scripts/smartwork-auto-brain-guard.mjs --strict --label=manual-strict"
+    "brain:smartwork-guard:strict": "node scripts/smartwork-auto-brain-guard.mjs --strict --label=manual-strict",
+    "prod:brain": "node scripts/smartwork-production-brain-check.mjs",
+    "prod:worker": "node scripts/smartwork-production-worker.mjs",
+    "prod:worker:once": "node scripts/smartwork-production-worker.mjs --once --dry-run"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
