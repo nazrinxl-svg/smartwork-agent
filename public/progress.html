@@ -1197,7 +1197,7 @@
   /* SMARTWORK_PROGRESS_ACTIVE_TIMELINE_TIMES_V1 */
   [data-flow-time] {
     font-variant-numeric: tabular-nums !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     color: #94a3b8 !important;
   }
 
@@ -1207,6 +1207,50 @@
 </style>
 
 
+
+<style id="smartwork-progress-timeline-time-fit-v1">
+  /* SMARTWORK_PROGRESS_TIMELINE_TIME_FIT_V1
+     Keep right status text inside card. UI only.
+     No SIAGA action. No save. No submit. No delete. */
+
+  .timeline .step {
+    grid-template-columns: 30px minmax(0, 1fr) 66px !important;
+    column-gap: 10px !important;
+    align-items: start !important;
+  }
+
+  .timeline .time {
+    width: 66px !important;
+    max-width: 66px !important;
+    min-width: 0 !important;
+    justify-self: end !important;
+    text-align: right !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .timeline [data-flow-time] {
+    display: inline-block !important;
+    max-width: 66px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    font-weight: 400 !important;
+  }
+
+  .timeline .stepTitle,
+  .timeline .stepText {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+</style>
 </head>
 <body>
   <main class="app">
@@ -1750,6 +1794,15 @@
     const range = request.requestRange || [request.startDate, request.endDate].filter(Boolean).join("..");
     const teacherName = request.teacherName || "Nazrin";
 
+    const legacyReady =
+      artifacts?.artifacts?.pdfReady === true &&
+      artifacts?.artifacts?.proofReady === true &&
+      progress?.ok === true &&
+      progress?.verifyComplete === true &&
+      needsPlan === 0;
+
+    if (!legacyReady) return;
+
     const finish = document.querySelector("[data-finish-text]");
     if (finish) finish.textContent = "Selesai";
 
@@ -1925,6 +1978,61 @@
     setText("needsPlan", needs || 0);
 
     setBar(percent);
+
+    /* SMARTWORK_TIMELINE_PENDING_STATE_V1
+       Keep timeline honest while request is pending.
+       No SIAGA action. No save. No submit. No delete. */
+    document.querySelectorAll("[data-flow-time]").forEach((el, index) => {
+      el.textContent = index === 0 ? "diterima" : "menunggu";
+      el.title = index === 0
+        ? "Request sudah diterima dari form aplikasi."
+        : "Menunggu agent menjalankan proses untuk request aktif.";
+    });
+
+    const flowCard = [...document.querySelectorAll("section.card")]
+      .find((el) => /Alur Kerja Agent/i.test(el.querySelector(".cardTitle")?.textContent || ""));
+
+    if (flowCard) {
+      const badge = flowCard.querySelector(".doneTag");
+      if (badge) {
+        badge.textContent = needs > 0 ? "Menunggu" : "Diproses";
+        badge.style.background = needs > 0 ? "#fef3c7" : "#dbeafe";
+        badge.style.color = needs > 0 ? "#92400e" : "#1d4ed8";
+      }
+
+      const stepTitles = flowCard.querySelectorAll(".stepTitle");
+      if (stepTitles[1]) stepTitles[1].textContent = "Agent menunggu proses";
+      if (stepTitles[2]) stepTitles[2].textContent = "PDF & bukti menunggu";
+
+      flowCard.querySelectorAll(".stepText").forEach((el) => {
+        const text = el.textContent || "";
+
+        if (/Login, input presensi, dan verifikasi dilakukan/i.test(text)) {
+          el.textContent = "Menunggu runner SIAGA dijalankan untuk request aktif.";
+        }
+
+        if (/Presensi PDF|PDF & bukti|proof report|sudah cocok/i.test(text)) {
+          el.textContent = "PDF dan bukti laporan akan dibuat setelah proses SIAGA selesai.";
+        }
+      });
+
+      const steps = [...flowCard.querySelectorAll("li, .step, [class*='step'], [class*='timeline']")]
+        .filter((el) => (el.textContent || "").trim());
+
+      steps.forEach((el, index) => {
+        if (index > 0) {
+          el.style.opacity = "0.62";
+        }
+      });
+
+      const icons = [...flowCard.querySelectorAll("svg, i, .check, .done, [class*='check'], [class*='done']")];
+      icons.forEach((el, index) => {
+        if (index > 0) {
+          el.style.opacity = "0.45";
+          el.style.filter = "grayscale(1)";
+        }
+      });
+    }
   }
 
   async function refresh() {
@@ -1972,6 +2080,11 @@
 
 </body>
 </html>
+
+
+
+
+
 
 
 
