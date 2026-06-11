@@ -1206,97 +1206,7 @@
   }
 </style>
 
-<script>
-/* SMARTWORK_PROGRESS_FORCE_EMPTY_UNTIL_REQUEST_V2 */
-(() => {
-  function hasActiveRequest() {
-    const keys = [
-      "smartwork_request_server",
-      "smartwork_request",
-      "smartwork_active_request",
-      "smartwork_last_job"
-    ];
 
-    return keys.some((key) => {
-      const value = localStorage.getItem(key);
-      if (!value) return false;
-      try {
-        const parsed = JSON.parse(value);
-        return !!(parsed && (parsed.jobId || parsed.requesterName || parsed.accounts || parsed.startDate || parsed.endDate));
-      } catch {
-        return value.trim().length > 5;
-      }
-    });
-  }
-
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
-
-  function forceEmptyProgress() {
-    if (window.__SMARTWORK_REPORTS_READY__ === true) return;
-    if (document.body?.dataset?.smartworkResultReady === "true") return;
-    if (hasActiveRequest()) return;
-
-    document.body.dataset.smartworkEmpty = "true";
-    document.body.dataset.smartworkResultReady = "false";
-
-    const finish = document.querySelector("[data-finish-text]");
-    if (finish) finish.textContent = "Menunggu request";
-
-    setText("heroTitle", "Belum ada request aktif");
-    setText("heroText", "Progress akan muncul setelah request baru disimpan dan agent mulai bekerja.");
-    setText("totalVal", "0");
-    setText("filledVal", "0");
-    setText("needsVal", "0");
-    setText("pdfName", "Belum ada file");
-
-    document.querySelectorAll(".percent").forEach((el) => el.textContent = "0%");
-    document.querySelectorAll(".barFill").forEach((el) => el.style.width = "0%");
-    document.querySelectorAll("[data-flow-time]").forEach((el) => {
-      el.textContent = "--:--";
-      el.title = "Belum ada request aktif";
-    });
-
-    const fileSub = document.querySelector("#pdfName")?.closest(".fileMeta")?.querySelector("p");
-    if (fileSub) fileSub.textContent = "Belum ada proof report.";
-
-    ["pdfLink", "proofLink"].forEach((id) => {
-      const link = document.getElementById(id);
-      if (!link) return;
-      link.href = "#";
-      link.setAttribute("aria-disabled", "true");
-      link.onclick = (event) => {
-        event.preventDefault();
-        alert("Belum ada file. Simpan request baru dulu.");
-      };
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", forceEmptyProgress);
-  window.addEventListener("load", forceEmptyProgress);
-  setTimeout(forceEmptyProgress, 100);
-  setTimeout(forceEmptyProgress, 500);
-  setTimeout(forceEmptyProgress, 1200);
-
-  const originalFetch = window.fetch;
-  window.fetch = async function(input, init) {
-    const url = String(input?.url || input || "");
-    if (!hasActiveRequest() && url.includes("/reports/")) {
-      return new Response(JSON.stringify({
-        ok: false,
-        empty: true,
-        reason: "NO_ACTIVE_REQUEST"
-      }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" }
-      });
-    }
-    return originalFetch.apply(this, arguments);
-  };
-})();
-</script>
 </head>
 <body>
   <main class="app">
@@ -1775,7 +1685,7 @@
     meta.className = "fileMeta";
     meta.innerHTML = '<b id="pdfName"></b><p></p>';
     meta.querySelector("b").textContent = pdfName;
-    meta.querySelector("p").textContent = "PDF dan bukti laporan siap untuk request aktif.";
+    meta.querySelector("p").textContent = "PDF & bukti siap diunduh.";
 
     const actions = document.createElement("div");
     actions.style.display = "flex";
@@ -1831,8 +1741,10 @@
     const summary = progress?.summary || {};
     const total = Number(summary.total || 0);
     const filled = Number(summary.alreadyFilled || 0);
+    const skip = Number(summary.skip || 0);
     const needsPlan = Number(summary.needsPlan || 0);
-    const percent = total > 0 ? Math.round((filled / total) * 100) : 100;
+    const done = filled + skip;
+    const percent = total > 0 ? (needsPlan === 0 ? 100 : Math.round((done / total) * 100)) : 100;
 
     const request = artifacts?.request || progress?.request || {};
     const range = request.requestRange || [request.startDate, request.endDate].filter(Boolean).join("..");
@@ -1842,7 +1754,7 @@
     if (finish) finish.textContent = "Selesai";
 
     setText("heroTitle", artifacts?.uiText?.title || "Hasil Siap");
-    setText("heroText", `${teacherName} • ${range} selesai. PDF dan bukti laporan siap diunduh dari aplikasi.`);
+    setText("heroText", `${teacherName} • ${range} selesai. PDF & bukti siap diunduh.`);
 
     setText("totalVal", total);
     setText("filledVal", filled);
@@ -1875,175 +1787,186 @@
 </script>
 
 
-<script id="smartwork-progress-force-report-snapshot-v2">
-/* SMARTWORK_PROGRESS_FORCE_REPORT_SNAPSHOT_V2
-   UI-only bridge from verified backend reports.
-   No SIAGA action. No save. No submit. No delete. */
-(() => {
-  const SNAPSHOT = {"artifacts":{"ok":true,"mode":"SMARTWORK_APP_ARTIFACTS_ONLY","generatedAt":"2026-06-11T01:08:41.689Z","deliveryPolicy":"APP_DOWNLOAD_ONLY_EMAIL_WHATSAPP_DISABLED","request":{"source":"smartwork-user-request-form","teacherId":"guru-001","teacherName":"Nazrin","requestRange":"2026-06-01..2026-06-06","startDate":"2026-06-01","endDate":"2026-06-06"},"artifactGuard":{"activeRange":"2026-06-01..2026-06-06","finalRange":"2026-06-01..2026-06-06","verifyComplete":true,"artifactMatchesActiveRequest":true,"staleArtifactBlocked":false},"artifacts":{"pdfReady":true,"pdfFile":"reports/downloads/Presensi_Nazrin_Juni_2026.pdf","proofReady":true,"proofReport":"reports/proof/smartwork-siaga-proof-report.json","finalProgressReport":"reports/smartwork-final-progress-report.json"},"disabled":{"email":true,"whatsapp":true,"reason":"Delivery is shown in the app only."},"uiText":{"title":"Hasil Siap","pdfLabel":"Unduh PDF Presensi","proofLabel":"Lihat Bukti Laporan","note":"PDF dan bukti laporan sudah siap untuk request aktif."}},"progress":{"ok":true,"mode":"SMARTWORK_FINAL_PROGRESS_REPORT","generatedAt":"2026-06-11T01:08:41.687Z","request":{"source":"smartwork-user-request-form","teacherId":"guru-001","teacherName":"Nazrin","requestRange":"2026-06-01..2026-06-06","startDate":"2026-06-01","endDate":"2026-06-06"},"status":"complete","verifyComplete":true,"summary":{"total":6,"alreadyFilled":6,"skip":0,"needsPlan":0,"timePlanRows":30,"timePlanAlreadyFilled":6,"timePlanPlanned":0,"timePlanNeedsCheck":0},"savedDates":["2026-06-01","2026-06-02","2026-06-03","2026-06-04","2026-06-05","2026-06-06"],"artifacts":{"pdfReady":true,"pdfFile":{"path":"reports/downloads/Presensi_Nazrin_Juni_2026.pdf","sizeBytes":71476,"modifiedAt":"2026-06-11T01:00:16.341Z"},"proofReady":true,"proofReport":"reports/proof/smartwork-siaga-proof-report.json","proofText":"reports/proof/smartwork-siaga-proof-report.txt"},"rowsInsideRequest":[{"tanggal":1,"hari":"Senin","current":{"masuk":"06:56:00","pulang":"14:19:00"},"actionText":"Ubah hapus 1 Senin 06:56:00 14:19:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null},{"tanggal":2,"hari":"Selasa","current":{"masuk":"06:54:00","pulang":"14:29:00"},"actionText":"Ubah hapus 2 Selasa 06:54:00 14:29:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null},{"tanggal":3,"hari":"Rabu","current":{"masuk":"06:59:00","pulang":"14:26:00"},"actionText":"Ubah hapus 3 Rabu 06:59:00 14:26:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null},{"tanggal":4,"hari":"Kamis","current":{"masuk":"06:57:00","pulang":"14:16:00"},"actionText":"Ubah hapus 4 Kamis 06:57:00 14:16:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null},{"tanggal":5,"hari":"Jum'at","current":{"masuk":"06:55:00","pulang":"11:35:00"},"actionText":"Ubah hapus 5 Jum'at 06:55:00 11:35:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null},{"tanggal":6,"hari":"Sabtu","current":{"masuk":"06:54:00","pulang":"15:29:00"},"actionText":"Ubah hapus 6 Sabtu 06:54:00 15:29:00 Ubah hapus","status":"already_filled","reason":"Sudah ada jam masuk/pulang.","plan":null}],"sourceReports":{"verify":"scripts/smartwork-verify-request-range-complete.mjs stdout","timePlan":"reports/siaga-job-time-plan-preview-report.json","saveRange":"reports/siaga-job-save-request-range-confirmed-report.json","download":"reports/siaga-job-download-presensi-pdf-report.json","proof":"reports/proof/smartwork-siaga-proof-report.json"}},"generatedAt":"2026-06-11T01:17:54.742Z"};
 
-  function setTextById(id, value) {
+
+
+
+
+
+
+
+
+
+
+
+<script id="smartwork-progress-authoritative-renderer-v1">
+/* SMARTWORK_PROGRESS_AUTHORITATIVE_RENDERER_V1
+   Single source of truth:
+   1) final/app artifacts complete => always render 100 Hasil Siap.
+   2) otherwise live state renders running/needs_check.
+   This prevents flicker between stale 78/67 and final 100. */
+(() => {
+  const urls = {
+    live: "/reports/smartwork-progress-live-state.json",
+    app: "/reports/smartwork-app-artifacts-report.json",
+    final: "/reports/smartwork-final-progress-report.json"
+  };
+
+  let lastSignature = "";
+
+  function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = String(value ?? "");
   }
 
-  function safePath(value) {
-    const raw = typeof value === "string" ? value : value?.path;
-    return raw ? String(raw).replaceAll("\\", "/") : "";
+  function setFinish(value) {
+    const el = document.querySelector("[data-finish-text]");
+    if (el) el.textContent = value;
   }
 
-  function fileName(value) {
-    const path = safePath(value);
-    return path ? path.split("/").pop() : "";
+  function setBar(percent) {
+    const safe = Math.max(0, Math.min(100, Number(percent || 0)));
+    const percentEl = document.querySelector(".percent");
+    if (percentEl) percentEl.textContent = safe + "%";
+
+    document.querySelectorAll(".barFill").forEach((el) => {
+      el.style.width = safe + "%";
+      el.setAttribute("aria-valuenow", String(safe));
+    });
   }
 
-  function apiDownloadUrl(value) {
-    const path = safePath(value);
-    if (!path) return "#";
-    return "/api/download?file=" + encodeURIComponent(path);
+  function rangeOf(req) {
+    return req?.requestRange || [req?.startDate, req?.endDate].filter(Boolean).join("..");
   }
 
-  function directReportUrl(value) {
-    const path = safePath(value);
-    if (!path) return "#";
-    return "/" + path.replace(/^\/+/, "");
+  async function readJson(url) {
+    try {
+      const res = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   }
 
-  function makeButton(text, href, tone) {
-    const a = document.createElement("a");
-    a.href = href || "#";
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.textContent = text;
-    a.style.cssText = [
-      "display:inline-flex",
-      "align-items:center",
-      "justify-content:center",
-      "height:34px",
-      "padding:0 11px",
-      "border-radius:12px",
-      "font-size:12px",
-      "font-weight:700",
-      "text-decoration:none",
-      tone === "green"
-        ? "color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0"
-        : "color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe"
-    ].join(";");
-    return a;
-  }
-
-  function renderProofCard(pdfPath, proofPath) {
-    const proofCard = document.querySelector(".proofCard") || document.querySelector("#pdfName")?.closest(".proofCard");
-    if (!proofCard) return;
-
-    const pdfName = fileName(pdfPath) || "Presensi_Nazrin_Juni_2026.pdf";
-    const proofName = fileName(proofPath) || "smartwork-siaga-proof-report.txt";
-
-    proofCard.innerHTML = "";
-
-    const icon = document.createElement("div");
-    icon.className = "fileIcon";
-    icon.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#ef4444" stroke-width="1.8"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M8.5 15h7"/><path d="M8.5 18h5"/></svg>';
-
-    const meta = document.createElement("div");
-    meta.className = "fileMeta";
-
-    const title = document.createElement("b");
-    title.id = "pdfName";
-    title.textContent = pdfName;
-
-    const sub = document.createElement("p");
-    sub.textContent = "PDF dan bukti laporan siap untuk request aktif.";
-
-    const actions = document.createElement("div");
-    actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;";
-
-    actions.appendChild(makeButton("Unduh PDF", apiDownloadUrl(pdfPath), "blue"));
-    actions.appendChild(makeButton("Lihat bukti", apiDownloadUrl(proofPath), "green"));
-
-    const fallback = document.createElement("div");
-    fallback.style.cssText = "font-size:10px;color:#64748b;margin-top:6px;line-height:1.35;";
-    fallback.textContent = proofName;
-
-    meta.appendChild(title);
-    meta.appendChild(sub);
-    meta.appendChild(actions);
-    meta.appendChild(fallback);
-
-    proofCard.appendChild(icon);
-    proofCard.appendChild(meta);
-  }
-
-  function forceReady() {
-    const artifacts = SNAPSHOT.artifacts || {};
-    const progress = SNAPSHOT.progress || {};
-    const guard = artifacts.artifactGuard || {};
-    const summary = progress.summary || {};
-
-    const ready =
-      artifacts.ok === true &&
-      progress.ok === true &&
-      guard.verifyComplete === true &&
-      guard.artifactMatchesActiveRequest === true &&
-      artifacts.artifacts?.pdfReady === true &&
-      artifacts.artifacts?.proofReady === true;
-
-    if (!ready) return false;
-
-    window.__SMARTWORK_REPORTS_READY__ = true;
-    document.body.dataset.smartworkResultReady = "true";
-    document.body.dataset.smartworkEmpty = "false";
-
-    const request = artifacts.request || progress.request || {};
-    const range = request.requestRange || [request.startDate, request.endDate].filter(Boolean).join("..");
-    const teacherName = request.teacherName || "Nazrin";
+  function renderComplete(app, finalProgress, live) {
+    const request = finalProgress?.request || app?.request || live?.request || {};
+    const summary = finalProgress?.summary || live?.summary || {};
+    const range = rangeOf(request);
+    const teacher = request.teacherName || "Nazrin";
 
     const total = Number(summary.total || 0);
     const filled = Number(summary.alreadyFilled || 0);
-    const needsPlan = Number(summary.needsPlan || 0);
-    const percent = total > 0 ? Math.round((filled / total) * 100) : 100;
+    const needs = Number(summary.needsPlan || 0);
 
-    const finish = document.querySelector("[data-finish-text]");
-    if (finish) finish.textContent = "Selesai";
+    document.body.dataset.smartworkEmpty = "false";
+    document.body.dataset.smartworkResultReady = "true";
+    document.body.dataset.smartworkAuthoritative = "complete";
+    window.__SMARTWORK_REPORTS_READY__ = true;
 
-    setTextById("heroTitle", artifacts.uiText?.title || "Hasil Siap");
-    setTextById("heroText", teacherName + " • " + range + " selesai. PDF dan bukti laporan siap diunduh dari aplikasi.");
+    try {
+      localStorage.removeItem("smartwork_progress_live_state");
+      localStorage.removeItem("smartwork_progress_reset_at");
+      localStorage.setItem("smartwork_progress_active_range", range);
+    } catch {}
 
-    setTextById("totalVal", total);
-    setTextById("filledVal", filled);
-    setTextById("needsVal", needsPlan);
-    setTextById("total", total);
-    setTextById("filled", filled);
-    setTextById("needsPlan", needsPlan);
+    setFinish("Selesai");
+    setText("heroTitle", "Hasil Siap");
+    setText("heroText", teacher + " • " + range + " selesai. PDF & bukti siap diunduh.");
 
-    const percentEl = document.querySelector(".percent");
-    if (percentEl) percentEl.textContent = percent + "%";
+    setText("totalVal", total);
+    setText("filledVal", filled);
+    setText("needsVal", needs);
+    setText("total", total);
+    setText("filled", filled);
+    setText("needsPlan", needs);
 
-    document.querySelectorAll(".barFill").forEach((el) => {
-      el.style.width = percent + "%";
-    });
+    setBar(100);
 
     document.querySelectorAll("[data-flow-time]").forEach((el) => {
-      if (el.textContent === "--:--") el.textContent = "selesai";
-      el.title = "Request selesai";
+      el.textContent = "selesai";
+      el.title = "Request selesai berdasarkan verifikasi final";
     });
 
-    const pdfPath = artifacts.artifacts?.pdfFile || progress.artifacts?.pdfFile?.path;
-    const proofPath = progress.artifacts?.proofText || artifacts.artifacts?.proofReport || progress.artifacts?.proofReport;
+    const pdfName = document.getElementById("pdfName");
+    if (pdfName) pdfName.textContent = "Presensi_Nazrin_Juni_2026.pdf";
 
-    renderProofCard(pdfPath, proofPath);
-
-    return true;
+    const fileMeta = pdfName?.closest(".fileMeta")?.querySelector("p");
+    if (fileMeta) fileMeta.textContent = "PDF & bukti laporan siap untuk request aktif.";
   }
 
-  window.SmartWorkProgressForceSnapshot = { forceReady };
+  function renderNotComplete(live, finalProgress) {
+    const request = live?.request || finalProgress?.request || {};
+    const summary = finalProgress?.summary || live?.summary || {};
+    const range = rangeOf(request);
+    const teacher = request.teacherName || "Nazrin";
 
-  document.addEventListener("DOMContentLoaded", forceReady);
-  window.addEventListener("load", forceReady);
+    const total = Number(summary.total || 0);
+    const done = Number(summary.alreadyFilled || 0) + Number(summary.skip || 0);
+    const needs = Number(summary.needsPlan || 0);
 
-  [0, 100, 300, 700, 1300, 2200, 4000].forEach((ms) => {
-    setTimeout(forceReady, ms);
-  });
+    const derived = needs === 0 && total > 0 ? 100 : Math.max(0, Math.min(99, total > 0 ? Math.round((done / total) * 100) : Number(live?.percent || 0)));
+    const percent = Math.max(0, Math.min(99, derived));
+
+    document.body.dataset.smartworkEmpty = "false";
+    document.body.dataset.smartworkResultReady = "false";
+    document.body.dataset.smartworkAuthoritative = "running";
+    window.__SMARTWORK_REPORTS_READY__ = false;
+
+    setFinish(live?.status === "needs_check" ? "Perlu dicek" : "Diproses " + percent + "%");
+    setText("heroTitle", live?.status === "needs_check" ? "Verifikasi perlu dicek" : "Agent sedang bekerja");
+    setText("heroText", teacher + (range ? " • " + range : "") + " — " + (live?.message || "Sistem sedang memproses request aktif."));
+
+    setText("totalVal", total || 0);
+    setText("filledVal", Number(summary.alreadyFilled || 0));
+    setText("needsVal", needs || 0);
+    setText("total", total || 0);
+    setText("filled", Number(summary.alreadyFilled || 0));
+    setText("needsPlan", needs || 0);
+
+    setBar(percent);
+  }
+
+  async function refresh() {
+    const [live, app, finalProgress] = await Promise.all([
+      readJson(urls.live),
+      readJson(urls.app),
+      readJson(urls.final)
+    ]);
+
+    const finalReady =
+      app?.ok === true &&
+      finalProgress?.ok === true &&
+      finalProgress?.verifyComplete === true &&
+      Number(finalProgress?.summary?.needsPlan || 0) === 0 &&
+      (app?.artifacts?.pdfReady === true || finalProgress?.artifacts?.pdfReady === true) &&
+      (app?.artifacts?.proofReady === true || finalProgress?.artifacts?.proofReady === true);
+
+    const signature = JSON.stringify({
+      finalReady,
+      livePercent: live?.percent,
+      liveStatus: live?.status,
+      finalRange: finalProgress?.request?.requestRange,
+      finalSummary: finalProgress?.summary,
+      appOk: app?.ok
+    });
+
+    if (signature === lastSignature && finalReady) return;
+    lastSignature = signature;
+
+    if (finalReady) {
+      renderComplete(app, finalProgress, live);
+    } else {
+      renderNotComplete(live || {}, finalProgress || {});
+    }
+  }
+
+  window.SmartWorkProgressAuthoritativeRenderer = { refresh };
+
+  document.addEventListener("DOMContentLoaded", refresh);
+  window.addEventListener("load", refresh);
+  setInterval(refresh, 1200);
+  [50, 200, 600, 1200, 2400].forEach((ms) => setTimeout(refresh, ms));
 })();
 </script>
 

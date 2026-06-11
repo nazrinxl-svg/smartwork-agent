@@ -1,3 +1,26 @@
+
+/* SMARTWORK_BLOCK_TERMINAL_STAGED_REQUEST_V1 */
+function smartworkBlockTerminalStagedRequest() {
+  try {
+    const fs = require("fs");
+    const raw = fs.existsSync("data/siaga-attendance-request.local.json")
+      ? fs.readFileSync("data/siaga-attendance-request.local.json", "utf8")
+      : "{}";
+    const req = JSON.parse(String(raw || "{}").replace(/^\uFEFF/, ""));
+    const marker = [req.mode, req.jobId, req.requestRange].filter(Boolean).join(" ");
+
+    const isTerminalStaged = /STAGED_TEST_NEXT_DAYS|smartwork-siaga-staged/i.test(marker);
+    const explicitlyAllowed = process.env.SMARTWORK_ALLOW_TERMINAL_STAGED_REQUEST === "YES";
+
+    if (isTerminalStaged && !explicitlyAllowed) {
+      throw new Error("BLOCKED_TERMINAL_STAGED_REQUEST: request must be submitted from UI. Set SMARTWORK_ALLOW_TERMINAL_STAGED_REQUEST=YES only for deliberate developer simulation.");
+    }
+  } catch (error) {
+    if (String(error?.message || error).includes("BLOCKED_TERMINAL_STAGED_REQUEST")) throw error;
+  }
+}
+/* END_SMARTWORK_BLOCK_TERMINAL_STAGED_REQUEST_V1 */
+
 ﻿import fs from "fs";
 import path from "path";
 import { spawn } from "child_process";

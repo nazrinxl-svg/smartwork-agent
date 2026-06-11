@@ -859,6 +859,109 @@
   }
 })();
 </script>
+
+<script id="smartwork-request-reset-progress-on-submit-v1">
+/* SMARTWORK_REQUEST_RESET_PROGRESS_ON_SUBMIT_V1
+   User-submit only: reset progress UI to 0/queued when a new request is submitted from the app.
+   No SIAGA action. No terminal-created request. */
+(() => {
+  function pickValue(selectors) {
+    for (const selector of selectors) {
+      const el = document.querySelector(selector);
+      if (el && "value" in el && String(el.value || "").trim()) return String(el.value || "").trim();
+    }
+    return "";
+  }
+
+  function getRequestSnapshot() {
+    const startDate = pickValue([
+      "[name='startDate']",
+      "[name='fromDate']",
+      "[name='tanggalMulai']",
+      "#startDate",
+      "#fromDate",
+      "#tanggalMulai"
+    ]);
+
+    const endDate = pickValue([
+      "[name='endDate']",
+      "[name='toDate']",
+      "[name='tanggalSelesai']",
+      "#endDate",
+      "#toDate",
+      "#tanggalSelesai"
+    ]);
+
+    const teacherName = pickValue([
+      "[name='teacherName']",
+      "[name='nama']",
+      "#teacherName",
+      "#nama"
+    ]) || "Nazrin";
+
+    return {
+      source: "smartwork-user-request-form",
+      trigger: "UI_SUBMIT",
+      submittedAt: new Date().toISOString(),
+      teacherName,
+      startDate,
+      endDate,
+      requestRange: [startDate, endDate].filter(Boolean).join("..")
+    };
+  }
+
+  function resetProgressFromUiSubmit() {
+    const request = getRequestSnapshot();
+
+    const state = {
+      ok: true,
+      mode: "SMARTWORK_PROGRESS_LIVE_STATE",
+      source: "UI_SUBMIT_RESET",
+      generatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      request,
+      percent: 0,
+      stage: "Request baru diterima",
+      status: "queued",
+      currentStep: "request-submitted",
+      message: "Request baru sudah dikirim dari aplikasi. Sistem mulai memproses dari 0%.",
+      artifacts: {
+        pdfReady: false,
+        proofReady: false,
+        uiTitle: null
+      }
+    };
+
+    localStorage.setItem("smartwork_progress_live_state", JSON.stringify(state));
+    localStorage.setItem("smartwork_progress_reset_at", state.updatedAt);
+    localStorage.setItem("smartwork_progress_active_range", request.requestRange || "");
+  }
+
+  document.addEventListener("submit", (event) => {
+    const form = event.target;
+    if (!form || !String(form.outerHTML || "").toLowerCase().includes("siaga")) return;
+    resetProgressFromUiSubmit();
+  }, true);
+
+  document.addEventListener("click", (event) => {
+    const btn = event.target?.closest?.("button,a");
+    if (!btn) return;
+
+    const text = String(btn.textContent || "").toLowerCase();
+    const isSubmit =
+      text.includes("simpan") ||
+      text.includes("request") ||
+      text.includes("kirim") ||
+      btn.type === "submit";
+
+    if (!isSubmit) return;
+    resetProgressFromUiSubmit();
+  }, true);
+
+  window.SmartWorkRequestResetProgressOnSubmit = { reset: resetProgressFromUiSubmit };
+})();
+</script>
+
 </body>
 </html>
 
