@@ -103,6 +103,127 @@ function normalizeMonthName(month) {
   return aliases[text.toLowerCase()] || text;
 }
 
+
+/* SMARTWORK_PLANNER_UI_DATE_TARGET_FALLBACK_V1
+   UI request uses startDate/endDate. Planner legacy validation still expects target.month/year.
+   Derive target.month/year from UI date range before validation.
+   No browser. No login. No input. No save. No delete. */
+function smartworkEnsurePlannerTargetFromUiDateRange(request) {
+  const next = { ...(request || {}) };
+  const account = Array.isArray(next.accounts) ? (next.accounts[0] || {}) : {};
+
+  const startDate =
+    next.startDate ||
+    account.startDate ||
+    (typeof next.requestRange === "string" ? next.requestRange.split("..")[0] : "") ||
+    "";
+
+  const monthNames = {
+    "01": "Januari",
+    "02": "Februari",
+    "03": "Maret",
+    "04": "April",
+    "05": "Mei",
+    "06": "Juni",
+    "07": "Juli",
+    "08": "Agustus",
+    "09": "September",
+    "10": "Oktober",
+    "11": "November",
+    "12": "Desember"
+  };
+
+  const m = String(startDate).match(/^(\d{4})-(\d{2})-\d{2}$/);
+  const derivedYear = m ? Number(m[1]) : Number(next.targetYear || account.targetYear || 2026);
+  const derivedMonth = m ? monthNames[m[2]] : (next.targetMonth || account.targetMonth || "Juni");
+
+  next.target = {
+    ...(next.target || {}),
+    month: next?.target?.month || derivedMonth,
+    year: Number(next?.target?.year || derivedYear)
+  };
+
+  next.rules = {
+    ...(next.rules || {}),
+    userDoesNotProvideTimeRules: true,
+    saveRequiresExplicitPermission: true
+  };
+
+  return next;
+}
+/* END_SMARTWORK_PLANNER_UI_DATE_TARGET_FALLBACK_V1 */
+
+/* SMARTWORK_PLANNER_EXCEPTION_SANITIZE_V1
+   UI holidays/leaveDays are optional. Invalid loose values must not block autopilot.
+   Valid inputs:
+   - { date: "2026-06-15" }
+   - "2026-06-15"
+   - "15" or 15 -> converted to target month/year
+   Invalid values are ignored and recorded as warnings.
+   No browser. No login. No input. No save. No delete. */
+function smartworkSanitizePlannerExceptionsFromUiDateRange(request) {
+  const next = { ...(request || {}) };
+  const targetYear = Number(next?.target?.year || next?.targetYear || 2026);
+  const monthMap = {
+    januari: "01", februari: "02", maret: "03", april: "04", mei: "05", juni: "06",
+    juli: "07", agustus: "08", september: "09", oktober: "10", november: "11", desember: "12"
+  };
+  const targetMonthName = String(next?.target?.month || next?.targetMonth || "Juni").toLowerCase();
+  const targetMonth = monthMap[targetMonthName] || "06";
+  const ignored = [];
+
+  function pad2(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function normalizeOne(item, source) {
+    const rawDate = typeof item === "object" && item !== null ? item.date : item;
+    const text = String(rawDate ?? "").trim();
+
+    if (!text) return [];
+
+    const tokens = text.includes(",") || text.includes(";")
+      ? text.split(/[;,]/).map((part) => part.trim()).filter(Boolean)
+      : [text];
+
+    const out = [];
+
+    for (const token of tokens) {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(token)) {
+        out.push(typeof item === "object" && item !== null ? { ...item, date: token } : { date: token, source });
+        continue;
+      }
+
+      if (/^\d{1,2}$/.test(token)) {
+        const day = Number(token);
+        if (day >= 1 && day <= 31) {
+          out.push({
+            ...(typeof item === "object" && item !== null ? item : {}),
+            date: `${targetYear}-${targetMonth}-${pad2(day)}`,
+            source
+          });
+          continue;
+        }
+      }
+
+      ignored.push({ source, value: token });
+    }
+
+    return out;
+  }
+
+  function normalizeList(list, source) {
+    if (!Array.isArray(list)) return [];
+    return list.flatMap((item) => normalizeOne(item, source));
+  }
+
+  next.holidays = normalizeList(next.holidays, "holidays");
+  next.leaveDays = normalizeList(next.leaveDays, "leaveDays");
+  next._ignoredInvalidExceptions = ignored;
+
+  return next;
+}
+/* END_SMARTWORK_PLANNER_EXCEPTION_SANITIZE_V1 */
 function readAccounts() {
   const raw = readJsonSafe(accountsPath, "File akun lokal");
   const accounts = Array.isArray(raw.accounts)
@@ -163,6 +284,10 @@ function readAccounts() {
 function validateRequest(request) {
   const errors = [];
   const warnings = [];
+
+  if (Array.isArray(request?._ignoredInvalidExceptions) && request._ignoredInvalidExceptions.length) {
+    warnings.push(`Exception/libur tidak valid diabaikan: ${JSON.stringify(request._ignoredInvalidExceptions)}`);
+  }
 
   const month = normalizeMonthName(request?.target?.month);
   const year = Number(request?.target?.year);
@@ -238,6 +363,8 @@ function main() {
 
   let request = readJsonSafe(requestPath, "Request lokal SIAGA");
 request = smartworkNormalizeUiRequestSchemaForPlanner(request);
+request = smartworkEnsurePlannerTargetFromUiDateRange(request);
+request = smartworkSanitizePlannerExceptionsFromUiDateRange(request);
   const timeRules = readJsonSafe(timeRulesPath, "SIAGA system time rules");
   const accounts = readAccounts();
 
@@ -297,3 +424,6 @@ request = smartworkNormalizeUiRequestSchemaForPlanner(request);
 }
 
 main();
+
+
+

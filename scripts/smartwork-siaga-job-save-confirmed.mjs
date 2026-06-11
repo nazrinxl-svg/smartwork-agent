@@ -389,6 +389,43 @@ async function runOneTeacher(teacherPlan) {
   const results = [];
   const screenshots = [];
 
+  /* SMARTWORK_SAVE_ZERO_PLAN_ALREADY_FILLED_COMPLETE_V1 */
+  const inRangeRows = (teacherPlan.rows || []).filter((row) => row.status !== "outside_request_range");
+  const completeRows = inRangeRows.filter((row) => row.status === "already_filled" || row.status === "skip");
+
+  if (plannedRows.length === 0 && inRangeRows.length > 0 && completeRows.length === inRangeRows.length) {
+    return {
+      ok: true,
+      teacherId,
+      teacherName: teacherPlan.teacherName,
+      detailUrl,
+      startedAt,
+      endedAt: now(),
+      status: "save_confirmed_already_complete",
+      finalUrl: detailUrl,
+      finalBodyPreview: "Active request range already complete according to latest time-plan preview.",
+      plannedRowsCount: 0,
+      results: inRangeRows.map((row) => ({
+        target: {
+          tanggal: String(row.tanggal),
+          hari: row.hari,
+          date: targetDateFromRow(row),
+          masuk: row.current?.masuk || null,
+          pulang: row.current?.pulang || null
+        },
+        ok: true,
+        status: row.status === "skip" ? "skipped" : "already_filled_verified",
+        reason: row.reason
+      })),
+      screenshots,
+      log: [
+        `[${now()}] ZERO_PLAN_ALREADY_COMPLETE=true`,
+        `[${now()}] IN_RANGE_ROWS=${inRangeRows.length}`,
+        `[${now()}] COMPLETE_ROWS=${completeRows.length}`
+      ]
+    };
+  }
+
   log.push(`[${now()}] START teacher=${teacherId}`);
   log.push(`[${now()}] RULE=SAVE_CONFIRMED_TARGET_${TARGET_DATE || `LIMIT_${TARGET_LIMIT}`}`);
   log.push(`[${now()}] DETAIL_URL=${detailUrl}`);
@@ -630,6 +667,7 @@ async function main() {
   const result = await runOneTeacher(teacherPlan);
 
   const savedCount = (result.results || []).filter((item) => item.status === "saved_and_verified").length;
+  const alreadyFilledCount = (result.results || []).filter((item) => item.status === "already_filled_verified").length;
 
   const report = {
     ok: Boolean(result.ok),
@@ -641,10 +679,11 @@ async function main() {
     startedAt: now(),
     endedAt: now(),
     summary: {
-      success: result.status === "save_confirmed_success" ? 1 : 0,
+      success: (result.status === "save_confirmed_success" || result.status === "save_confirmed_already_complete") ? 1 : 0,
       needsCheck: result.status === "save_confirmed_needs_check" ? 1 : 0,
       failed: result.status === "failed" ? 1 : 0,
       saved: savedCount,
+      alreadyFilled: alreadyFilledCount,
       submitted: 0,
       deleted: 0
     },
@@ -681,6 +720,10 @@ main().catch((error) => {
   console.error("REPORT=" + outputPath);
   process.exit(1);
 });
+
+
+
+
 
 
 
