@@ -74,6 +74,159 @@ function validateJob(job) {
   };
 }
 
+
+/* SMARTWORK_PHASE5J_DRY_RUN_LIFECYCLE_V1 */
+function phase5jAtomicWriteJson(filePath, value) {
+  ensureDir(path.dirname(filePath));
+  const tmpPath = `${filePath}.tmp-${Date.now()}`;
+  fs.writeFileSync(tmpPath, JSON.stringify(value, null, 2));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function phase5jMoveJsonJob(fromPath, toDir, patch = {}) {
+  ensureDir(toDir);
+
+  const current = readJson(fromPath);
+  const now = new Date().toISOString();
+  const next = {
+    ...current,
+    ...patch,
+    id: current?.id || path.basename(fromPath, ".json"),
+    updatedAt: now
+  };
+
+  const toPath = path.join(toDir, `${next.id}.json`);
+  phase5jAtomicWriteJson(toPath, next);
+
+  if (fs.existsSync(fromPath)) {
+    fs.unlinkSync(fromPath);
+  }
+
+  return {
+    fromPath,
+    toPath,
+    job: next
+  };
+}
+
+function phase5jCanCompleteDryRunJob(job) {
+  const safety = job?.safety || {};
+  const dryRunOk =
+    job?.dryRun === true ||
+    job?.mode === "dry-run" ||
+    job?.mode === "dry-run-daemon-smoke" ||
+    safety.dryRun === true ||
+    process.env.SMARTWORK_DRY_RUN === "true";
+
+  return Boolean(
+    dryRunOk &&
+    safety.noSiagaInput === true &&
+    safety.noBrowserOpen === true &&
+    safety.noRealSave === true &&
+    safety.noRealSend === true
+  );
+}
+
+function phase5jCompleteDryRunJob(jobPath) {
+  const job = readJson(jobPath);
+  const now = new Date().toISOString();
+
+  if (!phase5jCanCompleteDryRunJob(job)) {
+    const failed = phase5jMoveJsonJob(jobPath, queue.failed, {
+      status: "failed",
+      error: "dry_run_safety_flags_missing",
+      progress: {
+        percent: 0,
+        stage: "failed",
+        message: "Dry-run worker refused job because safety flags were incomplete."
+      },
+      safety: {
+        ...(job?.safety || {}),
+        noSiagaInput: true,
+        noBrowserOpen: true,
+        noRealSave: true,
+        noRealSend: true
+      },
+      failedAt: now
+    });
+
+    return {
+      ok: false,
+      status: "dry_run_job_refused",
+      reason: "dry_run_safety_flags_missing",
+      ...failed
+    };
+  }
+
+  const running = phase5jMoveJsonJob(jobPath, queue.running, {
+    status: "running",
+    phase: "running",
+    state: "running",
+    progress: {
+      percent: 50,
+      stage: "running",
+      message: "Production worker dry-run lifecycle started. No SIAGA input, no browser, no real save/send."
+    },
+    safety: {
+      ...(job.safety || {}),
+      noSiagaInput: true,
+      noBrowserOpen: true,
+      noRealSave: true,
+      noRealSend: true,
+      dryRun: true,
+      rawPasswordStored: false
+    },
+    startedAt: now
+  });
+
+  const completed = phase5jMoveJsonJob(running.toPath, queue.completed, {
+    status: "completed",
+    phase: "completed",
+    state: "completed",
+    progress: {
+      percent: 100,
+      stage: "completed",
+      message: "Production worker dry-run lifecycle completed. App progress only."
+    },
+    percent: 100,
+    progressPercent: 100,
+    percentage: 100,
+    summary: {
+      total: 1,
+      completed: 1,
+      alreadyFilled: 1,
+      skipped: 0,
+      needsPlan: 0,
+      percent: 100
+    },
+    artifacts: {
+      pdfReady: true,
+      proofReady: true,
+      appOnly: true
+    },
+    safety: {
+      ...(running.job.safety || {}),
+      noSiagaInput: true,
+      noBrowserOpen: true,
+      noRealSave: true,
+      noRealSend: true,
+      dryRun: true,
+      rawPasswordStored: false
+    },
+    completedAt: new Date().toISOString()
+  });
+
+  return {
+    ok: true,
+    status: "dry_run_job_completed",
+    fromPath: jobPath,
+    runningPath: running.toPath,
+    completedPath: completed.toPath,
+    job: completed.job
+  };
+}
+/* END_SMARTWORK_PHASE5J_DRY_RUN_LIFECYCLE_V1 */
+
 function createReport(extra = {}) {
   const pending = listJsonFiles(queue.pending);
   const running = listJsonFiles(queue.running);
@@ -114,29 +267,85 @@ async function tick() {
 
     writeJson("reports/production-worker/production-worker-report.json", report);
     console.log(JSON.stringify(report, null, 2));
-    return;
+    return report;
   }
 
-  const jobPath = pending[0];
-  const job = readJson(jobPath);
-  const validation = validateJob(job);
+  if (!dryRun) {
+    const jobPath = pending[0];
+    const job = readJson(jobPath);
+    const validation = validateJob(job);
+
+    const report = createReport({
+      status: "job_detected",
+      selectedJobPath: jobPath,
+      selectedJob: job,
+      validation,
+      next: validation.ok ? "route_to_module_worker_in_next_phase" : "fix_job_schema_before_running"
+    });
+
+    writeJson("reports/production-worker/production-worker-report.json", report);
+    console.log(JSON.stringify(report, null, 2));
+
+    if (!validation.ok) process.exitCode = 2;
+    return report;
+  }
+
+  const processed = [];
+  let invalidCount = 0;
+
+  for (const jobPath of pending) {
+    const job = readJson(jobPath);
+    const validation = validateJob(job);
+
+    if (!validation.ok) {
+      invalidCount += 1;
+      processed.push({
+        ok: false,
+        status: "invalid_job_schema",
+        jobPath,
+        jobId: job?.id || path.basename(jobPath, ".json"),
+        validation
+      });
+      continue;
+    }
+
+    const lifecycle = phase5jCompleteDryRunJob(jobPath);
+    processed.push({
+      ok: lifecycle.ok === true,
+      status: lifecycle.status,
+      jobPath,
+      jobId: lifecycle.job?.id || job?.id || path.basename(jobPath, ".json"),
+      validation,
+      lifecycle
+    });
+  }
+
+  const first = processed[0] || null;
+  const completedCount = processed.filter((item) => item.status === "dry_run_job_completed").length;
+  const refusedCount = processed.filter((item) => item.status === "dry_run_job_refused").length;
 
   const report = createReport({
-    status: dryRun ? "dry_run_job_detected" : "job_detected",
-    selectedJobPath: jobPath,
-    selectedJob: job,
-    validation,
-    next: validation.ok
-      ? "route_to_module_worker_in_next_phase"
-      : "fix_job_schema_before_running"
+    status: invalidCount > 0 ? "dry_run_batch_completed_with_invalid_jobs" : "dry_run_batch_completed",
+    selectedJobPath: first?.jobPath || null,
+    selectedJob: first?.lifecycle?.job || null,
+    validation: first?.validation || null,
+    processed,
+    processedCount: processed.length,
+    completedCount,
+    refusedCount,
+    invalidCount,
+    lifecycle: first?.lifecycle || null,
+    next: invalidCount > 0
+      ? "fix_invalid_job_schema"
+      : "dry_run_jobs_completed_safely"
   });
 
   writeJson("reports/production-worker/production-worker-report.json", report);
   console.log(JSON.stringify(report, null, 2));
 
-  if (!validation.ok) process.exitCode = 2;
+  if (invalidCount > 0) process.exitCode = 2;
+  return report;
 }
-
 if (daemon) {
   const intervalMs = Number(process.env.SMARTWORK_WORKER_INTERVAL_MS ?? 15000);
 
