@@ -1,0 +1,22 @@
+[Unit]
+Description=SmartWork Agent Control Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/smartwork-agent
+Environment=NODE_ENV=production
+Environment=PORT=3107
+Environment=SMARTWORK_DRY_RUN=true
+Environment=SMARTWORK_NO_SIAGA_INPUT=true
+Environment=SMARTWORK_NO_BROWSER_OPEN=true
+Environment=SMARTWORK_NO_REAL_SAVE=true
+Environment=SMARTWORK_NO_REAL_SEND=true
+Environment=SMARTWORK_REAL_SAVE_ENABLED=false
+ExecStart=/usr/bin/node app/smartwork-control-server.mjs
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
