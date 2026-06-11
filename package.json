@@ -120,7 +120,8 @@
     "prod:cloud-service:simulation": "node scripts/smartwork-phase5k-vps-cloud-service-simulation-smoke.mjs",
     "prod:deployment-pack:verify": "node scripts/smartwork-phase5l-production-deployment-pack-finalizer.mjs",
     "prod:release-vps:final-gate": "node scripts/smartwork-phase5m-release-vps-dry-run-final-gate.mjs",
-    "prod:release-clean:gate": "node scripts/smartwork-phase5n-clean-release-gate-ready-tag.mjs"
+    "prod:release-clean:gate": "node scripts/smartwork-phase5n-clean-release-gate-ready-tag.mjs",
+    "prod:vps-dry-run:fresh-clone-rehearsal": "node scripts/smartwork-phase5o-fresh-clone-vps-dry-run-rehearsal.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
