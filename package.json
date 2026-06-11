@@ -6,7 +6,7 @@
   "description": "Standalone AI UI Work Agent for safe browser workflow automation.",
   "scripts": {
     "agent": "node scripts/smartwork-agent.mjs",
-    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs && node scripts/smartwork-production-brain-check.mjs && node scripts/smartwork-production-health-check.mjs",
+    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs && node scripts/smartwork-production-brain-check.mjs && node scripts/smartwork-production-health-check.mjs && node scripts/smartwork-cloud-queue-connector.mjs && node scripts/smartwork-vps-dry-run-deploy-check.mjs",
     "guard": "node scripts/smartwork-guard.mjs",
     "plan": "node scripts/smartwork-plan.mjs",
     "doctor": "node scripts/smartwork-doctor.mjs",
@@ -102,7 +102,9 @@
     "prod:worker": "node scripts/smartwork-production-worker.mjs",
     "prod:worker:once": "node scripts/smartwork-production-worker.mjs --once --dry-run",
     "prod:worker:daemon": "node scripts/smartwork-production-worker.mjs --daemon",
-    "prod:health": "node scripts/smartwork-production-health-check.mjs"
+    "prod:health": "node scripts/smartwork-production-health-check.mjs",
+    "prod:queue:check": "node scripts/smartwork-cloud-queue-connector.mjs",
+    "prod:deploy:check": "node scripts/smartwork-vps-dry-run-deploy-check.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

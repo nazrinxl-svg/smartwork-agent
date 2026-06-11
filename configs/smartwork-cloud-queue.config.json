@@ -1,0 +1,26 @@
+﻿{
+  "mode": "dry-run",
+  "provider": "local-file",
+  "localFile": {
+    "pendingDir": "data/production-queue/pending",
+    "runningDir": "data/production-queue/running",
+    "completedDir": "data/production-queue/completed",
+    "failedDir": "data/production-queue/failed"
+  },
+  "httpApi": {
+    "enabled": false,
+    "baseUrlEnv": "SMARTWORK_API_BASE_URL",
+    "tokenEnv": "SMARTWORK_WORKER_TOKEN",
+    "pollPath": "/api/smartwork/jobs/pending",
+    "ackPath": "/api/smartwork/jobs/ack",
+    "completePath": "/api/smartwork/jobs/complete",
+    "failPath": "/api/smartwork/jobs/fail"
+  },
+  "safety": {
+    "dryRunDefault": true,
+    "noCredentialInGit": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "realSaveEnabledEnv": "SMARTWORK_REAL_SAVE_ENABLED"
+  }
+}
