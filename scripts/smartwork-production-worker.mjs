@@ -1,10 +1,11 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 
 const root = process.cwd();
 const args = new Set(process.argv.slice(2));
 
 const once = args.has("--once");
+const daemon = args.has("--daemon");
 const dryRun = args.has("--dry-run") || process.env.SMARTWORK_DRY_RUN !== "false";
 
 function readJson(rel) {
@@ -136,7 +137,35 @@ async function tick() {
   if (!validation.ok) process.exitCode = 2;
 }
 
-await tick();
+if (daemon) {
+  const intervalMs = Number(process.env.SMARTWORK_WORKER_INTERVAL_MS ?? 15000);
+
+  writeJson("reports/production-worker/production-worker-daemon-state.json", {
+    ok: true,
+    mode: "SMARTWORK_PRODUCTION_WORKER_DAEMON_START",
+    dryRun,
+    intervalMs,
+    startedAt: nowIso(),
+    noSiagaInput: true
+  });
+
+  await tick();
+
+  setInterval(() => {
+    tick().catch((error) => {
+      writeJson("reports/production-worker/production-worker-error-report.json", {
+        ok: false,
+        mode: "SMARTWORK_PRODUCTION_WORKER_DAEMON_ERROR",
+        message: error?.message ?? String(error),
+        generatedAt: nowIso(),
+        noSiagaInput: true
+      });
+      console.error(error);
+    });
+  }, intervalMs);
+} else {
+  await tick();
+}
 
 if (!once) {
   console.log("Production worker foundation skeleton is currently dry-run. Use --once --dry-run for diagnostics.");

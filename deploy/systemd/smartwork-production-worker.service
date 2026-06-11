@@ -1,0 +1,20 @@
+﻿[Unit]
+Description=SmartWork Production Worker
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/smartwork-agent
+EnvironmentFile=/opt/smartwork-agent/.env.production.local
+ExecStart=/usr/bin/npm run prod:worker:daemon
+Restart=always
+RestartSec=10
+User=smartwork
+Group=smartwork
+StandardOutput=append:/var/log/smartwork/worker.log
+StandardError=append:/var/log/smartwork/worker-error.log
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
