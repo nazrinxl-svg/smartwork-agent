@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -959,6 +959,182 @@
   }, true);
 
   window.SmartWorkRequestResetProgressOnSubmit = { reset: resetProgressFromUiSubmit };
+})();
+</script>
+
+
+<script id="smartwork-request-production-queue-bridge-v1">
+/* SMARTWORK_REQUEST_PRODUCTION_QUEUE_BRIDGE_V1
+   User submit bridge only.
+   Keeps legacy /api/requests flow.
+   Also creates dry-run production job via /api/smartwork/jobs.
+   Does not send raw SIAGA credential secret to production queue.
+   No SIAGA action. No browser open. No real save. */
+(function () {
+  const form = document.getElementById("requestForm");
+  if (!form || form.__smartworkProductionQueueBridgeInstalled) return;
+
+  form.__smartworkProductionQueueBridgeInstalled = true;
+
+  function readFormSnapshot() {
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
+
+    const startDate =
+      data.startDate ||
+      data.fromDate ||
+      data.dariTanggal ||
+      data.tanggalMulai ||
+      "";
+
+    const endDate =
+      data.endDate ||
+      data.toDate ||
+      data.sampaiTanggal ||
+      data.tanggalSelesai ||
+      "";
+
+    const requesterName =
+      data.requesterName ||
+      data.teacherName ||
+      data.nama ||
+      "Nazrin";
+
+    const requesterEmail =
+      data.email ||
+      data.requesterEmail ||
+      "";
+
+    const requesterWhatsapp =
+      data.whatsapp ||
+      data.wa ||
+      data.requesterWhatsapp ||
+      "";
+
+    const username =
+      data.username ||
+      data.siagaUsername ||
+      data.accountUsername ||
+      "";
+
+    return {
+      source: "smartwork-request-html-production-bridge",
+      module: "siaga",
+      agent: "siaga",
+      requestType: data.requestType || "bulk-monthly",
+      requesterName,
+      teacherName: requesterName,
+      email: requesterEmail,
+      requesterEmail,
+      whatsapp: requesterWhatsapp,
+      requesterWhatsapp,
+      accountRef: username || "guru-001",
+      credentialRef: username || "guru-001",
+      requestRange: {
+        startDate,
+        endDate
+      },
+      startDate,
+      endDate,
+      notes: data.notes || data.note || data.catatan || "",
+      delivery: {
+        mode: "app_download_only"
+      },
+      safety: {
+        dryRun: true,
+        noRealSave: true,
+        noRealSend: true,
+        noSiagaInput: true,
+        noBrowserOpen: true,
+        rawPasswordStored: false
+      }
+    };
+  }
+
+  function resetProductionQueueLocalState(jobResult) {
+    try {
+      const state = {
+        mode: "SMARTWORK_PROGRESS_LIVE_STATE",
+        source: "smartwork-request-production-queue-bridge",
+        updatedAt: new Date().toISOString(),
+        jobId: jobResult?.jobId || jobResult?.job?.id || null,
+        status: "QUEUED",
+        percent: 0,
+        stage: "Request masuk production queue",
+        currentStep: "production-job-queued",
+        message: "Request sudah masuk production queue dry-run. Worker akan memproses tanpa real save.",
+        artifacts: {
+          pdfReady: false,
+          proofReady: false
+        }
+      };
+
+      localStorage.setItem("smartwork_production_job", JSON.stringify(jobResult || {}, null, 2));
+      localStorage.setItem("smartwork_progress_live_state", JSON.stringify(state));
+    } catch {}
+  }
+
+  async function submitProductionJobBridge() {
+    const payload = readFormSnapshot();
+
+    if (!payload.requestRange.startDate || !payload.requestRange.endDate) {
+      return {
+        ok: false,
+        skipped: true,
+        reason: "missing_request_range"
+      };
+    }
+
+    const res = await fetch("/api/smartwork/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json().catch(() => ({
+      ok: false,
+      error: "invalid_json_response"
+    }));
+
+    if (!res.ok || result.ok === false) {
+      throw new Error((result.validation?.errors || [result.error || "Production queue gagal."]).join(" "));
+    }
+
+    resetProductionQueueLocalState(result);
+
+    return result;
+  }
+
+  form.addEventListener("submit", function () {
+    window.setTimeout(function () {
+      submitProductionJobBridge()
+        .then(function (result) {
+          try {
+            const savedBox = document.getElementById("savedBox");
+            if (savedBox && result?.jobId) {
+              savedBox.textContent = "Request tersimpan. Production Job: " + result.jobId;
+            }
+          } catch {}
+        })
+        .catch(function (error) {
+          try {
+            localStorage.setItem("smartwork_production_job_error", String(error?.message || error));
+          } catch {}
+
+          const savedBox = document.getElementById("savedBox");
+          if (savedBox) {
+            savedBox.textContent = "Request tersimpan, tapi production queue belum masuk: " + (error?.message || error);
+          }
+        });
+    }, 250);
+  });
+
+  window.SmartWorkProductionQueueBridge = {
+    readFormSnapshot,
+    submit: submitProductionJobBridge
+  };
 })();
 </script>
 
