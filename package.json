@@ -6,7 +6,7 @@
   "description": "Standalone AI UI Work Agent for safe browser workflow automation.",
   "scripts": {
     "agent": "node scripts/smartwork-agent.mjs",
-    "brain": "node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs",
+    "brain": "node scripts/smartwork-brain-guard-compat-bridge.mjs && node scripts/smartwork-auto-brain-guard.mjs --strict --label=brain && node scripts/smartwork-brain.mjs && node scripts/smartwork-agent-brain-direction-check.mjs",
     "guard": "node scripts/smartwork-guard.mjs",
     "plan": "node scripts/smartwork-plan.mjs",
     "doctor": "node scripts/smartwork-doctor.mjs",

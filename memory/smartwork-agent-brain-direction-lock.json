@@ -1,0 +1,34 @@
+{
+  "name": "SmartWork Agent Brain Direction Lock",
+  "finalTarget": "24/7 server/cloud/VPS worker, not local laptop script",
+  "productType": "mobile/web app + backend queue + cloud worker + agent modules",
+  "finalFlow": [
+    "User submits request from app",
+    "Backend queue stores request",
+    "Cloud worker detects request",
+    "Agent module processes workflow",
+    "Agent verifies completion",
+    "Agent downloads PDF/proof",
+    "App progress/history updates",
+    "User retrieves result"
+  ],
+  "modules": [
+    "SIAGA",
+    "e-Kinerja",
+    "future work/admin systems"
+  ],
+  "localPrototypeRole": "Only prove end-to-end before cloud production",
+  "currentDoctrine": [
+    "Do not input already_filled_verified SIAGA dates again",
+    "Do not restart from zero",
+    "Do not chase browser/profile/login loop when save evidence proves completion",
+    "Respect active request range",
+    "Canonical report must be source of truth for app progress",
+    "Move to VPS/cloud after canonical local pipeline is stable"
+  ],
+  "currentCheckpoint": {
+    "activeRange": "2026-06-22..2026-06-27",
+    "realWorkStatus": "already complete by save evidence",
+    "nextSafeStep": "finalize/reconcile report only, no SIAGA input"
+  }
+}

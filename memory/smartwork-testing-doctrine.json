@@ -1,0 +1,19 @@
+﻿{
+  "name": "SMARTWORK_TESTING_DOCTRINE",
+  "version": 1,
+  "rules": [
+    "Jangan ulang input tanggal yang sudah selesai.",
+    "Request baru boleh, tapi watcher harus mulai dari clean profile lock.",
+    "Setelah runner selesai, finalizer harus filter range aktif saja.",
+    "UI progress harus baca reports/smartwork-app-artifacts-report.json sebagai source of truth.",
+    "Lihat PDF harus selalu ke /reports/downloads/<file>.pdf, bukan ke /."
+  ],
+  "hardLocks": {
+    "noRepeatCompletedDates": true,
+    "cleanProfileLockBeforeWatcher": true,
+    "finalizerMustFilterActiveRangeOnly": true,
+    "uiProgressSourceOfTruth": "reports/smartwork-app-artifacts-report.json",
+    "pdfHrefPattern": "/reports/downloads/<file>.pdf",
+    "forbiddenPdfHref": "/"
+  }
+}
