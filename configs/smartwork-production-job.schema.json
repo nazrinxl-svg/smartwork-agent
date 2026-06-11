@@ -1,0 +1,29 @@
+﻿{
+  "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+  "required": [
+    "id",
+    "module",
+    "status",
+    "requestRange.startDate",
+    "requestRange.endDate",
+    "safety.dryRun",
+    "safety.noRealSave",
+    "safety.noSiagaInput"
+  ],
+  "allowedModules": ["siaga", "ekinerja"],
+  "allowedStatuses": ["pending", "running", "completed", "failed"],
+  "defaultStatus": "pending",
+  "defaultMode": "dry-run",
+  "defaultDeliveryMode": "app_download_only",
+  "credentialPolicy": {
+    "doNotStoreRawPasswordInJob": true,
+    "useAccountRefOrCredentialRef": true
+  },
+  "safety": {
+    "dryRunDefault": true,
+    "noSiagaInput": true,
+    "noBrowserOpenAtApiLayer": true,
+    "noRealSave": true,
+    "noRealSend": true
+  }
+}

@@ -1,9 +1,11 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { spawn } from "child_process";
 import http from "http";
 import { fileURLToPath } from "url";
 
+
+import { handleSmartWorkProductionQueueApiNative } from "./smartwork-production-queue-api.mjs";
 
 /* SMARTWORK_REDACT_STATUS_PAYLOAD_V1 */
 function __swRedactStatusPayloadV1(value) {
@@ -1242,6 +1244,10 @@ async function handleCompleteJob(req, res) {
 }
 
 const server = http.createServer(async (req, res) => {
+
+/* SMARTWORK_PRODUCTION_QUEUE_API_INSTALL_V1 */
+if (handleSmartWorkProductionQueueApiNative(req, res)) return;
+
   if (tryServeSmartworkReports(req, res)) return;
 
   /* SMARTWORK_E2E_NATIVE_HTTP_ROUTES_V1 */
