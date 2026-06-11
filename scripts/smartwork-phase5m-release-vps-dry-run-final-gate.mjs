@@ -19,10 +19,25 @@ function readJson(rel) {
   }
 }
 
+function resolveSpawnCommand(command, args = []) {
+  // SMARTWORK_PHASE5N_WINDOWS_SAFE_SPAWN_V2
+  if (process.platform === "win32" && command === "npm") {
+    return { command: "cmd.exe", args: ["/d", "/s", "/c", "npm", ...args] };
+  }
+  if (process.platform === "win32" && command === "node") {
+    return { command: "node.exe", args };
+  }
+  if (process.platform === "win32" && command === "git") {
+    return { command: "git.exe", args };
+  }
+  return { command, args };
+}
+
 function run(name, command, args, env = {}) {
   const startedAt = new Date().toISOString();
+  const resolved = resolveSpawnCommand(command, args);
 
-  const result = spawnSync(command, args, {
+  const result = spawnSync(resolved.command, resolved.args, {
     cwd: root,
     env: {
       ...process.env,
@@ -35,37 +50,40 @@ function run(name, command, args, env = {}) {
       ...env
     },
     encoding: "utf8",
-    shell: process.platform === "win32"
+    shell: false
   });
 
   return {
     name,
     command: [command, ...args].join(" "),
+    resolvedCommand: [resolved.command, ...resolved.args].join(" "),
     ok: result.status === 0,
     status: result.status,
     signal: result.signal,
+    error: result.error ? String(result.error?.message || result.error) : null,
     startedAt,
     finishedAt: new Date().toISOString(),
     stdoutTail: String(result.stdout || "").split(/\r?\n/).slice(-80),
     stderrTail: String(result.stderr || "").split(/\r?\n/).slice(-80)
   };
 }
-
 function git(args) {
-  const result = spawnSync("git", args, {
+  const resolved = resolveSpawnCommand("git", args);
+
+  const result = spawnSync(resolved.command, resolved.args, {
     cwd: root,
     encoding: "utf8",
-    shell: process.platform === "win32"
+    shell: false
   });
 
   return {
     ok: result.status === 0,
     status: result.status,
+    error: result.error ? String(result.error?.message || result.error) : null,
     stdout: String(result.stdout || "").trim(),
     stderr: String(result.stderr || "").trim()
   };
 }
-
 const pkg = readJson("package.json") || {};
 const scripts = pkg.scripts || {};
 
