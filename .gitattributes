@@ -1,0 +1,3 @@
+deploy/vps-dry-run/*.sh text eol=lf
+deploy/vps-dry-run/systemd/*.service text eol=lf
+

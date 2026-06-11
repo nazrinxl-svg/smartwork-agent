@@ -122,7 +122,8 @@
     "prod:release-vps:final-gate": "node scripts/smartwork-phase5m-release-vps-dry-run-final-gate.mjs",
     "prod:release-clean:gate": "node scripts/smartwork-phase5n-clean-release-gate-ready-tag.mjs",
     "prod:vps-dry-run:fresh-clone-rehearsal": "node scripts/smartwork-phase5o-fresh-clone-vps-dry-run-rehearsal.mjs",
-    "prod:vps-dry-run:setup-pack-check": "node scripts/smartwork-phase5p-vps-dry-run-setup-pack-check.mjs"
+    "prod:vps-dry-run:setup-pack-check": "node scripts/smartwork-phase5p-vps-dry-run-setup-pack-check.mjs",
+    "prod:vps-dry-run:first-run-checklist": "node scripts/smartwork-phase5q-vps-first-run-checklist.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
