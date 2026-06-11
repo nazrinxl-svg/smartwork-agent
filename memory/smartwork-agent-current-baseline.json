@@ -1,0 +1,54 @@
+﻿{
+  "ok": true,
+  "mode": "SMARTWORK_AGENT_BRAIN_CURRENT_BASELINE",
+  "updatedAt": "2026-06-11T01:25:00.000Z",
+  "project": {
+    "path": "D:\\1. myapps\\smartwork-agent",
+    "branch": "test/ui-request-next-20260611-004522",
+    "remote": "https://github.com/nazrinxl-svg/smartwork-agent.git"
+  },
+  "baseline": {
+    "backendCommit": "08004c5",
+    "uiProgressCommit": "50e5e20",
+    "latestKnownGoodCommit": "50e5e20",
+    "latestKnownGoodMessage": "Show verified SIAGA request result in progress UI"
+  },
+  "verifiedRequest": {
+    "teacherId": "guru-001",
+    "teacherName": "Nazrin",
+    "requestRange": "2026-06-01..2026-06-06",
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-06",
+    "summary": {
+      "total": 6,
+      "alreadyFilled": 6,
+      "needsPlan": 0,
+      "skip": 0
+    }
+  },
+  "verifiedArtifacts": {
+    "pdfReady": true,
+    "pdfFile": "reports/downloads/Presensi_Nazrin_Juni_2026.pdf",
+    "proofReady": true,
+    "proofReport": "reports/proof/smartwork-siaga-proof-report.json",
+    "finalProgressReport": "reports/smartwork-final-progress-report.json",
+    "appArtifactsReport": "reports/smartwork-app-artifacts-report.json",
+    "uiTitle": "Hasil Siap"
+  },
+  "brainWarnings": [
+    "Do not jump to full-month SIAGA test until staged range tests pass.",
+    "Do not reset progress UI to empty state if app artifacts report is ready.",
+    "Do not rerun heavy pipeline just to validate UI; use report/static checks first.",
+    "Do not delete or clear real SIAGA data unless the user explicitly asks.",
+    "If progress page shows empty while reports are ready, diagnose UI data bridge/server/cache before touching SIAGA.",
+    "Protect commits 08004c5 and 50e5e20 as current known-good baseline."
+  ],
+  "nextSafeTestPlan": [
+    "Clean temporary files only.",
+    "Test next small range, for example 2026-06-07..2026-06-09 or another short range.",
+    "Verify time-plan before save.",
+    "Run save only for explicit target dates from request.",
+    "Finalize reports and app artifacts.",
+    "Check Progress UI after backend ready."
+  ]
+}
