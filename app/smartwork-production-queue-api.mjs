@@ -519,7 +519,7 @@ export function handleSmartWorkProductionQueueApiNative(req, res) {
       return;
     }
 
-    const idMatch = pathname.match(/^/api/smartwork/jobs/([^/]+)$/);
+    const idMatch = pathname.match(new RegExp("^/api/smartwork/jobs/([^/]+)$"));
     if (method === "GET" && idMatch?.[1]) {
       const found = findJob(idMatch[1]);
       if (!found?.job) {

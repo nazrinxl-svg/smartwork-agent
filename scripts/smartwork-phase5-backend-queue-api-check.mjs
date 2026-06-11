@@ -1,5 +1,6 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 
 const root = process.cwd();
 
@@ -37,6 +38,20 @@ const checks = {
   safetyNoBrowserOpen: api.includes("noBrowserOpen: true"),
   noRawPasswordStored: api.includes("rawPasswordStored: false")
 };
+
+
+/* SMARTWORK_PHASE5_SYNTAX_GUARD_V1 */
+function syntaxOk(file) {
+  try {
+    execSync(`node --check "${file}"`, { stdio: "pipe" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+checks.apiSyntaxOk = syntaxOk("app/smartwork-production-queue-api.mjs");
+checks.serverSyntaxOk = syntaxOk("app/smartwork-control-server.mjs");
 
 const ok = Object.values(checks).every(Boolean);
 
