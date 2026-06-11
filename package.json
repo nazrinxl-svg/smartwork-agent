@@ -108,7 +108,8 @@
     "prod:env:guard": "node scripts/smartwork-production-env-guard.mjs",
     "prod:vps:first-run": "node scripts/smartwork-vps-first-run-validator.mjs",
     "prod:queue:api:check": "node scripts/smartwork-phase5-backend-queue-api-check.mjs",
-    "prod:app-bridge:check": "node scripts/smartwork-phase5c-app-submit-bridge-check.mjs"
+    "prod:app-bridge:check": "node scripts/smartwork-phase5c-app-submit-bridge-check.mjs",
+    "prod:api:smoke": "node scripts/smartwork-phase5d-runtime-api-smoke.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
