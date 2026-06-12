@@ -1246,6 +1246,102 @@
     return json;
   }
 
+  function firstText(...values) {
+    for (const value of values) {
+      const text = String(value || "").trim();
+      if (text) return text;
+    }
+    return "";
+  }
+
+  function readFormValue(form, names) {
+    for (const name of names) {
+      const el = form?.querySelector?.(`[name="${name}"], #${name}`);
+      const value = String(el?.value || "").trim();
+      if (value) return value;
+    }
+    return "";
+  }
+
+  function normalizeVpsJobPayload(payload, form) {
+    if (!payload || typeof payload !== "object") {
+      throw new Error("invalid_vps_job_payload");
+    }
+
+    const request = payload.request && typeof payload.request === "object" ? payload.request : {};
+    const range = payload.requestRange && typeof payload.requestRange === "object" ? payload.requestRange : {};
+    const requestRange = request.requestRange && typeof request.requestRange === "object" ? request.requestRange : {};
+    const firstAccount = Array.isArray(payload.accounts) && payload.accounts[0] && typeof payload.accounts[0] === "object"
+      ? payload.accounts[0]
+      : null;
+
+    const startDate = firstText(
+      payload.startDate,
+      range.startDate,
+      request.startDate,
+      requestRange.startDate,
+      firstAccount?.startDate,
+      readFormValue(form, ["startDate", "tanggalMulai", "fromDate", "dateStart"])
+    );
+
+    const endDate = firstText(
+      payload.endDate,
+      range.endDate,
+      request.endDate,
+      requestRange.endDate,
+      firstAccount?.endDate,
+      readFormValue(form, ["endDate", "tanggalSelesai", "toDate", "dateEnd"])
+    );
+
+    if (!startDate || !endDate) {
+      throw new Error("missing_request_range_for_vps_job_payload");
+    }
+
+    payload.startDate = startDate;
+    payload.endDate = endDate;
+    payload.requestRange = {
+      ...range,
+      startDate,
+      endDate
+    };
+
+    payload.request = {
+      ...request,
+      startDate,
+      endDate,
+      requestRange: {
+        ...requestRange,
+        startDate,
+        endDate
+      }
+    };
+
+    if (firstAccount) {
+      firstAccount.startDate = startDate;
+      firstAccount.endDate = endDate;
+    } else {
+      payload.accounts = [
+        {
+          id: payload.accountId || request.accountId || "guru-001",
+          name: payload.teacherName || request.teacherName || "Nazrin",
+          startDate,
+          endDate
+        }
+      ];
+    }
+
+    payload.safety = {
+      ...(payload.safety || {}),
+      dryRun: true,
+      noSiagaInput: true,
+      noBrowserOpen: true,
+      noRealSave: true,
+      noRealSend: true
+    };
+
+    return payload;
+  }
+
   async function postToVps(payload) {
     let lastError = null;
 
@@ -1283,7 +1379,7 @@
   async function submitDryRun(form) {
     status("Mengirim request dry-run ke VPS queue...");
     const healthBefore = await readHealth();
-    const payload = formObject(form);
+    const payload = normalizeVpsJobPayload(formObject(form), form);
     localStorage.setItem("smartwork_request", JSON.stringify(payload.request));
     localStorage.setItem("smartwork_active_job_id", payload.jobId);
 
@@ -1306,7 +1402,86 @@
     return proof;
   }
 
-  window.SmartWorkVpsApi = { base: API_BASE, health: readHealth, submitDryRun };
+  function isPlainPayloadObject(input) {
+    return Boolean(
+      input &&
+      typeof input === "object" &&
+      !(input instanceof HTMLFormElement) &&
+      !("nodeType" in input)
+    );
+  }
+
+  async function submit(input) {
+    if (isPlainPayloadObject(input)) {
+      const payload = normalizeVpsJobPayload({ ...input }, null);
+
+      if (!payload.jobId) {
+        payload.jobId =
+          payload.id ||
+          payload.request?.jobId ||
+          "phase5zc-app-browser-e2e-" + Date.now();
+      }
+
+      payload.request = {
+        ...(payload.request || {}),
+        jobId: payload.jobId,
+        startDate: payload.startDate,
+        endDate: payload.endDate
+      };
+
+      localStorage.setItem("smartwork_request", JSON.stringify(payload.request));
+      localStorage.setItem("smartwork_active_job_id", payload.jobId);
+
+      status("Mengirim request dry-run payload ke VPS queue...");
+      const healthBefore = await readHealth();
+      const submit = await postToVps(payload);
+      const createdJobId =
+        submit?.jobId ||
+        submit?.job?.id ||
+        submit?.id ||
+        payload.jobId;
+
+      localStorage.setItem("smartwork_active_job_id", createdJobId);
+      localStorage.setItem("smartwork_production_job_id", createdJobId);
+      localStorage.setItem("smartwork_production_job", JSON.stringify({ jobId: createdJobId, job: submit?.job || null }));
+
+      const proof = {
+        ok: true,
+        phase: PHASE,
+        apiBase: API_BASE,
+        jobId: createdJobId,
+        submit,
+        healthBefore,
+        submittedAt: new Date().toISOString(),
+        safety: payload.safety
+      };
+
+      localStorage.setItem("smartwork_vps_last_submit", JSON.stringify(proof));
+      status("Request dry-run payload masuk VPS queue: " + createdJobId);
+      window.dispatchEvent(new CustomEvent("smartwork:vps-submit-ok", { detail: proof }));
+      return proof;
+    }
+
+    const targetForm =
+      input instanceof HTMLFormElement
+        ? input
+        : document.getElementById("requestForm");
+
+    if (!targetForm) {
+      throw new Error("request_form_not_found_for_vps_submit");
+    }
+
+    return submitDryRun(targetForm);
+  }
+
+  window.SmartWorkVpsApi = {
+    base: API_BASE,
+    health: readHealth,
+    submit,
+    submitDryRun,
+    submitJob: submit,
+    createJob: submit
+  };
 
   document.addEventListener("submit", (event) => {
     const form = event.target;
