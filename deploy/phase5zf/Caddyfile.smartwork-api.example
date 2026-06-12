@@ -1,0 +1,18 @@
+# Example Caddyfile for SmartWork API HTTPS
+# Replace api.smartwork-agent.id with the real domain after DNS is pointed to the VPS.
+
+api.smartwork-agent.id {
+  encode gzip
+
+  header {
+    Access-Control-Allow-Origin "https://smartwork-agent.id"
+    Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers "Content-Type, X-SmartWork-Dry-Run, Authorization"
+    Access-Control-Max-Age "86400"
+  }
+
+  @options method OPTIONS
+  respond @options 204
+
+  reverse_proxy 127.0.0.1:3107
+}

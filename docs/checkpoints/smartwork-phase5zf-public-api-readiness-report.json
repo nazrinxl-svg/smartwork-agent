@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "phase": "5ZF",
+  "releaseDecision": "PUBLIC_API_HTTPS_CORS_READINESS_PACK_READY",
+  "importantNote": "This phase prepares the HTTPS/CORS readiness pack. Actual DNS/SSL deployment still requires a real domain and VPS reverse proxy configuration.",
+  "parserMode": "BOM_SAFE_JSON_PARSE",
+  "files": {
+    "docs": "docs/playstore/smartwork-phase5zf-public-api-readiness.md",
+    "caddy": "deploy/phase5zf/Caddyfile.smartwork-api.example",
+    "nginx": "deploy/phase5zf/nginx.smartwork-api.example.conf",
+    "readinessJson": "deploy/phase5zf/smartwork-public-api-readiness.json",
+    "manifest": "public/manifest.webmanifest",
+    "sw": "public/sw.js"
+  },
+  "readiness": {
+    "phase": "5ZF",
+    "name": "SmartWork Public API HTTPS/CORS Readiness",
+    "recommendedPublicApiBase": "https://api.smartwork-agent.id",
+    "currentDryRunApiBase": "http://103.152.242.193:3107",
+    "requiredRoutes": [
+      "GET /api/smartwork/jobs/health",
+      "POST /api/smartwork/jobs",
+      "GET /api/smartwork/jobs/:id"
+    ],
+    "requiredCors": {
+      "methods": [
+        "GET",
+        "POST",
+        "OPTIONS"
+      ],
+      "headers": [
+        "Content-Type",
+        "X-SmartWork-Dry-Run",
+        "Authorization"
+      ],
+      "origins": [
+        "https://smartwork-agent.id",
+        "http://127.0.0.1:5197",
+        "http://127.0.0.1:5217"
+      ]
+    },
+    "safety": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    }
+  },
+  "checks": {
+    "docsReady": true,
+    "caddyTemplateReady": true,
+    "nginxTemplateReady": true,
+    "readinessJsonReady": true,
+    "pwaManifestReady": true,
+    "serviceWorkerSkipsRawVpsApiCache": true,
+    "currentApiIsRawHttpIp": true,
+    "recommendedApiIsHttps": true,
+    "requiredRoutesListed": true,
+    "requiredCorsListed": true,
+    "requiredHeadersListed": true,
+    "safetyNoRealActions": true
+  },
+  "createdAt": "2026-06-12T09:16:55.748Z"
+}
