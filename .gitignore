@@ -57,3 +57,6 @@ reports/*-decision.json
 # SmartLearn Army runtime request queue
 intake/army-requests/*.txt
 intake/army-requests/processed/*.txt
+.secrets/
+*.jks
+*.keystore

@@ -1,11 +1,11 @@
-[
+﻿[
   {
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "id.smartwork.agent",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT"
+        "CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8"
       ]
     }
   }
