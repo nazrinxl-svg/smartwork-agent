@@ -1,0 +1,188 @@
+﻿PHASE 5ZT-B SMARTWORK REVERSE PROXY + HTTPS PROOF
+Date: 2026-06-12T22:41:21.3536133+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: e8dbd48
+
+Release Decision:
+PHASE_5ZT_B_REVERSE_PROXY_SSL_DONE
+
+Domain:
+https://smartwork-agent.id
+https://www.smartwork-agent.id
+https://api.smartwork-agent.id
+
+VPS:
+103.152.242.193
+
+Nginx final routing:
+80  -> HTTPS redirect
+443 -> SSL enabled
+/api/* -> http://127.0.0.1:3107
+/*      -> http://127.0.0.1:3108
+
+Certificate:
+Let's Encrypt certificate issued for:
+- smartwork-agent.id
+- www.smartwork-agent.id
+- api.smartwork-agent.id
+
+Safety:
+No SIAGA input.
+No browser automation.
+No real save/send.
+No AAB/TWA.
+No Play Store upload.
+
+Local HTTPS API verify with --resolve:
+HTTP/1.1 200 OK Server: nginx/1.18.0 (Ubuntu) Date: Fri, 12 Jun 2026 15:41:19 GMT Content-Type: application/json; charset=utf-8 Content-Length: 509 Connection: keep-alive Access-Control-Allow-Origin: http://127.0.0.1:5197 Vary: Origin Access-Control-Allow-Methods: GET,POST,OPTIONS Access-Control-Allow-Headers: Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send Access-Control-Max-Age: 86400 Cache-Control: no-store  {   "ok": true,   "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",   "queue": {     "pending": "data/production-queue/pending",     "running": "data/production-queue/running",     "completed": "data/production-queue/completed",     "failed": "data/production-queue/failed"   },   "counts": {     "pending": 0,     "running": 0,     "completed": 10,     "failed": 0   },   "safety": {     "dryRun": true,     "noSiagaInput": true,     "noBrowserOpen": true,     "noRealSave": true,     "noRealSend": true   } }
+
+WWW HEAD verify:
+HTTP/1.1 200 OK Server: nginx/1.18.0 (Ubuntu) Date: Fri, 12 Jun 2026 15:41:19 GMT Content-Type: text/html; charset=utf-8 Connection: keep-alive X-Content-Type-Options: nosniff Referrer-Policy: strict-origin-when-cross-origin 
+
+API HEAD verify:
+HTTP/1.1 200 OK Server: nginx/1.18.0 (Ubuntu) Date: Fri, 12 Jun 2026 15:41:19 GMT Content-Type: text/html; charset=utf-8 Connection: keep-alive X-Content-Type-Options: nosniff Referrer-Policy: strict-origin-when-cross-origin 
+
+VPS proof log copied from:
+/root/smartwork-phase5zt-b-final-nginx-https.run.log
+
+--- BEGIN VPS LOG ---
+=== PHASE 5ZT-B FINAL NGINX HTTPS CONFIG ===
+Date: 2026-06-12T15:39:33+00:00
+Safety: no SIAGA input, no browser automation, no real save/send, no AAB/TWA/Play Store
+
+=== 1) VERIFY CERT FILES EXIST ===
+total 12
+drwxr-xr-x 2 root root 4096 Jun 12 15:31 .
+drwx------ 3 root root 4096 Jun 12 15:31 ..
+-rw-r--r-- 1 root root  692 Jun 12 15:31 README
+lrwxrwxrwx 1 root root   42 Jun 12 15:31 cert.pem -> ../../archive/smartwork-agent.id/cert1.pem
+lrwxrwxrwx 1 root root   43 Jun 12 15:31 chain.pem -> ../../archive/smartwork-agent.id/chain1.pem
+lrwxrwxrwx 1 root root   47 Jun 12 15:31 fullchain.pem -> ../../archive/smartwork-agent.id/fullchain1.pem
+lrwxrwxrwx 1 root root   45 Jun 12 15:31 privkey.pem -> ../../archive/smartwork-agent.id/privkey1.pem
+
+=== 2) BACKUP CURRENT NGINX CONFIG ===
+Backup: /root/smartwork-nginx-final-backup-20260612-153933
+
+=== 3) DISABLE OLD ENABLED SITES ===
+
+=== 4) WRITE FINAL HTTP+HTTPS CONFIG ===
+
+=== 5) TEST + RESTART NGINX ===
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+active
+
+=== 6) PORT CHECK ===
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=283507,fd=6),("nginx",pid=283503,fd=6))
+LISTEN 0      511             [::]:80           [::]:*    users:(("nginx",pid=283507,fd=7),("nginx",pid=283503,fd=7))
+LISTEN 0      511          0.0.0.0:443       0.0.0.0:*    users:(("nginx",pid=283507,fd=8),("nginx",pid=283503,fd=8))
+LISTEN 0      511             [::]:443          [::]:*    users:(("nginx",pid=283507,fd=9),("nginx",pid=283503,fd=9))
+LISTEN 0      511                *:3107            *:*    users:(("node",pid=524,fd=18))                             
+LISTEN 0      511          0.0.0.0:3108      0.0.0.0:*    users:(("node",pid=86297,fd=18))                           
+
+=== 7) HTTP REDIRECT PROOF ===
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 12 Jun 2026 15:39:33 GMT
+Content-Type: text/html
+Content-Length: 178
+Connection: keep-alive
+Location: https://smartwork-agent.id/api/smartwork/jobs/health
+
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx/1.18.0 (Ubuntu)</center>
+</body>
+</html>
+
+=== 8) HTTPS API PROOF LOCAL ===
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Fri, 12 Jun 2026 15:39:33 GMT
+content-type: application/json; charset=utf-8
+content-length: 509
+access-control-allow-origin: http://127.0.0.1:5197
+vary: Origin
+access-control-allow-methods: GET,POST,OPTIONS
+access-control-allow-headers: Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send
+access-control-max-age: 86400
+cache-control: no-store
+
+{
+  "ok": true,
+  "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+  "queue": {
+    "pending": "data/production-queue/pending",
+    "running": "data/production-queue/running",
+    "completed": "data/production-queue/completed",
+    "failed": "data/production-queue/failed"
+  },
+  "counts": {
+    "pending": 0,
+    "running": 0,
+    "completed": 10,
+    "failed": 0
+  },
+  "safety": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  }
+}
+=== 9) HTTPS API PROOF PUBLIC IP ===
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Fri, 12 Jun 2026 15:39:33 GMT
+content-type: application/json; charset=utf-8
+content-length: 509
+access-control-allow-origin: http://127.0.0.1:5197
+vary: Origin
+access-control-allow-methods: GET,POST,OPTIONS
+access-control-allow-headers: Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send
+access-control-max-age: 86400
+cache-control: no-store
+
+{
+  "ok": true,
+  "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+  "queue": {
+    "pending": "data/production-queue/pending",
+    "running": "data/production-queue/running",
+    "completed": "data/production-queue/completed",
+    "failed": "data/production-queue/failed"
+  },
+  "counts": {
+    "pending": 0,
+    "running": 0,
+    "completed": 10,
+    "failed": 0
+  },
+  "safety": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  }
+}
+=== 10) CERTBOT CERTIFICATES ===
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: smartwork-agent.id
+    Serial Number: 68ef036d7f8ecebc2083c24f09f2e1521be
+    Key Type: RSA
+    Domains: smartwork-agent.id api.smartwork-agent.id www.smartwork-agent.id
+    Expiry Date: 2026-09-10 14:32:26+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/smartwork-agent.id/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/smartwork-agent.id/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+PHASE_5ZT_B_REVERSE_PROXY_SSL_DONE
+
+--- END VPS LOG ---
