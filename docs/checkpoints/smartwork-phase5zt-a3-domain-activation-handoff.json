@@ -1,0 +1,197 @@
+{
+  "ok": true,
+  "phase": "5ZT-A3",
+  "createdAt": "2026-06-12T11:00:04.724Z",
+  "releaseDecision": "DOMAIN_ACTIVATION_NOT_READY_PHASE5ZT_A3",
+  "domain": "smartwork-agent.id",
+  "expectedVpsIp": "103.152.242.193",
+  "git": {
+    "branch": "test/ui-request-next-20260611-004522",
+    "head": "2387bf0",
+    "latestCommit": "2387bf0 Add SmartWork public DNS diagnose checkpoint",
+    "statusShort": "?? docs/checkpoints/smartwork-phase5zt-a3-domain-activation-handoff.md\n?? scripts/smartwork-phase5zt-a3-domain-activation-handoff.mjs"
+  },
+  "readiness": {
+    "nsReady": false,
+    "allAReady": false,
+    "perName": {
+      "smartwork-agent.id": {
+        "anyARecord": false,
+        "anyPointsToVps": false,
+        "values": [],
+        "errors": [
+          "ENOTFOUND"
+        ]
+      },
+      "www.smartwork-agent.id": {
+        "anyARecord": false,
+        "anyPointsToVps": false,
+        "values": [],
+        "errors": [
+          "ENOTFOUND"
+        ]
+      },
+      "api.smartwork-agent.id": {
+        "anyARecord": false,
+        "anyPointsToVps": false,
+        "values": [],
+        "errors": [
+          "ENOTFOUND"
+        ]
+      }
+    }
+  },
+  "checks": {
+    "nsChecks": [
+      {
+        "domain": "smartwork-agent.id",
+        "type": "NS",
+        "resolver": "Cloudflare",
+        "server": "1.1.1.1",
+        "ok": false,
+        "values": [],
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "smartwork-agent.id",
+        "type": "NS",
+        "resolver": "Google",
+        "server": "8.8.8.8",
+        "ok": false,
+        "values": [],
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "smartwork-agent.id",
+        "type": "NS",
+        "resolver": "Quad9",
+        "server": "9.9.9.9",
+        "ok": false,
+        "values": [],
+        "error": "ENOTFOUND"
+      }
+    ],
+    "aChecks": [
+      {
+        "domain": "smartwork-agent.id",
+        "type": "A",
+        "resolver": "Cloudflare",
+        "server": "1.1.1.1",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "www.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Cloudflare",
+        "server": "1.1.1.1",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "api.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Cloudflare",
+        "server": "1.1.1.1",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "smartwork-agent.id",
+        "type": "A",
+        "resolver": "Google",
+        "server": "8.8.8.8",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "www.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Google",
+        "server": "8.8.8.8",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "api.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Google",
+        "server": "8.8.8.8",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "smartwork-agent.id",
+        "type": "A",
+        "resolver": "Quad9",
+        "server": "9.9.9.9",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "www.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Quad9",
+        "server": "9.9.9.9",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      },
+      {
+        "domain": "api.smartwork-agent.id",
+        "type": "A",
+        "resolver": "Quad9",
+        "server": "9.9.9.9",
+        "ok": false,
+        "values": [],
+        "pointsToVps": false,
+        "error": "ENOTFOUND"
+      }
+    ]
+  },
+  "requiredDnsRecords": [
+    {
+      "type": "A",
+      "host": "@",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    },
+    {
+      "type": "A",
+      "host": "www",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    },
+    {
+      "type": "A",
+      "host": "api",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    }
+  ],
+  "safety": {
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noAabBuild": true,
+    "noPlayStoreUpload": true,
+    "dnsReadOnlyProbeOnly": true
+  },
+  "nextSafePhase": "Activate domain/nameserver and create A records before reverse proxy/HTTPS."
+}
