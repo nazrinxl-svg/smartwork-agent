@@ -1251,6 +1251,14 @@
     overflow-wrap: anywhere !important;
   }
 </style>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SmartWork">
+  <link rel="apple-touch-icon" href="/icons/smartwork-icon-192.svg">
+
 </head>
 <body>
   <main class="app">
@@ -2406,6 +2414,17 @@
 })();
 </script>
 <!-- SMARTWORK_PHASE5W_PROGRESS_VPS_STATUS_BRIDGE_END -->
+
+<script id="smartwork-pwa-register-v5ze">
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch((err) => {
+        console.warn("[SmartWork PWA] service worker registration failed", err);
+      });
+    });
+  }
+</script>
+
 </body>
 </html>
 

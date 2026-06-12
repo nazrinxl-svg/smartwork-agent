@@ -450,6 +450,14 @@ color:#0f62fe;
     transform: none !important;
   }
 </style>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SmartWork">
+  <link rel="apple-touch-icon" href="/icons/smartwork-icon-192.svg">
+
 </head>
 <body>
 
@@ -581,6 +589,17 @@ document.querySelectorAll(".info-row").forEach((row) => {
   <a class="nav-item" href="/history.html"><strong><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></strong><span>Riwayat</span></a>
   <a class="nav-item active" href="/profile.html"><strong><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></strong><span>Profil</span></a>
 </nav>
+
+<script id="smartwork-pwa-register-v5ze">
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch((err) => {
+        console.warn("[SmartWork PWA] service worker registration failed", err);
+      });
+    });
+  }
+</script>
+
 </body>
 </html>
 
