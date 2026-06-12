@@ -1,0 +1,33 @@
+# SmartWork Agent Caddyfile - public web + public API
+# Use after DNS A records point to 103.152.242.193.
+
+smartwork-agent.id {
+  encode gzip zstd
+  root * /opt/smartwork-agent/public
+  file_server
+
+  header {
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  }
+
+  try_files {path} /index.html
+}
+
+api.smartwork-agent.id {
+  encode gzip zstd
+
+  @options method OPTIONS
+  respond @options 204
+
+  header {
+    Access-Control-Allow-Origin "https://smartwork-agent.id"
+    Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers "Content-Type, X-SmartWork-Dry-Run, Authorization"
+    Access-Control-Max-Age "86400"
+    X-Content-Type-Options "nosniff"
+  }
+
+  reverse_proxy 127.0.0.1:3107
+}
