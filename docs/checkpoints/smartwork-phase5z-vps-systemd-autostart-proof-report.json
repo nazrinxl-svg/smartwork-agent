@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "phase": "5Z",
+  "releaseDecision": "VPS_SYSTEMD_AUTOSTART_READY_DRY_RUN_SAFE",
+  "git": {
+    "head": "ce1b8c6",
+    "branch": "test/ui-request-next-20260611-004522"
+  },
+  "vps": {
+    "apiBase": "http://103.152.242.193:3107",
+    "serviceName": "smartwork-agent.service",
+    "systemdExpected": true,
+    "port": 3107,
+    "serviceInstalledOnVps": true,
+    "serviceActiveObservedOnVps": true,
+    "nodeExec": "/usr/bin/node app/smartwork-control-server.mjs"
+  },
+  "health": {
+    "ok": true,
+    "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+    "queue": {
+      "pending": "data/production-queue/pending",
+      "running": "data/production-queue/running",
+      "completed": "data/production-queue/completed",
+      "failed": "data/production-queue/failed"
+    },
+    "counts": {
+      "pending": 0,
+      "running": 0,
+      "completed": 3,
+      "failed": 0
+    },
+    "safety": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    }
+  },
+  "cors": {
+    "origin": "http://127.0.0.1:5197",
+    "optionsStatus": 204,
+    "allowOrigin": "http://127.0.0.1:5197",
+    "allowMethods": "GET,POST,OPTIONS",
+    "allowHeaders": "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+  },
+  "safetyConfirmed": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  },
+  "notes": [
+    "VPS manual node process on port 3107 was killed.",
+    "systemd service smartwork-agent.service now owns port 3107.",
+    "This proof is dry-run safe and performs no SIAGA input, no browser automation, no save/send."
+  ],
+  "createdAt": "2026-06-12T08:10:31.260Z"
+}
