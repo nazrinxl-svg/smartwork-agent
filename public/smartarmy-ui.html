@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartLearn Army UI Bridge</title>
+  <style>
+    :root{font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif;color:#0f172a;background:#eef4ff}
+    body{margin:0;padding:18px}
+    .shell{max-width:980px;margin:0 auto}
+    .hero{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border-radius:22px;padding:18px;box-shadow:0 18px 42px rgba(37,99,235,.22)}
+    h1{font-size:20px;margin:0 0 6px;font-weight:800}
+    p{font-size:12px;line-height:1.55;margin:0;color:rgba(255,255,255,.9)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .card{background:white;border:1px solid #dbe5f7;border-radius:18px;padding:14px;box-shadow:0 10px 24px rgba(15,23,42,.06)}
+    label{display:block;font-size:11px;color:#475569;margin:0 0 6px}
+    select,input,textarea,button{font:inherit;font-size:12px}
+    select,input,textarea{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:12px;padding:10px;background:#f8fafc;color:#0f172a}
+    textarea{min-height:132px;resize:vertical}
+    button{border:0;border-radius:12px;padding:10px 12px;background:#2563eb;color:white;font-weight:700;cursor:pointer}
+    button.secondary{background:#0f172a}
+    button.soft{background:#e0ecff;color:#1d4ed8}
+    .row{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+    pre{white-space:pre-wrap;word-break:break-word;background:#0b1220;color:#dbeafe;border-radius:14px;padding:12px;font-size:11px;line-height:1.45;max-height:460px;overflow:auto}
+    .status{font-size:11px;color:#475569;margin-top:8px}
+    .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 9px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}body{padding:10px}.hero{border-radius:18px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="hero">
+      <h1>SmartLearn Army UI Bridge</h1>
+      <p>Panel lokal untuk menjalankan SmartArmy Auto dari browser. Local-only, safe-checks, no real save/send/delete.</p>
+      <div class="row">
+        <span class="pill" id="health">checking...</span>
+        <span class="pill" id="commit">commit...</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <label>Mode</label>
+        <select id="mode">
+          <option value="auto">auto</option>
+          <option value="doctor">doctor</option>
+          <option value="ui">ui</option>
+          <option value="bug">bug</option>
+          <option value="feature">feature</option>
+          <option value="agent">agent</option>
+          <option value="delivery">delivery</option>
+          <option value="vps">vps</option>
+          <option value="progress">progress</option>
+        </select>
+
+        <label style="margin-top:10px">Agent optional</label>
+        <input id="agent" placeholder="kosongkan untuk auto-pick" />
+
+        <label style="margin-top:10px">Task</label>
+        <textarea id="task">Buat mission plan untuk lanjut VPS dry-run worker, safe checks only, no real save/send/delete.</textarea>
+
+        <div class="row">
+          <button onclick="runArmy()">Run Army</button>
+          <button class="secondary" onclick="doctor()">Doctor</button>
+          <button class="soft" onclick="loadLatest()">Latest</button>
+        </div>
+        <div class="status" id="runStatus">Ready.</div>
+      </div>
+
+      <div class="card">
+        <label>Agents</label>
+        <select id="agentsList" size="10"></select>
+        <div class="row">
+          <button class="soft" onclick="useSelectedAgent()">Use selected</button>
+          <button class="soft" onclick="loadAgents()">Reload agents</button>
+        </div>
+        <div class="status" id="agentStatus">Loading agents...</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <label>Output</label>
+      <pre id="output">Waiting...</pre>
+    </div>
+  </div>
+
+  <script>
+    const base = location.origin;
+
+    async function api(path, options = {}) {
+      const res = await fetch(base + path, {
+        ...options,
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) }
+      });
+      const text = await res.text();
+      try { return JSON.parse(text); } catch { return { ok:false, raw:text }; }
+    }
+
+    function show(data) {
+      document.getElementById("output").textContent =
+        typeof data === "string" ? data : JSON.stringify(data, null, 2);
+    }
+
+    async function health() {
+      const h = await api("/api/army/health");
+      document.getElementById("health").textContent = h.ok ? "server OK" : "server failed";
+      const s = await api("/api/army/status");
+      document.getElementById("commit").textContent = s.repo?.commit || "commit unknown";
+    }
+
+    async function loadAgents() {
+      const data = await api("/api/army/agents");
+      const list = document.getElementById("agentsList");
+      list.innerHTML = "";
+      for (const a of data.agents || []) {
+        const opt = document.createElement("option");
+        opt.value = a.id;
+        opt.textContent = `${a.name} · ${a.id}`;
+        list.appendChild(opt);
+      }
+      document.getElementById("agentStatus").textContent = `${data.count || 0} agents loaded`;
+    }
+
+    function useSelectedAgent() {
+      const list = document.getElementById("agentsList");
+      document.getElementById("agent").value = list.value || "";
+    }
+
+    async function runArmy() {
+      document.getElementById("runStatus").textContent = "Running...";
+      const payload = {
+        mode: document.getElementById("mode").value,
+        agent: document.getElementById("agent").value,
+        task: document.getElementById("task").value,
+        clip: true
+      };
+      const data = await api("/api/army/run", { method:"POST", body: JSON.stringify(payload) });
+      document.getElementById("runStatus").textContent = data.ok ? "OK" : "FAILED";
+      show(data);
+    }
+
+    async function doctor() {
+      document.getElementById("runStatus").textContent = "Doctor running...";
+      const data = await api("/api/army/doctor", { method:"POST", body:"{}" });
+      document.getElementById("runStatus").textContent = data.ok ? "Doctor OK" : "Doctor FAILED";
+      show(data);
+    }
+
+    async function loadLatest() {
+      const data = await api("/api/army/latest");
+      show(data);
+    }
+
+    health();
+    loadAgents();
+  </script>
+</body>
+</html>

@@ -136,7 +136,8 @@
                     "smartarmy":  "node scripts/smartarmy-bridge.mjs",
                     "smartarmy:doctor":  "node scripts/smartarmy-bridge.mjs doctor",
                     "smartarmy:auto":  "node scripts/smartarmy-auto-loop.mjs",
-                    "smartarmy:auto:watch":  "powershell -ExecutionPolicy Bypass -File scripts/smartarmy-auto-watch.ps1"
+                    "smartarmy:auto:watch":  "powershell -ExecutionPolicy Bypass -File scripts/smartarmy-auto-watch.ps1",
+                    "smartarmy:ui":  "node scripts/smartarmy-ui-server.mjs"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
