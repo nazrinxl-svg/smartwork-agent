@@ -1,0 +1,42 @@
+{
+    "ok":  true,
+    "phase":  "5ZK",
+    "releaseDecision":  "PUBLIC_DOMAIN_DEPLOYMENT_READINESS_PACK_READY",
+    "importantNote":  "Domain deployment files are ready. Real TWA build remains blocked until HTTPS web/API domains are live and assetlinks fingerprint is replaced.",
+    "targetDomains":  {
+                          "web":  "https://smartwork-agent.id",
+                          "api":  "https://api.smartwork-agent.id",
+                          "vpsIp":  "103.152.242.193"
+                      },
+    "requiredLiveChecks":  [
+                               "https://smartwork-agent.id/manifest.webmanifest",
+                               "https://smartwork-agent.id/home.html",
+                               "https://smartwork-agent.id/privacy.html",
+                               "https://smartwork-agent.id/.well-known/assetlinks.json",
+                               "https://api.smartwork-agent.id/api/smartwork/jobs/health"
+                           ],
+    "checks":  {
+                   "privacyPageReady":  true,
+                   "assetlinksReady":  true,
+                   "assetlinksPackageReady":  true,
+                   "assetlinksFingerprintPlaceholderPresent":  true,
+                   "domainDocReady":  true,
+                   "caddyTemplateReady":  true,
+                   "deployChecklistReady":  true,
+                   "pwaReady":  true,
+                   "apiReadinessReady":  true,
+                   "twaPreflightReady":  true,
+                   "manifestStartUrlReady":  true,
+                   "manifestStandalone":  true,
+                   "safetyNoRealActions":  true
+               },
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T09:56:07.5941158Z"
+}

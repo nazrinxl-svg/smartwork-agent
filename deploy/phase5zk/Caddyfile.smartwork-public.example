@@ -1,0 +1,29 @@
+# SmartWork Agent public web + API Caddy example
+# Replace domains if needed after DNS is configured.
+
+smartwork-agent.id {
+  encode gzip
+  root * /opt/smartwork-agent/public
+  file_server
+
+  header {
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+  }
+}
+
+api.smartwork-agent.id {
+  encode gzip
+
+  @options method OPTIONS
+  respond @options 204
+
+  header {
+    Access-Control-Allow-Origin "https://smartwork-agent.id"
+    Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers "Content-Type, X-SmartWork-Dry-Run, Authorization"
+    Access-Control-Max-Age "86400"
+  }
+
+  reverse_proxy 127.0.0.1:3107
+}
