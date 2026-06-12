@@ -1,0 +1,41 @@
+﻿{
+    "ok":  true,
+    "phase":  "5U",
+    "releaseDecision":  "DEWAVPS_API_LIVE_DRY_RUN_SAFE",
+    "checkedAt":  "2026-06-12T14:00:35.8076903+07:00",
+    "vps":  {
+                "ip":  "103.152.242.193",
+                "healthUrl":  "http://103.152.242.193:3107/api/smartwork/jobs/health"
+            },
+    "health":  {
+                   "ok":  true,
+                   "mode":  "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+                   "queue":  {
+                                 "pending":  "data/production-queue/pending",
+                                 "running":  "data/production-queue/running",
+                                 "completed":  "data/production-queue/completed",
+                                 "failed":  "data/production-queue/failed"
+                             },
+                   "counts":  {
+                                  "pending":  0,
+                                  "running":  0,
+                                  "completed":  0,
+                                  "failed":  0
+                              },
+                   "safety":  {
+                                  "dryRun":  true,
+                                  "noSiagaInput":  true,
+                                  "noBrowserOpen":  true,
+                                  "noRealSave":  true,
+                                  "noRealSend":  true
+                              }
+               },
+    "safetyConfirmed":  {
+                            "noSiagaInput":  true,
+                            "noBrowserOpen":  true,
+                            "dryRun":  true,
+                            "noRealSend":  true,
+                            "noRealSave":  true
+                        },
+    "next":  "Connect SmartWork app/request form to VPS API endpoint"
+}
