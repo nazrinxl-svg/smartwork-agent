@@ -321,42 +321,66 @@ Kerjakan dengan Agent Army + SmartDev Team. Diagnosis evidence dulu, jangan mula
 }
 
 
-function readSmartDevAutoInternalReport() {
-  const direct = readJson("reports/smartdev-auto-last.json", null);
-  if (direct && typeof direct.ok === "boolean") {
-    return {
-      ok: direct.ok,
-      source: "reports/smartdev-auto-last.json",
-      runId: direct.runId || "",
-      failed: direct.failed || []
-    };
+function readSmartDevAutoInternalReport(startedAtMs = 0, outputText = "") {
+  const explicit = String(outputText || "").match(/Report JSON:\s*(reports[\\/][^\s]+\.json)/i);
+  if (explicit) {
+    const explicitPath = explicit[1].replace(/\\/g, "/");
+    const parsed = readJson(explicitPath, null);
+    if (parsed && typeof parsed.ok === "boolean") {
+      return {
+        ok: parsed.ok,
+        source: explicitPath,
+        runId: parsed.runId || "",
+        failed: parsed.failed || [],
+        strategy: "explicit-output-report-json"
+      };
+    }
   }
 
   const reportsDir = path.join(root, "reports");
-  if (!fs.existsSync(reportsDir)) return null;
+  if (fs.existsSync(reportsDir)) {
+    const latestCurrent = fs.readdirSync(reportsDir)
+      .filter(name => /^smartdev-auto-.*\.json$/.test(name))
+      .map(name => {
+        const full = path.join(reportsDir, name);
+        const stat = fs.statSync(full);
+        return { name, full, mtime: stat.mtimeMs };
+      })
+      .filter(x => x.mtime >= startedAtMs - 1500)
+      .sort((a, b) => b.mtime - a.mtime)[0];
 
-  const latest = fs.readdirSync(reportsDir)
-    .filter(name => /^smartdev-auto-.*\.json$/.test(name))
-    .map(name => {
-      const full = path.join(reportsDir, name);
-      const stat = fs.statSync(full);
-      return { name, full, mtime: stat.mtimeMs };
-    })
-    .sort((a, b) => b.mtime - a.mtime)[0];
-
-  if (!latest) return null;
-
-  try {
-    const parsed = JSON.parse(fs.readFileSync(latest.full, "utf8").replace(/^\uFEFF/, ""));
-    if (typeof parsed.ok === "boolean") {
-      return {
-        ok: parsed.ok,
-        source: "reports/" + latest.name,
-        runId: parsed.runId || "",
-        failed: parsed.failed || []
-      };
+    if (latestCurrent) {
+      try {
+        const parsed = JSON.parse(fs.readFileSync(latestCurrent.full, "utf8").replace(/^\uFEFF/, ""));
+        if (typeof parsed.ok === "boolean") {
+          return {
+            ok: parsed.ok,
+            source: "reports/" + latestCurrent.name,
+            runId: parsed.runId || "",
+            failed: parsed.failed || [],
+            strategy: "latest-current-mtime-report-json"
+          };
+        }
+      } catch {}
     }
-  } catch {}
+  }
+
+  const directPath = path.join(root, "reports", "smartdev-auto-last.json");
+  if (fs.existsSync(directPath)) {
+    const stat = fs.statSync(directPath);
+    if (stat.mtimeMs >= startedAtMs - 1500) {
+      const direct = readJson("reports/smartdev-auto-last.json", null);
+      if (direct && typeof direct.ok === "boolean") {
+        return {
+          ok: direct.ok,
+          source: "reports/smartdev-auto-last.json",
+          runId: direct.runId || "",
+          failed: direct.failed || [],
+          strategy: "fresh-last-json"
+        };
+      }
+    }
+  }
 
   return null;
 }
@@ -370,9 +394,10 @@ function runSmartDevAuto(mode, task) {
     return { skipped: true, ok: true, reason: "package script smartdev:auto not found" };
   }
 
+  const startedAtMs = Date.now();
   const processResult = sh(`npm run smartdev:auto -- ${devMode} "${task.replace(/"/g, "'")}"`, 240000);
-  const internal = readSmartDevAutoInternalReport();
   const combinedText = `${processResult.output || ""}\n${processResult.error || ""}`;
+  const internal = readSmartDevAutoInternalReport(startedAtMs, combinedText);
 
   let internalOk = processResult.ok;
 
@@ -389,10 +414,13 @@ function runSmartDevAuto(mode, task) {
     processOk: processResult.ok,
     ok: internalOk,
     internalReportSource: internal?.source || null,
+    internalReportStrategy: internal?.strategy || null,
     internalRunId: internal?.runId || null,
     internalFailed: internal?.failed || []
   };
 }
+
+
 
 
 
