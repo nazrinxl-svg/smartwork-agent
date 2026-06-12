@@ -1,0 +1,45 @@
+﻿PHASE 5ZT-I BUBBLEWRAP PREFLIGHT PROOF
+Date: 2026-06-13T06:57:00.9412773+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: 887e36e
+
+Release Decision:
+BUBBLEWRAP_PREFLIGHT_READY_NO_INIT_NO_BUILD_PHASE5ZT_I
+
+JDK 17:
+C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot
+
+Android SDK path:
+C:\Users\Digitalisasi\.bubblewrap\android_sdk
+
+sdkExists: True
+configJsonOk: True
+bubblewrapOk: True
+initCliOk: True
+
+Bubblewrap version output:
+[35m,-----.        ,--.  ,--.  ,--.[39m
+[35m|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.[39m
+[35m|  .-.  |  ||  | .-. | .-. |  | .-. |  |.'.|  |  .--' ,-.  | .-. |[39m
+[35m|  '--' '  ''  | `-' | `-' |  \   --|   .'.   |  |  \ '-'  | '-' '[39m
+[35m`------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'[39m
+[35m                                                           `--'    [39m
+[7mversion[0m 1.24.1
+
+Bubblewrap init help output:
+[35m,-----.        ,--.  ,--.  ,--.[39m
+[35m|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.[39m
+[35m|  .-.  |  ||  | .-. | .-. |  | .-. |  |.'.|  |  .--' ,-.  | .-. |[39m
+[35m|  '--' '  ''  | `-' | `-' |  \   --|   .'.   |  |  \ '-'  | '-' '[39m
+[35m`------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'[39m
+[35m                                                           `--'    [39m
+Missing required parameter [36m--manifest[39m
+
+Safety:
+No SIAGA input.
+No browser automation.
+No real save/send.
+No bubblewrap init run.
+No AAB build.
+No TWA build.
+No Play Store upload.
