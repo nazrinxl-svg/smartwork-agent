@@ -1,0 +1,226 @@
+{
+  "ok": true,
+  "phase": "5V",
+  "releaseDecision": "APP_CONNECTED_TO_DEWAVPS_DRY_RUN_QUEUE_SAFE",
+  "apiBase": "http://103.152.242.193:3107",
+  "healthUrl": "http://103.152.242.193:3107/api/smartwork/jobs/health",
+  "patch": {
+    "file": "public/request.html",
+    "backup": "backup-code/phase5v/request.html.1781247971122.bak",
+    "bridgeInjected": true
+  },
+  "submit": {
+    "ok": true,
+    "jobId": "phase5v-terminal-dry-run-1781247971127",
+    "endpoint": "/api/smartwork/jobs",
+    "response": {
+      "ok": true,
+      "status": 201,
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs",
+      "json": {
+        "ok": true,
+        "status": 201,
+        "jobId": "phase5v-terminal-dry-run-1781247971127",
+        "statusText": "pending",
+        "job": {
+          "id": "phase5v-terminal-dry-run-1781247971127",
+          "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+          "source": "smartwork-phase5v-terminal-smoke",
+          "module": "siaga",
+          "mode": "dry-run",
+          "status": "pending",
+          "accountRef": "guru-001",
+          "credentialRef": "guru-001",
+          "requester": {
+            "name": "",
+            "email": "",
+            "whatsapp": ""
+          },
+          "requestRange": {
+            "startDate": "2026-06-12",
+            "endDate": "2026-06-12"
+          },
+          "delivery": {
+            "mode": "app_download_only"
+          },
+          "request": {
+            "requestType": "bulk-monthly",
+            "notes": "",
+            "holidays": [],
+            "redacted": true
+          },
+          "safety": {
+            "dryRun": true,
+            "noRealSave": true,
+            "noRealSend": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "rawPasswordStored": false
+          },
+          "progress": {
+            "percent": 0,
+            "stage": "queued",
+            "message": "Job diterima backend queue. Menunggu worker dry-run."
+          },
+          "createdAt": "2026-06-12T07:06:10.857Z",
+          "updatedAt": "2026-06-12T07:06:10.857Z"
+        },
+        "path": "data/production-queue/pending/phase5v-terminal-dry-run-1781247971127.json",
+        "validation": {
+          "ok": true,
+          "errors": []
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"status\": 201,\n  \"jobId\": \"phase5v-terminal-dry-run-1781247971127\",\n  \"statusText\": \"pending\",\n  \"job\": {\n    \"id\": \"phase5v-terminal-dry-run-1781247971127\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-phase5v-terminal-smoke\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"pending\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-12\",\n      \"endDate\": \"2026-06-12\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 0,\n      \"stage\": \"queued\",\n      \"message\": \"Job diterima backend queue. Menunggu worker dry-run.\"\n    },\n    \"createdAt\": \"2026-06-12T07:06:10.857Z\",\n    \"updatedAt\": \"2026-06-12T07:06:10.857Z\"\n  },\n  \"path\": \"data/production-queue/pending/phase5v-terminal-dry-run-1781247971127.json\",\n  \"validation\": {\n    \"ok\": true,\n    \"errors\": []\n  }\n}"
+    }
+  },
+  "jobStatus": {
+    "ok": true,
+    "status": 200,
+    "url": "http://103.152.242.193:3107/api/smartwork/jobs/phase5v-terminal-dry-run-1781247971127",
+    "json": {
+      "ok": true,
+      "id": "phase5v-terminal-dry-run-1781247971127",
+      "status": "completed",
+      "path": "data/production-queue/completed/phase5v-terminal-dry-run-1781247971127.json",
+      "job": {
+        "id": "phase5v-terminal-dry-run-1781247971127",
+        "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+        "source": "smartwork-phase5v-terminal-smoke",
+        "module": "siaga",
+        "mode": "dry-run",
+        "status": "completed",
+        "accountRef": "guru-001",
+        "credentialRef": "guru-001",
+        "requester": {
+          "name": "",
+          "email": "",
+          "whatsapp": ""
+        },
+        "requestRange": {
+          "startDate": "2026-06-12",
+          "endDate": "2026-06-12"
+        },
+        "delivery": {
+          "mode": "app_download_only"
+        },
+        "request": {
+          "requestType": "bulk-monthly",
+          "notes": "",
+          "holidays": [],
+          "redacted": true
+        },
+        "safety": {
+          "dryRun": true,
+          "noRealSave": true,
+          "noRealSend": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "rawPasswordStored": false
+        },
+        "progress": {
+          "percent": 100,
+          "stage": "completed",
+          "message": "Production worker dry-run lifecycle completed. App progress only."
+        },
+        "createdAt": "2026-06-12T07:06:10.857Z",
+        "updatedAt": "2026-06-12T07:06:11.262Z",
+        "phase": "completed",
+        "state": "completed",
+        "startedAt": "2026-06-12T07:06:11.261Z",
+        "percent": 100,
+        "progressPercent": 100,
+        "percentage": 100,
+        "summary": {
+          "total": 1,
+          "completed": 1,
+          "alreadyFilled": 1,
+          "skipped": 0,
+          "needsPlan": 0,
+          "percent": 100
+        },
+        "artifacts": {
+          "pdfReady": true,
+          "proofReady": true,
+          "appOnly": true
+        },
+        "completedAt": "2026-06-12T07:06:11.262Z"
+      },
+      "safety": {
+        "noSiagaInput": true,
+        "noBrowserOpen": true
+      }
+    },
+    "text": "{\n  \"ok\": true,\n  \"id\": \"phase5v-terminal-dry-run-1781247971127\",\n  \"status\": \"completed\",\n  \"path\": \"data/production-queue/completed/phase5v-terminal-dry-run-1781247971127.json\",\n  \"job\": {\n    \"id\": \"phase5v-terminal-dry-run-1781247971127\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-phase5v-terminal-smoke\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"completed\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-12\",\n      \"endDate\": \"2026-06-12\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 100,\n      \"stage\": \"completed\",\n      \"message\": \"Production worker dry-run lifecycle completed. App progress only.\"\n    },\n    \"createdAt\": \"2026-06-12T07:06:10.857Z\",\n    \"updatedAt\": \"2026-06-12T07:06:11.262Z\",\n    \"phase\": \"completed\",\n    \"state\": \"completed\",\n    \"startedAt\": \"2026-06-12T07:06:11.261Z\",\n    \"percent\": 100,\n    \"progressPercent\": 100,\n    \"percentage\": 100,\n    \"summary\": {\n      \"total\": 1,\n      \"completed\": 1,\n      \"alreadyFilled\": 1,\n      \"skipped\": 0,\n      \"needsPlan\": 0,\n      \"percent\": 100\n    },\n    \"artifacts\": {\n      \"pdfReady\": true,\n      \"proofReady\": true,\n      \"appOnly\": true\n    },\n    \"completedAt\": \"2026-06-12T07:06:11.262Z\"\n  },\n  \"safety\": {\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true\n  }\n}"
+  },
+  "healthBefore": {
+    "ok": true,
+    "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+    "queue": {
+      "pending": "data/production-queue/pending",
+      "running": "data/production-queue/running",
+      "completed": "data/production-queue/completed",
+      "failed": "data/production-queue/failed"
+    },
+    "counts": {
+      "pending": 0,
+      "running": 0,
+      "completed": 0,
+      "failed": 0
+    },
+    "safety": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    }
+  },
+  "healthAfter": {
+    "ok": true,
+    "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+    "queue": {
+      "pending": "data/production-queue/pending",
+      "running": "data/production-queue/running",
+      "completed": "data/production-queue/completed",
+      "failed": "data/production-queue/failed"
+    },
+    "counts": {
+      "pending": 0,
+      "running": 0,
+      "completed": 1,
+      "failed": 0
+    },
+    "safety": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    }
+  },
+  "queueCountsBefore": {
+    "pending": 0,
+    "running": 0,
+    "completed": 0,
+    "failed": 0
+  },
+  "queueCountsAfter": {
+    "pending": 0,
+    "running": 0,
+    "completed": 1,
+    "failed": 0
+  },
+  "safetyConfirmed": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  },
+  "proofFiles": {
+    "report": "reports/smartwork-phase5v-vps-app-submit-report.json",
+    "checkpoint": "docs/checkpoints/smartwork-phase5v-vps-app-submit-report.json"
+  },
+  "createdAt": "2026-06-12T07:06:12.919Z"
+}
