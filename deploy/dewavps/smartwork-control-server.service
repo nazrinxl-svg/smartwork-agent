@@ -1,0 +1,16 @@
+[Unit]
+Description=SmartWork Control Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/smartwork-agent
+EnvironmentFile=/opt/smartwork-agent/.env.production
+ExecStart=/usr/bin/node app/smartwork-control-server.mjs
+Restart=always
+RestartSec=5
+User=smartwork
+Group=smartwork
+
+[Install]
+WantedBy=multi-user.target
