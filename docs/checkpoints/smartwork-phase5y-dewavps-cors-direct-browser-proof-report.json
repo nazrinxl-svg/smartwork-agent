@@ -1,0 +1,306 @@
+{
+  "ok": true,
+  "phase": "5Y",
+  "releaseDecision": "DEWAVPS_CORS_DEPLOYED_DIRECT_BROWSER_SUBMIT_SAFE",
+  "apiBase": "http://103.152.242.193:3107",
+  "directBrowserCors": {
+    "origin": "http://127.0.0.1:5197",
+    "noSameOriginProxy": true,
+    "optionsStatus": 204,
+    "optionsAllowOrigin": "http://127.0.0.1:5197",
+    "getStatus": 200,
+    "getAllowOrigin": "http://127.0.0.1:5197",
+    "submitStatus": 201,
+    "submitAllowOrigin": "http://127.0.0.1:5197",
+    "statusStatus": 200,
+    "statusAllowOrigin": "http://127.0.0.1:5197"
+  },
+  "job": {
+    "requestedJobId": "phase5y-direct-browser-dry-run-1781251454480",
+    "returnedJobId": "job-1781251454078-09b7b0",
+    "status": "completed",
+    "percent": 100
+  },
+  "queueCounts": {
+    "before": {
+      "pending": 0,
+      "running": 0,
+      "completed": 2,
+      "failed": 0
+    },
+    "after": {
+      "pending": 0,
+      "running": 0,
+      "completed": 3,
+      "failed": 0
+    }
+  },
+  "checks": {
+    "corsOk": true,
+    "safetyOk": true
+  },
+  "proof": {
+    "optionsSmoke": {
+      "ok": true,
+      "status": 204,
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs/health",
+      "headers": {
+        "allowOrigin": "http://127.0.0.1:5197",
+        "allowMethods": "GET,POST,OPTIONS",
+        "allowHeaders": "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+      },
+      "json": null,
+      "text": ""
+    },
+    "getSmoke": {
+      "ok": true,
+      "status": 200,
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs/health",
+      "headers": {
+        "allowOrigin": "http://127.0.0.1:5197",
+        "allowMethods": "GET,POST,OPTIONS",
+        "allowHeaders": "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+      },
+      "json": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 2,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\": \"data/production-queue/failed\"\n  },\n  \"counts\": {\n    \"pending\": 0,\n    \"running\": 0,\n    \"completed\": 2,\n    \"failed\": 0\n  },\n  \"safety\": {\n    \"dryRun\": true,\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true,\n    \"noRealSave\": true,\n    \"noRealSend\": true\n  }\n}"
+    },
+    "submitSmoke": {
+      "ok": true,
+      "status": 201,
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs",
+      "headers": {
+        "allowOrigin": "http://127.0.0.1:5197",
+        "allowMethods": "GET,POST,OPTIONS",
+        "allowHeaders": "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+      },
+      "json": {
+        "ok": true,
+        "status": 201,
+        "jobId": "job-1781251454078-09b7b0",
+        "statusText": "pending",
+        "job": {
+          "id": "job-1781251454078-09b7b0",
+          "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+          "source": "smartwork-app-request-form",
+          "module": "siaga",
+          "mode": "dry-run",
+          "status": "pending",
+          "accountRef": "guru-001",
+          "credentialRef": "guru-001",
+          "requester": {
+            "name": "",
+            "email": "",
+            "whatsapp": ""
+          },
+          "requestRange": {
+            "startDate": "2026-06-12",
+            "endDate": "2026-06-12"
+          },
+          "delivery": {
+            "mode": "app_download_only"
+          },
+          "request": {
+            "requestType": "bulk-monthly",
+            "notes": "",
+            "holidays": [],
+            "redacted": true
+          },
+          "safety": {
+            "dryRun": true,
+            "noRealSave": true,
+            "noRealSend": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "rawPasswordStored": false
+          },
+          "progress": {
+            "percent": 0,
+            "stage": "queued",
+            "message": "Job diterima backend queue. Menunggu worker dry-run."
+          },
+          "createdAt": "2026-06-12T08:04:14.078Z",
+          "updatedAt": "2026-06-12T08:04:14.078Z"
+        },
+        "path": "data/production-queue/pending/job-1781251454078-09b7b0.json",
+        "validation": {
+          "ok": true,
+          "errors": []
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"status\": 201,\n  \"jobId\": \"job-1781251454078-09b7b0\",\n  \"statusText\": \"pending\",\n  \"job\": {\n    \"id\": \"job-1781251454078-09b7b0\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-app-request-form\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"pending\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-12\",\n      \"endDate\": \"2026-06-12\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 0,\n      \"stage\": \"queued\",\n      \"message\": \"Job diterima backend queue. Menunggu worker dry-run.\"\n    },\n    \"createdAt\": \"2026-06-12T08:04:14.078Z\",\n    \"updatedAt\": \"2026-06-12T08:04:14.078Z\"\n  },\n  \"path\": \"data/production-queue/pending/job-1781251454078-09b7b0.json\",\n  \"validation\": {\n    \"ok\": true,\n    \"errors\": []\n  }\n}"
+    },
+    "statusSmoke": {
+      "ok": true,
+      "status": 200,
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs/job-1781251454078-09b7b0",
+      "headers": {
+        "allowOrigin": "http://127.0.0.1:5197",
+        "allowMethods": "GET,POST,OPTIONS",
+        "allowHeaders": "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+      },
+      "json": {
+        "ok": true,
+        "id": "job-1781251454078-09b7b0",
+        "status": "completed",
+        "path": "data/production-queue/completed/job-1781251454078-09b7b0.json",
+        "job": {
+          "id": "job-1781251454078-09b7b0",
+          "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+          "source": "smartwork-app-request-form",
+          "module": "siaga",
+          "mode": "dry-run",
+          "status": "completed",
+          "accountRef": "guru-001",
+          "credentialRef": "guru-001",
+          "requester": {
+            "name": "",
+            "email": "",
+            "whatsapp": ""
+          },
+          "requestRange": {
+            "startDate": "2026-06-12",
+            "endDate": "2026-06-12"
+          },
+          "delivery": {
+            "mode": "app_download_only"
+          },
+          "request": {
+            "requestType": "bulk-monthly",
+            "notes": "",
+            "holidays": [],
+            "redacted": true
+          },
+          "safety": {
+            "dryRun": true,
+            "noRealSave": true,
+            "noRealSend": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "rawPasswordStored": false
+          },
+          "progress": {
+            "percent": 100,
+            "stage": "completed",
+            "message": "Production worker dry-run lifecycle completed. App progress only."
+          },
+          "createdAt": "2026-06-12T08:04:14.078Z",
+          "updatedAt": "2026-06-12T08:04:14.904Z",
+          "phase": "completed",
+          "state": "completed",
+          "startedAt": "2026-06-12T08:04:14.903Z",
+          "percent": 100,
+          "progressPercent": 100,
+          "percentage": 100,
+          "summary": {
+            "total": 1,
+            "completed": 1,
+            "alreadyFilled": 1,
+            "skipped": 0,
+            "needsPlan": 0,
+            "percent": 100
+          },
+          "artifacts": {
+            "pdfReady": true,
+            "proofReady": true,
+            "appOnly": true
+          },
+          "completedAt": "2026-06-12T08:04:14.904Z"
+        },
+        "safety": {
+          "noSiagaInput": true,
+          "noBrowserOpen": true
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"id\": \"job-1781251454078-09b7b0\",\n  \"status\": \"completed\",\n  \"path\": \"data/production-queue/completed/job-1781251454078-09b7b0.json\",\n  \"job\": {\n    \"id\": \"job-1781251454078-09b7b0\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-app-request-form\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"completed\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-12\",\n      \"endDate\": \"2026-06-12\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 100,\n      \"stage\": \"completed\",\n      \"message\": \"Production worker dry-run lifecycle completed. App progress only.\"\n    },\n    \"createdAt\": \"2026-06-12T08:04:14.078Z\",\n    \"updatedAt\": \"2026-06-12T08:04:14.904Z\",\n    \"phase\": \"completed\",\n    \"state\": \"completed\",\n    \"startedAt\": \"2026-06-12T08:04:14.903Z\",\n    \"percent\": 100,\n    \"progressPercent\": 100,\n    \"percentage\": 100,\n    \"summary\": {\n      \"total\": 1,\n      \"completed\": 1,\n      \"alreadyFilled\": 1,\n      \"skipped\": 0,\n      \"needsPlan\": 0,\n      \"percent\": 100\n    },\n    \"artifacts\": {\n      \"pdfReady\": true,\n      \"proofReady\": true,\n      \"appOnly\": true\n    },\n    \"completedAt\": \"2026-06-12T08:04:14.904Z\"\n  },\n  \"safety\": {\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true\n  }\n}"
+    },
+    "healthBefore": {
+      "ok": true,
+      "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+      "queue": {
+        "pending": "data/production-queue/pending",
+        "running": "data/production-queue/running",
+        "completed": "data/production-queue/completed",
+        "failed": "data/production-queue/failed"
+      },
+      "counts": {
+        "pending": 0,
+        "running": 0,
+        "completed": 2,
+        "failed": 0
+      },
+      "safety": {
+        "dryRun": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "noRealSave": true,
+        "noRealSend": true
+      }
+    },
+    "healthAfter": {
+      "ok": true,
+      "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+      "queue": {
+        "pending": "data/production-queue/pending",
+        "running": "data/production-queue/running",
+        "completed": "data/production-queue/completed",
+        "failed": "data/production-queue/failed"
+      },
+      "counts": {
+        "pending": 0,
+        "running": 0,
+        "completed": 3,
+        "failed": 0
+      },
+      "safety": {
+        "dryRun": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "noRealSave": true,
+        "noRealSend": true
+      }
+    }
+  },
+  "safetyConfirmed": {
+    "before": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    },
+    "after": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    },
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  },
+  "createdAt": "2026-06-12T08:04:17.745Z"
+}
