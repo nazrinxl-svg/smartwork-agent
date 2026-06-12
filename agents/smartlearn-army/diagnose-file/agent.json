@@ -1,0 +1,36 @@
+{
+  "id": "diagnose-file",
+  "name": "Diagnose File",
+  "type": "smartlearn-visual-agent",
+  "status": "imported",
+  "version": "0.1.0",
+  "mission": "Mencari root cause dari log, report, screenshot, dan git diff.",
+  "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+  "sourceImage": "",
+  "capabilities": [
+    "visual_roster_identity",
+    "read_repo_context",
+    "produce_mission_prompt",
+    "write_report",
+    "receive_evolution_capability",
+    "root_cause_analysis"
+  ],
+  "guards": [
+    "no_secret_leak",
+    "no_real_save_send_delete_without_permission",
+    "backup_before_patch",
+    "report_after_run",
+    "do_not_start_from_zero"
+  ],
+  "promptContract": [
+    "Jangan mulai dari nol.",
+    "Baca checkpoint, report, screenshot, dan git status.",
+    "Diagnosis dulu sebelum patch.",
+    "Beri satu blok PowerShell siap tempel.",
+    "Jaga guard dan safety.",
+    "Akhiri dengan next step tunggal."
+  ],
+  "evolutionLog": [],
+  "importedAt": "2026-06-12T01:26:29.899Z",
+  "updatedAt": "2026-06-12T01:26:29.899Z"
+}

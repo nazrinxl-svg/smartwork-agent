@@ -1,0 +1,54 @@
+{
+  "id": "army-evolution-agent",
+  "name": "Army Evolution Agent",
+  "type": "smartlearn-visual-agent",
+  "status": "imported",
+  "version": "0.1.3",
+  "mission": "Mengembangkan kemampuan agent lain melalui capability, lesson, prompt contract, dan guard.",
+  "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+  "sourceImage": "",
+  "capabilities": [
+    "visual_roster_identity",
+    "read_repo_context",
+    "produce_mission_prompt",
+    "write_report",
+    "receive_evolution_capability",
+    "create_and_upgrade_visual_agents_from_html_roster",
+    "sync_smartlearn_army_with_smartwork_smartdev_team",
+    "generate_agent_factory_mission_prompt"
+  ],
+  "guards": [
+    "no_secret_leak",
+    "no_real_save_send_delete_without_permission",
+    "backup_before_patch",
+    "report_after_run",
+    "do_not_start_from_zero"
+  ],
+  "promptContract": [
+    "Jangan mulai dari nol.",
+    "Baca checkpoint, report, screenshot, dan git status.",
+    "Diagnosis dulu sebelum patch.",
+    "Beri satu blok PowerShell siap tempel.",
+    "Jaga guard dan safety.",
+    "Akhiri dengan next step tunggal."
+  ],
+  "evolutionLog": [
+    {
+      "at": "2026-06-12T01:26:30.261Z",
+      "capability": "create_and_upgrade_visual_agents_from_html_roster",
+      "note": "create_and_upgrade_visual_agents_from_html_roster"
+    },
+    {
+      "at": "2026-06-12T01:26:30.573Z",
+      "capability": "sync_smartlearn_army_with_smartwork_smartdev_team",
+      "note": "sync_smartlearn_army_with_smartwork_smartdev_team"
+    },
+    {
+      "at": "2026-06-12T01:26:31.016Z",
+      "capability": "generate_agent_factory_mission_prompt",
+      "note": "generate_agent_factory_mission_prompt"
+    }
+  ],
+  "importedAt": "2026-06-12T01:26:29.899Z",
+  "updatedAt": "2026-06-12T01:26:31.016Z"
+}

@@ -1,0 +1,3774 @@
+{
+  "name": "SmartLearn Agent Army Registry",
+  "version": "0.5.2",
+  "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+  "companionHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army-evolution.html",
+  "importedAt": "2026-06-12T01:26:29.899Z",
+  "updatedAt": "2026-06-12T01:26:31.018Z",
+  "agents": [
+    {
+      "id": "smartlearn-agent-army",
+      "name": "SmartLearn Agent Army",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.896Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "38-total-agent",
+      "name": "38 Total Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "squad-classes-karakter-pasukan-berdasarkan-tugas-agent",
+      "name": "Squad Classes Karakter Pasukan Berdasarkan Tugas Agent.",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "data-guard",
+      "name": "Data Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "3-agent",
+      "name": "3 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "dev-brain-commander",
+      "name": "Dev Brain Commander",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Membaca checkpoint, memory, report, screenshot, dan status repo.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "read_checkpoint_memory"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartdev-brain",
+      "name": "Command Npm Run Smartdev:Brain",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Membaca checkpoint, memory, report, screenshot, dan status repo.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "read_checkpoint_memory"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartdev-brain-mjs",
+      "name": "File Scripts/Smartdev Brain.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Membaca checkpoint, memory, report, screenshot, dan status repo.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "read_checkpoint_memory"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "doctor-medic",
+      "name": "Doctor Medic",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Audit kesehatan project, guard, dan report sebelum patch.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_doctor_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-doctor",
+      "name": "Command Npm Run Doctor",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Audit kesehatan project, guard, dan report sebelum patch.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_doctor_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartdoctor-agent-mjs",
+      "name": "File Scripts/Smartdoctor Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Audit kesehatan project, guard, dan report sebelum patch.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_doctor_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "police-guardian",
+      "name": "Police Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartpolice-agent-mjs",
+      "name": "File Scripts/Smartpolice Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "6-agent",
+      "name": "6 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "agent-army-report-support",
+      "name": "Agent Army Report Support",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-agent-army",
+      "name": "Command Npm Run Agent:Army",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartagent-army-report-mjs",
+      "name": "File Scripts/Smartagent Army Report.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "agent-builder-ranger",
+      "name": "Agent Builder Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-agent-make",
+      "name": "Command Npm Run Agent:Make",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartagent-builder-mjs",
+      "name": "File Scripts/Smartagent Builder.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-agent-list",
+      "name": "Command Npm Run Agent:List",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartagent-roster-mjs",
+      "name": "File Scripts/Smartagent Roster.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartautoforge-agent-mjs",
+      "name": "File Scripts/Smartautoforge Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-forge-agent",
+      "name": "Command Npm Run Forge:Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartforge-agent-mjs",
+      "name": "File Scripts/Smartforge Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-agent-trainer",
+      "name": "Command Npm Run Agent:Trainer",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smarttrainer-agent-mjs",
+      "name": "File Scripts/Smarttrainer Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "4-agent",
+      "name": "4 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "dev-guard-bg-guardian",
+      "name": "Dev Guard Bg Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartdev-guard-bg-mjs",
+      "name": "File Scripts/Smartdev Guard Bg.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "guard-security-guardian",
+      "name": "Guard Security Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartguard-security-agent-mjs",
+      "name": "File Scripts/Smartguard Security Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "mission-guard-guardian",
+      "name": "Mission Guard Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-mission-guard",
+      "name": "Command Npm Run Mission:Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartmission-guard-agent-mjs",
+      "name": "File Scripts/Smartmission Guard Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "patch-guard-guardian",
+      "name": "Patch Guard Guardian",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartpatch-guard",
+      "name": "Command Npm Run Smartpatch:Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartpatch-guard-mjs",
+      "name": "File Scripts/Smartpatch Guard.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "7-agent",
+      "name": "7 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartauth-agent-mjs",
+      "name": "File Scripts/Smartauth Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartdeploy-agent-mjs",
+      "name": "File Scripts/Smartdeploy Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartreset-agent-mjs",
+      "name": "File Scripts/Smartreset Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartroute-agent-mjs",
+      "name": "File Scripts/Smartroute Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "supabase-data-guard",
+      "name": "Supabase Data Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartsupabase-agent-mjs",
+      "name": "File Scripts/Smartsupabase Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-shot-preset-gatekeeper",
+      "name": "Ui Shot Preset Gatekeeper",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartui-shot",
+      "name": "Command Npm Run Smartui:Shot",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-shot-preset-mjs",
+      "name": "File Scripts/Smartui Shot Preset.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartvercel-agent-mjs",
+      "name": "File Scripts/Smartvercel Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "8-agent",
+      "name": "8 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "paste-ui-ranger",
+      "name": "Paste Ui Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartpaste-ui",
+      "name": "Command Npm Run Smartpaste:Ui",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartpaste-ui-agent-mjs",
+      "name": "File Scripts/Smartpaste Ui Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-audit-ranger",
+      "name": "Ui Audit Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartui-audit",
+      "name": "Command Npm Run Smartui:Audit",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-audit-mjs",
+      "name": "File Scripts/Smartui Audit.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-control-ranger",
+      "name": "Ui Control Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-control-mjs",
+      "name": "File Scripts/Smartui Control.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-designer-ranger",
+      "name": "Ui Designer Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-designer-mjs",
+      "name": "File Scripts/Smartui Designer.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-fast-ranger",
+      "name": "Ui Fast Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartui-fast",
+      "name": "Command Npm Run Smartui:Fast",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-fast-agent-mjs",
+      "name": "File Scripts/Smartui Fast Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-register-judge-ranger",
+      "name": "Ui Register Judge Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartui-register-judge",
+      "name": "Command Npm Run Smartui:Register Judge",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-register-judge-mjs",
+      "name": "File Scripts/Smartui Register Judge.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-screenshot-ranger",
+      "name": "Ui Screenshot Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-screenshot-mjs",
+      "name": "File Scripts/Smartui Screenshot.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "ui-webcheck-ranger",
+      "name": "Ui Webcheck Ranger",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-smartui-webcheck",
+      "name": "Command Npm Run Smartui:Webcheck",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartui-webcheck-mjs",
+      "name": "File Scripts/Smartui Webcheck.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "1-agent",
+      "name": "1 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "support-squad-agent-pendukung-workflow-smartlearn",
+      "name": "Support Squad Agent Pendukung Workflow SmartLearn.",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "9-agent",
+      "name": "9 Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartclip-agent-mjs",
+      "name": "File Scripts/Smartclip Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "diagnose-file-analyst",
+      "name": "Diagnose File Analyst",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mencari root cause dari log, report, screenshot, dan git diff.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "root_cause_analysis"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "command-npm-run-diagnose-file",
+      "name": "Command Npm Run Diagnose:File",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mencari root cause dari log, report, screenshot, dan git diff.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "root_cause_analysis"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.898Z",
+      "updatedAt": "2026-06-12T01:26:29.898Z"
+    },
+    {
+      "id": "file-scripts-smartdiagnose-file-agent-mjs",
+      "name": "File Scripts/Smartdiagnose File Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mencari root cause dari log, report, screenshot, dan git diff.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "root_cause_analysis"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "feature-commander-support",
+      "name": "Feature Commander Support",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mengubah ide fitur menjadi requirement, patch plan, test, dan done criteria.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "feature_requirement_builder"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "command-npm-run-feature-plan",
+      "name": "Command Npm Run Feature:Plan",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mengubah ide fitur menjadi requirement, patch plan, test, dan done criteria.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "feature_requirement_builder"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "file-scripts-smartfeature-commander-agent-mjs",
+      "name": "File Scripts/Smartfeature Commander Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mengubah ide fitur menjadi requirement, patch plan, test, dan done criteria.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "feature_requirement_builder"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "mission-runner-support",
+      "name": "Mission Runner Support",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjalankan safe checks dan membuat report eksekusi.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_safe_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "file-scripts-smartmission-runner-agent-mjs",
+      "name": "File Scripts/Smartmission Runner Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjalankan safe checks dan membuat report eksekusi.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_safe_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "command-npm-run-agent-smartpaste-auto",
+      "name": "Command Npm Run Agent:Smartpaste Auto",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "file-scripts-smartpaste-auto-agent-mjs",
+      "name": "File Scripts/Smartpaste Auto Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "file-scripts-smartpaste-replace-agent-mjs",
+      "name": "File Scripts/Smartpaste Replace Agent.Mjs",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "quick-commands",
+      "name": "Quick Commands",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "agent-army-report",
+      "name": "Agent Army Report",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjadi visual agent dalam SmartLearn Agent Army dan menerima kemampuan evolution dari terminal bridge.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "agent-builder",
+      "name": "Agent Builder",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "dev-brain",
+      "name": "Dev Brain",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Membaca checkpoint, memory, report, screenshot, dan status repo.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "read_checkpoint_memory"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "diagnose-file",
+      "name": "Diagnose File",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mencari root cause dari log, report, screenshot, dan git diff.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "root_cause_analysis"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "doctor",
+      "name": "Doctor",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Audit kesehatan project, guard, dan report sebelum patch.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_doctor_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "feature-commander",
+      "name": "Feature Commander",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Mengubah ide fitur menjadi requirement, patch plan, test, dan done criteria.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "feature_requirement_builder"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "guard-security",
+      "name": "Guard Security",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "mission-guard",
+      "name": "Mission Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "mission-runner",
+      "name": "Mission Runner",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjalankan safe checks dan membuat report eksekusi.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "run_safe_checks"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "paste-ui",
+      "name": "Paste Ui",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "patch-guard",
+      "name": "Patch Guard",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Menjaga safety, no secret, no real save/send/delete, dan anti-loop.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "safety_gate_before_patch"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "ui-audit",
+      "name": "Ui Audit",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "ui-fast",
+      "name": "Ui Fast",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "ui-register-judge",
+      "name": "Ui Register Judge",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "ui-shot-preset",
+      "name": "Ui Shot Preset",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "ui-webcheck",
+      "name": "Ui Webcheck",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.0",
+      "mission": "Diagnosis UI presisi dari DOM, computed CSS, screenshot, baseline, lalu patch kecil.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "diagnose_dom_computed_css"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:29.899Z"
+    },
+    {
+      "id": "army-evolution-agent",
+      "name": "Army Evolution Agent",
+      "type": "smartlearn-visual-agent",
+      "status": "imported",
+      "version": "0.1.3",
+      "mission": "Mengembangkan kemampuan agent lain melalui capability, lesson, prompt contract, dan guard.",
+      "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
+      "sourceImage": "",
+      "capabilities": [
+        "visual_roster_identity",
+        "read_repo_context",
+        "produce_mission_prompt",
+        "write_report",
+        "receive_evolution_capability",
+        "create_and_upgrade_visual_agents_from_html_roster",
+        "sync_smartlearn_army_with_smartwork_smartdev_team",
+        "generate_agent_factory_mission_prompt"
+      ],
+      "guards": [
+        "no_secret_leak",
+        "no_real_save_send_delete_without_permission",
+        "backup_before_patch",
+        "report_after_run",
+        "do_not_start_from_zero"
+      ],
+      "promptContract": [
+        "Jangan mulai dari nol.",
+        "Baca checkpoint, report, screenshot, dan git status.",
+        "Diagnosis dulu sebelum patch.",
+        "Beri satu blok PowerShell siap tempel.",
+        "Jaga guard dan safety.",
+        "Akhiri dengan next step tunggal."
+      ],
+      "evolutionLog": [
+        {
+          "at": "2026-06-12T01:26:30.261Z",
+          "capability": "create_and_upgrade_visual_agents_from_html_roster",
+          "note": "create_and_upgrade_visual_agents_from_html_roster"
+        },
+        {
+          "at": "2026-06-12T01:26:30.573Z",
+          "capability": "sync_smartlearn_army_with_smartwork_smartdev_team",
+          "note": "sync_smartlearn_army_with_smartwork_smartdev_team"
+        },
+        {
+          "at": "2026-06-12T01:26:31.016Z",
+          "capability": "generate_agent_factory_mission_prompt",
+          "note": "generate_agent_factory_mission_prompt"
+        }
+      ],
+      "importedAt": "2026-06-12T01:26:29.899Z",
+      "updatedAt": "2026-06-12T01:26:31.016Z"
+    }
+  ]
+}

@@ -130,7 +130,11 @@
                     "smartprompt":  "node scripts/smartprompt-agent.mjs",
                     "smartteam":  "node scripts/smartdev-team-agent.mjs",
                     "smartteam:watch":  "powershell -ExecutionPolicy Bypass -File scripts/smartdev-team-watch.ps1",
-                    "smartdev:auto":  "node scripts/smartdev-auto-runner.mjs"
+                    "smartdev:auto":  "node scripts/smartdev-auto-runner.mjs",
+                    "smartagent:patch-login-ui":  "node scripts/smartwork-login-ui-patch.mjs",
+                    "smartagent:patch-login-ui-v2":  "node scripts/smartwork-login-ui-patch-v2.mjs",
+                    "smartarmy":  "node scripts/smartarmy-bridge.mjs",
+                    "smartarmy:doctor":  "node scripts/smartarmy-bridge.mjs doctor"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",
