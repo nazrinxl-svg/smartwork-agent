@@ -1,0 +1,257 @@
+{
+  "ok": true,
+  "phase": "5W",
+  "releaseDecision": "APP_RUNTIME_SUBMIT_TO_DEWAVPS_QUEUE_AND_PROGRESS_STATUS_SAFE_PROXY_PROOF",
+  "apiBase": "http://103.152.242.193:3107",
+  "runtimeTransport": {
+    "browserDirectToVps": {
+      "ok": false,
+      "corsDirectWorks": false,
+      "error": "Failed to fetch"
+    },
+    "usedSameOriginProofProxy": true,
+    "proxyBase": "http://127.0.0.1:5197/__smartwork_vps_proxy",
+    "note": "Direct browser fetch is expected to fail until Phase 5X enables production CORS/HTTPS. This proof still submits from app runtime through same-origin proxy to VPS API."
+  },
+  "patched": {
+    "progress": "public/progress.html"
+  },
+  "runtime": {
+    "appUrl": "http://127.0.0.1:5197/request.html",
+    "progressUrl": "http://127.0.0.1:5197/progress.html",
+    "appBrowserOnly": true,
+    "noSiagaBrowserAutomation": true,
+    "submitProof": {
+      "ok": true,
+      "phase": "5V",
+      "apiBase": "http://127.0.0.1:5197/__smartwork_vps_proxy",
+      "jobId": "phase5v-app-dry-run-1781248582049",
+      "submit": {
+        "ok": true,
+        "path": "/api/smartwork/jobs",
+        "status": 201,
+        "json": {
+          "ok": true,
+          "status": 201,
+          "jobId": "phase5v-app-dry-run-1781248582049",
+          "statusText": "pending",
+          "job": {
+            "id": "phase5v-app-dry-run-1781248582049",
+            "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+            "source": "smartwork-app-request-form",
+            "module": "siaga",
+            "mode": "dry-run",
+            "status": "pending",
+            "accountRef": "guru-001",
+            "credentialRef": "guru-001",
+            "requester": {
+              "name": "",
+              "email": "",
+              "whatsapp": ""
+            },
+            "requestRange": {
+              "startDate": "2026-06-12",
+              "endDate": "2026-06-12"
+            },
+            "delivery": {
+              "mode": "app_download_only"
+            },
+            "request": {
+              "requestType": "bulk-monthly",
+              "notes": "",
+              "holidays": [],
+              "redacted": true
+            },
+            "safety": {
+              "dryRun": true,
+              "noRealSave": true,
+              "noRealSend": true,
+              "noSiagaInput": true,
+              "noBrowserOpen": true,
+              "rawPasswordStored": false
+            },
+            "progress": {
+              "percent": 0,
+              "stage": "queued",
+              "message": "Job diterima backend queue. Menunggu worker dry-run."
+            },
+            "createdAt": "2026-06-12T07:16:21.737Z",
+            "updatedAt": "2026-06-12T07:16:21.737Z"
+          },
+          "path": "data/production-queue/pending/phase5v-app-dry-run-1781248582049.json",
+          "validation": {
+            "ok": true,
+            "errors": []
+          }
+        },
+        "text": "{\n  \"ok\": true,\n  \"status\": 201,\n  \"jobId\": \"phase5v-app-dry-run-1781248582049\",\n  \"statusText\": \"pending\",\n  \"job\": {\n    \"id\": \"phase5v-app-dry-run-1781248582049\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-app-request-form\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"pending\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-12\",\n      \"endDate\": \"2026-06-12\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 0,\n      \"stage\": \"queued\",\n      \"message\": \"Job diterima backend queue. Menunggu worker dry-run.\"\n    },\n    \"createdAt\": \"2026-06-12T07:16:21.737Z\",\n    \"updatedAt\": \"2026-06-12T07:16:21.737Z\"\n  },\n  \"path\": \"data/production-queue/pending/phase5v-app-dry-run-1781248582049.json\",\n  \"validation\": {\n    \"ok\": true,\n    \"errors\": []\n  }\n}"
+      },
+      "healthBefore": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 1,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "submittedAt": "2026-06-12T07:16:22.205Z",
+      "safety": {
+        "dryRun": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "noRealSave": true,
+        "noRealSend": true
+      }
+    },
+    "progressProof": {
+      "ok": true,
+      "phase": "5W",
+      "apiBase": "http://127.0.0.1:5197/__smartwork_vps_proxy",
+      "jobId": "phase5v-app-dry-run-1781248582049",
+      "status": "completed",
+      "stage": "completed",
+      "percent": 100,
+      "message": "Production worker dry-run lifecycle completed. App progress only.",
+      "safety": {
+        "noSiagaInput": true,
+        "noBrowserOpen": true
+      },
+      "readAt": "2026-06-12T07:16:31.345Z"
+    }
+  },
+  "jobStatus": {
+    "ok": true,
+    "id": "phase5v-app-dry-run-1781248582049",
+    "status": "completed",
+    "path": "data/production-queue/completed/phase5v-app-dry-run-1781248582049.json",
+    "job": {
+      "id": "phase5v-app-dry-run-1781248582049",
+      "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+      "source": "smartwork-app-request-form",
+      "module": "siaga",
+      "mode": "dry-run",
+      "status": "completed",
+      "accountRef": "guru-001",
+      "credentialRef": "guru-001",
+      "requester": {
+        "name": "",
+        "email": "",
+        "whatsapp": ""
+      },
+      "requestRange": {
+        "startDate": "2026-06-12",
+        "endDate": "2026-06-12"
+      },
+      "delivery": {
+        "mode": "app_download_only"
+      },
+      "request": {
+        "requestType": "bulk-monthly",
+        "notes": "",
+        "holidays": [],
+        "redacted": true
+      },
+      "safety": {
+        "dryRun": true,
+        "noRealSave": true,
+        "noRealSend": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "rawPasswordStored": false
+      },
+      "progress": {
+        "percent": 100,
+        "stage": "completed",
+        "message": "Production worker dry-run lifecycle completed. App progress only."
+      },
+      "createdAt": "2026-06-12T07:16:21.737Z",
+      "updatedAt": "2026-06-12T07:16:21.900Z",
+      "phase": "completed",
+      "state": "completed",
+      "startedAt": "2026-06-12T07:16:21.899Z",
+      "percent": 100,
+      "progressPercent": 100,
+      "percentage": 100,
+      "summary": {
+        "total": 1,
+        "completed": 1,
+        "alreadyFilled": 1,
+        "skipped": 0,
+        "needsPlan": 0,
+        "percent": 100
+      },
+      "artifacts": {
+        "pdfReady": true,
+        "proofReady": true,
+        "appOnly": true
+      },
+      "completedAt": "2026-06-12T07:16:21.900Z"
+    },
+    "safety": {
+      "noSiagaInput": true,
+      "noBrowserOpen": true
+    }
+  },
+  "statusSummary": {
+    "jobId": "phase5v-app-dry-run-1781248582049",
+    "status": "completed",
+    "percent": 100,
+    "queueCountsBefore": {
+      "pending": 0,
+      "running": 0,
+      "completed": 1,
+      "failed": 0
+    },
+    "queueCountsAfter": {
+      "pending": 0,
+      "running": 0,
+      "completed": 2,
+      "failed": 0
+    }
+  },
+  "safetyConfirmed": {
+    "before": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    },
+    "after": {
+      "dryRun": true,
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true
+    },
+    "noSiagaInput": true,
+    "noWorkerBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  },
+  "screenshots": {
+    "request": "shots/smartwork-phase5w-runtime-request.png",
+    "progress": "shots/smartwork-phase5w-runtime-progress.png"
+  },
+  "proofFiles": {
+    "report": "reports/smartwork-phase5w-app-runtime-vps-proof-report.json",
+    "checkpoint": "docs/checkpoints/smartwork-phase5w-app-runtime-vps-proof-report.json"
+  },
+  "nextPhase": "Phase 5X: enable production CORS/HTTPS or serve app same-origin with VPS API for real HP submit.",
+  "createdAt": "2026-06-12T07:16:32.295Z"
+}

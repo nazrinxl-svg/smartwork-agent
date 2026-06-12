@@ -2321,6 +2321,91 @@
 })();
 </script>
 
+<!-- SMARTWORK_PHASE5W_PROGRESS_VPS_STATUS_BRIDGE_START -->
+<script id="smartwork-phase5w-progress-vps-status-bridge">
+(() => {
+  const PHASE = "5W";
+  const DEFAULT_API_BASE = "http://103.152.242.193:3107";
+  const API_BASE = (localStorage.getItem("smartwork_vps_api_base") || DEFAULT_API_BASE).replace(/\/+$/, "");
+  localStorage.setItem("smartwork_vps_api_base", API_BASE);
+
+  function getJobId() {
+    const direct = localStorage.getItem("smartwork_active_job_id");
+    if (direct) return direct;
+    try {
+      return JSON.parse(localStorage.getItem("smartwork_vps_last_submit") || "{}").jobId || "";
+    } catch {
+      return "";
+    }
+  }
+
+  function box() {
+    let el = document.getElementById("smartwork-phase5w-vps-progress");
+    if (!el) {
+      el = document.createElement("section");
+      el.id = "smartwork-phase5w-vps-progress";
+      el.style.cssText = "margin:12px;padding:12px;border:1px solid #dbeafe;background:#eff6ff;border-radius:16px;color:#1e3a8a;font:12px/1.45 system-ui;";
+      el.innerHTML = "<div style='font-weight:700;margin-bottom:4px'>VPS Queue Status</div><div data-smartwork-vps-text>Menunggu job VPS...</div>";
+      (document.querySelector("main,.container,.app") || document.body).appendChild(el);
+    }
+    return el;
+  }
+
+  function render(message, ok = true) {
+    const el = box();
+    const text = el.querySelector("[data-smartwork-vps-text]") || el;
+    text.textContent = message;
+    el.dataset.ok = ok ? "true" : "false";
+  }
+
+  async function readStatus() {
+    const jobId = getJobId();
+    if (!jobId) {
+      render("Belum ada job VPS aktif dari request app.", false);
+      return null;
+    }
+
+    const res = await fetch(API_BASE + "/api/smartwork/jobs/" + encodeURIComponent(jobId), {
+      method: "GET",
+      mode: "cors"
+    });
+
+    const json = await res.json();
+    const job = json.job || json;
+    const percent = job.progress?.percent ?? job.percent ?? job.progressPercent ?? job.percentage ?? 0;
+    const status = json.status || job.status || job.state || "unknown";
+    const stage = job.progress?.stage || job.phase || status;
+    const message = job.progress?.message || "Status job VPS terbaca dari app.";
+
+    const proof = {
+      ok: Boolean(json.ok),
+      phase: PHASE,
+      apiBase: API_BASE,
+      jobId,
+      status,
+      stage,
+      percent,
+      message,
+      safety: json.safety || job.safety || {},
+      readAt: new Date().toISOString()
+    };
+
+    localStorage.setItem("smartwork_vps_last_status", JSON.stringify(proof));
+    render("Job " + jobId + " — " + status + " — " + percent + "% — " + message, Boolean(json.ok));
+    window.dispatchEvent(new CustomEvent("smartwork:vps-status-ok", { detail: proof }));
+    return proof;
+  }
+
+  window.SmartWorkVpsProgress = { base: API_BASE, readStatus };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    render("Membaca status VPS queue...");
+    readStatus().catch((err) => render("Gagal membaca VPS status: " + err.message, false));
+    setInterval(() => readStatus().catch((err) => render("Gagal membaca VPS status: " + err.message, false)), 5000);
+  });
+})();
+</script>
+<!-- SMARTWORK_PHASE5W_PROGRESS_VPS_STATUS_BRIDGE_END -->
 </body>
 </html>
 
