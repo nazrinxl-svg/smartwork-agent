@@ -143,7 +143,10 @@
     "smartwork:dewavps:report": "node scripts/smartwork-dewavps-report.mjs",
     "smartwork:prod-worker:dry-run": "node scripts/smartwork-production-worker.mjs --dry-run",
     "smartwork:dewavps:phase5s:preflight": "node scripts/smartwork-dewavps-phase5s-preflight.mjs",
-    "smartwork:dewavps:phase5s:report": "node scripts/smartwork-dewavps-phase5s-report.mjs"
+    "smartwork:dewavps:phase5s:report": "node scripts/smartwork-dewavps-phase5s-report.mjs",
+    "smartwork:prod-worker:daemon:dry-run": "node scripts/smartwork-production-worker-daemon.mjs",
+    "smartwork:dewavps:phase5u:preflight": "node scripts/smartwork-dewavps-phase5u-preflight.mjs",
+    "smartwork:dewavps:phase5u:report": "node scripts/smartwork-dewavps-phase5u-report.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

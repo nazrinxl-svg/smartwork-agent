@@ -64,6 +64,21 @@ npm run smartwork:dewavps:preflight
 npm run brain:smartwork-guard
 npm run doctor
 
+
+echo "=== Runtime dirs + permissions before services ==="
+mkdir -p \
+  data/production-queue/pending \
+  data/production-queue/running \
+  data/production-queue/completed \
+  data/production-queue/failed \
+  data/jobs \
+  intake/requests \
+  reports \
+  reports/downloads \
+  reports/proof
+
+chown -R "$APP_USER:$APP_USER" "$APP_DIR"
+
 echo "=== Install systemd services ==="
 cp deploy/dewavps/smartwork-control-server.service /etc/systemd/system/smartwork-control-server.service
 cp deploy/dewavps/smartwork-production-worker.service /etc/systemd/system/smartwork-production-worker.service

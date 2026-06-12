@@ -1,5 +1,6 @@
+
 [Unit]
-Description=SmartWork Production Worker
+Description=SmartWork Production Worker Daemon
 After=network.target smartwork-control-server.service
 Requires=smartwork-control-server.service
 
@@ -7,7 +8,7 @@ Requires=smartwork-control-server.service
 Type=simple
 WorkingDirectory=/opt/smartwork-agent
 EnvironmentFile=/opt/smartwork-agent/.env.production
-ExecStart=/usr/bin/node scripts/smartwork-production-worker.mjs
+ExecStart=/usr/bin/node scripts/smartwork-production-worker-daemon.mjs
 Restart=always
 RestartSec=5
 User=smartwork
