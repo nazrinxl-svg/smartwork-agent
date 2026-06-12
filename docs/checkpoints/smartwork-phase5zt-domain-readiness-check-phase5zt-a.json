@@ -1,0 +1,322 @@
+{
+  "ok": true,
+  "phase": "5ZT-A",
+  "createdAt": "2026-06-12T10:50:10.332Z",
+  "releaseDecision": "DOMAIN_DNS_NOT_READY_PHASE5ZT_A",
+  "domains": {
+    "root": "smartwork-agent.id",
+    "www": "www.smartwork-agent.id",
+    "api": "api.smartwork-agent.id",
+    "expectedVpsIp": "103.152.242.193"
+  },
+  "git": {
+    "branch": "test/ui-request-next-20260611-004522",
+    "head": "458aba2",
+    "latestCommit": "458aba2 Add SmartWork staging readiness rollup",
+    "statusShort": "?? scripts/smartwork-phase5zt-domain-readiness-check.mjs"
+  },
+  "priorCheckpoint": {
+    "phase5zsOk": true,
+    "releaseDecision": "STAGING_PRE_DOMAIN_READY_FOR_DOMAIN_DNS_HTTPS_PHASE5ZS"
+  },
+  "readiness": {
+    "dnsReady": false,
+    "ipStagingReady": true,
+    "httpDomainReady": false,
+    "httpsDomainReady": false
+  },
+  "checks": {
+    "dnsChecks": [
+      {
+        "name": "smartwork-agent.id",
+        "ok": false,
+        "addresses": [],
+        "pointsToVps": false,
+        "error": "ECONNREFUSED"
+      },
+      {
+        "name": "www.smartwork-agent.id",
+        "ok": false,
+        "addresses": [],
+        "pointsToVps": false,
+        "error": "ECONNREFUSED"
+      },
+      {
+        "name": "api.smartwork-agent.id",
+        "ok": false,
+        "addresses": [],
+        "pointsToVps": false,
+        "error": "ECONNREFUSED"
+      }
+    ],
+    "ipStagingChecks": [
+      {
+        "name": "ipAppHome",
+        "url": "http://103.152.242.193:3108/home.html",
+        "ok": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "durationMs": 1333,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "text/html",
+            "actual": "text/html; charset=utf-8",
+            "ok": true
+          }
+        ],
+        "json": null,
+        "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com"
+      },
+      {
+        "name": "ipSameOriginHealth",
+        "url": "http://103.152.242.193:3108/api/smartwork/jobs/health",
+        "ok": true,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8",
+        "durationMs": 125,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "application/json",
+            "actual": "application/json; charset=utf-8",
+            "ok": true
+          },
+          {
+            "name": "parseJson",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          },
+          {
+            "name": "jsonOk",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          }
+        ],
+        "json": {
+          "ok": true,
+          "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+          "queue": {
+            "pending": "data/production-queue/pending",
+            "running": "data/production-queue/running",
+            "completed": "data/production-queue/completed",
+            "failed": "data/production-queue/failed"
+          },
+          "counts": {
+            "pending": 0,
+            "running": 0,
+            "completed": 10,
+            "failed": 0
+          },
+          "safety": {
+            "dryRun": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "noRealSave": true,
+            "noRealSend": true
+          }
+        },
+        "bodySample": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\""
+      },
+      {
+        "name": "directApiHealth",
+        "url": "http://103.152.242.193:3107/api/smartwork/jobs/health",
+        "ok": true,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8",
+        "durationMs": 1110,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "application/json",
+            "actual": "application/json; charset=utf-8",
+            "ok": true
+          },
+          {
+            "name": "parseJson",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          },
+          {
+            "name": "jsonOk",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          }
+        ],
+        "json": {
+          "ok": true,
+          "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+          "queue": {
+            "pending": "data/production-queue/pending",
+            "running": "data/production-queue/running",
+            "completed": "data/production-queue/completed",
+            "failed": "data/production-queue/failed"
+          },
+          "counts": {
+            "pending": 0,
+            "running": 0,
+            "completed": 10,
+            "failed": 0
+          },
+          "safety": {
+            "dryRun": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "noRealSave": true,
+            "noRealSend": true
+          }
+        },
+        "bodySample": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\""
+      }
+    ],
+    "domainHttpChecks": [
+      {
+        "name": "rootHttpHome",
+        "url": "http://smartwork-agent.id/home.html",
+        "ok": false,
+        "durationMs": 35,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      },
+      {
+        "name": "rootHttpApiHealth",
+        "url": "http://smartwork-agent.id/api/smartwork/jobs/health",
+        "ok": false,
+        "durationMs": 2,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      },
+      {
+        "name": "apiHttpHealth",
+        "url": "http://api.smartwork-agent.id/api/smartwork/jobs/health",
+        "ok": false,
+        "durationMs": 15,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      }
+    ],
+    "domainHttpsChecks": [
+      {
+        "name": "rootHttpsHome",
+        "url": "https://smartwork-agent.id/home.html",
+        "ok": false,
+        "durationMs": 22,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      },
+      {
+        "name": "rootHttpsApiHealth",
+        "url": "https://smartwork-agent.id/api/smartwork/jobs/health",
+        "ok": false,
+        "durationMs": 4,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      },
+      {
+        "name": "apiHttpsHealth",
+        "url": "https://api.smartwork-agent.id/api/smartwork/jobs/health",
+        "ok": false,
+        "durationMs": 3,
+        "error": "fetch failed",
+        "checks": [
+          {
+            "name": "fetch",
+            "ok": false,
+            "error": "fetch failed"
+          }
+        ]
+      }
+    ]
+  },
+  "safety": {
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noAabBuild": true,
+    "noPlayStoreUpload": true,
+    "readOnlyDnsHttpHttpsProbeOnly": true
+  },
+  "dnsRecordsNeeded": [
+    {
+      "type": "A",
+      "host": "@",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    },
+    {
+      "type": "A",
+      "host": "www",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    },
+    {
+      "type": "A",
+      "host": "api",
+      "value": "103.152.242.193",
+      "ttl": "Auto / 300"
+    }
+  ],
+  "hardStopsStillActive": {
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noAabBuild": true,
+    "noPlayStoreUpload": true,
+    "noTwaUntilHttpsDomainAndAssetlinksFingerprintLive": true
+  },
+  "nextSafePhase": "Set DNS A records first: @, www, and api to VPS IP."
+}
