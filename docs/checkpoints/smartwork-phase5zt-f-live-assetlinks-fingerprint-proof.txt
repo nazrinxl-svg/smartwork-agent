@@ -1,0 +1,100 @@
+﻿PHASE 5ZT-F LIVE ASSETLINKS FINGERPRINT PROOF
+Date: 2026-06-12T23:06:11.5024705+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: e52a601
+
+Release Decision:
+LIVE_ASSETLINKS_RELEASE_FINGERPRINT_DEPLOYED_PHASE5ZT_F
+
+Domain:
+https://smartwork-agent.id/.well-known/assetlinks.json
+
+Package:
+id.smartwork.agent
+
+SHA256 fingerprint:
+CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8
+
+Result:
+fingerprintLive: True
+placeholderLive: False
+packageOk: True
+
+VPS deployment:
+Updated /opt/smartwork-agent/.well-known/assetlinks.json
+Updated /opt/smartwork-agent/public/.well-known/assetlinks.json
+Nginx config OK and reloaded.
+
+Safety:
+No SIAGA input.
+No browser automation.
+No real save/send.
+No AAB build.
+No TWA build.
+No Play Store upload.
+Live assetlinks deployment only.
+
+Live assetlinks:
+{
+    "relation":  [
+                     "delegate_permission/common.handle_all_urls"
+                 ],
+    "target":  {
+                   "namespace":  "android_app",
+                   "package_name":  "id.smartwork.agent",
+                   "sha256_cert_fingerprints":  [
+                                                    "CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8"
+                                                ]
+               }
+}
+
+--- BEGIN VPS LOG ---
+=== PHASE 5ZT-F LIVE ASSETLINKS DEPLOY ===
+Date: 2026-06-12T16:03:12+00:00
+Safety: no SIAGA input, no browser automation, no real save/send, no AAB/TWA/Play Store
+
+=== 1) VALIDATE UPLOADED ASSETLINKS ===
+jsonOk:true
+        "CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8"
+
+=== 2) FIND STATIC SERVER + CANDIDATE ASSETLINKS PATHS ===
+smartwo+     524  0.0  2.5 1025624 50896 ?       Ssl  08:14   0:00 /usr/bin/node app/smartwork-control-server.mjs
+root       86297  0.0  3.4 11519036 69804 ?      Ssl  10:26   0:01 node /opt/smartwork-agent/deploy/phase5zo/smartwork-static-staging-server.mjs
+root      283503  0.0  0.1  66188  2472 ?        Ss   15:39   0:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data  283507  0.0  0.5  67872 11144 ?        S    15:39   0:00 nginx: worker process
+STATIC_PID=86297
+STATIC_CWD=/opt/smartwork-agent
+
+Candidate files:
+/opt/smartwork-agent/.well-known/assetlinks.json
+/opt/smartwork-agent/public/.well-known/assetlinks.json
+
+=== 3) COPY UPDATED ASSETLINKS TO CANDIDATES ===
+updated: /opt/smartwork-agent/.well-known/assetlinks.json
+updated: /opt/smartwork-agent/public/.well-known/assetlinks.json
+
+=== 4) RELOAD NGINX ===
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+=== 5) VERIFY LIVE HTTPS ASSETLINKS ===
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "id.smartwork.agent",
+      "sha256_cert_fingerprints": [
+        "CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8"
+      ]
+    }
+  }
+]
+
+=== 6) FINAL ASSERT ===
+fingerprintLive:true
+placeholderLive:false
+
+PHASE_5ZT_F_LIVE_ASSETLINKS_FINGERPRINT_DEPLOYED
+
+--- END VPS LOG ---
