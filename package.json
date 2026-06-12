@@ -141,7 +141,9 @@
     "smartarmy:ui-check": "node scripts/smartarmy-ui-isolation-check.mjs",
     "smartwork:dewavps:preflight": "node scripts/smartwork-dewavps-preflight.mjs",
     "smartwork:dewavps:report": "node scripts/smartwork-dewavps-report.mjs",
-    "smartwork:prod-worker:dry-run": "node scripts/smartwork-production-worker.mjs --dry-run"
+    "smartwork:prod-worker:dry-run": "node scripts/smartwork-production-worker.mjs --dry-run",
+    "smartwork:dewavps:phase5s:preflight": "node scripts/smartwork-dewavps-phase5s-preflight.mjs",
+    "smartwork:dewavps:phase5s:report": "node scripts/smartwork-dewavps-phase5s-report.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
