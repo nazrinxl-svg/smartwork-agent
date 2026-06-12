@@ -1,0 +1,25 @@
+{
+    "phase":  "5ZJ",
+    "name":  "SmartWork TWA Init Preflight",
+    "packageName":  "id.smartwork.agent",
+    "appName":  "SmartWork Agent",
+    "manifestUrl":  "https://smartwork-agent.id/manifest.webmanifest",
+    "startUrl":  "https://smartwork-agent.id/home.html",
+    "apiUrl":  "https://api.smartwork-agent.id",
+    "localManifest":  "public/manifest.webmanifest",
+    "realBuildAllowed":  false,
+    "reasonRealBuildBlocked":  "Real HTTPS domain is not confirmed live in this local preflight.",
+    "commands":  [
+                     "npm install -g @bubblewrap/cli",
+                     "bubblewrap init --manifest https://smartwork-agent.id/manifest.webmanifest",
+                     "bubblewrap build"
+                 ],
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noPlayStoreUpload":  true,
+                   "noAabBuild":  true
+               }
+}

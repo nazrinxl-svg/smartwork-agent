@@ -1,0 +1,76 @@
+{
+    "ok":  true,
+    "phase":  "5ZJ",
+    "releaseDecision":  "TWA_INIT_PREFLIGHT_READY_REAL_BUILD_BLOCKED_UNTIL_HTTPS_DOMAIN_LIVE",
+    "importantNote":  "Preflight is ready. Real bubblewrap init/build waits for live HTTPS web/API domains and assetlinks.",
+    "config":  {
+                   "phase":  "5ZJ",
+                   "name":  "SmartWork TWA Init Preflight",
+                   "packageName":  "id.smartwork.agent",
+                   "appName":  "SmartWork Agent",
+                   "manifestUrl":  "https://smartwork-agent.id/manifest.webmanifest",
+                   "startUrl":  "https://smartwork-agent.id/home.html",
+                   "apiUrl":  "https://api.smartwork-agent.id",
+                   "localManifest":  "public/manifest.webmanifest",
+                   "realBuildAllowed":  false,
+                   "reasonRealBuildBlocked":  "Real HTTPS domain is not confirmed live in this local preflight.",
+                   "commands":  [
+                                    "npm install -g @bubblewrap/cli",
+                                    "bubblewrap init --manifest https://smartwork-agent.id/manifest.webmanifest",
+                                    "bubblewrap build"
+                                ],
+                   "safety":  {
+                                  "noSiagaInput":  true,
+                                  "noBrowserOpen":  true,
+                                  "noRealSave":  true,
+                                  "noRealSend":  true,
+                                  "noPlayStoreUpload":  true,
+                                  "noAabBuild":  true
+                              }
+               },
+    "checks":  {
+                   "docsReady":  true,
+                   "configReady":  true,
+                   "commandsReady":  true,
+                   "pwaReady":  true,
+                   "apiReadinessReady":  true,
+                   "androidWrapperReady":  true,
+                   "aabPrepReady":  true,
+                   "buildEnvReadyForTwaInit":  true,
+                   "manifestStandalone":  true,
+                   "manifestStartUrlReady":  true,
+                   "javaReady":  true,
+                   "keytoolReady":  true,
+                   "bubblewrapReady":  true,
+                   "realBuildBlockedUntilDomainLive":  true,
+                   "safetyNoRealActions":  true
+               },
+    "toolChecks":  {
+                       "java":  {
+                                    "command":  "java",
+                                    "ok":  true,
+                                    "path":  "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot\\bin\\java.exe"
+                                },
+                       "keytool":  {
+                                       "command":  "keytool",
+                                       "ok":  true,
+                                       "path":  "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot\\bin\\keytool.exe"
+                                   },
+                       "adb":  {
+                                   "command":  "adb",
+                                   "ok":  true,
+                                   "path":  "C:\\Users\\Digitalisasi\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Google.PlatformTools_Microsoft.Winget.Source_8wekyb3d8bbwe\\platform-tools\\adb.exe"
+                               },
+                       "bubblewrap":  {
+                                          "command":  "bubblewrap",
+                                          "ok":  true,
+                                          "path":  "C:\\Users\\Digitalisasi\\AppData\\Roaming\\npm\\bubblewrap.ps1"
+                                      },
+                       "npm":  {
+                                   "command":  "npm",
+                                   "ok":  true,
+                                   "path":  "C:\\Program Files\\nodejs\\npm.ps1"
+                               }
+                   },
+    "createdAt":  "2026-06-12T09:51:10.8356860Z"
+}
