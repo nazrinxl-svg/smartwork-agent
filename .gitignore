@@ -54,3 +54,6 @@ scripts/smartwork-patch-*.mjs
 reports/*.log
 reports/*-report.json
 reports/*-decision.json
+# SmartLearn Army runtime request queue
+intake/army-requests/*.txt
+intake/army-requests/processed/*.txt
