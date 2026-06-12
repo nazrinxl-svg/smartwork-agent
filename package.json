@@ -134,7 +134,9 @@
                     "smartagent:patch-login-ui":  "node scripts/smartwork-login-ui-patch.mjs",
                     "smartagent:patch-login-ui-v2":  "node scripts/smartwork-login-ui-patch-v2.mjs",
                     "smartarmy":  "node scripts/smartarmy-bridge.mjs",
-                    "smartarmy:doctor":  "node scripts/smartarmy-bridge.mjs doctor"
+                    "smartarmy:doctor":  "node scripts/smartarmy-bridge.mjs doctor",
+                    "smartarmy:auto":  "node scripts/smartarmy-auto-loop.mjs",
+                    "smartarmy:auto:watch":  "powershell -ExecutionPolicy Bypass -File scripts/smartarmy-auto-watch.ps1"
                 },
     "dependencies":  {
                          "dotenv":  "^17.4.2",

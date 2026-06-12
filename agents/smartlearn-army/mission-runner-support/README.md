@@ -2,7 +2,7 @@
 
 ID: mission-runner-support
 Type: smartlearn-visual-agent
-Version: 0.1.0
+Version: 0.1.1
 
 ## Mission
 Menjalankan safe checks dan membuat report eksekusi.
@@ -14,6 +14,7 @@ Menjalankan safe checks dan membuat report eksekusi.
 - write_report
 - receive_evolution_capability
 - run_safe_checks
+- delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_pdf_plus_proof_no_real_
 
 ## Guards
 - no_secret_leak

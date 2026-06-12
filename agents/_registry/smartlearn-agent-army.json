@@ -4,7 +4,7 @@
   "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
   "companionHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army-evolution.html",
   "importedAt": "2026-06-12T01:26:29.899Z",
-  "updatedAt": "2026-06-12T01:26:31.018Z",
+  "updatedAt": "2026-06-12T02:37:32.782Z",
   "agents": [
     {
       "id": "smartlearn-agent-army",
@@ -2933,7 +2933,7 @@
       "name": "Mission Runner Support",
       "type": "smartlearn-visual-agent",
       "status": "imported",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "mission": "Menjalankan safe checks dan membuat report eksekusi.",
       "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
       "sourceImage": "",
@@ -2943,7 +2943,8 @@
         "produce_mission_prompt",
         "write_report",
         "receive_evolution_capability",
-        "run_safe_checks"
+        "run_safe_checks",
+        "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_pdf_plus_proof_no_real_"
       ],
       "guards": [
         "no_secret_leak",
@@ -2960,9 +2961,17 @@
         "Jaga guard dan safety.",
         "Akhiri dengan next step tunggal."
       ],
-      "evolutionLog": [],
+      "evolutionLog": [
+        {
+          "at": "2026-06-12T02:37:32.766Z",
+          "capability": "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_pdf_plus_proof_no_real_",
+          "note": "Buat agent baru untuk WhatsApp delivery preview PDF plus proof, no real send, pilih agent yang cocok, evolve capability kalau perlu, lalu jalankan safe checks.",
+          "mode": "delivery",
+          "source": "smartarmy-auto-loop"
+        }
+      ],
       "importedAt": "2026-06-12T01:26:29.899Z",
-      "updatedAt": "2026-06-12T01:26:29.899Z"
+      "updatedAt": "2026-06-12T02:37:32.766Z"
     },
     {
       "id": "file-scripts-smartmission-runner-agent-mjs",
