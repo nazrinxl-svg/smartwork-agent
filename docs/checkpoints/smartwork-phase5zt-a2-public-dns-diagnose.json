@@ -1,0 +1,126 @@
+﻿{
+    "phase":  "5ZT-A2",
+    "createdAt":  "2026-06-12T17:53:58.5103254+07:00",
+    "expectedVpsIp":  "103.152.242.193",
+    "rows":  [
+                 {
+                     "domain":  "smartwork-agent.id",
+                     "resolver":  "Cloudflare",
+                     "server":  "1.1.1.1",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "smartwork-agent.id",
+                     "resolver":  "Google",
+                     "server":  "8.8.8.8",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "smartwork-agent.id",
+                     "resolver":  "Quad9",
+                     "server":  "9.9.9.9",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "www.smartwork-agent.id",
+                     "resolver":  "Cloudflare",
+                     "server":  "1.1.1.1",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "www.smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "www.smartwork-agent.id",
+                     "resolver":  "Google",
+                     "server":  "8.8.8.8",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "www.smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "www.smartwork-agent.id",
+                     "resolver":  "Quad9",
+                     "server":  "9.9.9.9",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "www.smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "api.smartwork-agent.id",
+                     "resolver":  "Cloudflare",
+                     "server":  "1.1.1.1",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "api.smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "api.smartwork-agent.id",
+                     "resolver":  "Google",
+                     "server":  "8.8.8.8",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "api.smartwork-agent.id : DNS name does not exist"
+                 },
+                 {
+                     "domain":  "api.smartwork-agent.id",
+                     "resolver":  "Quad9",
+                     "server":  "9.9.9.9",
+                     "ok":  false,
+                     "ip":  null,
+                     "pointsToVps":  false,
+                     "error":  "api.smartwork-agent.id : DNS name does not exist"
+                 }
+             ],
+    "perDomain":  {
+                      "smartwork-agent.id":  {
+                                                 "anyOk":  false,
+                                                 "anyPointsToVps":  false,
+                                                 "allSuccessfulResolversPointToVps":  true,
+                                                 "ips":  [
+
+                                                         ],
+                                                 "errors":  [
+                                                                "smartwork-agent.id : DNS name does not exist"
+                                                            ]
+                                             },
+                      "www.smartwork-agent.id":  {
+                                                     "anyOk":  false,
+                                                     "anyPointsToVps":  false,
+                                                     "allSuccessfulResolversPointToVps":  true,
+                                                     "ips":  [
+
+                                                             ],
+                                                     "errors":  [
+                                                                    "www.smartwork-agent.id : DNS name does not exist"
+                                                                ]
+                                                 },
+                      "api.smartwork-agent.id":  {
+                                                     "anyOk":  false,
+                                                     "anyPointsToVps":  false,
+                                                     "allSuccessfulResolversPointToVps":  true,
+                                                     "ips":  [
+
+                                                             ],
+                                                     "errors":  [
+                                                                    "api.smartwork-agent.id : DNS name does not exist"
+                                                                ]
+                                                 }
+                  },
+    "dnsReadyPublicResolvers":  false,
+    "releaseDecision":  "DOMAIN_PUBLIC_DNS_NOT_READY_PHASE5ZT_A2",
+    "nextSafePhase":  "Fix DNS records or nameserver delegation first."
+}
