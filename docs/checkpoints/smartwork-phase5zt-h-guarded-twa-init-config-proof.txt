@@ -1,0 +1,19 @@
+﻿PHASE 5ZT-H GUARDED TWA INIT CONFIG PROOF
+Date: 2026-06-13T06:03:25.3761489+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: c09e479
+
+Release Decision:
+GUARDED_TWA_INIT_CONFIG_READY_NO_BUILD_PHASE5ZT_H
+
+Domain: https://smartwork-agent.id
+Package: id.smartwork.agent
+Start URL: /home.html
+Fingerprint: CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8
+
+manifestOk: True
+assetlinksOk: True
+placeholderGone: True
+secretFilesLocalOnly: True
+
+Safety: config only, no bubblewrap init, no AAB build, no TWA build, no Play Store upload.

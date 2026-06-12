@@ -1,0 +1,11 @@
+﻿{
+    "phase":  "5ZT-H",
+    "releaseDecision":  "GUARDED_TWA_INIT_CONFIG_READY_NO_BUILD_PHASE5ZT_H",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "c09e479",
+    "origin":  "https://smartwork-agent.id",
+    "packageName":  "id.smartwork.agent",
+    "startUrl":  "/home.html",
+    "releaseFingerprint":  "CA:9E:63:98:EB:D6:0F:8E:B3:92:80:34:C5:5C:29:84:CB:85:20:ED:4C:19:A6:93:29:E1:A2:64:C1:06:4C:E8",
+    "safety":  "config only; no bubblewrap init; no AAB build; no TWA build; no Play Store upload"
+}
