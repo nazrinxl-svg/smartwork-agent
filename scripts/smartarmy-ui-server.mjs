@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { spawnSync } from "node:child_process";
@@ -98,7 +98,7 @@ function latestStatus() {
 }
 
 function html() {
-  return readText("public/smartarmy-ui.html", "<h1>SmartLearn Army UI missing</h1>");
+  return readText("tools/smartarmy-ui/smartarmy-ui.html", "<h1>SmartLearn Army UI missing</h1>");
 }
 
 async function route(req, res) {
