@@ -4,7 +4,7 @@
   "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
   "companionHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army-evolution.html",
   "importedAt": "2026-06-12T01:26:29.899Z",
-  "updatedAt": "2026-06-12T02:37:32.782Z",
+  "updatedAt": "2026-06-12T02:40:42.817Z",
   "agents": [
     {
       "id": "smartlearn-agent-army",
@@ -2933,7 +2933,7 @@
       "name": "Mission Runner Support",
       "type": "smartlearn-visual-agent",
       "status": "imported",
-      "version": "0.1.1",
+      "version": "0.1.3",
       "mission": "Menjalankan safe checks dan membuat report eksekusi.",
       "sourceHtml": "C:\\Users\\Digitalisasi\\Desktop\\SmartLearn-Agent-Army\\smartlearn-agent-army.html",
       "sourceImage": "",
@@ -2944,7 +2944,9 @@
         "write_report",
         "receive_evolution_capability",
         "run_safe_checks",
-        "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_pdf_plus_proof_no_real_"
+        "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_pdf_plus_proof_no_real_",
+        "delivery_buat_agent_baru_untuk_e_kinerja_meranti_diagnosis_dulu_no_real_submit_n",
+        "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_target_pdf_proof_report"
       ],
       "guards": [
         "no_secret_leak",
@@ -2968,10 +2970,24 @@
           "note": "Buat agent baru untuk WhatsApp delivery preview PDF plus proof, no real send, pilih agent yang cocok, evolve capability kalau perlu, lalu jalankan safe checks.",
           "mode": "delivery",
           "source": "smartarmy-auto-loop"
+        },
+        {
+          "at": "2026-06-12T02:40:24.080Z",
+          "capability": "delivery_buat_agent_baru_untuk_e_kinerja_meranti_diagnosis_dulu_no_real_submit_n",
+          "note": "buat agent baru untuk e-Kinerja Meranti, diagnosis dulu, no real submit, no real save, siapkan workflow guarded preview",
+          "mode": "delivery",
+          "source": "smartarmy-auto-loop"
+        },
+        {
+          "at": "2026-06-12T02:40:42.815Z",
+          "capability": "delivery_buat_agent_baru_untuk_whatsapp_delivery_preview_target_pdf_proof_report",
+          "note": "Buat agent baru untuk WhatsApp delivery preview.\nTarget: PDF + proof report.\nGuard: no real send tanpa izin.\nOutput: plan, command, report.",
+          "mode": "delivery",
+          "source": "smartarmy-auto-loop"
         }
       ],
       "importedAt": "2026-06-12T01:26:29.899Z",
-      "updatedAt": "2026-06-12T02:37:32.766Z"
+      "updatedAt": "2026-06-12T02:40:42.815Z"
     },
     {
       "id": "file-scripts-smartmission-runner-agent-mjs",
