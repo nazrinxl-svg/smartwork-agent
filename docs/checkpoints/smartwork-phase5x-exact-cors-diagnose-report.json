@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "phase": "5X",
+  "mode": "EXACT_CORS_DIAGNOSE_ONLY_NO_PATCH",
+  "selectedApiFile": "app/smartwork-production-queue-api.mjs",
+  "files": [
+    {
+      "file": "app/smartwork-production-queue-api.mjs",
+      "size": 15633,
+      "hasHealthRoute": true,
+      "hasJobsRoute": true,
+      "hasOptions": false,
+      "hasCorsHeader": false,
+      "hasCreateServer": false,
+      "hasReqRes": true,
+      "hasInstallFunction": true,
+      "snippets": {
+        "health": "get_status\" };\r\n  }\r\n\r\n  const updated = {\r\n    ...found.job,\r\n    ...patch,\r\n    status: targetStatus,\r\n    updatedAt: nowIso(),\r\n    safety: {\r\n      ...(found.job.safety || {}),\r\n      noSiagaInput: true,\r\n      noBrowserOpen: true,\r\n      noRealSave: true,\r\n      noRealSend: true\r\n    }\r\n  };\r\n\r\n  const targetRel = path.join(targetDir, `${safeSegment(updated.id)}.json`).replaceAll(\"\\\\\", \"/\");\r\n  writeJson(targetRel, updated);\r\n\r\n  try {\r\n    fs.unlinkSync(found.full);\r\n  } catch {}\r\n\r\n  return {\r\n    ok: true,\r\n    jobId: updated.id,\r\n    from: found.status,\r\n    to: targetStatus,\r\n    job: updated,\r\n    path: targetRel\r\n  };\r\n}\r\n\r\nexport function installSmartWorkProductionQueueApi(app) {\r\n  if (!app || app.__smartworkProductionQueueApiInstalled) return;\r\n\r\n  app.__smartworkProductionQueueApiInstalled = true;\r\n\r\n  for (const dir of Object.values(queue)) ensureDir(dir);\r\n\r\n  app.get(\"/api/smartwork/jobs/health\", (_req, res) => {\r\n    res.json({\r\n      ok: true,\r\n      mode: \"SMARTWORK_PRODUCTION_QUEUE_API\",\r\n      queue,\r\n      counts: {\r\n        pending: listJobs(\"pending\").length,\r\n        running: listJobs(\"running\").length,\r\n        completed: listJobs(\"completed\").length,\r\n        failed: listJobs(\"failed\").length\r\n      },\r\n      safety: {\r\n        dryRun: true,\r\n        noSiagaInput: true,\r\n        noBrowserOpen: true,\r\n        noRealSave: true,\r\n        noRealSend: true\r\n      }\r\n    });\r\n  });\r\n\r\n  app.post(\"/api/smartwork/jobs\", (req, res) => {\r\n    const result = createJob(req.body || {});\r\n    res.status(result.status).json(result);\r\n  });\r\n\r\n  app.get(\"/api/smartwork/jobs\", (req, res) => {\r\n    const status = req.query?.status ? String(req.query.status) : null;\r\n    const items = listJobs(status);\r\n    res.json({\r\n      ok: true,\r\n      count: items.length,\r\n      items,\r\n      s",
+        "jobs": "get_status\" };\r\n  }\r\n\r\n  const updated = {\r\n    ...found.job,\r\n    ...patch,\r\n    status: targetStatus,\r\n    updatedAt: nowIso(),\r\n    safety: {\r\n      ...(found.job.safety || {}),\r\n      noSiagaInput: true,\r\n      noBrowserOpen: true,\r\n      noRealSave: true,\r\n      noRealSend: true\r\n    }\r\n  };\r\n\r\n  const targetRel = path.join(targetDir, `${safeSegment(updated.id)}.json`).replaceAll(\"\\\\\", \"/\");\r\n  writeJson(targetRel, updated);\r\n\r\n  try {\r\n    fs.unlinkSync(found.full);\r\n  } catch {}\r\n\r\n  return {\r\n    ok: true,\r\n    jobId: updated.id,\r\n    from: found.status,\r\n    to: targetStatus,\r\n    job: updated,\r\n    path: targetRel\r\n  };\r\n}\r\n\r\nexport function installSmartWorkProductionQueueApi(app) {\r\n  if (!app || app.__smartworkProductionQueueApiInstalled) return;\r\n\r\n  app.__smartworkProductionQueueApiInstalled = true;\r\n\r\n  for (const dir of Object.values(queue)) ensureDir(dir);\r\n\r\n  app.get(\"/api/smartwork/jobs/health\", (_req, res) => {\r\n    res.json({\r\n      ok: true,\r\n      mode: \"SMARTWORK_PRODUCTION_QUEUE_API\",\r\n      queue,\r\n      counts: {\r\n        pending: listJobs(\"pending\").length,\r\n        running: listJobs(\"running\").length,\r\n        completed: listJobs(\"completed\").length,\r\n        failed: listJobs(\"failed\").length\r\n      },\r\n      safety: {\r\n        dryRun: true,\r\n        noSiagaInput: true,\r\n        noBrowserOpen: true,\r\n        noRealSave: true,\r\n        noRealSend: true\r\n      }\r\n    });\r\n  });\r\n\r\n  app.post(\"/api/smartwork/jobs\", (req, res) => {\r\n    const result = createJob(req.body || {});\r\n    res.status(result.status).json(result);\r\n  });\r\n\r\n  app.get(\"/api/smartwork/jobs\", (req, res) => {\r\n    const status = req.query?.status ? String(req.query.status) : null;\r\n    const items = listJobs(status);\r\n    res.json({\r\n      ok: true,\r\n      count: items.length,\r\n      items,\r\n"
+      }
+    },
+    {
+      "file": "app/smartwork-control-server.mjs",
+      "size": 42179,
+      "hasHealthRoute": false,
+      "hasJobsRoute": false,
+      "hasOptions": true,
+      "hasCorsHeader": true,
+      "hasCreateServer": true,
+      "hasReqRes": true,
+      "hasInstallFunction": true,
+      "snippets": {
+        "health": null,
+        "jobs": null
+      }
+    }
+  ],
+  "decision": "Patch only selectedApiFile. Do not patch broad scripts.",
+  "safety": {
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noFileChangedByThisScriptExceptReport": true
+  },
+  "createdAt": "2026-06-12T07:22:04.700Z"
+}

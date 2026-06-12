@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "phase": "5X",
+  "mode": "ROBUST_EXACT_NATIVE_AND_EXPRESS_CORS_PATCH_ONE_API_FILE",
+  "selectedApiFile": "app/smartwork-production-queue-api.mjs",
+  "changedFiles": [
+    "app/smartwork-production-queue-api.mjs"
+  ],
+  "checks": {
+    "syntaxOk": true,
+    "hasCorsHeader": true,
+    "hasOptionsHandler": true,
+    "nativeHandlerPatched": true,
+    "expressInstallerPatched": true,
+    "phaseMarker": true,
+    "onlyApiFilePatchedByScript": true
+  },
+  "stderr": "",
+  "safety": {
+    "dryRunOnly": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true
+  },
+  "next": "Commit local patch, push, deploy/pull on VPS, restart API daemon, then direct browser proof without proxy.",
+  "createdAt": "2026-06-12T07:27:27.590Z"
+}

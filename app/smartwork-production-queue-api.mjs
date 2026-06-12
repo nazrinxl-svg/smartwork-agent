@@ -241,12 +241,55 @@ function moveJob(id, targetStatus, patch = {}) {
   };
 }
 
+
+/* SMARTWORK_PHASE5X_NATIVE_CORS_START */
+function smartworkPhase5xAllowedOrigin(req) {
+  const allowedOrigins = String(
+    process.env.SMARTWORK_CORS_ORIGINS ||
+    "http://127.0.0.1:5197,http://localhost:5197,http://103.152.242.193:3107"
+  )
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const origin = req.headers?.origin || "";
+  if (allowedOrigins.includes("*")) return "*";
+  if (origin && allowedOrigins.includes(origin)) return origin;
+  return allowedOrigins[0] || "*";
+}
+
+function smartworkPhase5xApplyCors(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", smartworkPhase5xAllowedOrigin(req));
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, X-SmartWork-Dry-Run, X-SmartWork-No-Siaga-Input, X-SmartWork-No-Browser-Open, X-SmartWork-No-Real-Save, X-SmartWork-No-Real-Send"
+  );
+  res.setHeader("Access-Control-Max-Age", "86400");
+  res.setHeader("Cache-Control", "no-store");
+}
+
+function smartworkPhase5xHandleOptions(req, res) {
+  if (String(req.method || "").toUpperCase() !== "OPTIONS") return false;
+  res.statusCode = 204;
+  res.end();
+  return true;
+}
+/* SMARTWORK_PHASE5X_NATIVE_CORS_END */
+
 export function installSmartWorkProductionQueueApi(app) {
   if (!app || app.__smartworkProductionQueueApiInstalled) return;
 
   app.__smartworkProductionQueueApiInstalled = true;
 
   for (const dir of Object.values(queue)) ensureDir(dir);
+
+  app.use("/api/smartwork/jobs", (req, res, next) => {
+    smartworkPhase5xApplyCors(req, res);
+    if (smartworkPhase5xHandleOptions(req, res)) return;
+    next();
+  });
 
   app.get("/api/smartwork/jobs/health", (_req, res) => {
     res.json({
@@ -410,6 +453,9 @@ export function handleSmartWorkProductionQueueApiNative(req, res) {
   const method = String(req.method || "GET").toUpperCase();
 
   if (!pathname.startsWith("/api/smartwork/jobs")) return false;
+
+  smartworkPhase5xApplyCors(req, res);
+  if (smartworkPhase5xHandleOptions(req, res)) return true;
 
   Promise.resolve().then(async () => {
     for (const dir of Object.values(queue)) ensureDir(dir);
