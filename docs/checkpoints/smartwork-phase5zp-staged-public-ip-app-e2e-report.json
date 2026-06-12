@@ -1,0 +1,207 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZP",
+    "releaseDecision":  "STAGED_PUBLIC_IP_APP_E2E_DRY_RUN_READY",
+    "importantNote":  "This proves staged public-IP web/API dry-run only. Real TWA/AAB remains blocked until HTTPS domain and assetlinks are live.",
+    "appBase":  "http://103.152.242.193:3108",
+    "apiBase":  "http://103.152.242.193:3107",
+    "jobId":  "phase5zp-staged-public-ip-e2e-1781259134337",
+    "checks":  {
+                   "healthBeforeOk":  true,
+                   "requestPageOk":  true,
+                   "progressPageOk":  true,
+                   "manifestOk":  true,
+                   "submitOk":  true,
+                   "statusOk":  true,
+                   "healthAfterOk":  true,
+                   "dryRunKept":  true,
+                   "noSiagaInputKept":  true,
+                   "noRealActions":  true
+               },
+    "urls":  {
+                 "request":  {
+                                 "url":  "http://103.152.242.193:3108/request.html",
+                                 "ok":  true,
+                                 "status":  200,
+                                 "contentType":  "text/html; charset=utf-8",
+                                 "error":  ""
+                             },
+                 "progress":  {
+                                  "url":  "http://103.152.242.193:3108/progress.html",
+                                  "ok":  true,
+                                  "status":  200,
+                                  "contentType":  "text/html; charset=utf-8",
+                                  "error":  ""
+                              },
+                 "manifest":  {
+                                  "url":  "http://103.152.242.193:3108/manifest.webmanifest",
+                                  "ok":  true,
+                                  "status":  200,
+                                  "contentType":  "application/manifest+json; charset=utf-8",
+                                  "error":  ""
+                              },
+                 "healthBefore":  {
+                                      "url":  "http://103.152.242.193:3107/api/smartwork/jobs/health",
+                                      "ok":  true,
+                                      "status":  200,
+                                      "contentType":  "application/json; charset=utf-8",
+                                      "error":  ""
+                                  },
+                 "healthAfter":  {
+                                     "url":  "http://103.152.242.193:3107/api/smartwork/jobs/health",
+                                     "ok":  true,
+                                     "status":  200,
+                                     "contentType":  "application/json; charset=utf-8",
+                                     "error":  ""
+                                 }
+             },
+    "submit":  {
+                   "ok":  true,
+                   "status":  201,
+                   "error":  "",
+                   "body":  {
+                                "ok":  true,
+                                "status":  201,
+                                "jobId":  "phase5zp-staged-public-ip-e2e-1781259134337",
+                                "statusText":  "pending",
+                                "job":  {
+                                            "id":  "phase5zp-staged-public-ip-e2e-1781259134337",
+                                            "schema":  "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+                                            "source":  "PHASE_5ZP_STAGED_PUBLIC_IP_APP_E2E",
+                                            "module":  "siaga",
+                                            "mode":  "dry-run",
+                                            "status":  "pending",
+                                            "accountRef":  "guru-001",
+                                            "credentialRef":  "guru-001",
+                                            "requester":  {
+                                                              "name":  "",
+                                                              "email":  "",
+                                                              "whatsapp":  ""
+                                                          },
+                                            "requestRange":  {
+                                                                 "startDate":  "2026-06-22",
+                                                                 "endDate":  "2026-06-27"
+                                                             },
+                                            "delivery":  {
+                                                             "mode":  "app_download_only"
+                                                         },
+                                            "request":  {
+                                                            "requestType":  "bulk-monthly",
+                                                            "notes":  "",
+                                                            "holidays":  [
+
+                                                                         ],
+                                                            "redacted":  true
+                                                        },
+                                            "safety":  {
+                                                           "dryRun":  true,
+                                                           "noRealSave":  true,
+                                                           "noRealSend":  true,
+                                                           "noSiagaInput":  true,
+                                                           "noBrowserOpen":  true,
+                                                           "rawPasswordStored":  false
+                                                       },
+                                            "progress":  {
+                                                             "percent":  0,
+                                                             "stage":  "queued",
+                                                             "message":  "Job diterima backend queue. Menunggu worker dry-run."
+                                                         },
+                                            "createdAt":  "2026-06-12T10:12:13.804Z",
+                                            "updatedAt":  "2026-06-12T10:12:13.804Z"
+                                        },
+                                "path":  "data/production-queue/pending/phase5zp-staged-public-ip-e2e-1781259134337.json",
+                                "validation":  {
+                                                   "ok":  true,
+                                                   "errors":  [
+
+                                                              ]
+                                               }
+                            }
+               },
+    "jobStatus":  {
+                      "ok":  true,
+                      "id":  "phase5zp-staged-public-ip-e2e-1781259134337",
+                      "status":  "completed",
+                      "path":  "data/production-queue/completed/phase5zp-staged-public-ip-e2e-1781259134337.json",
+                      "job":  {
+                                  "id":  "phase5zp-staged-public-ip-e2e-1781259134337",
+                                  "schema":  "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+                                  "source":  "PHASE_5ZP_STAGED_PUBLIC_IP_APP_E2E",
+                                  "module":  "siaga",
+                                  "mode":  "dry-run",
+                                  "status":  "completed",
+                                  "accountRef":  "guru-001",
+                                  "credentialRef":  "guru-001",
+                                  "requester":  {
+                                                    "name":  "",
+                                                    "email":  "",
+                                                    "whatsapp":  ""
+                                                },
+                                  "requestRange":  {
+                                                       "startDate":  "2026-06-22",
+                                                       "endDate":  "2026-06-27"
+                                                   },
+                                  "delivery":  {
+                                                   "mode":  "app_download_only"
+                                               },
+                                  "request":  {
+                                                  "requestType":  "bulk-monthly",
+                                                  "notes":  "",
+                                                  "holidays":  [
+
+                                                               ],
+                                                  "redacted":  true
+                                              },
+                                  "safety":  {
+                                                 "dryRun":  true,
+                                                 "noRealSave":  true,
+                                                 "noRealSend":  true,
+                                                 "noSiagaInput":  true,
+                                                 "noBrowserOpen":  true,
+                                                 "rawPasswordStored":  false
+                                             },
+                                  "progress":  {
+                                                   "percent":  100,
+                                                   "stage":  "completed",
+                                                   "message":  "Production worker dry-run lifecycle completed. App progress only."
+                                               },
+                                  "createdAt":  "2026-06-12T10:12:13.804Z",
+                                  "updatedAt":  "2026-06-12T10:12:14.140Z",
+                                  "phase":  "completed",
+                                  "state":  "completed",
+                                  "startedAt":  "2026-06-12T10:12:14.138Z",
+                                  "percent":  100,
+                                  "progressPercent":  100,
+                                  "percentage":  100,
+                                  "summary":  {
+                                                  "total":  1,
+                                                  "completed":  1,
+                                                  "alreadyFilled":  1,
+                                                  "skipped":  0,
+                                                  "needsPlan":  0,
+                                                  "percent":  100
+                                              },
+                                  "artifacts":  {
+                                                    "pdfReady":  true,
+                                                    "proofReady":  true,
+                                                    "appOnly":  true
+                                                },
+                                  "completedAt":  "2026-06-12T10:12:14.140Z"
+                              },
+                      "safety":  {
+                                     "noSiagaInput":  true,
+                                     "noBrowserOpen":  true
+                                 }
+                  },
+    "jobStatusError":  "",
+    "safety":  {
+                   "dryRun":  true,
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T10:12:15.7000477Z"
+}
