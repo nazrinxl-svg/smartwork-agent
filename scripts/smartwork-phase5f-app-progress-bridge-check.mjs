@@ -1,6 +1,19 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
+
+function __smartworkJsonClean(value) {
+  let text = Buffer.isBuffer(value) ? value.toString("utf8") : String(value ?? "");
+  text = text.replace(/^\uFEFF/, "").replace(/^\uFFFD+/, "").trimStart();
+
+  const firstJson = text.search(/[\{\[]/);
+  if (firstJson > 0) text = text.slice(firstJson);
+
+  text = text.replace(/[\u0000-\u001F]+$/g, "").trim();
+
+  return text;
+}
+
 
 const root = process.cwd();
 
@@ -30,7 +43,7 @@ function syntaxOk(file) {
 }
 
 const progressHtml = readText("public/progress.html");
-const pkg = JSON.parse(readText("package.json"));
+const pkg = JSON.parse(__smartworkJsonClean(readText("package.json")));
 
 const checks = {
   progressPageExists: exists("public/progress.html"),
