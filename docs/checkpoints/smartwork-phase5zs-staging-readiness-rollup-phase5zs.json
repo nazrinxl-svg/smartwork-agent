@@ -1,0 +1,931 @@
+{
+  "ok": true,
+  "phase": "5ZS",
+  "createdAt": "2026-06-12T10:45:11.878Z",
+  "releaseDecision": "STAGING_PRE_DOMAIN_READY_FOR_DOMAIN_DNS_HTTPS_PHASE5ZS",
+  "bases": {
+    "appStagingPublicIp": "http://103.152.242.193:3108",
+    "directApiVps": "http://103.152.242.193:3107",
+    "sameOriginProxyHealth": "http://103.152.242.193:3108/api/smartwork/jobs/health"
+  },
+  "git": {
+    "branch": "test/ui-request-next-20260611-004522",
+    "head": "14132e8",
+    "latestCommit": "14132e8 Add SmartWork same-origin API proxy staging proof",
+    "statusShort": "?? docs/checkpoints/smartwork-phase5zs-staging-readiness-rollup-phase5zs.json\n?? scripts/smartwork-phase5zs-staging-readiness-rollup.mjs"
+  },
+  "agentArmy": {
+    "brainCommander": true,
+    "diagnose": true,
+    "guard": true,
+    "backup": true,
+    "runnerWorker": "read-only staging probes and existing 5ZR job status only; no new SIAGA job submitted",
+    "smartUiDoctor": "route and static artifact readiness checked without opening browser",
+    "reportCommitTag": true
+  },
+  "safetyExpected": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noAabBuild": true,
+    "noPlayStoreUpload": true
+  },
+  "safetyChecks": [
+    {
+      "key": "dryRun",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noSiagaInput",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noBrowserOpen",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noRealSave",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noRealSend",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noAabBuild",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    },
+    {
+      "key": "noPlayStoreUpload",
+      "expected": true,
+      "actual": true,
+      "source": "reports/smartwork-phase5zs-backup-snapshot.json",
+      "ok": true
+    }
+  ],
+  "checks": {
+    "criticalChecks": [
+      {
+        "name": "sameOriginHealth",
+        "ok": true
+      },
+      {
+        "name": "directApiHealth",
+        "ok": true
+      },
+      {
+        "name": "route:home",
+        "ok": true
+      },
+      {
+        "name": "route:request",
+        "ok": true
+      },
+      {
+        "name": "route:progress",
+        "ok": true
+      },
+      {
+        "name": "route:privacy",
+        "ok": true
+      },
+      {
+        "name": "route:manifest",
+        "ok": true
+      },
+      {
+        "name": "route:assetlinks",
+        "ok": true
+      },
+      {
+        "name": "phase5zrEvidenceOrLiveJobFound",
+        "ok": true
+      },
+      {
+        "name": "phase5zrEvidenceNotSelfOrOldPhase",
+        "ok": true
+      },
+      {
+        "name": "phase5zrReleaseDecisionOrLiveSameOrigin",
+        "ok": true
+      },
+      {
+        "name": "phase5zrJobCompleted100",
+        "ok": true
+      },
+      {
+        "name": "safetyFlagsKept",
+        "ok": true
+      }
+    ],
+    "sameOriginHealth": {
+      "name": "sameOriginProxyHealth",
+      "url": "http://103.152.242.193:3108/api/smartwork/jobs/health",
+      "ok": true,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "allowOrigin": "http://127.0.0.1:5197, *",
+      "durationMs": 1270,
+      "checks": [
+        {
+          "name": "status",
+          "expected": 200,
+          "actual": 200,
+          "ok": true
+        },
+        {
+          "name": "contentType",
+          "expected": "application/json",
+          "actual": "application/json; charset=utf-8",
+          "ok": true
+        },
+        {
+          "name": "parseJson",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        },
+        {
+          "name": "jsonOk",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        }
+      ],
+      "json": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 10,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "bodySample": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\": \"data/production-queue/failed\"\n  },\n  \"counts\": {\n    \"pending\": 0,\n    \"running\": 0,\n    \"completed\": 10,\n    \"failed\": 0\n  },\n  \"safety\": {\n    \"dryRun\": true,\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true,\n    \"noRealSave\": true,\n    \"noRealSend\": t"
+    },
+    "directApiHealth": {
+      "name": "directApiHealth",
+      "url": "http://103.152.242.193:3107/api/smartwork/jobs/health",
+      "ok": true,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "allowOrigin": "http://127.0.0.1:5197",
+      "durationMs": 1096,
+      "checks": [
+        {
+          "name": "status",
+          "expected": 200,
+          "actual": 200,
+          "ok": true
+        },
+        {
+          "name": "contentType",
+          "expected": "application/json",
+          "actual": "application/json; charset=utf-8",
+          "ok": true
+        },
+        {
+          "name": "parseJson",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        },
+        {
+          "name": "jsonOk",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        }
+      ],
+      "json": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 10,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "bodySample": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\": \"data/production-queue/failed\"\n  },\n  \"counts\": {\n    \"pending\": 0,\n    \"running\": 0,\n    \"completed\": 10,\n    \"failed\": 0\n  },\n  \"safety\": {\n    \"dryRun\": true,\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true,\n    \"noRealSave\": true,\n    \"noRealSend\": t"
+    },
+    "routeChecks": [
+      {
+        "name": "home",
+        "url": "http://103.152.242.193:3108/home.html",
+        "ok": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 85,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "text/html",
+            "actual": "text/html; charset=utf-8",
+            "ok": true
+          }
+        ],
+        "json": null,
+        "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    html { overflow-y: scroll; }\r\n\r\n    * ",
+        "attempts": [
+          {
+            "name": "home",
+            "url": "http://103.152.242.193:3108/home.html",
+            "ok": true,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 85,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "contentType",
+                "expected": "text/html",
+                "actual": "text/html; charset=utf-8",
+                "ok": true
+              }
+            ],
+            "json": null,
+            "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    html { overflow-y: scroll; }\r\n\r\n    * "
+          }
+        ]
+      },
+      {
+        "name": "request",
+        "url": "http://103.152.242.193:3108/request.html",
+        "ok": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 189,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "text/html",
+            "actual": "text/html; charset=utf-8",
+            "ok": true
+          }
+        ],
+        "json": null,
+        "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    html { overflow-y: scroll; }\r\n    * { ",
+        "attempts": [
+          {
+            "name": "request",
+            "url": "http://103.152.242.193:3108/request.html",
+            "ok": true,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 189,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "contentType",
+                "expected": "text/html",
+                "actual": "text/html; charset=utf-8",
+                "ok": true
+              }
+            ],
+            "json": null,
+            "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    html { overflow-y: scroll; }\r\n    * { "
+          }
+        ]
+      },
+      {
+        "name": "progress",
+        "url": "http://103.152.242.193:3108/progress.html",
+        "ok": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 114,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "text/html",
+            "actual": "text/html; charset=utf-8",
+            "ok": true
+          }
+        ],
+        "json": null,
+        "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"utf-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\r\n  <title>Progress Kerja - SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    :root{\r\n      --bg:#edf",
+        "attempts": [
+          {
+            "name": "progress",
+            "url": "http://103.152.242.193:3108/progress.html",
+            "ok": true,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 114,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "contentType",
+                "expected": "text/html",
+                "actual": "text/html; charset=utf-8",
+                "ok": true
+              }
+            ],
+            "json": null,
+            "bodySample": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n  <meta charset=\"utf-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\r\n  <title>Progress Kerja - SmartWork Agent</title>\r\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\r\n  <style>\r\n    :root{\r\n      --bg:#edf"
+          }
+        ]
+      },
+      {
+        "name": "privacy",
+        "url": "http://103.152.242.193:3108/privacy.html",
+        "ok": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 37,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "contentType",
+            "expected": "text/html",
+            "actual": "text/html; charset=utf-8",
+            "ok": true
+          }
+        ],
+        "json": null,
+        "bodySample": "<!doctype html>\n<html lang=\"id\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>Kebijakan Privasi - SmartWork Agent</title>\n  <meta name=\"theme-color\" content=\"#2563eb\">\n  <style>\n    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;background:#f8fafc;color:#0f172a;margin:0;padding:24px;line-height:1.6}\n    main{max-width:760px;margin:0 auto;background:white;border:1px solid #e2e8f0;border-radius:18p",
+        "attempts": [
+          {
+            "name": "privacy",
+            "url": "http://103.152.242.193:3108/privacy.html",
+            "ok": true,
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 37,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "contentType",
+                "expected": "text/html",
+                "actual": "text/html; charset=utf-8",
+                "ok": true
+              }
+            ],
+            "json": null,
+            "bodySample": "<!doctype html>\n<html lang=\"id\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>Kebijakan Privasi - SmartWork Agent</title>\n  <meta name=\"theme-color\" content=\"#2563eb\">\n  <style>\n    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;background:#f8fafc;color:#0f172a;margin:0;padding:24px;line-height:1.6}\n    main{max-width:760px;margin:0 auto;background:white;border:1px solid #e2e8f0;border-radius:18p"
+          }
+        ]
+      },
+      {
+        "name": "manifest",
+        "url": "http://103.152.242.193:3108/manifest.webmanifest",
+        "ok": true,
+        "status": 200,
+        "contentType": "application/manifest+json; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 42,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "parseJson",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          }
+        ],
+        "json": {
+          "name": "SmartWork Agent",
+          "short_name": "SmartWork",
+          "description": "AI work automation assistant for request, progress, and proof delivery.",
+          "id": "/",
+          "start_url": "/home.html",
+          "scope": "/",
+          "display": "standalone",
+          "orientation": "portrait",
+          "background_color": "#f8fafc",
+          "theme_color": "#2563eb",
+          "categories": [
+            "productivity",
+            "education",
+            "utilities"
+          ],
+          "lang": "id-ID",
+          "icons": [
+            {
+              "src": "/icons/smartwork-icon-192.svg",
+              "sizes": "192x192",
+              "type": "image/svg+xml",
+              "purpose": "any maskable"
+            },
+            {
+              "src": "/icons/smartwork-icon-512.svg",
+              "sizes": "512x512",
+              "type": "image/svg+xml",
+              "purpose": "any maskable"
+            }
+          ]
+        },
+        "bodySample": "{\n  \"name\": \"SmartWork Agent\",\n  \"short_name\": \"SmartWork\",\n  \"description\": \"AI work automation assistant for request, progress, and proof delivery.\",\n  \"id\": \"/\",\n  \"start_url\": \"/home.html\",\n  \"scope\": \"/\",\n  \"display\": \"standalone\",\n  \"orientation\": \"portrait\",\n  \"background_color\": \"#f8fafc\",\n  \"theme_color\": \"#2563eb\",\n  \"categories\": [\n    \"productivity\",\n    \"education\",\n    \"utilities\"\n  ],\n  \"lang\": \"id-ID\",\n  \"icons\": [\n    {\n      \"src\": \"/icons/smartwork-icon-192.svg\",\n      \"sizes\"",
+        "attempts": [
+          {
+            "name": "manifest",
+            "url": "http://103.152.242.193:3108/manifest.webmanifest",
+            "ok": true,
+            "status": 200,
+            "contentType": "application/manifest+json; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 42,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "parseJson",
+                "expected": true,
+                "actual": true,
+                "ok": true
+              }
+            ],
+            "json": {
+              "name": "SmartWork Agent",
+              "short_name": "SmartWork",
+              "description": "AI work automation assistant for request, progress, and proof delivery.",
+              "id": "/",
+              "start_url": "/home.html",
+              "scope": "/",
+              "display": "standalone",
+              "orientation": "portrait",
+              "background_color": "#f8fafc",
+              "theme_color": "#2563eb",
+              "categories": [
+                "productivity",
+                "education",
+                "utilities"
+              ],
+              "lang": "id-ID",
+              "icons": [
+                {
+                  "src": "/icons/smartwork-icon-192.svg",
+                  "sizes": "192x192",
+                  "type": "image/svg+xml",
+                  "purpose": "any maskable"
+                },
+                {
+                  "src": "/icons/smartwork-icon-512.svg",
+                  "sizes": "512x512",
+                  "type": "image/svg+xml",
+                  "purpose": "any maskable"
+                }
+              ]
+            },
+            "bodySample": "{\n  \"name\": \"SmartWork Agent\",\n  \"short_name\": \"SmartWork\",\n  \"description\": \"AI work automation assistant for request, progress, and proof delivery.\",\n  \"id\": \"/\",\n  \"start_url\": \"/home.html\",\n  \"scope\": \"/\",\n  \"display\": \"standalone\",\n  \"orientation\": \"portrait\",\n  \"background_color\": \"#f8fafc\",\n  \"theme_color\": \"#2563eb\",\n  \"categories\": [\n    \"productivity\",\n    \"education\",\n    \"utilities\"\n  ],\n  \"lang\": \"id-ID\",\n  \"icons\": [\n    {\n      \"src\": \"/icons/smartwork-icon-192.svg\",\n      \"sizes\""
+          }
+        ]
+      },
+      {
+        "name": "assetlinks",
+        "url": "http://103.152.242.193:3108/.well-known/assetlinks.json",
+        "ok": true,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8",
+        "allowOrigin": "",
+        "durationMs": 41,
+        "checks": [
+          {
+            "name": "status",
+            "expected": 200,
+            "actual": 200,
+            "ok": true
+          },
+          {
+            "name": "parseJson",
+            "expected": true,
+            "actual": true,
+            "ok": true
+          }
+        ],
+        "json": [
+          {
+            "relation": [
+              "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+              "namespace": "android_app",
+              "package_name": "id.smartwork.agent",
+              "sha256_cert_fingerprints": [
+                "REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT"
+              ]
+            }
+          }
+        ],
+        "bodySample": "[\n  {\n    \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n    \"target\": {\n      \"namespace\": \"android_app\",\n      \"package_name\": \"id.smartwork.agent\",\n      \"sha256_cert_fingerprints\": [\n        \"REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT\"\n      ]\n    }\n  }\n]",
+        "attempts": [
+          {
+            "name": "assetlinks",
+            "url": "http://103.152.242.193:3108/.well-known/assetlinks.json",
+            "ok": true,
+            "status": 200,
+            "contentType": "application/json; charset=utf-8",
+            "allowOrigin": "",
+            "durationMs": 41,
+            "checks": [
+              {
+                "name": "status",
+                "expected": 200,
+                "actual": 200,
+                "ok": true
+              },
+              {
+                "name": "parseJson",
+                "expected": true,
+                "actual": true,
+                "ok": true
+              }
+            ],
+            "json": [
+              {
+                "relation": [
+                  "delegate_permission/common.handle_all_urls"
+                ],
+                "target": {
+                  "namespace": "android_app",
+                  "package_name": "id.smartwork.agent",
+                  "sha256_cert_fingerprints": [
+                    "REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT"
+                  ]
+                }
+              }
+            ],
+            "bodySample": "[\n  {\n    \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n    \"target\": {\n      \"namespace\": \"android_app\",\n      \"package_name\": \"id.smartwork.agent\",\n      \"sha256_cert_fingerprints\": [\n        \"REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT\"\n      ]\n    }\n  }\n]"
+          }
+        ]
+      }
+    ],
+    "phase5zrChecks": [
+      {
+        "name": "phase5zrEvidenceOrLiveJobFound",
+        "ok": true,
+        "file": "docs\\checkpoints\\smartwork-phase5zr-same-origin-api-proxy-report.json",
+        "liveJobStatusOk": true
+      },
+      {
+        "name": "phase5zrEvidenceNotSelfOrOldPhase",
+        "ok": true,
+        "file": "docs\\checkpoints\\smartwork-phase5zr-same-origin-api-proxy-report.json"
+      },
+      {
+        "name": "phase5zrReleaseDecisionOrLiveSameOrigin",
+        "expected": "STAGED_PUBLIC_IP_SAME_ORIGIN_API_PROXY_READY or current same-origin readiness + completed job",
+        "actual": "STAGED_PUBLIC_IP_SAME_ORIGIN_API_PROXY_READY",
+        "ok": true
+      },
+      {
+        "name": "phase5zrJobCompleted100",
+        "expected": "phase5zr-final-same-origin-1781260128225",
+        "actual": {
+          "localEvidenceFile": "docs\\checkpoints\\smartwork-phase5zr-same-origin-api-proxy-report.json",
+          "liveJobStatusOk": true,
+          "liveJobStatusUrl": "http://103.152.242.193:3108/api/smartwork/jobs/phase5zr-final-same-origin-1781260128225",
+          "hasJobId": true,
+          "hasCompleted": true,
+          "hasPercent100": true,
+          "pdfReady": true,
+          "proofReady": true
+        },
+        "ok": true
+      }
+    ],
+    "liveJobStatus": {
+      "name": "phase5zrLiveJobStatus",
+      "url": "http://103.152.242.193:3108/api/smartwork/jobs/phase5zr-final-same-origin-1781260128225",
+      "ok": true,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "allowOrigin": "http://127.0.0.1:5197, *",
+      "durationMs": 51,
+      "checks": [
+        {
+          "name": "status",
+          "expected": 200,
+          "actual": 200,
+          "ok": true
+        },
+        {
+          "name": "parseJson",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        },
+        {
+          "name": "jsonOk",
+          "expected": true,
+          "actual": true,
+          "ok": true
+        }
+      ],
+      "json": {
+        "ok": true,
+        "id": "phase5zr-final-same-origin-1781260128225",
+        "status": "completed",
+        "path": "data/production-queue/completed/phase5zr-final-same-origin-1781260128225.json",
+        "job": {
+          "id": "phase5zr-final-same-origin-1781260128225",
+          "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+          "source": "PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY",
+          "module": "siaga",
+          "mode": "dry-run",
+          "status": "completed",
+          "accountRef": "guru-001",
+          "credentialRef": "guru-001",
+          "requester": {
+            "name": "",
+            "email": "",
+            "whatsapp": ""
+          },
+          "requestRange": {
+            "startDate": "2026-06-22",
+            "endDate": "2026-06-27"
+          },
+          "delivery": {
+            "mode": "app_download_only"
+          },
+          "request": {
+            "requestType": "bulk-monthly",
+            "notes": "",
+            "holidays": [],
+            "redacted": true
+          },
+          "safety": {
+            "dryRun": true,
+            "noRealSave": true,
+            "noRealSend": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "rawPasswordStored": false
+          },
+          "progress": {
+            "percent": 100,
+            "stage": "completed",
+            "message": "Production worker dry-run lifecycle completed. App progress only."
+          },
+          "createdAt": "2026-06-12T10:28:47.569Z",
+          "updatedAt": "2026-06-12T10:28:47.703Z",
+          "phase": "completed",
+          "state": "completed",
+          "startedAt": "2026-06-12T10:28:47.702Z",
+          "percent": 100,
+          "progressPercent": 100,
+          "percentage": 100,
+          "summary": {
+            "total": 1,
+            "completed": 1,
+            "alreadyFilled": 1,
+            "skipped": 0,
+            "needsPlan": 0,
+            "percent": 100
+          },
+          "artifacts": {
+            "pdfReady": true,
+            "proofReady": true,
+            "appOnly": true
+          },
+          "completedAt": "2026-06-12T10:28:47.703Z"
+        },
+        "safety": {
+          "noSiagaInput": true,
+          "noBrowserOpen": true
+        }
+      },
+      "bodySample": "{\n  \"ok\": true,\n  \"id\": \"phase5zr-final-same-origin-1781260128225\",\n  \"status\": \"completed\",\n  \"path\": \"data/production-queue/completed/phase5zr-final-same-origin-1781260128225.json\",\n  \"job\": {\n    \"id\": \"phase5zr-final-same-origin-1781260128225\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"completed\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"req",
+      "attempts": [
+        {
+          "name": "phase5zrLiveJobStatus",
+          "url": "http://103.152.242.193:3108/api/smartwork/jobs/phase5zr-final-same-origin-1781260128225",
+          "ok": true,
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "allowOrigin": "http://127.0.0.1:5197, *",
+          "durationMs": 51,
+          "checks": [
+            {
+              "name": "status",
+              "expected": 200,
+              "actual": 200,
+              "ok": true
+            },
+            {
+              "name": "parseJson",
+              "expected": true,
+              "actual": true,
+              "ok": true
+            },
+            {
+              "name": "jsonOk",
+              "expected": true,
+              "actual": true,
+              "ok": true
+            }
+          ],
+          "json": {
+            "ok": true,
+            "id": "phase5zr-final-same-origin-1781260128225",
+            "status": "completed",
+            "path": "data/production-queue/completed/phase5zr-final-same-origin-1781260128225.json",
+            "job": {
+              "id": "phase5zr-final-same-origin-1781260128225",
+              "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+              "source": "PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY",
+              "module": "siaga",
+              "mode": "dry-run",
+              "status": "completed",
+              "accountRef": "guru-001",
+              "credentialRef": "guru-001",
+              "requester": {
+                "name": "",
+                "email": "",
+                "whatsapp": ""
+              },
+              "requestRange": {
+                "startDate": "2026-06-22",
+                "endDate": "2026-06-27"
+              },
+              "delivery": {
+                "mode": "app_download_only"
+              },
+              "request": {
+                "requestType": "bulk-monthly",
+                "notes": "",
+                "holidays": [],
+                "redacted": true
+              },
+              "safety": {
+                "dryRun": true,
+                "noRealSave": true,
+                "noRealSend": true,
+                "noSiagaInput": true,
+                "noBrowserOpen": true,
+                "rawPasswordStored": false
+              },
+              "progress": {
+                "percent": 100,
+                "stage": "completed",
+                "message": "Production worker dry-run lifecycle completed. App progress only."
+              },
+              "createdAt": "2026-06-12T10:28:47.569Z",
+              "updatedAt": "2026-06-12T10:28:47.703Z",
+              "phase": "completed",
+              "state": "completed",
+              "startedAt": "2026-06-12T10:28:47.702Z",
+              "percent": 100,
+              "progressPercent": 100,
+              "percentage": 100,
+              "summary": {
+                "total": 1,
+                "completed": 1,
+                "alreadyFilled": 1,
+                "skipped": 0,
+                "needsPlan": 0,
+                "percent": 100
+              },
+              "artifacts": {
+                "pdfReady": true,
+                "proofReady": true,
+                "appOnly": true
+              },
+              "completedAt": "2026-06-12T10:28:47.703Z"
+            },
+            "safety": {
+              "noSiagaInput": true,
+              "noBrowserOpen": true
+            }
+          },
+          "bodySample": "{\n  \"ok\": true,\n  \"id\": \"phase5zr-final-same-origin-1781260128225\",\n  \"status\": \"completed\",\n  \"path\": \"data/production-queue/completed/phase5zr-final-same-origin-1781260128225.json\",\n  \"job\": {\n    \"id\": \"phase5zr-final-same-origin-1781260128225\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"completed\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"req"
+        }
+      ]
+    }
+  },
+  "phase5zrEvidence": {
+    "file": "docs\\checkpoints\\smartwork-phase5zr-same-origin-api-proxy-report.json",
+    "score": 135
+  },
+  "knownNonBlockingIssues": [
+    {
+      "id": "PHASE_5ZQ_DIRECT_CORS_OLD_ALLOW_ORIGIN",
+      "detail": "Direct API :3107 may still expose old cross-port CORS allowOrigin. Phase 5ZR staging path intentionally uses same-origin /api proxy on :3108, so phone/browser should use one origin.",
+      "observedDirectAllowOrigin": "http://127.0.0.1:5197",
+      "blocking": false
+    },
+    {
+      "id": "DOMAIN_HTTPS_ASSETLINKS_FINGERPRINT_NOT_LIVE_YET",
+      "detail": "TWA/AAB/Play Store remains blocked until domain HTTPS and assetlinks fingerprint are live.",
+      "blocking": true
+    }
+  ],
+  "hardStopsStillActive": {
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "noAabBuild": true,
+    "noPlayStoreUpload": true,
+    "noTwaUntilHttpsDomainAndAssetlinksFingerprintLive": true
+  },
+  "nextSafePhase": "Domain/DNS/HTTPS setup for smartwork-agent.id and api.smartwork-agent.id; do not build AAB or upload Play Store until assetlinks fingerprint is live."
+}
