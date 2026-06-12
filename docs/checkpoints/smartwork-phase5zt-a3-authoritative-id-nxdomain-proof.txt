@@ -1,0 +1,22 @@
+﻿PHASE 5ZT-A3 AUTHORITATIVE .ID NXDOMAIN PROOF
+Date: 2026-06-12T21:58:02.1354295+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: c7cb478
+
+Conclusion:
+Authoritative .id TLD nameservers still return NXDOMAIN for smartwork-agent.id.
+Do not proceed to reverse proxy / HTTPS yet.
+
+Expected:
+smartwork-agent.id -> 103.152.242.193
+www.smartwork-agent.id -> 103.152.242.193
+api.smartwork-agent.id -> 103.152.242.193
+
+Official gate remains:
+DOMAIN_ACTIVATION_NOT_READY_PHASE5ZT_A3
+
+Safety:
+No SIAGA input.
+No browser automation.
+No real save/send.
+No AAB/TWA/Play Store.
