@@ -1,0 +1,71 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZL",
+    "releaseDecision":  "PUBLIC_DOMAINS_NOT_LIVE_DNS_OR_HTTPS_DEPLOYMENT_REQUIRED",
+    "domainsLive":  false,
+    "dns":  {
+                "web":  {
+                            "host":  "smartwork-agent.id",
+                            "ok":  false,
+                            "records":  [
+
+                                        ],
+                            "error":  "smartwork-agent.id : DNS name does not exist"
+                        },
+                "api":  {
+                            "host":  "api.smartwork-agent.id",
+                            "ok":  false,
+                            "records":  [
+
+                                        ],
+                            "error":  "api.smartwork-agent.id : DNS name does not exist"
+                        }
+            },
+    "liveChecks":  [
+                       {
+                           "url":  "https://smartwork-agent.id/manifest.webmanifest",
+                           "ok":  false,
+                           "status":  0,
+                           "contentType":  "",
+                           "error":  "The remote name could not be resolved: \u0027smartwork-agent.id\u0027"
+                       },
+                       {
+                           "url":  "https://smartwork-agent.id/home.html",
+                           "ok":  false,
+                           "status":  0,
+                           "contentType":  "",
+                           "error":  "The remote name could not be resolved: \u0027smartwork-agent.id\u0027"
+                       },
+                       {
+                           "url":  "https://smartwork-agent.id/privacy.html",
+                           "ok":  false,
+                           "status":  0,
+                           "contentType":  "",
+                           "error":  "The remote name could not be resolved: \u0027smartwork-agent.id\u0027"
+                       },
+                       {
+                           "url":  "https://smartwork-agent.id/.well-known/assetlinks.json",
+                           "ok":  false,
+                           "status":  0,
+                           "contentType":  "",
+                           "error":  "The remote name could not be resolved: \u0027smartwork-agent.id\u0027"
+                       },
+                       {
+                           "url":  "https://api.smartwork-agent.id/api/smartwork/jobs/health",
+                           "ok":  false,
+                           "status":  0,
+                           "contentType":  "",
+                           "error":  "The remote name could not be resolved: \u0027api.smartwork-agent.id\u0027"
+                       }
+                   ],
+    "nextAction":  "Configure DNS A records and HTTPS reverse proxy on VPS before real TWA build.",
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T09:57:39.0599049Z"
+}
