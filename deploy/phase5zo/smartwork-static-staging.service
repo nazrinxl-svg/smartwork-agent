@@ -1,0 +1,16 @@
+[Unit]
+Description=SmartWork Static IP Staging Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/smartwork-agent
+Environment=NODE_ENV=production
+Environment=PORT=3108
+Environment=SMARTWORK_STATIC_ROOT=/opt/smartwork-agent/public
+ExecStart=/bin/bash -lc 'node /opt/smartwork-agent/deploy/phase5zo/smartwork-static-staging-server.mjs'
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

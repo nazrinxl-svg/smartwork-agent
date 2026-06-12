@@ -1,0 +1,69 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZO",
+    "releaseDecision":  "VPS_STATIC_IP_STAGING_PROOF_READY",
+    "importantNote":  "This proves IP-based static staging only. It does not unlock Play Store/TWA real build; HTTPS domain and assetlinks are still required.",
+    "correctionNote":  "Previous run had ok=false because native SSH/systemctl stdout strings polluted the PowerShell steps array. Live endpoint proof is clean here.",
+    "staging":  {
+                    "appBase":  "http://103.152.242.193:3108",
+                    "apiBase":  "http://103.152.242.193:3107",
+                    "service":  "smartwork-static-staging.service",
+                    "mode":  "NODE_STATIC_STAGING_SERVICE_NO_CADDY_REQUIRED"
+                },
+    "apiHealth":  {
+                      "url":  "http://103.152.242.193:3107/api/smartwork/jobs/health",
+                      "ok":  true,
+                      "status":  200,
+                      "contentType":  "application/json; charset=utf-8",
+                      "error":  ""
+                  },
+    "staticChecks":  [
+                         {
+                             "url":  "http://103.152.242.193:3108/home.html",
+                             "ok":  true,
+                             "status":  200,
+                             "contentType":  "text/html; charset=utf-8",
+                             "error":  ""
+                         },
+                         {
+                             "url":  "http://103.152.242.193:3108/manifest.webmanifest",
+                             "ok":  true,
+                             "status":  200,
+                             "contentType":  "application/manifest+json; charset=utf-8",
+                             "error":  ""
+                         },
+                         {
+                             "url":  "http://103.152.242.193:3108/privacy.html",
+                             "ok":  true,
+                             "status":  200,
+                             "contentType":  "text/html; charset=utf-8",
+                             "error":  ""
+                         },
+                         {
+                             "url":  "http://103.152.242.193:3108/.well-known/assetlinks.json",
+                             "ok":  true,
+                             "status":  200,
+                             "contentType":  "application/json; charset=utf-8",
+                             "error":  ""
+                         }
+                     ],
+    "checks":  {
+                   "apiHealthOk":  true,
+                   "homeOk":  true,
+                   "manifestOk":  true,
+                   "privacyOk":  true,
+                   "assetlinksOk":  true,
+                   "localServerFileReady":  true,
+                   "localServiceFileReady":  true,
+                   "safetyNoRealActions":  true
+               },
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T10:10:29.9299485Z"
+}

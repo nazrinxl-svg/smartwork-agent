@@ -1,0 +1,12 @@
+:3108 {
+  encode gzip zstd
+  root * /opt/smartwork-agent/public
+  file_server
+
+  header {
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+  }
+
+  try_files {path} /index.html
+}
