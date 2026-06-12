@@ -1,0 +1,54 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZI",
+    "releaseDecision":  "ANDROID_BUILD_ENVIRONMENT_READY_FOR_TWA_INIT",
+    "environmentReadyForTwaInit":  true,
+    "environmentReadyForFullAabBuild":  false,
+    "after":  {
+                  "java":  {
+                               "command":  "java",
+                               "ok":  true,
+                               "path":  "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot\\bin\\java.exe"
+                           },
+                  "keytool":  {
+                                  "command":  "keytool",
+                                  "ok":  true,
+                                  "path":  "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot\\bin\\keytool.exe"
+                              },
+                  "adb":  {
+                              "command":  "adb",
+                              "ok":  true,
+                              "path":  "C:\\Users\\Digitalisasi\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Google.PlatformTools_Microsoft.Winget.Source_8wekyb3d8bbwe\\platform-tools\\adb.exe"
+                          },
+                  "gradle":  {
+                                 "command":  "gradle",
+                                 "ok":  false,
+                                 "path":  ""
+                             },
+                  "bubblewrap":  {
+                                     "command":  "bubblewrap",
+                                     "ok":  true,
+                                     "path":  "C:\\Users\\Digitalisasi\\AppData\\Roaming\\npm\\bubblewrap.ps1"
+                                 },
+                  "npm":  {
+                              "command":  "npm",
+                              "ok":  true,
+                              "path":  "C:\\Program Files\\nodejs\\npm.ps1"
+                          },
+                  "winget":  {
+                                 "command":  "winget",
+                                 "ok":  true,
+                                 "path":  "C:\\Users\\Digitalisasi\\AppData\\Local\\Microsoft\\WindowsApps\\winget.exe"
+                             },
+                  "JAVA_HOME":  "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot"
+              },
+    "note":  "Gradle is optional for this gate; Bubblewrap/JDK/keytool are required before TWA init.",
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T09:41:46.8203749Z"
+}
