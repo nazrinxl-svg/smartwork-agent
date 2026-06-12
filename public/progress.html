@@ -1324,7 +1324,7 @@
       </div>
       <div class="timeline">
         <div class="step">
-          <div class="check">✓</div>
+          <div class="check">âœ“</div>
           <div>
             <div class="stepTitle">Request diterima</div>
             <div class="stepText">Data pemohon, akun SIAGA, dan rentang tanggal dibaca dari form aplikasi.</div>
@@ -1332,7 +1332,7 @@
           <div class="time"><span class="time"><span data-flow-time="request">--:--</span></span></div>
           
         </div>        <div class="step">
-          <div class="check">✓</div>
+          <div class="check">âœ“</div>
           <div>
             <div class="stepTitle">Agent memproses SIAGA</div>
             <div class="stepText">Login, input presensi, dan verifikasi dilakukan sesuai request.</div>
@@ -1340,7 +1340,7 @@
           <div class="time"><span class="time"><span data-flow-time="process">--:--</span></span></div>
         </div>
         <div class="step">
-          <div class="check">✓</div>
+          <div class="check">âœ“</div>
           <div>
             <div class="stepTitle">PDF & bukti dibuat</div>
             <div class="stepText">Presensi PDF dan proof report sudah cocok dengan request aktif.</div>
@@ -1439,7 +1439,7 @@
     const [a,b] = String(range).split("..");
     const da = Number((a.split("-")[2] || "1"));
     const db = Number((b.split("-")[2] || "30"));
-    return `Request ${da} Juni – ${db} Juni 2026 sudah diverifikasi.`;
+    return `Request ${da} Juni â€“ ${db} Juni 2026 sudah diverifikasi.`;
   }
 
   function applyReady(data){
@@ -1815,7 +1815,7 @@
     if (finish) finish.textContent = "Selesai";
 
     setText("heroTitle", artifacts?.uiText?.title || "Hasil Siap");
-    setText("heroText", `${teacherName} • ${range} selesai. PDF & bukti siap diunduh.`);
+    setText("heroText", `${teacherName} â€¢ ${range} selesai. PDF & bukti siap diunduh.`);
 
     setText("totalVal", total);
     setText("filledVal", filled);
@@ -1933,7 +1933,7 @@
 
     setFinish("Selesai");
     setText("heroTitle", "Hasil Siap");
-    setText("heroText", teacher + " • " + range + " selesai. PDF & bukti siap diunduh.");
+    setText("heroText", teacher + " â€¢ " + range + " selesai. PDF & bukti siap diunduh.");
 
     setText("totalVal", total);
     setText("filledVal", filled);
@@ -1976,7 +1976,7 @@
 
     setFinish(live?.status === "needs_check" ? "Perlu dicek" : "Diproses " + percent + "%");
     setText("heroTitle", live?.status === "needs_check" ? "Verifikasi perlu dicek" : "Agent sedang bekerja");
-    setText("heroText", teacher + (range ? " • " + range : "") + " — " + (live?.message || "Sistem sedang memproses request aktif."));
+    setText("heroText", teacher + (range ? " â€¢ " + range : "") + " â€” " + (live?.message || "Sistem sedang memproses request aktif."));
 
     setText("totalVal", total || 0);
     setText("filledVal", Number(summary.alreadyFilled || 0));
@@ -2333,7 +2333,13 @@
 <script id="smartwork-phase5w-progress-vps-status-bridge">
 (() => {
   const PHASE = "5W";
-  const DEFAULT_API_BASE = "http://103.152.242.193:3107";
+  const DEFAULT_API_BASE = (() => {
+  const { hostname, port, origin } = window.location;
+  if ((hostname === "103.152.242.193" && port === "3108") || hostname === "smartwork-agent.id") {
+    return origin;
+  }
+  return "http://103.152.242.193:3107";
+})();
   const API_BASE = (localStorage.getItem("smartwork_vps_api_base") || DEFAULT_API_BASE).replace(/\/+$/, "");
   localStorage.setItem("smartwork_vps_api_base", API_BASE);
 
@@ -2399,7 +2405,7 @@
     };
 
     localStorage.setItem("smartwork_vps_last_status", JSON.stringify(proof));
-    render("Job " + jobId + " — " + status + " — " + percent + "% — " + message, Boolean(json.ok));
+    render("Job " + jobId + " â€” " + status + " â€” " + percent + "% â€” " + message, Boolean(json.ok));
     window.dispatchEvent(new CustomEvent("smartwork:vps-status-ok", { detail: proof }));
     return proof;
   }

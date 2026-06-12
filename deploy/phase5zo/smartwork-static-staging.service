@@ -8,6 +8,7 @@ WorkingDirectory=/opt/smartwork-agent
 Environment=NODE_ENV=production
 Environment=PORT=3108
 Environment=SMARTWORK_STATIC_ROOT=/opt/smartwork-agent/public
+Environment=SMARTWORK_API_TARGET=http://127.0.0.1:3107
 ExecStart=/bin/bash -lc 'node /opt/smartwork-agent/deploy/phase5zo/smartwork-static-staging-server.mjs'
 Restart=always
 RestartSec=3

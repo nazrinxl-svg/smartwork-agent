@@ -1,0 +1,247 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZR",
+    "releaseDecision":  "STAGED_PUBLIC_IP_SAME_ORIGIN_API_PROXY_READY",
+    "importantNote":  "This proves staged public-IP same-origin web/API dry-run. Real TWA/AAB remains blocked until HTTPS domain and assetlinks fingerprint are live.",
+    "correctionNote":  "5ZQ found cross-port CORS allowOrigin mismatch. 5ZR fixes staging by using same-origin /api proxy on port 3108.",
+    "appBase":  "http://103.152.242.193:3108",
+    "apiBase":  "http://103.152.242.193:3108",
+    "directApiBase":  "http://103.152.242.193:3107",
+    "jobId":  "phase5zr-final-same-origin-1781260128225",
+    "pwaStandaloneEvidence":  "public/manifest.webmanifest display=standalone",
+    "checks":  {
+                   "homeOk":  true,
+                   "requestOk":  true,
+                   "progressOk":  true,
+                   "manifestOk":  true,
+                   "privacyOk":  true,
+                   "assetlinksOk":  true,
+                   "proxyHealthOk":  true,
+                   "directApiHealthOk":  true,
+                   "sameOriginRequestPatched":  true,
+                   "sameOriginProgressPatched":  true,
+                   "pwaStandaloneKnown":  true,
+                   "submitSameOriginOk":  true,
+                   "jobCompletedOk":  true,
+                   "jobPercent100":  true,
+                   "artifactsReady":  true,
+                   "dryRunKept":  true,
+                   "noSiagaInputKept":  true,
+                   "noRealActions":  true
+               },
+    "routes":  {
+                   "home":  {
+                                "url":  "http://103.152.242.193:3108/home.html",
+                                "ok":  true,
+                                "status":  200,
+                                "contentType":  "text/html; charset=utf-8",
+                                "bodyLength":  34090,
+                                "error":  ""
+                            },
+                   "request":  {
+                                   "url":  "http://103.152.242.193:3108/request.html",
+                                   "ok":  true,
+                                   "status":  200,
+                                   "contentType":  "text/html; charset=utf-8",
+                                   "bodyLength":  45536,
+                                   "error":  ""
+                               },
+                   "progress":  {
+                                    "url":  "http://103.152.242.193:3108/progress.html",
+                                    "ok":  true,
+                                    "status":  200,
+                                    "contentType":  "text/html; charset=utf-8",
+                                    "bodyLength":  75203,
+                                    "error":  ""
+                                },
+                   "manifest":  {
+                                    "url":  "http://103.152.242.193:3108/manifest.webmanifest",
+                                    "ok":  true,
+                                    "status":  200,
+                                    "contentType":  "application/manifest+json; charset=utf-8",
+                                    "bodyLength":  3263,
+                                    "error":  ""
+                                },
+                   "privacy":  {
+                                   "url":  "http://103.152.242.193:3108/privacy.html",
+                                   "ok":  true,
+                                   "status":  200,
+                                   "contentType":  "text/html; charset=utf-8",
+                                   "bodyLength":  2101,
+                                   "error":  ""
+                               },
+                   "assetlinks":  {
+                                      "url":  "http://103.152.242.193:3108/.well-known/assetlinks.json",
+                                      "ok":  true,
+                                      "status":  200,
+                                      "contentType":  "application/json; charset=utf-8",
+                                      "bodyLength":  276,
+                                      "error":  ""
+                                  },
+                   "proxyHealth":  {
+                                       "url":  "http://103.152.242.193:3108/api/smartwork/jobs/health",
+                                       "ok":  true,
+                                       "status":  200,
+                                       "contentType":  "application/json; charset=utf-8",
+                                       "bodyLength":  510,
+                                       "error":  ""
+                                   },
+                   "directHealth":  {
+                                        "url":  "http://103.152.242.193:3107/api/smartwork/jobs/health",
+                                        "ok":  true,
+                                        "status":  200,
+                                        "contentType":  "application/json; charset=utf-8",
+                                        "bodyLength":  510,
+                                        "error":  ""
+                                    }
+               },
+    "submit":  {
+                   "ok":  true,
+                   "status":  201,
+                   "error":  "",
+                   "body":  {
+                                "ok":  true,
+                                "status":  201,
+                                "jobId":  "phase5zr-final-same-origin-1781260128225",
+                                "statusText":  "pending",
+                                "job":  {
+                                            "id":  "phase5zr-final-same-origin-1781260128225",
+                                            "schema":  "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+                                            "source":  "PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY",
+                                            "module":  "siaga",
+                                            "mode":  "dry-run",
+                                            "status":  "pending",
+                                            "accountRef":  "guru-001",
+                                            "credentialRef":  "guru-001",
+                                            "requester":  {
+                                                              "name":  "",
+                                                              "email":  "",
+                                                              "whatsapp":  ""
+                                                          },
+                                            "requestRange":  {
+                                                                 "startDate":  "2026-06-22",
+                                                                 "endDate":  "2026-06-27"
+                                                             },
+                                            "delivery":  {
+                                                             "mode":  "app_download_only"
+                                                         },
+                                            "request":  {
+                                                            "requestType":  "bulk-monthly",
+                                                            "notes":  "",
+                                                            "holidays":  [
+
+                                                                         ],
+                                                            "redacted":  true
+                                                        },
+                                            "safety":  {
+                                                           "dryRun":  true,
+                                                           "noRealSave":  true,
+                                                           "noRealSend":  true,
+                                                           "noSiagaInput":  true,
+                                                           "noBrowserOpen":  true,
+                                                           "rawPasswordStored":  false
+                                                       },
+                                            "progress":  {
+                                                             "percent":  0,
+                                                             "stage":  "queued",
+                                                             "message":  "Job diterima backend queue. Menunggu worker dry-run."
+                                                         },
+                                            "createdAt":  "2026-06-12T10:28:47.569Z",
+                                            "updatedAt":  "2026-06-12T10:28:47.569Z"
+                                        },
+                                "path":  "data/production-queue/pending/phase5zr-final-same-origin-1781260128225.json",
+                                "validation":  {
+                                                   "ok":  true,
+                                                   "errors":  [
+
+                                                              ]
+                                               }
+                            }
+               },
+    "jobStatus":  {
+                      "ok":  true,
+                      "id":  "phase5zr-final-same-origin-1781260128225",
+                      "status":  "completed",
+                      "path":  "data/production-queue/completed/phase5zr-final-same-origin-1781260128225.json",
+                      "job":  {
+                                  "id":  "phase5zr-final-same-origin-1781260128225",
+                                  "schema":  "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+                                  "source":  "PHASE_5ZR_FINAL_SAME_ORIGIN_API_PROXY",
+                                  "module":  "siaga",
+                                  "mode":  "dry-run",
+                                  "status":  "completed",
+                                  "accountRef":  "guru-001",
+                                  "credentialRef":  "guru-001",
+                                  "requester":  {
+                                                    "name":  "",
+                                                    "email":  "",
+                                                    "whatsapp":  ""
+                                                },
+                                  "requestRange":  {
+                                                       "startDate":  "2026-06-22",
+                                                       "endDate":  "2026-06-27"
+                                                   },
+                                  "delivery":  {
+                                                   "mode":  "app_download_only"
+                                               },
+                                  "request":  {
+                                                  "requestType":  "bulk-monthly",
+                                                  "notes":  "",
+                                                  "holidays":  [
+
+                                                               ],
+                                                  "redacted":  true
+                                              },
+                                  "safety":  {
+                                                 "dryRun":  true,
+                                                 "noRealSave":  true,
+                                                 "noRealSend":  true,
+                                                 "noSiagaInput":  true,
+                                                 "noBrowserOpen":  true,
+                                                 "rawPasswordStored":  false
+                                             },
+                                  "progress":  {
+                                                   "percent":  100,
+                                                   "stage":  "completed",
+                                                   "message":  "Production worker dry-run lifecycle completed. App progress only."
+                                               },
+                                  "createdAt":  "2026-06-12T10:28:47.569Z",
+                                  "updatedAt":  "2026-06-12T10:28:47.703Z",
+                                  "phase":  "completed",
+                                  "state":  "completed",
+                                  "startedAt":  "2026-06-12T10:28:47.702Z",
+                                  "percent":  100,
+                                  "progressPercent":  100,
+                                  "percentage":  100,
+                                  "summary":  {
+                                                  "total":  1,
+                                                  "completed":  1,
+                                                  "alreadyFilled":  1,
+                                                  "skipped":  0,
+                                                  "needsPlan":  0,
+                                                  "percent":  100
+                                              },
+                                  "artifacts":  {
+                                                    "pdfReady":  true,
+                                                    "proofReady":  true,
+                                                    "appOnly":  true
+                                                },
+                                  "completedAt":  "2026-06-12T10:28:47.703Z"
+                              },
+                      "safety":  {
+                                     "noSiagaInput":  true,
+                                     "noBrowserOpen":  true
+                                 }
+                  },
+    "jobStatusError":  "",
+    "safety":  {
+                   "dryRun":  true,
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T10:28:49.8209569Z"
+}

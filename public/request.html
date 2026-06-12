@@ -1150,7 +1150,13 @@
 <script id="smartwork-phase5v-vps-api-bridge">
 (() => {
   const PHASE = "5V";
-  const DEFAULT_API_BASE = "http://103.152.242.193:3107";
+  const DEFAULT_API_BASE = (() => {
+  const { hostname, port, origin } = window.location;
+  if ((hostname === "103.152.242.193" && port === "3108") || hostname === "smartwork-agent.id") {
+    return origin;
+  }
+  return "http://103.152.242.193:3107";
+})();
   const API_BASE = (localStorage.getItem("smartwork_vps_api_base") || DEFAULT_API_BASE).replace(/\/+$/, "");
   localStorage.setItem("smartwork_vps_api_base", API_BASE);
 
