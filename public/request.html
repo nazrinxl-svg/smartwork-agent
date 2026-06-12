@@ -1378,7 +1378,18 @@
 
   async function submitDryRun(form) {
     status("Mengirim request dry-run ke VPS queue...");
-    const healthBefore = await readHealth();
+    let healthBefore = null;
+    try {
+      healthBefore = await readHealth();
+    } catch (err) {
+      healthBefore = {
+        ok: false,
+        nonBlocking: true,
+        phase: PHASE,
+        error: String(err?.stack || err)
+      };
+      console.warn("[SmartWork Phase 5V] VPS health precheck failed but submit continues", err);
+    }
     const payload = normalizeVpsJobPayload(formObject(form), form);
     localStorage.setItem("smartwork_request", JSON.stringify(payload.request));
     localStorage.setItem("smartwork_active_job_id", payload.jobId);
@@ -1433,7 +1444,18 @@
       localStorage.setItem("smartwork_active_job_id", payload.jobId);
 
       status("Mengirim request dry-run payload ke VPS queue...");
-      const healthBefore = await readHealth();
+      let healthBefore = null;
+      try {
+        healthBefore = await readHealth();
+      } catch (err) {
+        healthBefore = {
+          ok: false,
+          nonBlocking: true,
+          phase: PHASE,
+          error: String(err?.stack || err)
+        };
+        console.warn("[SmartWork Phase 5V] VPS health precheck failed but submit continues", err);
+      }
       const submit = await postToVps(payload);
       const createdJobId =
         submit?.jobId ||

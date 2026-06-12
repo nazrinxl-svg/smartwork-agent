@@ -1,0 +1,283 @@
+{
+  "ok": true,
+  "phase": "5ZD",
+  "releaseDecision": "PHONE_PUBLIC_LIKE_DIRECT_PAYLOAD_TO_DEWAVPS_WORKER_DRY_RUN_READY",
+  "appBase": "http://127.0.0.1:5197",
+  "apiBase": "http://103.152.242.193:3107",
+  "device": "iPhone 13 emulation",
+  "serverMode": "INTERNAL_NODE_STATIC_SERVER_NO_SPAWN",
+  "originStrategy": "REUSE_PHASE5ZC_KNOWN_GOOD_LOCAL_ORIGIN_127_0_0_1_5197",
+  "submitMode": "DIRECT_SMARTWORK_VPS_API_PAYLOAD_OBJECT",
+  "appBridge": {
+    "bridgeReady": true,
+    "bridgeBase": "http://103.152.242.193:3107",
+    "noSameOriginProxy": true
+  },
+  "job": {
+    "jobId": "phase5zd-phone-public-like-1781255075309",
+    "status": "completed",
+    "percent": 100
+  },
+  "queueCounts": {
+    "beforeCompleted": 5,
+    "afterCompleted": 6
+  },
+  "progress": {
+    "progressBridgeReady": true,
+    "progressRefresh": {
+      "ok": false,
+      "error": "Error: invalid_json_response\n    at Object.refreshProductionProgress [as refresh] (http://127.0.0.1:5197/progress.html?jobId=phase5zd-phone-public-like-1781255075309:2211:13)\n    at async eval (eval at evaluate (:302:30), <anonymous>:4:69)\n    at async <anonymous>:328:30"
+    }
+  },
+  "proof": {
+    "healthFromPhoneApp": {
+      "ok": true,
+      "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+      "queue": {
+        "pending": "data/production-queue/pending",
+        "running": "data/production-queue/running",
+        "completed": "data/production-queue/completed",
+        "failed": "data/production-queue/failed"
+      },
+      "counts": {
+        "pending": 0,
+        "running": 0,
+        "completed": 5,
+        "failed": 0
+      },
+      "safety": {
+        "dryRun": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "noRealSave": true,
+        "noRealSend": true
+      }
+    },
+    "submitProof": {
+      "ok": true,
+      "phase": "5V",
+      "apiBase": "http://103.152.242.193:3107",
+      "jobId": "phase5zd-phone-public-like-1781255075309",
+      "submit": {
+        "ok": true,
+        "path": "/api/smartwork/jobs",
+        "status": 201,
+        "json": {
+          "ok": true,
+          "status": 201,
+          "jobId": "phase5zd-phone-public-like-1781255075309",
+          "statusText": "pending",
+          "job": {
+            "id": "phase5zd-phone-public-like-1781255075309",
+            "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+            "source": "smartwork-phone-public-like-proof",
+            "module": "siaga",
+            "mode": "dry-run",
+            "status": "pending",
+            "accountRef": "guru-001",
+            "credentialRef": "guru-001",
+            "requester": {
+              "name": "",
+              "email": "",
+              "whatsapp": ""
+            },
+            "requestRange": {
+              "startDate": "2026-06-13",
+              "endDate": "2026-06-13"
+            },
+            "delivery": {
+              "mode": "app_download_only"
+            },
+            "request": {
+              "requestType": "bulk-monthly",
+              "notes": "",
+              "holidays": [],
+              "redacted": true
+            },
+            "safety": {
+              "dryRun": true,
+              "noRealSave": true,
+              "noRealSend": true,
+              "noSiagaInput": true,
+              "noBrowserOpen": true,
+              "rawPasswordStored": false
+            },
+            "progress": {
+              "percent": 0,
+              "stage": "queued",
+              "message": "Job diterima backend queue. Menunggu worker dry-run."
+            },
+            "createdAt": "2026-06-12T09:04:35.001Z",
+            "updatedAt": "2026-06-12T09:04:35.001Z"
+          },
+          "path": "data/production-queue/pending/phase5zd-phone-public-like-1781255075309.json",
+          "validation": {
+            "ok": true,
+            "errors": []
+          }
+        },
+        "text": "{\n  \"ok\": true,\n  \"status\": 201,\n  \"jobId\": \"phase5zd-phone-public-like-1781255075309\",\n  \"statusText\": \"pending\",\n  \"job\": {\n    \"id\": \"phase5zd-phone-public-like-1781255075309\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-phone-public-like-proof\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"pending\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-13\",\n      \"endDate\": \"2026-06-13\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 0,\n      \"stage\": \"queued\",\n      \"message\": \"Job diterima backend queue. Menunggu worker dry-run.\"\n    },\n    \"createdAt\": \"2026-06-12T09:04:35.001Z\",\n    \"updatedAt\": \"2026-06-12T09:04:35.001Z\"\n  },\n  \"path\": \"data/production-queue/pending/phase5zd-phone-public-like-1781255075309.json\",\n  \"validation\": {\n    \"ok\": true,\n    \"errors\": []\n  }\n}"
+      },
+      "healthBefore": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 5,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "submittedAt": "2026-06-12T09:04:35.653Z",
+      "safety": {
+        "dryRun": true,
+        "noSiagaInput": true,
+        "noBrowserOpen": true,
+        "noRealSave": true,
+        "noRealSend": true,
+        "rawPasswordStored": false
+      }
+    },
+    "statusResult": {
+      "ok": true,
+      "status": 200,
+      "json": {
+        "ok": true,
+        "id": "phase5zd-phone-public-like-1781255075309",
+        "status": "completed",
+        "path": "data/production-queue/completed/phase5zd-phone-public-like-1781255075309.json",
+        "job": {
+          "id": "phase5zd-phone-public-like-1781255075309",
+          "schema": "SMARTWORK_PRODUCTION_JOB_SCHEMA_V1",
+          "source": "smartwork-phone-public-like-proof",
+          "module": "siaga",
+          "mode": "dry-run",
+          "status": "completed",
+          "accountRef": "guru-001",
+          "credentialRef": "guru-001",
+          "requester": {
+            "name": "",
+            "email": "",
+            "whatsapp": ""
+          },
+          "requestRange": {
+            "startDate": "2026-06-13",
+            "endDate": "2026-06-13"
+          },
+          "delivery": {
+            "mode": "app_download_only"
+          },
+          "request": {
+            "requestType": "bulk-monthly",
+            "notes": "",
+            "holidays": [],
+            "redacted": true
+          },
+          "safety": {
+            "dryRun": true,
+            "noRealSave": true,
+            "noRealSend": true,
+            "noSiagaInput": true,
+            "noBrowserOpen": true,
+            "rawPasswordStored": false
+          },
+          "progress": {
+            "percent": 100,
+            "stage": "completed",
+            "message": "Production worker dry-run lifecycle completed. App progress only."
+          },
+          "createdAt": "2026-06-12T09:04:35.001Z",
+          "updatedAt": "2026-06-12T09:04:35.513Z",
+          "phase": "completed",
+          "state": "completed",
+          "startedAt": "2026-06-12T09:04:35.511Z",
+          "percent": 100,
+          "progressPercent": 100,
+          "percentage": 100,
+          "summary": {
+            "total": 1,
+            "completed": 1,
+            "alreadyFilled": 1,
+            "skipped": 0,
+            "needsPlan": 0,
+            "percent": 100
+          },
+          "artifacts": {
+            "pdfReady": true,
+            "proofReady": true,
+            "appOnly": true
+          },
+          "completedAt": "2026-06-12T09:04:35.512Z"
+        },
+        "safety": {
+          "noSiagaInput": true,
+          "noBrowserOpen": true
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"id\": \"phase5zd-phone-public-like-1781255075309\",\n  \"status\": \"completed\",\n  \"path\": \"data/production-queue/completed/phase5zd-phone-public-like-1781255075309.json\",\n  \"job\": {\n    \"id\": \"phase5zd-phone-public-like-1781255075309\",\n    \"schema\": \"SMARTWORK_PRODUCTION_JOB_SCHEMA_V1\",\n    \"source\": \"smartwork-phone-public-like-proof\",\n    \"module\": \"siaga\",\n    \"mode\": \"dry-run\",\n    \"status\": \"completed\",\n    \"accountRef\": \"guru-001\",\n    \"credentialRef\": \"guru-001\",\n    \"requester\": {\n      \"name\": \"\",\n      \"email\": \"\",\n      \"whatsapp\": \"\"\n    },\n    \"requestRange\": {\n      \"startDate\": \"2026-06-13\",\n      \"endDate\": \"2026-06-13\"\n    },\n    \"delivery\": {\n      \"mode\": \"app_download_only\"\n    },\n    \"request\": {\n      \"requestType\": \"bulk-monthly\",\n      \"notes\": \"\",\n      \"holidays\": [],\n      \"redacted\": true\n    },\n    \"safety\": {\n      \"dryRun\": true,\n      \"noRealSave\": true,\n      \"noRealSend\": true,\n      \"noSiagaInput\": true,\n      \"noBrowserOpen\": true,\n      \"rawPasswordStored\": false\n    },\n    \"progress\": {\n      \"percent\": 100,\n      \"stage\": \"completed\",\n      \"message\": \"Production worker dry-run lifecycle completed. App progress only.\"\n    },\n    \"createdAt\": \"2026-06-12T09:04:35.001Z\",\n    \"updatedAt\": \"2026-06-12T09:04:35.513Z\",\n    \"phase\": \"completed\",\n    \"state\": \"completed\",\n    \"startedAt\": \"2026-06-12T09:04:35.511Z\",\n    \"percent\": 100,\n    \"progressPercent\": 100,\n    \"percentage\": 100,\n    \"summary\": {\n      \"total\": 1,\n      \"completed\": 1,\n      \"alreadyFilled\": 1,\n      \"skipped\": 0,\n      \"needsPlan\": 0,\n      \"percent\": 100\n    },\n    \"artifacts\": {\n      \"pdfReady\": true,\n      \"proofReady\": true,\n      \"appOnly\": true\n    },\n    \"completedAt\": \"2026-06-12T09:04:35.512Z\"\n  },\n  \"safety\": {\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true\n  }\n}",
+      "verifier": "browser_fetch"
+    },
+    "healthAfter": {
+      "ok": true,
+      "status": 200,
+      "json": {
+        "ok": true,
+        "mode": "SMARTWORK_PRODUCTION_QUEUE_API_NATIVE",
+        "queue": {
+          "pending": "data/production-queue/pending",
+          "running": "data/production-queue/running",
+          "completed": "data/production-queue/completed",
+          "failed": "data/production-queue/failed"
+        },
+        "counts": {
+          "pending": 0,
+          "running": 0,
+          "completed": 6,
+          "failed": 0
+        },
+        "safety": {
+          "dryRun": true,
+          "noSiagaInput": true,
+          "noBrowserOpen": true,
+          "noRealSave": true,
+          "noRealSend": true
+        }
+      },
+      "text": "{\n  \"ok\": true,\n  \"mode\": \"SMARTWORK_PRODUCTION_QUEUE_API_NATIVE\",\n  \"queue\": {\n    \"pending\": \"data/production-queue/pending\",\n    \"running\": \"data/production-queue/running\",\n    \"completed\": \"data/production-queue/completed\",\n    \"failed\": \"data/production-queue/failed\"\n  },\n  \"counts\": {\n    \"pending\": 0,\n    \"running\": 0,\n    \"completed\": 6,\n    \"failed\": 0\n  },\n  \"safety\": {\n    \"dryRun\": true,\n    \"noSiagaInput\": true,\n    \"noBrowserOpen\": true,\n    \"noRealSave\": true,\n    \"noRealSend\": true\n  }\n}",
+      "verifier": "browser_fetch"
+    }
+  },
+  "screenshots": {
+    "request": "shots/smartwork-phase5zd-phone-request-filled.png",
+    "progress": "shots/smartwork-phase5zd-phone-progress.png"
+  },
+  "safetyConfirmed": {
+    "dryRun": true,
+    "noSiagaInput": true,
+    "noBrowserOpen": true,
+    "noRealSave": true,
+    "noRealSend": true,
+    "rawPasswordStored": false
+  },
+  "consoleLines": [
+    "[log] [SmartWork Phase 5V] VPS API ready: http://103.152.242.193:3107",
+    "[log] [SmartWork Phase 5V] Mengirim request dry-run payload ke VPS queue...",
+    "[log] [SmartWork Phase 5V] Request dry-run payload masuk VPS queue: phase5zd-phone-public-like-1781255075309"
+  ],
+  "errors": [],
+  "createdAt": "2026-06-12T09:04:31.201Z",
+  "updatedAt": "2026-06-12T09:04:39.258Z"
+}
