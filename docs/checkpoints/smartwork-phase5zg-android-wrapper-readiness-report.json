@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "phase": "5ZG",
+  "releaseDecision": "ANDROID_TWA_WRAPPER_READINESS_PACK_READY",
+  "importantNote": "This phase prepares Android/TWA readiness only. It does not build, sign, or upload an AAB.",
+  "files": {
+    "decisionDoc": "docs/playstore/smartwork-phase5zg-android-wrapper-decision.md",
+    "decisionJson": "android/phase5zg/smartwork-android-wrapper-decision.json",
+    "assetLinksTemplate": "android/phase5zg/assetlinks.template.json",
+    "readme": "android/phase5zg/README.md",
+    "manifest": "public/manifest.webmanifest",
+    "apiReadiness": "deploy/phase5zf/smartwork-public-api-readiness.json"
+  },
+  "decision": {
+    "phase": "5ZG",
+    "decision": "TWA_FIRST",
+    "fallback": "CAPACITOR_IF_NATIVE_PLUGINS_OR_PACKAGED_OFFLINE_APP_REQUIRED",
+    "app": {
+      "name": "SmartWork Agent",
+      "shortName": "SmartWork",
+      "packageName": "id.smartwork.agent",
+      "webAppUrl": "https://smartwork-agent.id",
+      "apiUrl": "https://api.smartwork-agent.id",
+      "startUrl": "https://smartwork-agent.id/home.html"
+    },
+    "twa": {
+      "launcherName": "SmartWork Agent",
+      "displayMode": "standalone",
+      "orientation": "portrait",
+      "assetLinksPath": "/.well-known/assetlinks.json",
+      "requiresDigitalAssetLinks": true
+    },
+    "requiredBeforeAab": [
+      "real HTTPS web domain",
+      "real HTTPS API domain",
+      "privacy policy URL",
+      "Play Console app record",
+      "release signing key or Play App Signing",
+      "assetlinks.json with SHA-256 certificate fingerprint",
+      "production CORS origins configured"
+    ],
+    "safety": {
+      "noSiagaInput": true,
+      "noBrowserOpen": true,
+      "noRealSave": true,
+      "noRealSend": true,
+      "noPlayStoreUpload": true
+    }
+  },
+  "checks": {
+    "decisionDocReady": true,
+    "decisionJsonReady": true,
+    "assetLinksTemplateReady": true,
+    "readmeReady": true,
+    "twaFirstDecision": true,
+    "packageNameReady": true,
+    "webUrlIsHttps": true,
+    "apiUrlIsHttps": true,
+    "manifestStandalone": true,
+    "manifestStartUrlReady": true,
+    "apiReadinessHttpsRecommended": true,
+    "assetLinksHasPackage": true,
+    "assetLinksNeedsFingerprintReplacement": true,
+    "safetyNoRealActions": true
+  },
+  "createdAt": "2026-06-12T09:18:39.906Z"
+}
