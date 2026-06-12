@@ -1,0 +1,16 @@
+# SmartWork temporary static app server, domain-agnostic.
+# Use only for staging/proof while DNS is pending.
+# This is not the final Play Store/TWA HTTPS route.
+
+:3108 {
+  encode gzip zstd
+  root * /opt/smartwork-agent/public
+  file_server
+
+  header {
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+  }
+
+  try_files {path} /index.html
+}

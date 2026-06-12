@@ -1,0 +1,35 @@
+{
+    "ok":  true,
+    "phase":  "5ZN",
+    "releaseDecision":  "DOMAIN_AGNOSTIC_VPS_DEPLOY_PROOF_PACK_READY",
+    "importantNote":  "This pack stages VPS deployment without claiming Play Store/TWA readiness. Real TWA build remains blocked until HTTPS domain and assetlinks are live.",
+    "existingVpsApiHealth":  {
+                                 "url":  "http://103.152.242.193:3107/api/smartwork/jobs/health",
+                                 "ok":  true,
+                                 "status":  200,
+                                 "error":  ""
+                             },
+    "checks":  {
+                   "phase5zlVerifierReady":  true,
+                   "phase5zlDomainsNotLiveConfirmed":  true,
+                   "phase5zmBootstrapReady":  true,
+                   "docReady":  true,
+                   "caddyStaticStagingReady":  true,
+                   "vpsSetupReady":  true,
+                   "laptopHelperReady":  true,
+                   "publicManifestReady":  true,
+                   "publicPrivacyReady":  true,
+                   "publicAssetlinksReady":  true,
+                   "existingVpsApiHealthReachable":  true,
+                   "safetyNoRealActions":  true
+               },
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noAabBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-12T10:01:02.8868351Z"
+}
