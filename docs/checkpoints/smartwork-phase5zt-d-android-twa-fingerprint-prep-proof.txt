@@ -1,0 +1,46 @@
+﻿PHASE 5ZT-D ANDROID/TWA FINGERPRINT PREP PROOF
+Date: 2026-06-12T22:51:03.7806358+07:00
+Branch: test/ui-request-next-20260611-004522
+HEAD: 5afa17e
+
+Release Decision:
+ANDROID_TWA_FINGERPRINT_PREP_READY_RELEASE_KEY_PENDING_PHASE5ZT_D
+
+Domain:
+https://smartwork-agent.id
+
+Package:
+id.smartwork.agent
+
+Result:
+packageOk: True
+hasFingerprintField: True
+fingerprintPlaceholder: True
+manifestOk: True
+hasPublicAssetlinks: True
+hasPublicManifest: True
+keytoolDetected: True
+
+Toolchain:
+Node: v24.15.0
+NPM: 11.12.1
+
+Java:
+openjdk version "21.0.11" 2026-04-21 LTS
+OpenJDK Runtime Environment Temurin-21.0.11+10 (build 21.0.11+10-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.11+10 (build 21.0.11+10-LTS, mixed mode, sharing)
+
+Safety:
+No SIAGA input.
+No browser automation.
+No real save/send.
+No AAB build.
+No TWA build.
+No Play Store upload.
+Fingerprint preparation only.
+
+Live manifest:
+{   "name": "SmartWork Agent",   "short_name": "SmartWork",   "description": "AI work automation assistant for request, progress, and proof delivery.",   "id": "/",   "start_url": "/home.html",   "scope": "/",   "display": "standalone",   "orientation": "portrait",   "background_color": "#f8fafc",   "theme_color": "#2563eb",   "categories": [     "productivity",     "education",     "utilities"   ],   "lang": "id-ID",   "icons": [     {       "src": "/icons/smartwork-icon-192.svg",       "sizes": "192x192",       "type": "image/svg+xml",       "purpose": "any maskable"     },     {       "src": "/icons/smartwork-icon-512.svg",       "sizes": "512x512",       "type": "image/svg+xml",       "purpose": "any maskable"     }   ] }
+
+Live assetlinks:
+[   {     "relation": ["delegate_permission/common.handle_all_urls"],     "target": {       "namespace": "android_app",       "package_name": "id.smartwork.agent",       "sha256_cert_fingerprints": [         "REPLACE_WITH_RELEASE_CERT_SHA256_FINGERPRINT"       ]     }   } ]
