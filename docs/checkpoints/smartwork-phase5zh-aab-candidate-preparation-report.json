@@ -1,0 +1,82 @@
+{
+    "ok":  true,
+    "phase":  "5ZH",
+    "releaseDecision":  "AAB_CANDIDATE_PREPARATION_PACK_READY_ENVIRONMENT_INCOMPLETE",
+    "importantNote":  "This phase prepares the AAB candidate pack. Missing Android build tools do not fail the prep pack.",
+    "environmentReadyForRealBuild":  false,
+    "config":  {
+                   "phase":  "5ZH",
+                   "name":  "SmartWork AAB Candidate Preparation",
+                   "androidPath":  "TWA",
+                   "packageName":  "id.smartwork.agent",
+                   "appName":  "SmartWork Agent",
+                   "webAppUrl":  "https://smartwork-agent.id",
+                   "apiUrl":  "https://api.smartwork-agent.id",
+                   "startUrl":  "https://smartwork-agent.id/home.html",
+                   "expectedAabPath":  "android/twa/app-release.aab",
+                   "requiredTools":  [
+                                         "java",
+                                         "keytool",
+                                         "adb",
+                                         "gradle",
+                                         "bubblewrap"
+                                     ],
+                   "requiredProductionItems":  [
+                                                   "HTTPS web domain",
+                                                   "HTTPS API domain",
+                                                   "privacy policy URL",
+                                                   "assetlinks.json with release SHA-256",
+                                                   "release signing key or Play App Signing",
+                                                   "Play Console app record",
+                                                   "store screenshots",
+                                                   "data safety answers"
+                                               ],
+                   "safety":  {
+                                  "noSiagaInput":  true,
+                                  "noBrowserOpen":  true,
+                                  "noRealSave":  true,
+                                  "noRealSend":  true,
+                                  "noPlayStoreUpload":  true
+                              }
+               },
+    "checks":  {
+                   "configReady":  true,
+                   "commandsReady":  true,
+                   "docsReady":  true,
+                   "pwaReady":  true,
+                   "apiReadinessReady":  true,
+                   "androidWrapperReady":  true,
+                   "packageNameReady":  true,
+                   "webUrlHttpsPlanned":  true,
+                   "apiUrlHttpsPlanned":  true,
+                   "safetyNoRealActions":  true
+               },
+    "toolChecks":  {
+                       "java":  {
+                                    "command":  "java",
+                                    "ok":  false,
+                                    "path":  ""
+                                },
+                       "keytool":  {
+                                       "command":  "keytool",
+                                       "ok":  false,
+                                       "path":  ""
+                                   },
+                       "adb":  {
+                                   "command":  "adb",
+                                   "ok":  false,
+                                   "path":  ""
+                               },
+                       "gradle":  {
+                                      "command":  "gradle",
+                                      "ok":  false,
+                                      "path":  ""
+                                  },
+                       "bubblewrap":  {
+                                          "command":  "bubblewrap",
+                                          "ok":  false,
+                                          "path":  ""
+                                      }
+                   },
+    "createdAt":  "2026-06-12T09:21:47.7116663Z"
+}

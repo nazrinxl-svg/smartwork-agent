@@ -1,0 +1,35 @@
+{
+    "phase":  "5ZH",
+    "name":  "SmartWork AAB Candidate Preparation",
+    "androidPath":  "TWA",
+    "packageName":  "id.smartwork.agent",
+    "appName":  "SmartWork Agent",
+    "webAppUrl":  "https://smartwork-agent.id",
+    "apiUrl":  "https://api.smartwork-agent.id",
+    "startUrl":  "https://smartwork-agent.id/home.html",
+    "expectedAabPath":  "android/twa/app-release.aab",
+    "requiredTools":  [
+                          "java",
+                          "keytool",
+                          "adb",
+                          "gradle",
+                          "bubblewrap"
+                      ],
+    "requiredProductionItems":  [
+                                    "HTTPS web domain",
+                                    "HTTPS API domain",
+                                    "privacy policy URL",
+                                    "assetlinks.json with release SHA-256",
+                                    "release signing key or Play App Signing",
+                                    "Play Console app record",
+                                    "store screenshots",
+                                    "data safety answers"
+                                ],
+    "safety":  {
+                   "noSiagaInput":  true,
+                   "noBrowserOpen":  true,
+                   "noRealSave":  true,
+                   "noRealSend":  true,
+                   "noPlayStoreUpload":  true
+               }
+}
