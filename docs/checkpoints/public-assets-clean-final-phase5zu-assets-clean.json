@@ -1,0 +1,15 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZU-ASSETS-CLEAN",
+    "head":  "4b11bf4",
+    "removedPublicAssets":  true,
+    "reason":  "public/assets/smartwork-logo.svg was untracked, unreferenced by tracked files, and blocked by SmartArmy audit as unapproved protected change.",
+    "uiLoginIconManifestChanged":  false,
+    "noUiPatch":  true,
+    "noIconPatch":  true,
+    "noApkRebuild":  true,
+    "noAabRebuild":  true,
+    "noKeystoreTouch":  true,
+    "noPlayStoreUpload":  true,
+    "timestamp":  "2026-06-13T11:13:15"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZU-ASSETS-AUDIT",
+    "purpose":  "Audit untracked public/assets after SmartArmy hard gate commit",
+    "noUiPatch":  true,
+    "noIconPatch":  true,
+    "noApkRebuild":  true,
+    "noAabRebuild":  true,
+    "noKeystoreTouch":  true,
+    "noPlayStoreUpload":  true,
+    "publicAssetsExists":  true,
+    "trackedReferencesCount":  0,
+    "timestamp":  "2026-06-13T11:11:51"
+}
