@@ -72,3 +72,6 @@ reports/*.tgz
 android/phase5zt-k/generated*/
 android/phase5zt-k/**/*.keystore
 android/phase5zt-k/**/*.jks
+
+# Phase 5ZT-O local secret/build archives
+android/phase5zt-o/

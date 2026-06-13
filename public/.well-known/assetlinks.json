@@ -1,12 +1,14 @@
-{
-    "relation":  [
-                     "delegate_permission/common.handle_all_urls"
-                 ],
-    "target":  {
-                   "namespace":  "android_app",
-                   "package_name":  "id.smartwork.agent",
-                   "sha256_cert_fingerprints":  [
-                                                    "29:FF:ED:3E:F5:35:47:71:98:77:39:4A:0A:FE:2F:18:E6:C6:89:4A:75:8A:79:99:10:E8:58:FB:08:30:F0:35"
-                                                ]
-               }
-}
+[
+    {
+        "relation":  [
+                         "delegate_permission/common.handle_all_urls"
+                     ],
+        "target":  {
+                       "namespace":  "android_app",
+                       "package_name":  "id.smartwork.agent",
+                       "sha256_cert_fingerprints":  [
+                                                        "B1:F8:2E:EE:48:39:16:F5:33:6D:FB:29:29:6E:5F:2B:81:72:AC:F9:9B:FF:A5:69:A5:56:DB:60:92:62:80:9F"
+                                                    ]
+                   }
+    }
+]

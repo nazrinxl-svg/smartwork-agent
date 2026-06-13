@@ -1,0 +1,15 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-O",
+    "status":  "FINAL_RELEASE_KEY_ROTATED_AND_ASSETLINKS_UPDATED",
+    "releaseDecision":  "FINAL_ROTATED_ASSETLINKS_READY_FOR_PUBLIC_DEPLOY_NO_PLAY_UPLOAD",
+    "packageName":  "id.smartwork.agent",
+    "sha256":  "B1:F8:2E:EE:48:39:16:F5:33:6D:FB:29:29:6E:5F:2B:81:72:AC:F9:9B:FF:A5:69:A5:56:DB:60:92:62:80:9F",
+    "safety":  {
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true,
+                   "buildArtifactsNotCommitted":  true
+               },
+    "createdAt":  "2026-06-13T09:51:25"
+}
