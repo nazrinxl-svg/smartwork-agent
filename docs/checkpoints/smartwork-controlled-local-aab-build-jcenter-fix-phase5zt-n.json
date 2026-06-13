@@ -1,0 +1,17 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-N",
+    "status":  "GRADLE_JCENTER_REPOSITORY_PATCHED_FOR_LOCAL_BUILD_RETRY",
+    "previousFailure":  "Gradle failed downloading dependencies from jcenter.bintray.com with UnknownHostException",
+    "generatedFolder":  "android\\phase5zt-k\\generated-hotspot",
+    "patches":  {
+                    "file":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\build.gradle",
+                    "patched":  true
+                },
+    "safety":  {
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "buildArtifactsNotCommitted":  true
+               },
+    "createdAt":  "2026-06-13T09:14:22"
+}
