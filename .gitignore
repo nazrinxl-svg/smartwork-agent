@@ -67,3 +67,8 @@ android/phase5zt-j/generated-*/
 android/phase5zt-j/**/*.keystore
 android/phase5zt-j/**/*.jks
 reports/*.tgz
+
+# Phase 5ZT-K Android Bubblewrap generated/secret artifacts
+android/phase5zt-k/generated*/
+android/phase5zt-k/**/*.keystore
+android/phase5zt-k/**/*.jks
