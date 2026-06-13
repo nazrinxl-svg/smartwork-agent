@@ -4,7 +4,7 @@
     "status":  "BUBBLEWRAP_INIT_CLEAN_EXIT_SUCCESS_INSPECT_ONLY",
     "releaseDecision":  "CLEAN_INIT_SUCCESS_READY_FOR_NEXT_ASSETLINKS_PLANNING_NO_AAB_NO_APK_BUILD",
     "branch":  "test/ui-request-next-20260611-004522",
-    "headBeforeCommit":  "0417df4",
+    "headBeforeCommit":  "925eec5",
     "generatedFolder":  "android\\phase5zt-k\\generated-hotspot",
     "publicManifest":  {
                            "url":  "https://smartwork-agent.id/manifest.json",
@@ -147,5 +147,5 @@
                    "generatedFolderNotCommitted":  true,
                    "keystoreNotCommitted":  true
                },
-    "createdAt":  "2026-06-13T08:38:47"
+    "createdAt":  "2026-06-13T08:40:34"
 }
