@@ -1,0 +1,30 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-T",
+    "status":  "MANUAL_PLAY_CONSOLE_UPLOAD_GUIDE_READY_NO_UPLOAD",
+    "releaseDecision":  "READY_FOR_MANUAL_PLAY_CONSOLE_INTERNAL_TEST_UPLOAD_BY_USER",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "headBeforeCommit":  "2d492af",
+    "finalAab":  {
+                     "path":  "release-local\\play-console\\smartwork-agent-final-aab\\smartwork-agent-final-release-b1f8.aab",
+                     "sha256FileHash":  "D2AA6B061FB1D104BC0A52AB316B9E3B37ECBC3BD9F0964C8E95AE8CA728AD89"
+                 },
+    "packageName":  "id.smartwork.agent",
+    "appName":  "SmartWork Agent",
+    "domain":  "smartwork-agent.id",
+    "assetlinks":  {
+                       "status":  200,
+                       "packageName":  "id.smartwork.agent",
+                       "sha256":  "B1:F8:2E:EE:48:39:16:F5:33:6D:FB:29:29:6E:5F:2B:81:72:AC:F9:9B:FF:A5:69:A5:56:DB:60:92:62:80:9F"
+                   },
+    "backupFolder":  "D:\\SmartWork-Release-Backup\\smartwork-agent-release-20260613-100421",
+    "safety":  {
+                   "noPlayStoreUpload":  true,
+                   "manualGuideOnly":  true,
+                   "recommendInternalTestingFirst":  true,
+                   "aabNotCommitted":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true
+               },
+    "createdAt":  "2026-06-13T10:07:00"
+}
