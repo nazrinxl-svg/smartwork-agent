@@ -1,0 +1,16 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-L",
+    "status":  "ASSETLINKS_RELEASE_FINGERPRINT_CORRECTED",
+    "packageName":  "id.smartwork.agent",
+    "sha256":  "BB:06:BC:37:60:45:C7:0E:B9:9C:8F:1D:AB:B5:32:2C:13:6A:0F:85:29:F8:67:BE:DD:D7:A2:87:79:6D:9E:B6",
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noApkBuild":  true,
+                   "noGradleBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true
+               },
+    "createdAt":  "2026-06-13T08:51:02"
+}
