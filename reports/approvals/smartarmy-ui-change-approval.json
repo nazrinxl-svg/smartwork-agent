@@ -1,0 +1,32 @@
+﻿{
+    "approved":  true,
+    "phase":  "PHASE5ZV-M3",
+    "approvalType":  "SMARTARMY_UI_CHANGE_APPROVAL",
+    "changeType":  "UI_GEOMETRY_AND_TEXT_ONLY_NOT_UX",
+    "approvedBy":  "Naz",
+    "approvedAt":  "2026-06-13T08:04:47.7942365Z",
+    "allowedFiles":  [
+                         "public/home.html",
+                         "public/request.html",
+                         "public/progress.html",
+                         "public/history.html"
+                     ],
+    "allowedScope":  [
+                         "logo size and geometry consistency",
+                         "heading alignment consistency",
+                         "mojibake text cleanup",
+                         "bottom navigation edge geometry proof"
+                     ],
+    "explicitlyNotAllowed":  [
+                                 "login change",
+                                 "routing change",
+                                 "API bridge change",
+                                 "manifest change",
+                                 "profile flow change",
+                                 "SIAGA input",
+                                 "browser automation to SIAGA",
+                                 "real save/send/delete",
+                                 "UX/data-flow freeze"
+                             ],
+    "notes":  "This approval covers only mobile UI visual geometry and corrupted text cleanup. It must not be interpreted as a full UX/hash lock."
+}

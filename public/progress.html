@@ -762,6 +762,42 @@
     background: #22c55e !important;
     border: 2px solid #ffffff !important;
   }
+
+  /* SMARTWORK_PROGRESS_HERO_TITLE_MATCH_REQUEST_PHASE5ZV_G: Progress heading only, do not touch nav/login/home/request/history/profile */
+  section.hero #heroTitle{
+    font-size:18px!important;
+    line-height:20.7px!important;
+    font-weight:700!important;
+    letter-spacing:-0.04em!important;
+  }
+
+  
+  /* SMARTWORK_PROGRESS_HERO_TITLE_FIRST_ALIGN_PHASE5ZV_K2: Progress hero visual order only; title must be first; do not touch nav/logo/login/routing/API */
+  section.hero{
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  section.hero #heroTitle{
+    order:-30!important;
+    margin-top:0!important;
+    margin-bottom:6px!important;
+  }
+  section.hero .statusPill{
+    order:-20!important;
+    align-self:flex-start!important;
+    margin-top:0!important;
+    margin-bottom:8px!important;
+  }
+  section.hero .heroText,
+  section.hero > p{
+    order:-10!important;
+  }
+
+
+  /* SMARTWORK_PROGRESS_BRAND_POSITION_MATCH_HOME_PHASE5ZV_L: Progress brand logo/text position only; do not touch hero/nav/login/API */
+  .topbar .brand{
+    transform:translate(-2px,-2px)!important;
+  }
 </style>
 <style id="smartwork-progress-failsafe-polish">
   .app{
@@ -1324,7 +1360,7 @@
       </div>
       <div class="timeline">
         <div class="step">
-          <div class="check">Ã¢Å“â€œ</div>
+          <div class="check">&#10003;</div>
           <div>
             <div class="stepTitle">Request diterima</div>
             <div class="stepText">Data pemohon, akun SIAGA, dan rentang tanggal dibaca dari form aplikasi.</div>
@@ -1332,7 +1368,7 @@
           <div class="time"><span class="time"><span data-flow-time="request">--:--</span></span></div>
           
         </div>        <div class="step">
-          <div class="check">Ã¢Å“â€œ</div>
+          <div class="check">&#10003;</div>
           <div>
             <div class="stepTitle">Agent memproses SIAGA</div>
             <div class="stepText">Login, input presensi, dan verifikasi dilakukan sesuai request.</div>
@@ -1340,7 +1376,7 @@
           <div class="time"><span class="time"><span data-flow-time="process">--:--</span></span></div>
         </div>
         <div class="step">
-          <div class="check">Ã¢Å“â€œ</div>
+          <div class="check">&#10003;</div>
           <div>
             <div class="stepTitle">PDF & bukti dibuat</div>
             <div class="stepText">Presensi PDF dan proof report sudah cocok dengan request aktif.</div>
@@ -1471,7 +1507,7 @@ nav.bottom-nav {
     const [a,b] = String(range).split("..");
     const da = Number((a.split("-")[2] || "1"));
     const db = Number((b.split("-")[2] || "30"));
-    return `Request ${da} Juni Ã¢â‚¬â€œ ${db} Juni 2026 sudah diverifikasi.`;
+    return `Request ${da} Juni - ${db} Juni 2026 sudah diverifikasi.`;
   }
 
   function applyReady(data){
@@ -1847,7 +1883,7 @@ nav.bottom-nav {
     if (finish) finish.textContent = "Selesai";
 
     setText("heroTitle", artifacts?.uiText?.title || "Hasil Siap");
-    setText("heroText", `${teacherName} Ã¢â‚¬Â¢ ${range} selesai. PDF & bukti siap diunduh.`);
+    setText("heroText", `${teacherName} \u2022 ${range} selesai. PDF & bukti siap diunduh.`);
 
     setText("totalVal", total);
     setText("filledVal", filled);
@@ -1965,7 +2001,7 @@ nav.bottom-nav {
 
     setFinish("Selesai");
     setText("heroTitle", "Hasil Siap");
-    setText("heroText", teacher + " Ã¢â‚¬Â¢ " + range + " selesai. PDF & bukti siap diunduh.");
+    setText("heroText", teacher + (range ? " \u2022 " + range : "") + " selesai. PDF & bukti siap diunduh.");
 
     setText("totalVal", total);
     setText("filledVal", filled);
@@ -2008,7 +2044,7 @@ nav.bottom-nav {
 
     setFinish(live?.status === "needs_check" ? "Perlu dicek" : "Diproses " + percent + "%");
     setText("heroTitle", live?.status === "needs_check" ? "Verifikasi perlu dicek" : "Agent sedang bekerja");
-    setText("heroText", teacher + (range ? " Ã¢â‚¬Â¢ " + range : "") + " Ã¢â‚¬â€ " + (live?.message || "Sistem sedang memproses request aktif."));
+    setText("heroText", teacher + (range ? " \u2022 " + range : "") + (live?.status === "needs_check" ? " perlu dicek manual." : " sedang diproses oleh agent."));
 
     setText("totalVal", total || 0);
     setText("filledVal", Number(summary.alreadyFilled || 0));
@@ -2437,7 +2473,7 @@ nav.bottom-nav {
     };
 
     localStorage.setItem("smartwork_vps_last_status", JSON.stringify(proof));
-    render("Job " + jobId + " Ã¢â‚¬â€ " + status + " Ã¢â‚¬â€ " + percent + "% Ã¢â‚¬â€ " + message, Boolean(json.ok));
+    render("Job " + jobId + " - " + status + " - " + percent + "% - " + message);
     window.dispatchEvent(new CustomEvent("smartwork:vps-status-ok", { detail: proof }));
     return proof;
   }

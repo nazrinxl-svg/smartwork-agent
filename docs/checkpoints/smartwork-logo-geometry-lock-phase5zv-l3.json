@@ -1,0 +1,169 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T07:50:15.349Z",
+  "lockName": "SMARTWORK_LOGO_GEOMETRY_LOCK_PHASE5ZV_L3",
+  "rule": "Home, Request, Progress, History logo box must be L14/T14/42x42 and image must be L16/T16/38x38 with inset 2/2.",
+  "expected": {
+    "boxLeft": 14,
+    "boxTop": 14,
+    "boxWidth": 42,
+    "boxHeight": 42,
+    "imgLeft": 16,
+    "imgTop": 16,
+    "imgWidth": 38,
+    "imgHeight": 38,
+    "insetX": 2,
+    "insetY": 2
+  },
+  "results": [
+    {
+      "name": "Home",
+      "file": "public/home.html",
+      "selectors": {
+        "box": ".brand-logo",
+        "img": ".brand-logo img"
+      },
+      "expected": {
+        "boxLeft": 14,
+        "boxTop": 14,
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgLeft": 16,
+        "imgTop": 16,
+        "imgWidth": 38,
+        "imgHeight": 38,
+        "insetX": 2,
+        "insetY": 2
+      },
+      "actual": {
+        "box": {
+          "left": 14,
+          "top": 14,
+          "width": 42,
+          "height": 42
+        },
+        "img": {
+          "left": 16,
+          "top": 16,
+          "width": 38,
+          "height": 38
+        },
+        "insetX": 2,
+        "insetY": 2
+      },
+      "ok": true
+    },
+    {
+      "name": "Request",
+      "file": "public/request.html",
+      "selectors": {
+        "box": ".request-heading .heading-brand .logo",
+        "img": ".request-heading .heading-brand .logo > img"
+      },
+      "expected": {
+        "boxLeft": 14,
+        "boxTop": 14,
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgLeft": 16,
+        "imgTop": 16,
+        "imgWidth": 38,
+        "imgHeight": 38,
+        "insetX": 2,
+        "insetY": 2
+      },
+      "actual": {
+        "box": {
+          "left": 14,
+          "top": 14,
+          "width": 42,
+          "height": 42
+        },
+        "img": {
+          "left": 16,
+          "top": 16,
+          "width": 38,
+          "height": 38
+        },
+        "insetX": 2,
+        "insetY": 2
+      },
+      "ok": true
+    },
+    {
+      "name": "Progress",
+      "file": "public/progress.html",
+      "selectors": {
+        "box": ".brand-logo",
+        "img": ".brand-logo img"
+      },
+      "expected": {
+        "boxLeft": 14,
+        "boxTop": 14,
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgLeft": 16,
+        "imgTop": 16,
+        "imgWidth": 38,
+        "imgHeight": 38,
+        "insetX": 2,
+        "insetY": 2
+      },
+      "actual": {
+        "box": {
+          "left": 14,
+          "top": 14,
+          "width": 42,
+          "height": 42
+        },
+        "img": {
+          "left": 16,
+          "top": 16,
+          "width": 38,
+          "height": 38
+        },
+        "insetX": 2,
+        "insetY": 2
+      },
+      "ok": true
+    },
+    {
+      "name": "History",
+      "file": "public/history.html",
+      "selectors": {
+        "box": ".top-hero > .hero > .logo",
+        "img": ".top-hero > .hero > .logo > img"
+      },
+      "expected": {
+        "boxLeft": 14,
+        "boxTop": 14,
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgLeft": 16,
+        "imgTop": 16,
+        "imgWidth": 38,
+        "imgHeight": 38,
+        "insetX": 2,
+        "insetY": 2
+      },
+      "actual": {
+        "box": {
+          "left": 14,
+          "top": 14,
+          "width": 42,
+          "height": 42
+        },
+        "img": {
+          "left": 16,
+          "top": 16,
+          "width": 38,
+          "height": 38
+        },
+        "insetX": 2,
+        "insetY": 2
+      },
+      "ok": true
+    }
+  ],
+  "failures": []
+}

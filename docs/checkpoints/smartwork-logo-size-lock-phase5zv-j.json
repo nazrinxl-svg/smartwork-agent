@@ -1,0 +1,171 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T07:50:11.759Z",
+  "lockName": "SMARTWORK_LOGO_SIZE_LOCK_PHASE5ZV_J",
+  "rule": "Home, Request, Progress, History logo box must stay 42x42 and logo image must stay 38x38.",
+  "expected": {
+    "boxWidth": 42,
+    "boxHeight": 42,
+    "imgWidth": 38,
+    "imgHeight": 38
+  },
+  "results": [
+    {
+      "name": "Home",
+      "file": "public/home.html",
+      "selectors": {
+        "box": ".brand-logo",
+        "img": ".brand-logo img"
+      },
+      "expected": {
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgWidth": 38,
+        "imgHeight": 38
+      },
+      "actual": {
+        "box": {
+          "selector": ".brand-logo",
+          "top": 14,
+          "left": 14,
+          "width": 42,
+          "height": 42,
+          "cssWidth": "42px",
+          "cssHeight": "42px",
+          "objectFit": "fill",
+          "display": "grid"
+        },
+        "img": {
+          "selector": ".brand-logo img",
+          "top": 16,
+          "left": 16,
+          "width": 38,
+          "height": 38,
+          "cssWidth": "38px",
+          "cssHeight": "38px",
+          "objectFit": "contain",
+          "display": "block"
+        }
+      },
+      "ok": true
+    },
+    {
+      "name": "Request",
+      "file": "public/request.html",
+      "selectors": {
+        "box": ".request-heading .heading-brand .logo",
+        "img": ".request-heading .heading-brand .logo > img"
+      },
+      "expected": {
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgWidth": 38,
+        "imgHeight": 38
+      },
+      "actual": {
+        "box": {
+          "selector": ".request-heading .heading-brand .logo",
+          "top": 14,
+          "left": 14,
+          "width": 42,
+          "height": 42,
+          "cssWidth": "42px",
+          "cssHeight": "42px",
+          "objectFit": "fill",
+          "display": "grid"
+        },
+        "img": {
+          "selector": ".request-heading .heading-brand .logo > img",
+          "top": 16,
+          "left": 16,
+          "width": 38,
+          "height": 38,
+          "cssWidth": "38px",
+          "cssHeight": "38px",
+          "objectFit": "contain",
+          "display": "block"
+        }
+      },
+      "ok": true
+    },
+    {
+      "name": "Progress",
+      "file": "public/progress.html",
+      "selectors": {
+        "box": ".brand-logo",
+        "img": ".brand-logo img"
+      },
+      "expected": {
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgWidth": 38,
+        "imgHeight": 38
+      },
+      "actual": {
+        "box": {
+          "selector": ".brand-logo",
+          "top": 14,
+          "left": 14,
+          "width": 42,
+          "height": 42,
+          "cssWidth": "42px",
+          "cssHeight": "42px",
+          "objectFit": "fill",
+          "display": "grid"
+        },
+        "img": {
+          "selector": ".brand-logo img",
+          "top": 16,
+          "left": 16,
+          "width": 38,
+          "height": 38,
+          "cssWidth": "38px",
+          "cssHeight": "38px",
+          "objectFit": "contain",
+          "display": "block"
+        }
+      },
+      "ok": true
+    },
+    {
+      "name": "History",
+      "file": "public/history.html",
+      "selectors": {
+        "box": ".top-hero > .hero > .logo",
+        "img": ".top-hero > .hero > .logo > img"
+      },
+      "expected": {
+        "boxWidth": 42,
+        "boxHeight": 42,
+        "imgWidth": 38,
+        "imgHeight": 38
+      },
+      "actual": {
+        "box": {
+          "selector": ".top-hero > .hero > .logo",
+          "top": 14,
+          "left": 14,
+          "width": 42,
+          "height": 42,
+          "cssWidth": "42px",
+          "cssHeight": "42px",
+          "objectFit": "fill",
+          "display": "grid"
+        },
+        "img": {
+          "selector": ".top-hero > .hero > .logo > img",
+          "top": 16,
+          "left": 16,
+          "width": 38,
+          "height": 38,
+          "cssWidth": "38px",
+          "cssHeight": "38px",
+          "objectFit": "contain",
+          "display": "block"
+        }
+      },
+      "ok": true
+    }
+  ],
+  "failures": []
+}
