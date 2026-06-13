@@ -36,9 +36,16 @@ function sha256(path) {
 
 function run(cmd, args) {
   console.log(`\n$ ${cmd} ${args.join(" ")}`);
+
+  if (process.platform === "win32" && (cmd === "npm" || cmd === "npx")) {
+    execFileSync("cmd.exe", ["/d", "/s", "/c", `${cmd} ${args.join(" ")}`], {
+      stdio: "inherit"
+    });
+    return;
+  }
+
   execFileSync(cmd, args, {
-    stdio: "inherit",
-    shell: process.platform === "win32"
+    stdio: "inherit"
   });
 }
 
@@ -61,11 +68,15 @@ async function ensureServer() {
   } catch {}
 
   console.log("\nSTART local static server for UI geometry guard...");
-  const child = spawn(
-    process.platform === "win32" ? "npx.cmd" : "npx",
-    ["http-server", "public", "-p", "4179", "-c-1"],
-    { stdio: "ignore", detached: false }
-  );
+  const child = process.platform === "win32"
+    ? spawn("cmd.exe", ["/d", "/s", "/c", "npx http-server public -p 4179 -c-1"], {
+        stdio: "ignore",
+        detached: false,
+      })
+    : spawn("npx", ["http-server", "public", "-p", "4179", "-c-1"], {
+        stdio: "ignore",
+        detached: false,
+      });
 
   const ok = await waitForServer("http://127.0.0.1:4179/home.html", 10000);
   if (!ok) {
@@ -249,3 +260,5 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+
+

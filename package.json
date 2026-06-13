@@ -155,7 +155,8 @@
     "smartwork:ui-lock": "node scripts/smartwork-ui-hard-lock-guard.mjs --lock",
     "smartwork:ui-hard-guard": "node scripts/smartwork-ui-hard-lock-guard.mjs --check",
     "smartwork:auth-reset-super-lock": "node scripts/smartwork-auth-reset-super-lock-guard.mjs",
-    "smartwork:auth-reset-super-lock:capture": "node scripts/smartwork-auth-reset-super-lock-guard.mjs --capture"
+    "smartwork:auth-reset-super-lock:capture": "node scripts/smartwork-auth-reset-super-lock-guard.mjs --capture",
+    "smartagent:precode": "node scripts/smartagent-precode-bridge.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
