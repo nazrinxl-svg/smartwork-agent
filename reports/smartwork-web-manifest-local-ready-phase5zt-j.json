@@ -1,0 +1,44 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-J",
+    "status":  "LOCAL_WEB_MANIFEST_READY",
+    "releaseDecision":  "DEPLOY_PUBLIC_MANIFEST_THEN_RETRY_BUBBLEWRAP_INIT_ONLY",
+    "files":  {
+                  "manifest":  "public\\manifest.json",
+                  "icon":  "public\\icons\\smartwork-icon.svg"
+              },
+    "manifest":  {
+                     "name":  "SmartWork Agent",
+                     "short_name":  "SmartWork",
+                     "id":  "/",
+                     "start_url":  "/",
+                     "scope":  "/",
+                     "display":  "standalone",
+                     "orientation":  "portrait",
+                     "lang":  "id",
+                     "dir":  "ltr",
+                     "description":  "SmartWork Agent membantu otomatisasi pekerjaan guru secara aman, terukur, dan berbasis permintaan.",
+                     "theme_color":  "#2563eb",
+                     "background_color":  "#ffffff",
+                     "categories":  [
+                                        "productivity",
+                                        "education",
+                                        "utilities"
+                                    ],
+                     "icons":  [
+                                   {
+                                       "src":  "/icons/smartwork-icon.svg",
+                                       "sizes":  "512x512",
+                                       "type":  "image/svg+xml",
+                                       "purpose":  "any maskable"
+                                   }
+                               ]
+                 },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noTwaBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "noGeneratedCommitYet":  true
+               },
+    "createdAt":  "2026-06-13T07:24:03"
+}

@@ -1,0 +1,57 @@
+﻿{
+    "ok":  false,
+    "phase":  "5ZT-J",
+    "status":  "LOCAL_MANIFEST_READY_BUT_SSH_DEPLOY_FAILED",
+    "releaseDecision":  "FIX_VPS_ACCESS_OR_DEPLOY_VIA_CONSOLE_BEFORE_BUBBLEWRAP_INIT_RETRY",
+    "issue":  {
+                  "failedRemote":  "root@103.152.242.193",
+                  "error":  "scp/ssh permission denied or timeout",
+                  "publicManifestJsonOk":  false
+              },
+    "localManifest":  {
+                          "name":  "SmartWork Agent",
+                          "short_name":  "SmartWork",
+                          "id":  "/",
+                          "start_url":  "/",
+                          "scope":  "/",
+                          "display":  "standalone",
+                          "orientation":  "portrait",
+                          "lang":  "id",
+                          "dir":  "ltr",
+                          "description":  "SmartWork Agent membantu otomatisasi pekerjaan guru secara aman, terukur, dan berbasis permintaan.",
+                          "theme_color":  "#2563eb",
+                          "background_color":  "#ffffff",
+                          "categories":  [
+                                             "productivity",
+                                             "education",
+                                             "utilities"
+                                         ],
+                          "icons":  [
+                                        {
+                                            "src":  "/icons/smartwork-icon-192.png",
+                                            "sizes":  "192x192",
+                                            "type":  "image/png",
+                                            "purpose":  "any maskable"
+                                        },
+                                        {
+                                            "src":  "/icons/smartwork-icon-512.png",
+                                            "sizes":  "512x512",
+                                            "type":  "image/png",
+                                            "purpose":  "any maskable"
+                                        }
+                                    ]
+                      },
+    "files":  {
+                  "manifest":  "public\\manifest.json",
+                  "icon192":  "public\\icons\\smartwork-icon-192.png",
+                  "icon512":  "public\\icons\\smartwork-icon-512.png"
+              },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noTwaBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "doNotCommitAndroidGenerated":  true,
+                   "doNotCommitKeystore":  true
+               },
+    "createdAt":  "2026-06-13T07:31:15"
+}

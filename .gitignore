@@ -60,3 +60,10 @@ intake/army-requests/processed/*.txt
 .secrets/
 *.jks
 *.keystore
+
+# Phase 5ZT-J Android Bubblewrap generated/secret artifacts
+android/phase5zt-j/generated/
+android/phase5zt-j/generated-*/
+android/phase5zt-j/**/*.keystore
+android/phase5zt-j/**/*.jks
+reports/*.tgz

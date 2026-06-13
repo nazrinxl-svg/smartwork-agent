@@ -1,0 +1,33 @@
+﻿{
+    "name":  "SmartWork Agent",
+    "short_name":  "SmartWork",
+    "id":  "/",
+    "start_url":  "/",
+    "scope":  "/",
+    "display":  "standalone",
+    "orientation":  "portrait",
+    "lang":  "id",
+    "dir":  "ltr",
+    "description":  "SmartWork Agent membantu otomatisasi pekerjaan guru secara aman, terukur, dan berbasis permintaan.",
+    "theme_color":  "#2563eb",
+    "background_color":  "#ffffff",
+    "categories":  [
+                       "productivity",
+                       "education",
+                       "utilities"
+                   ],
+    "icons":  [
+                  {
+                      "src":  "/icons/smartwork-icon-192.png",
+                      "sizes":  "192x192",
+                      "type":  "image/png",
+                      "purpose":  "any maskable"
+                  },
+                  {
+                      "src":  "/icons/smartwork-icon-512.png",
+                      "sizes":  "512x512",
+                      "type":  "image/png",
+                      "purpose":  "any maskable"
+                  }
+              ]
+}

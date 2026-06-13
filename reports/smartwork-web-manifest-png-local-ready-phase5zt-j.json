@@ -1,0 +1,66 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-J",
+    "status":  "LOCAL_WEB_MANIFEST_PNG_READY_PUBLIC_DEPLOY_PENDING",
+    "releaseDecision":  "DEPLOY_PUBLIC_MANIFEST_TO_VPS_BEFORE_BUBBLEWRAP_INIT_RETRY",
+    "manifest":  {
+                     "name":  "SmartWork Agent",
+                     "short_name":  "SmartWork",
+                     "id":  "/",
+                     "start_url":  "/",
+                     "scope":  "/",
+                     "display":  "standalone",
+                     "orientation":  "portrait",
+                     "lang":  "id",
+                     "dir":  "ltr",
+                     "description":  "SmartWork Agent membantu otomatisasi pekerjaan guru secara aman, terukur, dan berbasis permintaan.",
+                     "theme_color":  "#2563eb",
+                     "background_color":  "#ffffff",
+                     "categories":  [
+                                        "productivity",
+                                        "education",
+                                        "utilities"
+                                    ],
+                     "icons":  [
+                                   {
+                                       "src":  "/icons/smartwork-icon-192.png",
+                                       "sizes":  "192x192",
+                                       "type":  "image/png",
+                                       "purpose":  "any maskable"
+                                   },
+                                   {
+                                       "src":  "/icons/smartwork-icon-512.png",
+                                       "sizes":  "512x512",
+                                       "type":  "image/png",
+                                       "purpose":  "any maskable"
+                                   }
+                               ]
+                 },
+    "routeChecks":  [
+                        {
+                            "file":  "public\\manifest.json",
+                            "route":  "/manifest.json"
+                        },
+                        {
+                            "file":  "public\\icons\\smartwork-icon-192.png",
+                            "route":  "/icons/smartwork-icon-192.png"
+                        },
+                        {
+                            "file":  "public\\icons\\smartwork-icon-512.png",
+                            "route":  "/icons/smartwork-icon-512.png"
+                        }
+                    ],
+    "publicManifestJsonOk":  false,
+    "files":  {
+                  "manifest":  "public\\manifest.json",
+                  "icon192":  "public\\icons\\smartwork-icon-192.png",
+                  "icon512":  "public\\icons\\smartwork-icon-512.png"
+              },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noTwaBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "doNotCommitAndroidGeneratedYet":  true
+               },
+    "createdAt":  "2026-06-13T07:27:17"
+}
