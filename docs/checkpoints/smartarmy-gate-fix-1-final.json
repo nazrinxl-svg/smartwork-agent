@@ -1,0 +1,16 @@
+﻿{
+    "ok":  true,
+    "phase":  "SMARTARMY-GATE-FIX-1",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "ae601e0",
+    "packageScriptsFixed":  true,
+    "hooksInstalled":  true,
+    "auditExit":  0,
+    "gateExit":  1,
+    "gateBlocksDirtyProtectedDiff":  true,
+    "keystoreTouched":  false,
+    "apkRebuilt":  false,
+    "aabRebuilt":  false,
+    "playStoreUpload":  false,
+    "timestamp":  "2026-06-13T11:06:24"
+}

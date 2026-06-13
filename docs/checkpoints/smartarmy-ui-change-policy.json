@@ -1,0 +1,34 @@
+﻿{
+  "policy": "SmartArmy UI Change Gate",
+  "version": 1,
+  "rules": [
+    "No direct SmartWork UI patch without SmartArmy audit.",
+    "No broad public/*.html CSS/JS injection without explicit approval.",
+    "No login/home/bottom-nav redesign without preview report and approval.",
+    "No launcher icon/manifest change without approval.",
+    "No keystore/AAB/Play Store touch through UI patch scripts.",
+    "Commit and push are blocked by SmartArmy gate when protected files changed without approval."
+  ],
+  "protectedPaths": [
+    "public/*.html",
+    "public/*.css",
+    "public/*.js",
+    "public/manifest.json",
+    "public/manifest.webmanifest",
+    "public/icons/**",
+    "public/assets/**",
+    "public/smartwork-logo.png",
+    "android/**/AndroidManifest.xml",
+    "android/**/res/mipmap*/**",
+    "android/**/res/values/*launcher*.xml"
+  ],
+  "forbiddenPaths": [
+    ".secrets/**",
+    "release-local/**",
+    "**/*.jks",
+    "**/*.keystore",
+    "**/*.aab",
+    "**/*keystore*"
+  ],
+  "approvalFile": "reports/approvals/smartarmy-ui-change-approval.json"
+}

@@ -1,0 +1,16 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZU-RESET-C",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "ae601e0",
+    "restoredUnapprovedUiIconChanges":  true,
+    "keptSmartArmyGate":  true,
+    "smartArmyAuditExit":  0,
+    "smartArmyGateExit":  0,
+    "globalUiInjectionRemoved":  true,
+    "keystoreTouched":  false,
+    "apkRebuilt":  false,
+    "aabRebuilt":  false,
+    "playStoreUpload":  false,
+    "timestamp":  "2026-06-13T11:08:26"
+}

@@ -1,0 +1,24 @@
+﻿{
+    "ok":  true,
+    "phase":  "SMARTARMY-HARD-GATE-INSTALLED",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "ae601e0",
+    "gateScripts":  [
+                        "smartarmy:audit",
+                        "smartarmy:gate",
+                        "smartarmy:install-gates",
+                        "smartarmy:precommit-gate",
+                        "smartarmy:prebuild-gate"
+                    ],
+    "hooks":  [
+                  ".git/hooks/pre-commit",
+                  ".git/hooks/pre-push"
+              ],
+    "policy":  "reports/smartarmy-gate/smartarmy-ui-change-policy.json",
+    "latestGateReport":  "reports/smartarmy-gate/smartarmy-hard-gate-latest.json",
+    "keystoreTouched":  false,
+    "apkRebuilt":  false,
+    "aabRebuilt":  false,
+    "playStoreUpload":  false,
+    "timestamp":  "2026-06-13T11:05:02"
+}

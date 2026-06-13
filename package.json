@@ -146,7 +146,12 @@
     "smartwork:dewavps:phase5s:report": "node scripts/smartwork-dewavps-phase5s-report.mjs",
     "smartwork:prod-worker:daemon:dry-run": "node scripts/smartwork-production-worker-daemon.mjs",
     "smartwork:dewavps:phase5u:preflight": "node scripts/smartwork-dewavps-phase5u-preflight.mjs",
-    "smartwork:dewavps:phase5u:report": "node scripts/smartwork-dewavps-phase5u-report.mjs"
+    "smartwork:dewavps:phase5u:report": "node scripts/smartwork-dewavps-phase5u-report.mjs",
+    "smartarmy:audit": "node scripts/smartarmy-hard-gate.mjs --mode=audit --scope=worktree",
+    "smartarmy:gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=staged",
+    "smartarmy:install-gates": "node scripts/smartarmy-install-git-hooks.mjs",
+    "smartarmy:precommit-gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=staged",
+    "smartarmy:prebuild-gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=worktree"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
