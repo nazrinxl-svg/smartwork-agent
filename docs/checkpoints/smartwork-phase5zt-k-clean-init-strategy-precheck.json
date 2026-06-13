@@ -1,0 +1,99 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-K",
+    "status":  "CLEAN_INIT_STRATEGY_PRECHECK_READY",
+    "previousPhase":  "5ZT-J inspect checkpoint",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "f15c1ab",
+    "publicManifestJsonOk":  true,
+    "manifest":  {
+                     "name":  "SmartWork Agent",
+                     "short_name":  "SmartWork",
+                     "id":  "/",
+                     "start_url":  "/",
+                     "scope":  "/",
+                     "display":  "standalone",
+                     "orientation":  "portrait",
+                     "lang":  "id",
+                     "dir":  "ltr",
+                     "description":  "SmartWork Agent membantu otomatisasi pekerjaan guru secara aman, terukur, dan berbasis permintaan.",
+                     "theme_color":  "#2563eb",
+                     "background_color":  "#ffffff",
+                     "categories":  [
+                                        "productivity",
+                                        "education",
+                                        "utilities"
+                                    ],
+                     "icons":  [
+                                   {
+                                       "src":  "/icons/smartwork-icon-192.png",
+                                       "sizes":  "192x192",
+                                       "type":  "image/png",
+                                       "purpose":  "any maskable"
+                                   },
+                                   {
+                                       "src":  "/icons/smartwork-icon-512.png",
+                                       "sizes":  "512x512",
+                                       "type":  "image/png",
+                                       "purpose":  "any maskable"
+                                   }
+                               ]
+                 },
+    "generatedRequiredFiles":  [
+                                   {
+                                       "file":  "twa-manifest.json",
+                                       "exists":  true,
+                                       "size":  1398
+                                   },
+                                   {
+                                       "file":  "settings.gradle",
+                                       "exists":  true,
+                                       "size":  15
+                                   },
+                                   {
+                                       "file":  "build.gradle",
+                                       "exists":  true,
+                                       "size":  1130
+                                   },
+                                   {
+                                       "file":  "gradlew",
+                                       "exists":  true,
+                                       "size":  8706
+                                   },
+                                   {
+                                       "file":  "gradlew.bat",
+                                       "exists":  true,
+                                       "size":  2918
+                                   },
+                                   {
+                                       "file":  "gradle.properties",
+                                       "exists":  true,
+                                       "size":  751
+                                   },
+                                   {
+                                       "file":  "app\\build.gradle",
+                                       "exists":  true,
+                                       "size":  9745
+                                   },
+                                   {
+                                       "file":  "app\\src\\main\\AndroidManifest.xml",
+                                       "exists":  true,
+                                       "size":  7396
+                                   }
+                               ],
+    "dangerArtifacts":  {
+
+                        },
+    "recommendedNext":  [
+                            "Do not retry Bubblewrap repeatedly on same failing network",
+                            "Try clean init from hotspot/alternate network or WSL/VPS-like environment",
+                            "Do not build AAB/APK until Bubblewrap init exits cleanly"
+                        ],
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noApkBuild":  true,
+                   "noGradleBuild":  true,
+                   "noPlayStoreUpload":  true
+               },
+    "createdAt":  "2026-06-13T08:21:45"
+}
