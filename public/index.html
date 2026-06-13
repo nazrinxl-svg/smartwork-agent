@@ -95,6 +95,198 @@
       text-decoration: none;
       font-weight: 700;
     }
+  
+    .login-form {
+      width: 100%;
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      text-align: left;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #334155;
+      margin-left: 2px;
+    }
+
+    .login-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 0 14px;
+      font: inherit;
+      font-size: 13px;
+      color: #0f172a;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .login-input:focus {
+      border-color: rgba(37, 99, 235, 0.65);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .login-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2px 2px 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .login-links a,
+    .demo-link {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .login-submit {
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-radius: 14px;
+      background: #2563eb;
+      color: #ffffff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0 10px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .login-divider::before,
+    .login-divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: rgba(148, 163, 184, 0.28);
+    }
+
+  
+    /* SMARTWORK_LOGIN_GOOGLE_ICON_WEIGHT_PHASE5ZV_N2 */
+    .google-btn {
+      font-weight: 500 !important;
+      letter-spacing: -0.01em;
+    }
+
+    .google-btn .google-mark.google-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .google-btn .google-mark.google-icon svg {
+      display: block;
+    }
+
+  
+    /* SMARTWORK_LOGIN_GOOGLE_FINAL_WEIGHT_ICON_PHASE5ZV_N3 */
+    #googleLoginBtn {
+      font-weight: 400 !important;
+      gap: 10px !important;
+    }
+
+    #googleLoginBtn .google-text {
+      font-weight: 400 !important;
+      font-size: 13px;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    #googleLoginBtn .google-mark.google-icon {
+      width: 24px !important;
+      height: 24px !important;
+      min-width: 24px !important;
+      background: #ffffff !important;
+      border-radius: 999px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    #googleLoginBtn .google-mark.google-icon svg {
+      width: 16px !important;
+      height: 16px !important;
+      display: block !important;
+    }
+
+  
+    /* SMARTWORK_LOGIN_GOOGLE_TEXT_FORCE_PHASE5ZV_N4 */
+    #googleLoginBtn,
+    #googleLoginBtn .google-text {
+      font-weight: 400 !important;
+      font-size: 13px !important;
+    }
+
+    #googleLoginBtn .google-mark,
+    #googleLoginBtn .google-mark * {
+      font-weight: 400 !important;
+    }
+
+    /* LOGIN_BRAND_TITLE_PHASE5ZV_N7 */
+    .login-brand-title {
+      margin: 8px 0 6px !important;
+      font-size: 24px !important;
+      line-height: 1.1 !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.04em !important;
+      color: #0f172a !important;
+    }
+    .login-brand-title .brand-dark {
+      color: #0f172a !important;
+    }
+    .login-brand-title .brand-blue {
+      color: #2563eb !important;
+    }
+    .login-brand-subtitle {
+      margin: 0 0 18px !important;
+      font-size: 12px !important;
+      line-height: 1.45 !important;
+      color: #475569 !important;
+      font-weight: 400 !important;
+    }
+  
+    /* LOGIN_TERMS_PHASE5ZV_N8 */
+    .login-terms {
+      margin: 18px 0 0 !important;
+      font-size: 10.5px !important;
+      line-height: 1.55 !important;
+      color: #64748b !important;
+      text-align: center !important;
+      font-weight: 400 !important;
+    }
+    .login-terms a {
+      color: #2563eb !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+    }
+  
+    /* LOGIN_HIDE_STATUS_PREVIEW_PHASE5ZV_N9 */
+    .login-hidden {
+      display: none !important;
+    }
   </style>
 
   <link rel="manifest" href="/manifest.webmanifest">
@@ -109,16 +301,45 @@
   <main class="phone">
     <section class="card">
       <img class="logo" src="/smartwork-logo.png" alt="SmartWork Agent">
-      <h1>Smart<span>Work</span></h1>
-      <p>Masuk dengan akun Google untuk membuat request kerja agent, melihat riwayat, laporan bukti, dan pengiriman PDF.</p>
+      <h1 class="login-brand-title"><span class="brand-dark">smart</span><span class="brand-blue">work-agent</span></h1>
+      <p class="login-brand-subtitle">Kerja lebih smart, hasil lebih maksimal.</p>
+
+      
+      <form class="login-form" id="localLoginForm" autocomplete="on">
+        <label class="field-label" for="loginUsername">Username</label>
+        <input class="login-input" id="loginUsername" name="username" type="text" placeholder="Masukkan username" autocomplete="username">
+
+        <label class="field-label" for="loginPassword">Password</label>
+        <input class="login-input" id="loginPassword" name="password" type="password" placeholder="Masukkan password" autocomplete="current-password">
+
+        <div class="login-links">
+          <a href="#" id="forgotPasswordLink">Lupa password?</a>
+          <a href="#" id="registerLink">Registrasi</a>
+        </div>
+
+        <button class="login-submit" id="localLoginBtn" type="button">Masuk</button>
+      </form>
+
+      <div class="login-divider"><span>atau</span></div>
 
       <button class="google-btn" id="googleLoginBtn" type="button">
-        <span class="google-mark">G</span>
-        Login dengan Google
+        <span class="google-mark google-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
+            <path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h5.4c-.2 1.2-.9 2.2-1.9 2.9v2.4h3.1c1.8-1.7 3-4.1 3-7z"/>
+            <path fill="#34A853" d="M12 22c2.7 0 5-0.9 6.6-2.4l-3.1-2.4c-.9.6-2 .9-3.5.9-2.7 0-4.9-1.8-5.7-4.2H3.1v2.5C4.7 19.7 8.1 22 12 22z"/>
+            <path fill="#FBBC05" d="M6.3 13.9c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V7.6H3.1C2.4 8.9 2 10.4 2 12s.4 3.1 1.1 4.4l3.2-2.5z"/>
+            <path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C16.9 3 14.7 2 12 2 8.1 2 4.7 4.3 3.1 7.6l3.2 2.5C7.1 7.7 9.3 5.9 12 5.9z"/>
+          </svg>
+        </span>
+        <span class="google-text">Masuk dengan Google</span>
       </button>
 
-      <div class="status" id="loginStatus">Siap login.</div>
-      <a class="demo-link" href="/home.html">Masuk mode preview</a>
+      <div class="status login-hidden" id="loginStatus" aria-live="polite"></div>
+      <a class="demo-link login-hidden" href="/home.html" aria-hidden="true" tabindex="-1">Masuk mode preview</a>
+      <p class="login-terms">
+        Dengan login, Anda menyetujui<br>
+        <a href="/terms.html">Syarat & Ketentuan</a> dan <a href="/privacy.html">Kebijakan Privasi</a>
+      </p>
     </section>
   </main>
 

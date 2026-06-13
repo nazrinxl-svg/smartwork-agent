@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T08:44:25.391Z",
+  "lockType": "LOGIN_UI_VISUAL_ONLY_NOT_UX",
+  "scope": "public/index.html",
+  "checks": {
+    "brandTitle": true,
+    "subtitle": true,
+    "username": true,
+    "password": true,
+    "forgot": true,
+    "register": true,
+    "google": true,
+    "googleSvg": true,
+    "terms": true,
+    "statusHiddenButKept": true,
+    "previewHiddenButKept": true,
+    "googleRedirectKept": true,
+    "firebaseHandlerKept": true
+  },
+  "failures": [],
+  "safety": {
+    "noAuthFlowChange": true,
+    "noRoutingChange": true,
+    "noHomeRequestProgressHistoryChange": true,
+    "uxMustKeepRunning": true
+  }
+}

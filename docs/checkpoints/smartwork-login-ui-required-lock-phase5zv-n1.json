@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T08:44:25.510Z",
+  "lockType": "LOGIN_UI_REQUIRED_FIELDS_ONLY_NOT_AUTH_FLOW",
+  "scope": "public/index.html",
+  "checks": {
+    "usernameInput": true,
+    "passwordInput": true,
+    "forgotPassword": true,
+    "registerLink": true,
+    "localLoginButton": true,
+    "googleLoginButton": true,
+    "googleRedirectHomeKept": true,
+    "previewLinkKept": true
+  },
+  "failures": [],
+  "safety": {
+    "noHomeRequestProgressHistoryChange": true,
+    "noGoogleHandlerRemoval": true,
+    "noRedirectChange": true,
+    "noAuthImplementationChange": true
+  }
+}
