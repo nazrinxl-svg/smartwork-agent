@@ -1,0 +1,93 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-M",
+    "status":  "BUILD_GATE_PLANNING_READY_NO_BUILD",
+    "releaseDecision":  "READY_FOR_CONTROLLED_AAB_BUILD_GATE_NEXT_PHASE_ONLY_NO_PLAY_UPLOAD",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "head":  "c414957",
+    "tagsAtHead":  [
+                       "smartwork-public-assetlinks-verified-phase5zt-l"
+                   ],
+    "publicManifest":  {
+                           "status":  200,
+                           "contentType":  "application/json; charset=utf-8",
+                           "name":  "SmartWork Agent",
+                           "startUrl":  "/"
+                       },
+    "publicAssetlinks":  {
+                             "status":  200,
+                             "contentType":  "application/json; charset=utf-8",
+                             "packageName":  "id.smartwork.agent",
+                             "sha256":  "BB:06:BC:37:60:45:C7:0E:B9:9C:8F:1D:AB:B5:32:2C:13:6A:0F:85:29:F8:67:BE:DD:D7:A2:87:79:6D:9E:B6"
+                         },
+    "generatedProject":  {
+                             "folder":  "android\\phase5zt-k\\generated-hotspot",
+                             "requiredFiles":  [
+                                                   {
+                                                       "file":  "twa-manifest.json",
+                                                       "exists":  true,
+                                                       "size":  1470
+                                                   },
+                                                   {
+                                                       "file":  "settings.gradle",
+                                                       "exists":  true,
+                                                       "size":  15
+                                                   },
+                                                   {
+                                                       "file":  "build.gradle",
+                                                       "exists":  true,
+                                                       "size":  1130
+                                                   },
+                                                   {
+                                                       "file":  "gradlew",
+                                                       "exists":  true,
+                                                       "size":  8706
+                                                   },
+                                                   {
+                                                       "file":  "gradlew.bat",
+                                                       "exists":  true,
+                                                       "size":  2918
+                                                   },
+                                                   {
+                                                       "file":  "gradle.properties",
+                                                       "exists":  true,
+                                                       "size":  751
+                                                   },
+                                                   {
+                                                       "file":  "app\\build.gradle",
+                                                       "exists":  true,
+                                                       "size":  9745
+                                                   },
+                                                   {
+                                                       "file":  "app\\src\\main\\AndroidManifest.xml",
+                                                       "exists":  true,
+                                                       "size":  7396
+                                                   }
+                                               ],
+                             "packageId":  "id.smartwork.agent",
+                             "host":  "smartwork-agent.id",
+                             "signingAlias":  "smartwork-agent-release"
+                         },
+    "localTools":  {
+                       "node":  "v24.15.0",
+                       "npm":  "11.12.1",
+                       "bubblewrap":  "\u001b[35m,-----.        ,--.  ,--.  ,--.\u001b[39m\r\n\u001b[35m|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.\u001b[39m\r\n\u001b[35m|  .-.  |  ||  | .-. | .-. |  | .-. |  |.\u0027.|  |  .--\u0027 ,-.  | .-. |\u001b[39m\r\n\u001b[35m|  \u0027--\u0027 \u0027  \u0027\u0027  | `-\u0027 | `-\u0027 |  \\   --|   .\u0027.   |  |  \\ \u0027-\u0027  | \u0027-\u0027 \u0027\u001b[39m\r\n\u001b[35m`------\u0027 `----\u0027 `---\u0027 `---\u0027`--\u0027`----\u0027--\u0027   \u0027--`--\u0027   `--`--|  |-\u0027\u001b[39m\r\n\u001b[35m                                                           `--\u0027    \u001b[39m\r\n\u001b[7mversion\u001b[0m 1.24.1",
+                       "java":  "openjdk version \"21.0.11\" 2026-04-21 LTS\r\nOpenJDK Runtime Environment Temurin-21.0.11+10 (build 21.0.11+10-LTS)\r\nOpenJDK 64-Bit Server VM Temurin-21.0.11+10 (build 21.0.11+10-LTS, mixed mode, sharing)",
+                       "androidSdkCandidates":  {
+                                                    "path":  "C:\\Users\\Digitalisasi\\AppData\\Local\\Android\\Sdk",
+                                                    "exists":  true,
+                                                    "platformTools":  true,
+                                                    "buildTools":  true
+                                                }
+                   },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noApkBuild":  true,
+                   "noGradleBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true
+               },
+    "nextPhase":  "5ZT-N controlled local AAB build only after final command; no Play Store upload",
+    "createdAt":  "2026-06-13T08:59:52"
+}
