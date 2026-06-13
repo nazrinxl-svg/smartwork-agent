@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+echo "SMARTWORK PRE-COMMIT SUPER LOCK"
+npm run smartwork:auth-reset-super-lock
+npm run smartwork:ui-hard-guard
+npm run brain:smartwork-guard

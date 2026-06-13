@@ -343,6 +343,394 @@
     </section>
   </main>
 
+  
+<!-- smartwork-login-register-reset-ux-phase5zw-c1_START -->
+<style id="smartwork-login-register-reset-ux-phase5zw-c1-style">
+  .auth-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(15, 23, 42, .42);
+    backdrop-filter: blur(8px);
+  }
+
+  .auth-modal-backdrop.show {
+    display: flex;
+  }
+
+  .auth-modal {
+    width: min(100%, 360px);
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid #e5edf7;
+    box-shadow: 0 24px 80px rgba(15, 23, 42, .18);
+    padding: 18px;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+
+  .auth-modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .auth-modal-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: #0f172a;
+  }
+
+  .auth-modal-text {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #64748b;
+  }
+
+  .auth-modal-close {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .auth-modal-form {
+    display: grid;
+    gap: 10px;
+  }
+
+  .auth-modal-form label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .auth-modal-form input {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #dbe4f0;
+    border-radius: 13px;
+    padding: 0 13px;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .auth-modal-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+  }
+
+  .auth-modal-submit {
+    width: 100%;
+    height: 44px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .auth-modal-submit:disabled {
+    opacity: .65;
+    cursor: wait;
+  }
+
+  .auth-modal-note {
+    min-height: 18px;
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: #64748b;
+  }
+
+  .auth-modal-note.ok {
+    color: #16a34a;
+  }
+
+  .auth-modal-note.err {
+    color: #dc2626;
+  }
+</style>
+
+<div class="auth-modal-backdrop" id="authModalBackdrop" aria-hidden="true">
+  <section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="auth-modal-head">
+      <div>
+        <h2 class="auth-modal-title" id="authModalTitle">Registrasi</h2>
+        <p class="auth-modal-text" id="authModalText">Buat akun SmartWork Agent dengan email dan password.</p>
+      </div>
+      <button class="auth-modal-close" id="authModalClose" type="button" aria-label="Tutup">×</button>
+    </div>
+
+    <form class="auth-modal-form" id="registerForm">
+      <label for="registerName">Nama</label>
+      <input id="registerName" name="name" type="text" placeholder="Nama lengkap" autocomplete="name">
+
+      <label for="registerEmail">Email</label>
+      <input id="registerEmail" name="email" type="email" placeholder="email@contoh.com" autocomplete="email">
+
+      <label for="registerPassword">Password</label>
+      <input id="registerPassword" name="password" type="password" placeholder="Minimal 6 karakter" autocomplete="new-password">
+
+      <button class="auth-modal-submit" id="registerSubmit" type="submit">Daftar</button>
+    </form>
+
+    <form class="auth-modal-form" id="resetForm" style="display:none">
+      <label for="resetEmail">Email akun</label>
+      <input id="resetEmail" name="email" type="email" placeholder="email@contoh.com" autocomplete="email">
+
+      <button class="auth-modal-submit" id="resetSubmit" type="submit">Kirim link reset</button>
+    </form>
+
+    <p class="auth-modal-note" id="authModalNote"></p>
+  </section>
+</div>
+
+<script type="module" id="smartwork-login-register-reset-ux-phase5zw-c1-script">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const qs = (id) => document.getElementById(id);
+
+  const localLoginForm = qs("localLoginForm");
+  const localLoginBtn = qs("localLoginBtn");
+  const usernameInput = qs("loginUsername");
+  const passwordInput = qs("loginPassword");
+  const forgotLink = qs("forgotPasswordLink");
+  const registerLink = qs("registerLink");
+  const statusEl = qs("loginStatus");
+
+  const modal = qs("authModalBackdrop");
+  const modalTitle = qs("authModalTitle");
+  const modalText = qs("authModalText");
+  const modalNote = qs("authModalNote");
+  const closeBtn = qs("authModalClose");
+  const registerForm = qs("registerForm");
+  const resetForm = qs("resetForm");
+  const registerSubmit = qs("registerSubmit");
+  const resetSubmit = qs("resetSubmit");
+
+  function setLoginStatus(message, type = "") {
+    if (!statusEl) return;
+    statusEl.textContent = message || "";
+    statusEl.classList.remove("login-hidden");
+    statusEl.dataset.type = type;
+  }
+
+  function setNote(message, type = "") {
+    if (!modalNote) return;
+    modalNote.textContent = message || "";
+    modalNote.className = "auth-modal-note" + (type ? " " + type : "");
+  }
+
+  function getAuthSafe() {
+    if (!window.SMARTWORK_FIREBASE_CONFIG) {
+      throw new Error("Firebase config belum tersedia.");
+    }
+    const app = getApps().length
+      ? getApps()[0]
+      : initializeApp(window.SMARTWORK_FIREBASE_CONFIG);
+    return getAuth(app);
+  }
+
+  function rememberUser(user) {
+    const payload = {
+      uid: user.uid,
+      email: user.email || "",
+      displayName: user.displayName || user.email || "SmartWork User",
+      photoURL: user.photoURL || "",
+      loginProvider: "password",
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem("smartwork_user", JSON.stringify(payload));
+  }
+
+  function openModal(mode) {
+    if (!modal) return;
+    setNote("");
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+
+    if (mode === "reset") {
+      modalTitle.textContent = "Reset password";
+      modalText.textContent = "Masukkan email akun. Link reset akan dikirim melalui email.";
+      registerForm.style.display = "none";
+      resetForm.style.display = "grid";
+      qs("resetEmail")?.focus();
+      const current = usernameInput?.value?.trim();
+      if (current && current.includes("@")) qs("resetEmail").value = current;
+      return;
+    }
+
+    modalTitle.textContent = "Registrasi";
+    modalText.textContent = "Buat akun SmartWork Agent dengan email dan password.";
+    resetForm.style.display = "none";
+    registerForm.style.display = "grid";
+    qs("registerName")?.focus();
+    const current = usernameInput?.value?.trim();
+    if (current && current.includes("@")) qs("registerEmail").value = current;
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    setNote("");
+  }
+
+  forgotLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    openModal("reset");
+  });
+
+  registerLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    openModal("register");
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeModal();
+  });
+
+  localLoginBtn?.addEventListener("click", async () => {
+    const email = usernameInput?.value?.trim() || "";
+    const password = passwordInput?.value || "";
+
+    if (!email || !password) {
+      setLoginStatus("Isi email dan password dulu.", "err");
+      return;
+    }
+
+    if (!email.includes("@")) {
+      setLoginStatus("Untuk login akun aplikasi, gunakan email.", "err");
+      return;
+    }
+
+    try {
+      localLoginBtn.disabled = true;
+      setLoginStatus("Masuk ke SmartWork...", "");
+      const auth = getAuthSafe();
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      rememberUser(result.user);
+      setLoginStatus("Login berhasil. Membuka dashboard...", "ok");
+      window.location.href = "/home.html";
+    } catch (error) {
+      console.error("[SmartWork Auth] login failed", error);
+      setLoginStatus("Login gagal. Cek email/password atau aktifkan Email/Password di Firebase.", "err");
+    } finally {
+      localLoginBtn.disabled = false;
+    }
+  });
+
+  localLoginForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    localLoginBtn?.click();
+  });
+
+  registerForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const name = qs("registerName")?.value?.trim() || "";
+    const email = qs("registerEmail")?.value?.trim() || "";
+    const password = qs("registerPassword")?.value || "";
+
+    if (!name || !email || !password) {
+      setNote("Nama, email, dan password wajib diisi.", "err");
+      return;
+    }
+
+    if (password.length < 6) {
+      setNote("Password minimal 6 karakter.", "err");
+      return;
+    }
+
+    try {
+      registerSubmit.disabled = true;
+      setNote("Mendaftarkan akun...", "");
+      const auth = getAuthSafe();
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(result.user, { displayName: name });
+      rememberUser({ ...result.user, displayName: name });
+      setNote("Registrasi berhasil. Membuka dashboard...", "ok");
+      setTimeout(() => {
+        window.location.href = "/home.html";
+      }, 500);
+    } catch (error) {
+      console.error("[SmartWork Auth] register failed", error);
+      setNote("Registrasi gagal. Pastikan Email/Password aktif di Firebase dan email belum dipakai.", "err");
+    } finally {
+      registerSubmit.disabled = false;
+    }
+  });
+
+  resetForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = qs("resetEmail")?.value?.trim() || "";
+    if (!email) {
+      setNote("Masukkan email akun dulu.", "err");
+      return;
+    }
+
+    try {
+      resetSubmit.disabled = true;
+      setNote("Mengirim link reset password...", "");
+      const auth = getAuthSafe();
+      await sendPasswordResetEmail(auth, email, {
+        url: window.location.origin + "/index.html?reset=done&email=" + encodeURIComponent(email),
+        handleCodeInApp: false
+      });
+      setNote("Permintaan reset diterima. Cek inbox/spam email.", "ok");
+
+      setTimeout(() => {
+        closeModal();
+
+        if (usernameInput) usernameInput.value = email;
+
+        setLoginStatus(
+          "Link reset password sudah diminta. Setelah password diganti, login dengan password baru.",
+          "ok"
+        );
+      }, 900);
+    } catch (error) {
+      console.error("[SmartWork Auth] reset failed", error);
+      setNote("Gagal mengirim reset. Cek email atau aktifkan Email/Password di Firebase.", "err");
+    } finally {
+      resetSubmit.disabled = false;
+    }
+  });
+</script>
+<!-- smartwork-login-register-reset-ux-phase5zw-c1_END -->
+
   <script src="/firebase-config.local.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
@@ -390,6 +778,26 @@
       });
     });
   }
+
+  /* smartwork-reset-return-login-phase5zw-c2 */
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("reset") !== "done") return;
+
+    const email = params.get("email") || "";
+    const input = document.getElementById("loginUsername");
+    const status = document.getElementById("loginStatus");
+
+    if (input && email) input.value = email;
+
+    if (status) {
+      status.textContent = "Password berhasil diubah. Silakan login dengan password baru.";
+      status.classList.remove("login-hidden");
+      status.dataset.type = "ok";
+    }
+
+    window.history.replaceState({}, document.title, "/index.html");
+  })();
 </script>
 
 </body>

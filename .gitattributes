@@ -1,3 +1,8 @@
-deploy/vps-dry-run/*.sh text eol=lf
-deploy/vps-dry-run/systemd/*.service text eol=lf
-
+public/index.html text eol=lf
+public/reset-password.html text eol=lf
+public/smartwork-logo.png binary
+scripts/smartwork-auth-reset-super-lock-guard.mjs text eol=lf
+.githooks/pre-commit text eol=lf
+configs/smartwork-auth-reset-super-lock.json text eol=lf
+docs/checkpoints/smartwork-auth-reset-super-lock-last.json text eol=lf
+docs/checkpoints/smartwork-reset-password-ux-lock-proof-phase5zw-d18.json text eol=lf

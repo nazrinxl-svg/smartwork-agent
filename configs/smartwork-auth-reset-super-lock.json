@@ -1,0 +1,85 @@
+{
+  "mode": "SMARTWORK_AUTH_RESET_SUPER_LOCK",
+  "generatedAt": "2026-06-13T12:51:26.383Z",
+  "approvedBy": "Naz",
+  "approvedState": "AUTH_REGISTER_RESET_PASSWORD_UX_APPROVED_PHASE5ZW_D18",
+  "rule": "Any byte change to protected files fails guard until Naz explicitly approves a new baseline.",
+  "protectedFiles": [
+    {
+      "file": "public/index.html",
+      "sha256": "03c1a9c47dc3487efdf1e088fb034a5dc8d625d813c0c133de976b83c62e12dd"
+    },
+    {
+      "file": "public/reset-password.html",
+      "sha256": "8801a2c56a8db46c0a2f3cd05d7503bae62c2cd6db19dc53aefbdc1c82e8f765"
+    },
+    {
+      "file": "public/smartwork-logo.png",
+      "sha256": "d83b6925ab11332da6418deb93c35f989b1f33a18ea79f93816578e4f574d8bf"
+    }
+  ],
+  "requiredSnippets": [
+    [
+      "public/index.html",
+      "id=\"forgotPasswordLink\""
+    ],
+    [
+      "public/index.html",
+      "id=\"registerLink\""
+    ],
+    [
+      "public/index.html",
+      "id=\"googleLoginBtn\""
+    ],
+    [
+      "public/index.html",
+      "sendPasswordResetEmail"
+    ],
+    [
+      "public/index.html",
+      "createUserWithEmailAndPassword"
+    ],
+    [
+      "public/index.html",
+      "signInWithEmailAndPassword"
+    ],
+    [
+      "public/reset-password.html",
+      "id=\"newPassword\""
+    ],
+    [
+      "public/reset-password.html",
+      "id=\"confirmPassword\""
+    ],
+    [
+      "public/reset-password.html",
+      "id=\"saveBtn\""
+    ],
+    [
+      "public/reset-password.html",
+      "verifyPasswordResetCode"
+    ],
+    [
+      "public/reset-password.html",
+      "confirmPasswordReset"
+    ],
+    [
+      "public/reset-password.html",
+      "Kembali ke login"
+    ]
+  ],
+  "forbiddenSnippets": [
+    [
+      "public/reset-password.html",
+      "id=\"togglePassword\""
+    ],
+    [
+      "public/reset-password.html",
+      "smartwork-reset-password-logo-bg-match-phase5zw-d17"
+    ],
+    [
+      "public/reset-password.html",
+      "box-shadow: 0 18px 32px rgba(37,99,235,.10)"
+    ]
+  ]
+}
