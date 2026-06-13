@@ -75,3 +75,6 @@ android/phase5zt-k/**/*.jks
 
 # Phase 5ZT-O local secret/build archives
 android/phase5zt-o/
+
+# Local Play Console handoff artifacts
+release-local/
