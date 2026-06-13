@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T05:21:13.208Z",
+  "mode": "SMARTWORK_UI_HARD_LOCK_GUARD",
+  "safety": {
+    "noLoginGuessing": true,
+    "exactHashBaseline": true,
+    "noGitAddDot": true,
+    "noCommitIfProtectedUiChanged": true,
+    "noLoginChangeWithoutUnlock": true,
+    "noBottomNavChangeWithoutUnlock": true,
+    "noRoutingChangeWithoutUnlock": true,
+    "noManifestChangeWithoutUnlock": true,
+    "noApiBridgeChangeWithoutUnlock": true,
+    "noSiagaInput": true,
+    "noRealSaveSendDelete": true
+  },
+  "failures": [],
+  "warnings": []
+}

@@ -1,0 +1,44 @@
+{
+  "mode": "SMARTWORK_UI_HARD_LOCK_BASELINE",
+  "lockedAt": "2026-06-13T05:18:23.423Z",
+  "rule": "Exact hash baseline. No login text guessing. Any protected UI change must be explicit, verified, then re-locked.",
+  "protectedFiles": [
+    "public/index.html",
+    "public/home.html",
+    "public/request.html",
+    "public/progress.html",
+    "public/history.html",
+    "public/profile.html",
+    "public/smartwork-bottom-nav.css"
+  ],
+  "files": {
+    "public/index.html": {
+      "sha256": "cbe09b126ea9bb8af8446a416009b667cfc9aac3177032fb7316e9f503722494",
+      "bytes": 5260
+    },
+    "public/home.html": {
+      "sha256": "94ac013b4c3ce46e7cc191a56fafe2c0475811e10bbc51c2ad71f977f4c0387b",
+      "bytes": 35201
+    },
+    "public/request.html": {
+      "sha256": "86b4c05352ded226e7dfff4a332acf3d6d4e530b2206911ee9016ba217ae3a24",
+      "bytes": 47439
+    },
+    "public/progress.html": {
+      "sha256": "326a968f6d6096ecc431ae2847d93ea7bfeabe0b42f515ea0b1f2b2e86fd192f",
+      "bytes": 76646
+    },
+    "public/history.html": {
+      "sha256": "197b7f30a229fc0372ef236a8f19199d2c49554a59a90b2a307dd966545e562d",
+      "bytes": 37208
+    },
+    "public/profile.html": {
+      "sha256": "7d29ded373856c6c07730036d11f9883b9c6923b217503f449c746656ee67d36",
+      "bytes": 16963
+    },
+    "public/smartwork-bottom-nav.css": {
+      "sha256": "6860c651cb2171e0256c3d23960c4270e1f494c3cc4fe0528f09345be28c0152",
+      "bytes": 2602
+    }
+  }
+}

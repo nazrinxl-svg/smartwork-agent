@@ -1,0 +1,228 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-13T05:21:10.674Z",
+  "mode": "SMARTWORK_BOTTOM_NAV_EDGE_LOCK_VERIFY",
+  "safety": {
+    "noLoginChange": true,
+    "noRoutingChange": true,
+    "noIconChange": true,
+    "noManifestChange": true,
+    "noApiBridgeChange": true,
+    "noSiagaInput": true,
+    "noBrowserAutomationToSiaga": true,
+    "noRealSaveSendDelete": true
+  },
+  "failures": [],
+  "results": [
+    {
+      "missing": false,
+      "url": "/home.html",
+      "left": 0,
+      "right": 430,
+      "width": 430,
+      "height": 58,
+      "viewportWidth": 430,
+      "bodyWidth": 430,
+      "scrollWidth": 430,
+      "position": "fixed",
+      "display": "grid",
+      "boxSizing": "border-box",
+      "paddingLeft": "0px",
+      "paddingRight": "0px",
+      "maxWidth": "430px",
+      "transform": "matrix(1, 0, 0, 1, -215, 0)",
+      "linkCount": 5,
+      "links": [
+        {
+          "text": "Home",
+          "href": "/home.html"
+        },
+        {
+          "text": "Request",
+          "href": "/request.html"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress.html"
+        },
+        {
+          "text": "Riwayat",
+          "href": "/history.html"
+        },
+        {
+          "text": "Profil",
+          "href": "/profile.html"
+        }
+      ],
+      "edgeOk": true
+    },
+    {
+      "missing": false,
+      "url": "/request.html",
+      "left": 0,
+      "right": 430,
+      "width": 430,
+      "height": 58,
+      "viewportWidth": 430,
+      "bodyWidth": 430,
+      "scrollWidth": 430,
+      "position": "fixed",
+      "display": "grid",
+      "boxSizing": "border-box",
+      "paddingLeft": "0px",
+      "paddingRight": "0px",
+      "maxWidth": "430px",
+      "transform": "matrix(1, 0, 0, 1, -215, 0)",
+      "linkCount": 5,
+      "links": [
+        {
+          "text": "Home",
+          "href": "/home.html"
+        },
+        {
+          "text": "Request",
+          "href": "/request.html"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress.html"
+        },
+        {
+          "text": "Riwayat",
+          "href": "/history.html"
+        },
+        {
+          "text": "Profil",
+          "href": "/profile.html"
+        }
+      ],
+      "edgeOk": true
+    },
+    {
+      "missing": false,
+      "url": "/progress.html",
+      "left": 0,
+      "right": 430,
+      "width": 430,
+      "height": 58,
+      "viewportWidth": 430,
+      "bodyWidth": 430,
+      "scrollWidth": 430,
+      "position": "fixed",
+      "display": "grid",
+      "boxSizing": "border-box",
+      "paddingLeft": "0px",
+      "paddingRight": "0px",
+      "maxWidth": "430px",
+      "transform": "matrix(1, 0, 0, 1, -215, 0)",
+      "linkCount": 5,
+      "links": [
+        {
+          "text": "Home",
+          "href": "/home.html"
+        },
+        {
+          "text": "Request",
+          "href": "/request.html"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress.html"
+        },
+        {
+          "text": "Riwayat",
+          "href": "/history.html"
+        },
+        {
+          "text": "Profil",
+          "href": "/profile.html"
+        }
+      ],
+      "edgeOk": true
+    },
+    {
+      "missing": false,
+      "url": "/history.html",
+      "left": 0,
+      "right": 430,
+      "width": 430,
+      "height": 58,
+      "viewportWidth": 430,
+      "bodyWidth": 430,
+      "scrollWidth": 430,
+      "position": "fixed",
+      "display": "grid",
+      "boxSizing": "border-box",
+      "paddingLeft": "0px",
+      "paddingRight": "0px",
+      "maxWidth": "430px",
+      "transform": "matrix(1, 0, 0, 1, -215, 0)",
+      "linkCount": 5,
+      "links": [
+        {
+          "text": "Home",
+          "href": "/"
+        },
+        {
+          "text": "Request",
+          "href": "/request.html"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress.html"
+        },
+        {
+          "text": "Riwayat",
+          "href": "/history.html"
+        },
+        {
+          "text": "Profil",
+          "href": "/profile.html"
+        }
+      ],
+      "edgeOk": true
+    },
+    {
+      "missing": false,
+      "url": "/profile.html",
+      "left": 0,
+      "right": 430,
+      "width": 430,
+      "height": 58,
+      "viewportWidth": 430,
+      "bodyWidth": 430,
+      "scrollWidth": 430,
+      "position": "fixed",
+      "display": "grid",
+      "boxSizing": "border-box",
+      "paddingLeft": "0px",
+      "paddingRight": "0px",
+      "maxWidth": "430px",
+      "transform": "matrix(1, 0, 0, 1, -215, 0)",
+      "linkCount": 5,
+      "links": [
+        {
+          "text": "Home",
+          "href": "/home.html?from=profile"
+        },
+        {
+          "text": "Request",
+          "href": "/request.html"
+        },
+        {
+          "text": "Progress",
+          "href": "/progress.html"
+        },
+        {
+          "text": "Riwayat",
+          "href": "/history.html"
+        },
+        {
+          "text": "Profil",
+          "href": "/profile.html"
+        }
+      ],
+      "edgeOk": true
+    }
+  ]
+}

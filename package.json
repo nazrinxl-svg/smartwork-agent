@@ -151,7 +151,9 @@
     "smartarmy:gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=staged",
     "smartarmy:install-gates": "node scripts/smartarmy-install-git-hooks.mjs",
     "smartarmy:precommit-gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=staged",
-    "smartarmy:prebuild-gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=worktree"
+    "smartarmy:prebuild-gate": "node scripts/smartarmy-hard-gate.mjs --mode=gate --scope=worktree",
+    "smartwork:ui-lock": "node scripts/smartwork-ui-hard-lock-guard.mjs --lock",
+    "smartwork:ui-hard-guard": "node scripts/smartwork-ui-hard-lock-guard.mjs --check"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

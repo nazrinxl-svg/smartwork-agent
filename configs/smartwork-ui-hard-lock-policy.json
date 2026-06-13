@@ -1,0 +1,37 @@
+{
+  "mode": "SMARTWORK_UI_HARD_LOCK_POLICY",
+  "protectedFiles": [
+    "public/index.html",
+    "public/home.html",
+    "public/request.html",
+    "public/progress.html",
+    "public/history.html",
+    "public/profile.html",
+    "public/smartwork-bottom-nav.css"
+  ],
+  "bottomNavPages": [
+    "public/home.html",
+    "public/request.html",
+    "public/progress.html",
+    "public/history.html",
+    "public/profile.html"
+  ],
+  "protectedRules": {
+    "doNotChangeWithoutExplicitUnlock": [
+      "login",
+      "bottom-nav",
+      "menu-routing",
+      "icons",
+      "manifest",
+      "api-bridge",
+      "siaga-runner"
+    ],
+    "requiredNavLabels": [
+      "Home",
+      "Request",
+      "Progress",
+      "Riwayat",
+      "Profil"
+    ]
+  }
+}

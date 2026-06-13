@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8" />
@@ -1384,7 +1384,39 @@
     </section>
   </main>
 
-  <nav class="bottom-nav">
+  <!-- SMARTWORK_BOTTOM_NAV_EDGE_LOCK_START -->
+<style id="smartwork-bottom-nav-edge-lock">
+/* SmartWork bottom nav edge lock.
+   Scope: container width/edge only.
+   Do not change login, routing, icons, manifest, API bridge, or nav labels. */
+.bottom-nav,
+nav.bottom-nav {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 0 !important;
+  transform: translateX(-50%) !important;
+  width: min(100vw, 430px) !important;
+  max-width: 430px !important;
+  box-sizing: border-box !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  overflow: visible !important;
+  z-index: 999 !important;
+}
+
+.bottom-nav > a,
+.bottom-nav .nav,
+.bottom-nav .nav-item {
+  min-width: 0 !important;
+}
+</style>
+<!-- SMARTWORK_BOTTOM_NAV_EDGE_LOCK_END -->
+<nav class="bottom-nav">
   <a class="nav-item" href="/home.html"><strong><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></strong><span>Home</span></a>
   <a class="nav-item" href="/request.html"><strong><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/><path d="M16 17h.01"/></svg></strong><span>Request</span></a>
   <a class="nav-item active" href="/progress.html"><strong><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg></strong><span>Progress</span></a>
