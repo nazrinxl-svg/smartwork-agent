@@ -1,0 +1,34 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-Q",
+    "status":  "PLAY_CONSOLE_MANUAL_REVIEW_PACK_READY_NO_UPLOAD",
+    "releaseDecision":  "FINAL_AAB_READY_FOR_MANUAL_PLAY_CONSOLE_REVIEW_UPLOAD_NOT_PERFORMED",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "headBeforeCommit":  "b95bc09",
+    "finalAab":  {
+                     "path":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app-release-bundle.aab",
+                     "name":  "app-release-bundle.aab",
+                     "sizeBytes":  1210010,
+                     "sizeMB":  1.15,
+                     "lastWriteTime":  "\/Date(1781319336514)\/",
+                     "sha256FileHash":  "D2AA6B061FB1D104BC0A52AB316B9E3B37ECBC3BD9F0964C8E95AE8CA728AD89"
+                 },
+    "packageName":  "id.smartwork.agent",
+    "host":  "smartwork-agent.id",
+    "appName":  "SmartWork Agent",
+    "signingAlias":  "smartwork-agent-release",
+    "publicAssetlinks":  {
+                             "status":  200,
+                             "packageName":  "id.smartwork.agent",
+                             "sha256":  "B1:F8:2E:EE:48:39:16:F5:33:6D:FB:29:29:6E:5F:2B:81:72:AC:F9:9B:FF:A5:69:A5:56:DB:60:92:62:80:9F"
+                         },
+    "safety":  {
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true,
+                   "buildArtifactsNotCommitted":  true,
+                   "manualReviewOnly":  true
+               },
+    "localAabPath":  "android\\phase5zt-k\\generated-hotspot\\app-release-bundle.aab",
+    "createdAt":  "2026-06-13T09:59:09"
+}
