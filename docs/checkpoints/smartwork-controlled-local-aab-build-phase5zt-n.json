@@ -1,0 +1,66 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-N",
+    "status":  "CONTROLLED_LOCAL_ANDROID_AAB_BUILD_COMPLETED",
+    "releaseDecision":  "LOCAL_AAB_READY_FOR_MANUAL_REVIEW_NO_PLAY_STORE_UPLOAD",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "headBeforeCommit":  "08b5245",
+    "generatedFolder":  "android\\phase5zt-k\\generated-hotspot",
+    "artifactSummary":  {
+                            "aabCount":  3,
+                            "apkCount":  3,
+                            "artifacts":  [
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app-release-bundle.aab",
+                                                  "Name":  "app-release-bundle.aab",
+                                                  "Extension":  ".aab",
+                                                  "Length":  1210034,
+                                                  "LastWriteTime":  "\/Date(1781318603672)\/"
+                                              },
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app-release-signed.apk",
+                                                  "Name":  "app-release-signed.apk",
+                                                  "Extension":  ".apk",
+                                                  "Length":  1081798,
+                                                  "LastWriteTime":  "\/Date(1781318594077)\/"
+                                              },
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app-release-unsigned-aligned.apk",
+                                                  "Name":  "app-release-unsigned-aligned.apk",
+                                                  "Extension":  ".apk",
+                                                  "Length":  1039091,
+                                                  "LastWriteTime":  "\/Date(1781317511283)\/"
+                                              },
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app\\build\\intermediates\\intermediary_bundle\\release\\packageReleaseBundle\\intermediary-bundle.aab",
+                                                  "Name":  "intermediary-bundle.aab",
+                                                  "Extension":  ".aab",
+                                                  "Length":  3850976,
+                                                  "LastWriteTime":  "\/Date(1781318600980)\/"
+                                              },
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk",
+                                                  "Name":  "app-release-unsigned.apk",
+                                                  "Extension":  ".apk",
+                                                  "Length":  1039091,
+                                                  "LastWriteTime":  "\/Date(1781317511283)\/"
+                                              },
+                                              {
+                                                  "FullName":  "D:\\1. myapps\\smartwork-agent\\android\\phase5zt-k\\generated-hotspot\\app\\build\\outputs\\bundle\\release\\app-release.aab",
+                                                  "Name":  "app-release.aab",
+                                                  "Extension":  ".aab",
+                                                  "Length":  1167128,
+                                                  "LastWriteTime":  "\/Date(1781318601359)\/"
+                                              }
+                                          ]
+                        },
+    "safety":  {
+                   "localBuildOnly":  true,
+                   "noPlayStoreUpload":  true,
+                   "keystoreNotCommitted":  true,
+                   "passwordNotStored":  true,
+                   "buildArtifactsNotCommitted":  true
+               },
+    "note":  "AAB/APK generated locally only and intentionally not committed.",
+    "createdAt":  "2026-06-13T09:45:18"
+}
