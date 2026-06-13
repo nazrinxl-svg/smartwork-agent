@@ -124,9 +124,9 @@
     "prod:vps-dry-run:fresh-clone-rehearsal": "node scripts/smartwork-phase5o-fresh-clone-vps-dry-run-rehearsal.mjs",
     "prod:vps-dry-run:setup-pack-check": "node scripts/smartwork-phase5p-vps-dry-run-setup-pack-check.mjs",
     "prod:vps-dry-run:first-run-checklist": "node scripts/smartwork-phase5q-vps-first-run-checklist.mjs",
-    "smartagent:doctor": "node scripts/smartwork-agent-core.mjs doctor",
-    "smartagent:diagnose-login": "node scripts/smartwork-agent-core.mjs diagnose-login",
-    "smartagent:mission:login": "node scripts/smartwork-agent-core.mjs mission smartagent/missions/login-ui-username-google.md",
+    "smartagent:doctor": "npm run doctor && npm run brain:smartwork-guard",
+    "smartagent:diagnose-login": "npm run smartagent:mission -- \"Diagnosis login SmartWork read-only. Jangan ubah file, jangan commit, jangan push, hanya beri analisis dan rencana aman.\"",
+    "smartagent:mission:login": "npm run smartagent:mission -- \"Review mission login UI SmartWork username/password dan Google login. Proposal-only, jangan ubah file, jangan commit, jangan push.\"",
     "smartprompt": "node scripts/smartprompt-agent.mjs",
     "smartteam": "node scripts/smartdev-team-agent.mjs",
     "smartteam:watch": "powershell -ExecutionPolicy Bypass -File scripts/smartdev-team-watch.ps1",
@@ -156,7 +156,8 @@
     "smartwork:ui-hard-guard": "node scripts/smartwork-ui-hard-lock-guard.mjs --check",
     "smartwork:auth-reset-super-lock": "node scripts/smartwork-auth-reset-super-lock-guard.mjs",
     "smartwork:auth-reset-super-lock:capture": "node scripts/smartwork-auth-reset-super-lock-guard.mjs --capture",
-    "smartagent:precode": "node scripts/smartagent-precode-bridge.mjs"
+    "smartagent:precode": "node scripts/smartagent-precode-bridge.mjs",
+    "smartagent:mission": "node scripts/smartagent-mission-bridge.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
@@ -164,3 +165,4 @@
     "playwright": "^1.49.1"
   }
 }
+

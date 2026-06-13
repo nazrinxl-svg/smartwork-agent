@@ -1,7 +1,7 @@
-﻿import { spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const armyRoot = "C:\\Users\\Digitalisasi\\Desktop\\smartagent-army";
+const armyRoot = "D:\\1. myapps\\smartagent-army";
 
 if (!fs.existsSync(armyRoot)) {
   console.error(`[SMARTAGENT BRIDGE] Folder tidak ditemukan: ${armyRoot}`);
@@ -33,3 +33,4 @@ if (result.status !== 0) {
 }
 
 console.log("\n[SMARTAGENT BRIDGE] OK: SmartAgent Army precode gate passed.");
+
