@@ -1,0 +1,153 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-J",
+    "status":  "PARTIAL_ANDROID_PROJECT_FILES_PRESENT_AFTER_ECONNRESET",
+    "releaseDecision":  "REVIEW_PARTIAL_PROJECT_NO_BUILD_NO_COMMIT_KEYSTORE",
+    "latestCandidate":  "android\\phase5zt-j\\generated",
+    "requiredChecks":  [
+                           {
+                               "file":  "twa-manifest.json",
+                               "exists":  true,
+                               "size":  1398
+                           },
+                           {
+                               "file":  "settings.gradle",
+                               "exists":  true,
+                               "size":  15
+                           },
+                           {
+                               "file":  "build.gradle",
+                               "exists":  true,
+                               "size":  1130
+                           },
+                           {
+                               "file":  "gradlew",
+                               "exists":  true,
+                               "size":  8706
+                           },
+                           {
+                               "file":  "gradlew.bat",
+                               "exists":  true,
+                               "size":  2918
+                           },
+                           {
+                               "file":  "gradle.properties",
+                               "exists":  true,
+                               "size":  751
+                           },
+                           {
+                               "file":  "app\\build.gradle",
+                               "exists":  true,
+                               "size":  9745
+                           },
+                           {
+                               "file":  "app\\src\\main\\AndroidManifest.xml",
+                               "exists":  true,
+                               "size":  7396
+                           }
+                       ],
+    "expectedTermHits":  [
+                             {
+                                 "term":  "id.smartwork.agent",
+                                 "found":  true,
+                                 "count":  8
+                             },
+                             {
+                                 "term":  "smartwork-agent.id",
+                                 "found":  true,
+                                 "count":  9
+                             },
+                             {
+                                 "term":  "smartwork-agent-release",
+                                 "found":  true,
+                                 "count":  1
+                             },
+                             {
+                                 "term":  "SmartWork Agent",
+                                 "found":  true,
+                                 "count":  2
+                             },
+                             {
+                                 "term":  "SmartWork",
+                                 "found":  true,
+                                 "count":  22
+                             }
+                         ],
+    "apkOrAabArtifacts":  {
+
+                          },
+    "keystoreFilesDetected":  {
+
+                              },
+    "twaManifest":  {
+                        "packageId":  "id.smartwork.agent",
+                        "host":  "smartwork-agent.id",
+                        "name":  "SmartWork Agent",
+                        "launcherName":  "SmartWork",
+                        "display":  "standalone",
+                        "themeColor":  "#2563EB",
+                        "themeColorDark":  "#000000",
+                        "navigationColor":  "#000000",
+                        "navigationColorDark":  "#000000",
+                        "navigationDividerColor":  "#000000",
+                        "navigationDividerColorDark":  "#000000",
+                        "backgroundColor":  "#FFFFFF",
+                        "enableNotifications":  true,
+                        "startUrl":  "/",
+                        "iconUrl":  "https://smartwork-agent.id/icons/smartwork-icon-512.png",
+                        "maskableIconUrl":  "https://smartwork-agent.id/icons/smartwork-icon-512.png",
+                        "splashScreenFadeOutDuration":  300,
+                        "signingKey":  {
+                                           "path":  "android.keystore",
+                                           "alias":  "smartwork-agent-release"
+                                       },
+                        "appVersionName":  "1",
+                        "appVersionCode":  1,
+                        "shortcuts":  [
+
+                                      ],
+                        "generatorApp":  "bubblewrap-cli",
+                        "webManifestUrl":  "https://smartwork-agent.id/manifest.json",
+                        "fallbackType":  "customtabs",
+                        "features":  {
+
+                                     },
+                        "alphaDependencies":  {
+                                                  "enabled":  false
+                                              },
+                        "enableSiteSettingsShortcut":  true,
+                        "isChromeOSOnly":  false,
+                        "isMetaQuest":  false,
+                        "fullScopeUrl":  "https://smartwork-agent.id/",
+                        "minSdkVersion":  21,
+                        "orientation":  "portrait",
+                        "fingerprints":  [
+
+                                         ],
+                        "additionalTrustedOrigins":  [
+
+                                                     ],
+                        "retainedBundles":  [
+
+                                            ],
+                        "protocolHandlers":  [
+
+                                             ],
+                        "fileHandlers":  [
+
+                                         ],
+                        "launchHandlerClientMode":  "",
+                        "displayOverride":  [
+
+                                            ],
+                        "appVersion":  "1"
+                    },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noApkBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "doNotCommitKeystore":  true,
+                   "doNotRetryBubblewrapAgainWithoutNewStrategy":  true
+               },
+    "createdAt":  "2026-06-13T08:02:53"
+}

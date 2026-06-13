@@ -1,0 +1,149 @@
+﻿{
+    "ok":  true,
+    "phase":  "5ZT-J",
+    "status":  "BUBBLEWRAP_INIT_SCAFFOLD_GENERATED_AFTER_REPEATED_ECONNRESET_INSPECT_ONLY",
+    "releaseDecision":  "SCAFFOLD_CAPTURED_FOR_REVIEW_NO_AAB_NO_APK_NO_PLAY_UPLOAD",
+    "headBeforeCommit":  "2b6a2fe",
+    "branch":  "test/ui-request-next-20260611-004522",
+    "publicManifest":  {
+                           "url":  "https://smartwork-agent.id/manifest.json",
+                           "contentType":  "application/json; charset=utf-8",
+                           "name":  "SmartWork Agent",
+                           "shortName":  "SmartWork",
+                           "icons":  [
+                                         {
+                                             "src":  "/icons/smartwork-icon-192.png",
+                                             "sizes":  "192x192",
+                                             "type":  "image/png",
+                                             "purpose":  "any maskable"
+                                         },
+                                         {
+                                             "src":  "/icons/smartwork-icon-512.png",
+                                             "sizes":  "512x512",
+                                             "type":  "image/png",
+                                             "purpose":  "any maskable"
+                                         }
+                                     ]
+                       },
+    "generated":  {
+                      "folder":  "android\\phase5zt-j\\generated",
+                      "requiredFiles":  [
+                                            {
+                                                "file":  "twa-manifest.json",
+                                                "exists":  true,
+                                                "size":  1398
+                                            },
+                                            {
+                                                "file":  "settings.gradle",
+                                                "exists":  true,
+                                                "size":  15
+                                            },
+                                            {
+                                                "file":  "build.gradle",
+                                                "exists":  true,
+                                                "size":  1130
+                                            },
+                                            {
+                                                "file":  "gradlew",
+                                                "exists":  true,
+                                                "size":  8706
+                                            },
+                                            {
+                                                "file":  "gradlew.bat",
+                                                "exists":  true,
+                                                "size":  2918
+                                            },
+                                            {
+                                                "file":  "gradle.properties",
+                                                "exists":  true,
+                                                "size":  751
+                                            },
+                                            {
+                                                "file":  "app\\build.gradle",
+                                                "exists":  true,
+                                                "size":  9745
+                                            },
+                                            {
+                                                "file":  "app\\src\\main\\AndroidManifest.xml",
+                                                "exists":  true,
+                                                "size":  7396
+                                            }
+                                        ],
+                      "twaManifest":  {
+                                          "packageId":  "id.smartwork.agent",
+                                          "host":  "smartwork-agent.id",
+                                          "name":  "SmartWork Agent",
+                                          "launcherName":  "SmartWork",
+                                          "display":  "standalone",
+                                          "themeColor":  "#2563EB",
+                                          "themeColorDark":  "#000000",
+                                          "navigationColor":  "#000000",
+                                          "navigationColorDark":  "#000000",
+                                          "navigationDividerColor":  "#000000",
+                                          "navigationDividerColorDark":  "#000000",
+                                          "backgroundColor":  "#FFFFFF",
+                                          "enableNotifications":  true,
+                                          "startUrl":  "/",
+                                          "iconUrl":  "https://smartwork-agent.id/icons/smartwork-icon-512.png",
+                                          "maskableIconUrl":  "https://smartwork-agent.id/icons/smartwork-icon-512.png",
+                                          "splashScreenFadeOutDuration":  300,
+                                          "signingKey":  {
+                                                             "path":  "android.keystore",
+                                                             "alias":  "smartwork-agent-release"
+                                                         },
+                                          "appVersionName":  "1",
+                                          "appVersionCode":  1,
+                                          "shortcuts":  [
+
+                                                        ],
+                                          "generatorApp":  "bubblewrap-cli",
+                                          "webManifestUrl":  "https://smartwork-agent.id/manifest.json",
+                                          "fallbackType":  "customtabs",
+                                          "features":  {
+
+                                                       },
+                                          "alphaDependencies":  {
+                                                                    "enabled":  false
+                                                                },
+                                          "enableSiteSettingsShortcut":  true,
+                                          "isChromeOSOnly":  false,
+                                          "isMetaQuest":  false,
+                                          "fullScopeUrl":  "https://smartwork-agent.id/",
+                                          "minSdkVersion":  21,
+                                          "orientation":  "portrait",
+                                          "fingerprints":  [
+
+                                                           ],
+                                          "additionalTrustedOrigins":  [
+
+                                                                       ],
+                                          "retainedBundles":  [
+
+                                                              ],
+                                          "protocolHandlers":  [
+
+                                                               ],
+                                          "fileHandlers":  [
+
+                                                           ],
+                                          "launchHandlerClientMode":  "",
+                                          "displayOverride":  [
+
+                                                              ],
+                                          "appVersion":  "1"
+                                      }
+                  },
+    "bubblewrapCli":  {
+                          "result":  "ECONNRESET_AT_44_PERCENT_REPEATED",
+                          "note":  "Required Android scaffold files exist and were inspected, but CLI did not exit cleanly."
+                      },
+    "safety":  {
+                   "noAabBuild":  true,
+                   "noApkBuild":  true,
+                   "noGradleBuild":  true,
+                   "noPlayStoreUpload":  true,
+                   "generatedFolderNotCommitted":  true,
+                   "keystoreNotCommitted":  true
+               },
+    "createdAt":  "2026-06-13T08:07:15"
+}
