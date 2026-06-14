@@ -798,6 +798,13 @@
   .topbar .brand{
     transform:translate(-2px,-2px)!important;
   }
+
+.smartwork-invoice-modal-close,
+.smartwork-invoice-close-action,
+.smartwork-invoice-modal-actions button {
+  font-family: 'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+}
+
 </style>
 <style id="smartwork-progress-failsafe-polish">
   .app{
@@ -1435,7 +1442,7 @@
             <path d="M39 6v13h12" fill="#fee2e2"/>
             <path d="M39 6v13h12" stroke="#ef4444" stroke-width="3"/>
             <rect x="8" y="34" width="36" height="18" rx="4" fill="#ef4444"/>
-            <text x="26" y="47" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#fff">PDF</text>
+            <text x="26" y="47" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="12" font-weight="700" fill="#fff">PDF</text>
           </svg>
         </div>
         <div>
@@ -2477,7 +2484,7 @@ nav.bottom-nav {
     if (!el) {
       el = document.createElement("section");
       el.id = "smartwork-phase5w-vps-progress";
-      el.style.cssText = "margin:12px;padding:12px;border:1px solid #dbeafe;background:#eff6ff;border-radius:16px;color:#1e3a8a;font:12px/1.45 system-ui;";
+      el.style.cssText = "margin:12px;padding:12px;border:1px solid #dbeafe;background:#eff6ff;border-radius:16px;color:#1e3a8a;font:12px/1.45 'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;";
       el.innerHTML = "<div style='font-weight:700;margin-bottom:4px'>VPS Queue Status</div><div data-smartwork-vps-text>Menunggu job VPS...</div>";
       (document.querySelector("main,.container,.app") || document.body).appendChild(el);
     }
@@ -3172,30 +3179,79 @@ nav.bottom-nav {
 <script id="smartwork-progress-unduh-invoice-v5-script">
 (() => {
   function downloadInvoice() {
-    const content = [
+    const lines = [
       "INVOICE REQUEST SMARTWORK",
       "",
       "Layanan    : Presensi SIAGA Juni 2026",
       "Nama       : Nazrin",
-      "Rentang    : 22-27 Juni 2026",
+      "Periode    : 2026-06-22 s.d. 2026-06-27",
       "Status     : Hasil Siap 100%",
       "File hasil : Presensi_Nazrin_Juni_2026.pdf",
       "",
       "Catatan:",
       "PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan."
-    ].join("\n");
+    ];
 
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+    const scale = Math.max(2, Math.ceil(window.devicePixelRatio || 1));
+    const width = 900;
+    const height = 560;
+    const canvas = document.createElement("canvas");
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "Invoice_Nazrin_Presensi_SIAGA_Juni_2026.txt";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const ctx = canvas.getContext("2d");
+    ctx.scale(scale, scale);
 
-    setTimeout(() => URL.revokeObjectURL(url), 800);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "800 28px 'Plus Jakarta Sans', system-ui, sans-serif";
+    ctx.fillText(lines[0], 48, 64);
+
+    ctx.fillStyle = "#64748b";
+    ctx.font = "500 14px 'Plus Jakarta Sans', system-ui, sans-serif";
+    ctx.fillText("Ringkasan request dan status pekerjaan SmartWork", 48, 92);
+
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(48, 122);
+    ctx.lineTo(width - 48, 122);
+    ctx.stroke();
+
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "600 18px 'Plus Jakarta Sans', system-ui, sans-serif";
+
+    let y = 168;
+    for (const line of lines.slice(2)) {
+      ctx.fillText(line, 48, y);
+      y += line === "" ? 18 : 32;
+    }
+
+    ctx.fillStyle = "#2563eb";
+    ctx.font = "800 15px 'Plus Jakarta Sans', system-ui, sans-serif";
+    ctx.fillText("SmartWork Agent", 48, height - 56);
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "500 13px 'Plus Jakarta Sans', system-ui, sans-serif";
+    ctx.fillText("Generated invoice preview", 48, height - 34);
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Invoice_Nazrin_Presensi_SIAGA_Juni_2026.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 800);
+    }, "image/png");
   }
 
   function patchInvoiceButton() {
@@ -3238,30 +3294,3 @@ nav.bottom-nav {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

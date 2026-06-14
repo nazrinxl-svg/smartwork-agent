@@ -187,10 +187,14 @@
     }
 
     input[type="date"]::-webkit-calendar-picker-indicator {
-      cursor: pointer;
-      opacity: 0;
-      filter: invert(37%) sepia(91%) saturate(1681%) hue-rotate(211deg) brightness(93%) contrast(91%);
-    }
+    opacity: 0 !important;
+    display: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
 
     .grid-2 {
       display: grid;
@@ -736,6 +740,101 @@
   transform:translate(-1px,-1px)!important;
 }
 </style>
+
+<style id="smartwork-request-mobile-shell-lock-v1">
+  /* SMARTWORK_REQUEST_MOBILE_SHELL_LOCK_V1 */
+  html,
+  body {
+    width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+    background: #eef4fb !important;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
+
+  body > .app,
+  main.app,
+  .app {
+    width: min(100%, 430px) !important;
+    max-width: 430px !important;
+    min-height: 100vh !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: #f8fbff !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .topbar {
+    width: min(100%, 430px) !important;
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .app section,
+  .app .card,
+  .app form,
+  .app fieldset {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .app form {
+    display: block !important;
+  }
+
+  .app form .row,
+  .app form .grid,
+  .app form [class*="grid"],
+  .app form [class*="row"],
+  .app form [class*="cols"],
+  .app form [class*="columns"] {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .app label,
+  .app input,
+  .app select,
+  .app textarea,
+  .app button {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .app input,
+  .app select,
+  .app textarea,
+  .app button[type="submit"],
+  .app .btn,
+  .app .button {
+    width: 100% !important;
+  }
+
+  .app textarea {
+    min-height: 72px !important;
+    resize: vertical !important;
+  }
+
+  nav.bottom-nav,
+  .bottom-nav {
+    width: min(100%, 430px) !important;
+    max-width: 430px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box !important;
+  }
+</style>
+
 </head>
 
 <body>
@@ -765,8 +864,6 @@
       </div>
 
       <form id="requestForm">
-        <div class="section-title">Data Pemohon</div>
-
         <div class="field">
           <label>Nama</label>
           <input name="requesterName" placeholder="Nama pemohon" required />
@@ -818,7 +915,7 @@
           <textarea name="notes" placeholder="Catatan tambahan untuk agent"></textarea>
         </div>
 
-        <button type="submit">Simpan Request</button>
+        <button type="submit">Simpan</button>
       </form>
 
       <div id="savedBox" class="saved">Belum ada request disimpan.</div>
@@ -1614,7 +1711,7 @@ nav.bottom-nav {
     });
   }, true);
 
-  document.addEventListener("DOMContentLoaded", () => status("VPS API ready: " + API_BASE));
+  document.addEventListener("DOMContentLoaded", () => {});
 })();
 </script>
 <!-- SMARTWORK_PHASE5V_VPS_API_BRIDGE_END -->
@@ -1689,6 +1786,499 @@ form input[type="date"] {
   min-width: 0 !important;
 }
 </style>
+
+
+<!-- SMARTWORK_REQUEST_DATE_PICKER_CLICK_V1 -->
+<style id="smartwork-request-date-picker-click-v1-style">
+  input[type="date"],
+  input[placeholder="dd/mm/yyyy"],
+  input[placeholder="dd / mm / yyyy"] {
+    cursor: pointer !important;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer !important;
+    opacity: 1 !important;
+  }
+</style>
+
+<script id="smartwork-request-date-picker-click-v1-script">
+(() => {
+  function isDateLikeInput(el) {
+    if (!el || el.tagName !== "INPUT") return false;
+    const type = String(el.getAttribute("type") || "").toLowerCase();
+    const placeholder = String(el.getAttribute("placeholder") || "").toLowerCase();
+    return type === "date" || placeholder.includes("dd/mm/yyyy") || placeholder.includes("dd / mm / yyyy");
+  }
+
+  function openDatePicker(input) {
+    if (!input || input.disabled || input.readOnly) return;
+
+    input.focus({ preventScroll: true });
+
+    if (typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+      } catch (_) {
+        // Browser may block showPicker except during direct user activation.
+      }
+    }
+  }
+
+  function bindDatePickerClick() {
+    document.querySelectorAll("input").forEach((input) => {
+      if (!isDateLikeInput(input)) return;
+      if (input.dataset.smartworkDatePickerClick === "true") return;
+
+      input.dataset.smartworkDatePickerClick = "true";
+      input.style.cursor = "pointer";
+
+      input.addEventListener("click", () => openDatePicker(input));
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDatePicker(input);
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", bindDatePickerClick);
+  window.addEventListener("load", bindDatePickerClick);
+  setTimeout(bindDatePickerClick, 150);
+  setTimeout(bindDatePickerClick, 700);
+})();
+</script>
+<!-- /SMARTWORK_REQUEST_DATE_PICKER_CLICK_V1 -->
+
+
+
+
+
+
+
+
+
+
+<!-- SMARTWORK_REQUEST_HIDE_REPORT_CHECK_V2 -->
+<style id="smartwork-request-hide-report-check-v2-style">
+  .smartwork-report-check-hidden-v2 {
+    display: none !important;
+  }
+</style>
+
+<script id="smartwork-request-hide-report-check-v2-script">
+(() => {
+  function textOf(el) {
+    return String(el?.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function isTargetText(text) {
+    const t = String(text || "").toLowerCase();
+    return (
+      t.includes("buat laporan") ||
+      t.includes("laporan harian/progress") ||
+      t.includes("progress setelah agent bekerja")
+    );
+  }
+
+  function findReportCheckbox() {
+    return Array.from(document.querySelectorAll("input[type='checkbox']")).find((input) => {
+      let node = input;
+      for (let i = 0; i < 7 && node; i++) {
+        if (isTargetText(textOf(node))) return true;
+        node = node.parentElement;
+      }
+      return false;
+    });
+  }
+
+  function findSmallVisualContainer(input) {
+    let node = input;
+    let best = null;
+
+    for (let i = 0; i < 8 && node; i++) {
+      const text = textOf(node);
+      const lower = text.toLowerCase();
+      const rect = node.getBoundingClientRect();
+
+      const looksLikeTarget =
+        isTargetText(text) &&
+        !lower.includes("catatan") &&
+        !lower.includes("simpan request") &&
+        !lower.includes("form request user") &&
+        rect.width >= 220 &&
+        rect.width <= 440 &&
+        rect.height >= 24 &&
+        rect.height <= 120;
+
+      if (looksLikeTarget) {
+        best = node;
+      }
+
+      node = node.parentElement;
+    }
+
+    return best || input.closest("label") || input.parentElement;
+  }
+
+  function hideReportCheck() {
+    const checkbox = findReportCheckbox();
+    if (!checkbox) return;
+
+    checkbox.checked = false;
+    checkbox.disabled = true;
+    checkbox.removeAttribute("checked");
+    checkbox.setAttribute("aria-hidden", "true");
+    checkbox.tabIndex = -1;
+
+    const box = findSmallVisualContainer(checkbox);
+    if (box) {
+      box.classList.add("smartwork-report-check-hidden-v2");
+      box.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", hideReportCheck);
+  window.addEventListener("load", hideReportCheck);
+  setTimeout(hideReportCheck, 50);
+  setTimeout(hideReportCheck, 200);
+  setTimeout(hideReportCheck, 700);
+})();
+</script>
+<!-- /SMARTWORK_REQUEST_HIDE_REPORT_CHECK_V2 -->
+
+
+<!-- SMARTWORK_REQUEST_EDIT_DELETE_ACTIONS_V1 -->
+<style id="smartwork-request-edit-delete-actions-v1-style">
+  .smartwork-request-submit-actions-v1 {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    align-items: center !important;
+    margin-top: 10px !important;
+  }
+
+  .smartwork-request-submit-actions-v1 > button,
+  .smartwork-request-submit-actions-v1 > input[type="submit"] {
+    width: 100% !important;
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+  }
+
+  .smartwork-request-edit-btn-v1 {
+    border: 1px solid #bfdbfe !important;
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+  }
+
+  .smartwork-request-delete-btn-v1 {
+    border: 1px solid #fecaca !important;
+    background: #fff1f2 !important;
+    color: #dc2626 !important;
+  }
+
+  .smartwork-request-edit-btn-v1:active,
+  .smartwork-request-delete-btn-v1:active {
+    transform: scale(0.985) !important;
+  }
+
+  @media (max-width: 380px) {
+    .smartwork-request-submit-actions-v1 {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 7px !important;
+    }
+  }
+</style>
+
+<script id="smartwork-request-edit-delete-actions-v1-script">
+(() => {
+  const DELETE_EXACT_KEYS = new Set([
+    "smartwork_request",
+    "smartwork_request_server",
+    "smartwork_active_job_id",
+    "smartwork_production_job",
+    "smartwork_production_job_id",
+    "smartwork_production_job_error",
+    "smartwork_vps_last_submit",
+    "smartwork_progress_live_state",
+    "smartwork_progress_reset_at",
+    "smartwork_progress_active_range",
+    "smartwork_production_progress_state"
+  ]);
+
+  function shouldDeleteKey(key) {
+    return (
+      DELETE_EXACT_KEYS.has(key) ||
+      key.startsWith("smartwork_progress_") ||
+      key.startsWith("smartwork_production_progress_")
+    );
+  }
+
+  function findForm() {
+    return document.getElementById("requestForm") || document.querySelector("form");
+  }
+
+  function findSubmitButton(form) {
+    return Array.from(form.querySelectorAll("button,input[type='submit']")).find((el) => {
+      const text = String(el.textContent || el.value || "").replace(/\s+/g, " ").trim().toLowerCase();
+      return el.type === "submit" || text.includes("simpan request");
+    });
+  }
+
+  function getSavedBox() {
+    return document.getElementById("savedBox");
+  }
+
+  function enableEditMode(form) {
+    form.querySelectorAll("input, textarea, select").forEach((el) => {
+      if (el.type === "hidden") return;
+      if (el.classList.contains("smartwork-report-check-hidden-v2")) return;
+      el.disabled = false;
+      el.readOnly = false;
+    });
+
+    const first =
+      form.querySelector("input[name='name'], input[name='nama'], input:not([type='hidden']):not([type='checkbox']), textarea");
+
+    first?.focus({ preventScroll: false });
+
+    const savedBox = getSavedBox();
+    if (savedBox) {
+      savedBox.textContent = "Mode edit aktif. Silakan ubah data lalu tekan Simpan Request.";
+    }
+  }
+
+  function clearWorkedTestingData(form) {
+    const confirmed = window.confirm(
+      "Hapus data testing yang sudah dikerjakan?\n\nYang dihapus: request tersimpan, job aktif, status progress, dan cache hasil lokal. Username/password/profil tidak dihapus."
+    );
+
+    if (!confirmed) return;
+
+    const removed = [];
+    for (const key of Object.keys(localStorage)) {
+      if (shouldDeleteKey(key)) {
+        localStorage.removeItem(key);
+        removed.push(key);
+      }
+    }
+
+    form.querySelectorAll("input, textarea, select").forEach((el) => {
+      const name = String(el.name || "").toLowerCase();
+      const placeholder = String(el.placeholder || "").toLowerCase();
+      const type = String(el.type || "").toLowerCase();
+
+      const shouldClearField =
+        type === "date" ||
+        name.includes("date") ||
+        name.includes("tanggal") ||
+        name.includes("holiday") ||
+        name.includes("libur") ||
+        name.includes("cuti") ||
+        name.includes("notes") ||
+        name.includes("catatan") ||
+        placeholder.includes("catatan") ||
+        placeholder.includes("contoh: 3, 4, 5");
+
+      if (shouldClearField) {
+        el.value = "";
+      }
+    });
+
+    const savedBox = getSavedBox();
+    if (savedBox) {
+      savedBox.textContent = "Data testing/progress sudah dihapus. Username, password, profil, dan API base tetap aman.";
+    }
+
+    window.dispatchEvent(new CustomEvent("smartwork:testing-data-cleared", {
+      detail: { removedKeys: removed }
+    }));
+  }
+
+  function installActions() {
+    const form = findForm();
+    if (!form) return;
+
+    if (form.querySelector(".smartwork-request-submit-actions-v1")) return;
+
+    const submit = findSubmitButton(form);
+    if (!submit) return;
+
+    const row = document.createElement("div");
+    row.className = "smartwork-request-submit-actions-v1";
+
+    submit.insertAdjacentElement("beforebegin", row);
+    row.appendChild(submit);
+
+    const edit = document.createElement("button");
+    edit.type = "button";
+    edit.className = "smartwork-request-edit-btn-v1";
+    edit.textContent = "Edit";
+    edit.setAttribute("aria-label", "Edit data request");
+    edit.addEventListener("click", () => enableEditMode(form));
+
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "smartwork-request-delete-btn-v1";
+    del.textContent = "Hapus Data";
+    del.setAttribute("aria-label", "Hapus data testing yang sudah dikerjakan");
+    del.addEventListener("click", () => clearWorkedTestingData(form));
+
+    row.appendChild(edit);
+    row.appendChild(del);
+  }
+
+  document.addEventListener("DOMContentLoaded", installActions);
+  window.addEventListener("load", installActions);
+  setTimeout(installActions, 100);
+  setTimeout(installActions, 700);
+})();
+</script>
+<!-- /SMARTWORK_REQUEST_EDIT_DELETE_ACTIONS_V1 -->
+
+
+
+
+<!-- SMARTWORK_REQUEST_SERVICE_DROPDOWN_V1 -->
+<style id="smartwork-request-service-dropdown-v1-style">
+  .smartwork-service-dropdown-v1 {
+    margin: 0 0 12px 0 !important;
+    width: 100% !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
+
+  .smartwork-service-dropdown-v1 label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: #0f172a !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+
+  .smartwork-service-dropdown-v1 select {
+    width: 100% !important;
+    height: 42px !important;
+    border: 1px solid #dbe5f2 !important;
+    border-radius: 14px !important;
+    background: #f8fbff !important;
+    color: #0f172a !important;
+    padding: 0 12px !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+    outline: none !important;
+    cursor: pointer !important;
+  }
+
+  .smartwork-service-dropdown-v1 select:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  }
+
+  .smartwork-service-dropdown-v1 small {
+    display: block !important;
+    margin-top: 5px !important;
+    color: #64748b !important;
+    font-size: 10.8px !important;
+    line-height: 1.35 !important;
+  }
+</style>
+
+<script id="smartwork-request-service-dropdown-v1-script">
+(() => {
+  function findForm() {
+    return document.getElementById("requestForm") || document.querySelector("form");
+  }
+
+  function findInsertPoint(form) {
+    const labels = Array.from(form.querySelectorAll("label"));
+    return labels.find((label) => /nama/i.test(label.textContent || "")) || labels[0] || form.firstElementChild;
+  }
+
+  function installServiceDropdown() {
+    const form = findForm();
+    if (!form) return;
+
+    const oldPicker = form.querySelector(".smartwork-service-picker-v1");
+    if (oldPicker) oldPicker.remove();
+
+    if (form.querySelector(".smartwork-service-dropdown-v1")) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "smartwork-service-dropdown-v1";
+    wrap.innerHTML = `
+      <label for="smartworkServiceType">Layanan</label>
+      <select id="smartworkServiceType" name="serviceType" aria-label="Pilih layanan SmartWork">
+        <option value="siaga" selected>SIAGA Presensi</option>
+        <option value="ekinerja" disabled>e-Kinerja ? segera</option>
+      </select>
+      <small>Untuk saat ini request yang aktif adalah SIAGA Presensi.</small>
+    `;
+
+    const insertPoint = findInsertPoint(form);
+    if (insertPoint) {
+      insertPoint.insertAdjacentElement("beforebegin", wrap);
+    } else {
+      form.prepend(wrap);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", installServiceDropdown);
+  window.addEventListener("load", installServiceDropdown);
+  setTimeout(installServiceDropdown, 100);
+  setTimeout(installServiceDropdown, 700);
+})();
+</script>
+<!-- /SMARTWORK_REQUEST_SERVICE_DROPDOWN_V1 -->
+
+
+<!-- SMARTWORK_REQUEST_ACTION_BUTTON_EQUAL_FIX_V1 -->
+<style id="smartwork-request-action-button-equal-fix-v1-style">
+  .smartwork-request-submit-actions-v1 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .smartwork-request-submit-actions-v1 > button,
+  .smartwork-request-submit-actions-v1 > input[type="submit"] {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+</style>
+
+<script id="smartwork-request-action-button-equal-fix-v1-script">
+(() => {
+  function normalizeActionButtons() {
+    const row = document.querySelector(".smartwork-request-submit-actions-v1");
+    if (!row) return;
+
+    const submit = Array.from(row.querySelectorAll("button,input[type='submit']")).find((el) => {
+      const text = String(el.textContent || el.value || "").replace(/\s+/g, " ").trim().toLowerCase();
+      return el.type === "submit" || text === "simpan request" || text === "simpan";
+    });
+
+    if (submit) {
+      if ("value" in submit && submit.tagName === "INPUT") submit.value = "Simpan";
+      else submit.textContent = "Simpan";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", normalizeActionButtons);
+  window.addEventListener("load", normalizeActionButtons);
+  setTimeout(normalizeActionButtons, 100);
+  setTimeout(normalizeActionButtons, 700);
+})();
+</script>
+<!-- /SMARTWORK_REQUEST_ACTION_BUTTON_EQUAL_FIX_V1 -->
 
 </body>
 </html>

@@ -157,7 +157,11 @@
     "smartwork:auth-reset-super-lock": "node scripts/smartwork-auth-reset-super-lock-guard.mjs",
     "smartwork:auth-reset-super-lock:capture": "node scripts/smartwork-auth-reset-super-lock-guard.mjs --capture",
     "smartagent:precode": "node scripts/smartagent-precode-bridge.mjs",
-    "smartagent:mission": "node scripts/smartagent-mission-bridge.mjs"
+    "smartagent:mission": "node scripts/smartagent-mission-bridge.mjs",
+    "smartui:sentinel": "node scripts/smartwork-ui-sentinel-readonly.mjs",
+    "smartui:sentinel:strict": "node scripts/smartwork-ui-sentinel-readonly.mjs --strict",
+    "smartui:font-sentinel": "node scripts/smartwork-ui-font-sentinel-v2.mjs",
+    "smartui:font-sentinel:strict": "node scripts/smartwork-ui-font-sentinel-v2.mjs --strict"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
@@ -165,4 +169,3 @@
     "playwright": "^1.49.1"
   }
 }
-

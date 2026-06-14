@@ -1,0 +1,31 @@
+﻿{
+  "version": "SMARTWORK_UI_FONT_CONTRACT_V2_FAMILY_ONLY",
+  "pageUrl": "http://localhost:3107/progress.html",
+  "requiredFamily": "Plus Jakarta Sans",
+  "mode": "family-only",
+  "viewport": {
+    "width": 430,
+    "height": 900
+  },
+  "openInvoiceModal": true,
+  "globalVisibleTextScan": true,
+  "maxGlobalViolations": 80,
+  "targets": [
+    { "name": "body", "selector": "body", "required": true },
+    { "name": "btn-lihat-pdf", "selector": "a,button", "exactText": "Lihat PDF", "required": true },
+    { "name": "btn-invoice", "selector": "a,button", "exactText": "Invoice", "required": true },
+    { "name": "vps-card", "selector": "#smartwork-phase5w-vps-progress", "required": true },
+    { "name": "vps-title", "selector": "#smartwork-phase5w-vps-progress div:first-child", "required": true },
+    { "name": "vps-text", "selector": "[data-smartwork-vps-text]", "required": true },
+    { "name": "modal-title", "selector": "h1,h2,h3,div,span", "exactText": "Invoice Request", "required": true },
+    { "name": "modal-btn-tutup", "selector": "a,button", "exactText": "Tutup", "required": true },
+    { "name": "modal-btn-unduh-invoice", "selector": "a,button", "exactText": "Unduh Invoice", "required": true }
+  ],
+  "safety": {
+    "readOnly": true,
+    "noAutoFix": true,
+    "noUiMutation": true,
+    "noRepoMutation": true,
+    "noSiagaInput": true
+  }
+}
