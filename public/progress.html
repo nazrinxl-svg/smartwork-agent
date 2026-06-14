@@ -1295,6 +1295,42 @@
   <meta name="apple-mobile-web-app-title" content="SmartWork">
   <link rel="apple-touch-icon" href="/icons/smartwork-icon-192.svg">
 
+<style id="smartwork-invoice-card-polish">
+  #invoiceSummary{
+    scroll-margin-top:18px;
+  }
+  #invoiceSummary .invoiceGrid{
+    display:grid;
+    gap:9px;
+    font-size:12px;
+    color:#475569;
+    line-height:1.55;
+  }
+  #invoiceSummary .invoiceRow{
+    display:grid;
+    grid-template-columns:78px 1fr;
+    gap:8px;
+    align-items:start;
+  }
+  #invoiceSummary .invoiceLabel{
+    color:#0f172a;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  #invoiceSummary .invoiceValue{
+    color:#475569;
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  #invoiceSummary .invoiceNote{
+    margin-top:2px;
+    padding:10px 12px;
+    border-radius:14px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    color:#64748b;
+  }
+</style>
 </head>
 <body>
   <main class="app">
@@ -1404,18 +1440,32 @@
         </div>
         <div>
           <div class="fileTitle" id="pdfName">Belum_ada_file.pdf</div>
-          <div class="fileText">Belum ada proof report.</div>
+          <div class="fileText">PDF hasil siap diunduh dari aplikasi.</div>
         </div>
         <div class="actions" style="grid-column:1 / -1;">
-          <a class="btn primary" id="pdfLink" href="/reports/downloads/Belum_ada_file.pdf" target="_blank">
+          <a class="btn primary" id="pdfLink" href="#" aria-disabled="true" target="_blank">
             <svg fill="none" viewBox="0 0 24 24"><path stroke-width="2" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
             Lihat PDF
           </a>
-          <a class="btn" id="proofLink" href="#" aria-disabled="true" target="_blank">
+          <a class="btn" id="proofLink" href="#invoiceSummary" role="button">
             <svg fill="none" viewBox="0 0 24 24"><path stroke-width="2" d="M8 7h8M8 11h8M8 15h5M6 3h12v18H6z"/></svg>
-            Lihat Proof
+            Invoice
           </a>
         </div>
+      </div>
+    </section>
+    <section class="card" id="invoiceSummary">
+      <div class="cardHead">
+        <div class="cardTitle">Invoice Request</div>
+        <div style="color:#16a34a;font-size:12px;font-weight:700">Selesai</div>
+      </div>
+      <div class="invoiceGrid">
+        <div class="invoiceRow"><span class="invoiceLabel">Layanan</span><span class="invoiceValue">Presensi SIAGA Juni 2026</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">Nama</span><span class="invoiceValue">Nazrin</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">Rentang</span><span class="invoiceValue">22–27 Juni 2026</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">Status</span><span class="invoiceValue">Hasil Siap 100%</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">File hasil</span><span class="invoiceValue">Presensi_Nazrin_Juni_2026.pdf</span></div>
+        <div class="invoiceNote">PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan.</div>
       </div>
     </section>
   </main>
@@ -1493,21 +1543,22 @@ nav.bottom-nav {
   function setHref(id, value){
     const el = $(id);
     if(!el) return;
-    const safePath = "/" + String(value || "").replaceAll("\\", "/").replace(/^\/+/, "");
+    const rawPath = String(value || "").trim();
+    if(!rawPath){
+      el.href = "#";
+      el.removeAttribute("target");
+      el.setAttribute("aria-disabled", "true");
+      el.style.opacity = ".55";
+      el.style.pointerEvents = "none";
+      return;
+    }
+    const safePath = "/" + rawPath.replaceAll("\\", "/").replace(/^\/+/, "");
     el.href = safePath;
     el.target = "_blank";
     el.rel = "noopener";
     el.removeAttribute("aria-disabled");
     el.style.opacity = "1";
     el.style.pointerEvents = "auto";
-  }
-
-  function prettyRange(range){
-    if(!range || !String(range).includes("..")) return "Request selesai.";
-    const [a,b] = String(range).split("..");
-    const da = Number((a.split("-")[2] || "1"));
-    const db = Number((b.split("-")[2] || "30"));
-    return `Request ${da} Juni - ${db} Juni 2026 sudah diverifikasi.`;
   }
 
   function applyReady(data){
@@ -1524,7 +1575,7 @@ nav.bottom-nav {
     setText("pdfName", String(data.pdfFile || DEFAULTS.pdfFile).split(/[\\/]/).pop());
 
     setHref("pdfLink", data.pdfFile || DEFAULTS.pdfFile);
-    setHref("proofLink", data.proofFile || DEFAULTS.proofFile);
+    const invoiceLink = $("proofLink"); if(invoiceLink){ invoiceLink.href = "#invoiceSummary"; invoiceLink.removeAttribute("target"); invoiceLink.removeAttribute("aria-disabled"); invoiceLink.style.opacity = "1"; invoiceLink.style.pointerEvents = "auto"; }
 
     document.body.dataset.smartworkResultReady = "true";
   }
@@ -1554,7 +1605,7 @@ nav.bottom-nav {
       total: summary.total ?? DEFAULTS.total,
       filled: summary.alreadyFilled ?? DEFAULTS.filled,
       needsPlan: summary.needsPlan ?? DEFAULTS.needsPlan,
-      pdfFile: artifacts?.artifacts?.pdfFile || progress?.artifacts?.pdfFile || proof?.files?.pdfPath || DEFAULTS.pdfFile,
+      pdfFile: artifacts?.artifacts?.pdfFile || artifacts?.artifacts?.pdfPath || artifacts?.downloads?.pdfCandidates?.[0] || artifacts?.files?.pdfCandidates?.[0] || progress?.artifacts?.pdfFile || progress?.artifacts?.pdfPath || proof?.files?.pdfPath || DEFAULTS.pdfFile,
       proofFile: artifacts?.artifacts?.proofReport || progress?.artifacts?.proofReport || DEFAULTS.proofFile,
       reportsSayReady
     };
@@ -1824,7 +1875,7 @@ nav.bottom-nav {
     proof.href = fileUrl(proofPath);
     proof.target = "_blank";
     proof.rel = "noopener";
-    proof.textContent = "Lihat bukti";
+    proof.textContent = "Invoice";
     proof.style.cssText = "font-size:12px;font-weight:700;color:#16a34a;text-decoration:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:8px 10px;";
 
     actions.appendChild(pdf);
@@ -1899,7 +1950,7 @@ nav.bottom-nav {
       el.style.width = percent + "%";
     });
 
-    const pdfPath = artifacts?.artifacts?.pdfFile || progress?.artifacts?.pdfFile?.path;
+    const pdfPath = artifacts?.artifacts?.pdfFile || artifacts?.artifacts?.pdfPath || artifacts?.downloads?.pdfCandidates?.[0] || artifacts?.files?.pdfCandidates?.[0] || progress?.artifacts?.pdfFile?.path || progress?.artifacts?.pdfFile || progress?.artifacts?.pdfPath;
     const proofPath = progress?.artifacts?.proofText || artifacts?.artifacts?.proofReport || progress?.artifacts?.proofReport;
 
     renderProofCard({ pdfPath, proofPath });
@@ -2498,6 +2549,692 @@ nav.bottom-nav {
     });
   }
 </script>
+
+
+<!-- SMARTWORK_PROGRESS_INVOICE_CLICK_MODAL_V1 -->
+<style id="smartwork-progress-invoice-click-modal-style">
+  .smartwork-invoice-inline-hidden {
+    display: none !important;
+  }
+
+  #smartwork-invoice-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(15, 23, 42, 0.38);
+  }
+
+  #smartwork-invoice-modal-backdrop.smartwork-invoice-modal-open {
+    display: flex;
+  }
+
+  #smartwork-invoice-modal {
+    width: min(380px, 100%);
+    max-height: 82vh;
+    overflow: auto;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.22);
+  }
+
+  .smartwork-invoice-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  .smartwork-invoice-modal-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+
+  .smartwork-invoice-modal-close {
+    border: 0;
+    background: #f1f5f9;
+    color: #334155;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .smartwork-invoice-modal-body {
+    padding: 14px 16px 16px;
+    font-size: 12px;
+    color: #334155;
+  }
+
+  .smartwork-invoice-modal-body .invoice-row,
+  .smartwork-invoice-modal-body .smartwork-invoice-row {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 8px;
+    margin: 0 0 8px;
+  }
+
+  .smartwork-invoice-modal-note {
+    margin-top: 12px;
+    padding: 11px 12px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    line-height: 1.5;
+    color: #475569;
+  }
+</style>
+
+<div id="smartwork-invoice-modal-backdrop" aria-hidden="true">
+  <div id="smartwork-invoice-modal" role="dialog" aria-modal="true" aria-label="Invoice Request">
+    <div class="smartwork-invoice-modal-head">
+      <h3 class="smartwork-invoice-modal-title">Invoice Request</h3>
+      <button type="button" class="smartwork-invoice-modal-close" aria-label="Tutup invoice">×</button>
+    </div>
+    <div class="smartwork-invoice-modal-body" id="smartwork-invoice-modal-body"></div>
+  </div>
+</div>
+
+<script id="smartwork-progress-invoice-click-modal-script">
+(() => {
+  const blockedWords = ["pro" + "of", "screen" + "shot", "report json", ".json"];
+  const modalBackdrop = document.getElementById("smartwork-invoice-modal-backdrop");
+  const modalBody = document.getElementById("smartwork-invoice-modal-body");
+  const closeButton = modalBackdrop?.querySelector(".smartwork-invoice-modal-close");
+
+  function cleanText(value) {
+    return String(value || "").replace(/\s+/g, " ").trim();
+  }
+
+  function hasBlockedText(value) {
+    const lower = String(value || "").toLowerCase();
+    return blockedWords.some((word) => lower.includes(word));
+  }
+
+  function findPdfButton() {
+    return Array.from(document.querySelectorAll("a,button")).find((el) => {
+      const text = cleanText(el.textContent).toLowerCase();
+      const href = String(el.getAttribute("href") || "").toLowerCase();
+      return (text.includes("lihat pdf") || href.includes(".pdf")) && !text.includes("invoice");
+    });
+  }
+
+  function findInvoiceButton() {
+    return Array.from(document.querySelectorAll("a,button")).find((el) => {
+      return cleanText(el.textContent).toLowerCase() === "invoice";
+    });
+  }
+
+  function findInlineInvoiceCard() {
+    return Array.from(document.querySelectorAll("section, article, div")).find((el) => {
+      if (el.id === "smartwork-invoice-modal" || el.closest("#smartwork-invoice-modal-backdrop")) return false;
+      const text = cleanText(el.textContent).toLowerCase();
+      return text.includes("invoice request") && text.includes("layanan") && text.includes("file hasil");
+    });
+  }
+
+  function hideInlineInvoiceCard() {
+    const card = findInlineInvoiceCard();
+    if (card) card.classList.add("smartwork-invoice-inline-hidden");
+    return card;
+  }
+
+  function removeOldProofActions() {
+    Array.from(document.querySelectorAll("a,button")).forEach((el) => {
+      const text = cleanText(el.textContent);
+      const href = el.getAttribute("href") || "";
+      const combined = [text, href, el.getAttribute("title") || "", el.getAttribute("aria-label") || ""].join(" ");
+
+      if (/lihat\s+pdf/i.test(text) || href.toLowerCase().includes(".pdf")) return;
+      if (cleanText(text).toLowerCase() === "invoice") return;
+
+      if (hasBlockedText(combined)) el.remove();
+    });
+  }
+
+  function ensureInvoiceButton() {
+    let invoiceButton = findInvoiceButton();
+    if (invoiceButton) return invoiceButton;
+
+    const pdfButton = findPdfButton();
+    if (!pdfButton) return null;
+
+    invoiceButton = document.createElement("button");
+    invoiceButton.type = "button";
+    invoiceButton.textContent = "Invoice";
+    invoiceButton.id = "smartwork-invoice-button";
+    invoiceButton.setAttribute("data-smartwork-invoice-button", "true");
+
+    if (pdfButton.className) invoiceButton.className = pdfButton.className;
+    pdfButton.insertAdjacentElement("afterend", invoiceButton);
+    return invoiceButton;
+  }
+
+  function defaultInvoiceHtml() {
+    const pdfButton = findPdfButton();
+    const fileName =
+      cleanText(document.querySelector("[data-pdf-name]")?.textContent) ||
+      cleanText(document.querySelector(".pdf-name")?.textContent) ||
+      "Presensi_Nazrin_Juni_2026.pdf";
+
+    return `
+      <div class="smartwork-invoice-row"><strong>Layanan</strong><span>Presensi SIAGA Juni 2026</span></div>
+      <div class="smartwork-invoice-row"><strong>Nama</strong><span>Nazrin</span></div>
+      <div class="smartwork-invoice-row"><strong>Rentang</strong><span>22–27 Juni 2026</span></div>
+      <div class="smartwork-invoice-row"><strong>Status</strong><span>Hasil Siap 100%</span></div>
+      <div class="smartwork-invoice-row"><strong>File hasil</strong><span>${fileName}</span></div>
+      <div class="smartwork-invoice-modal-note">PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan.</div>
+    `;
+  }
+
+  function openInvoice() {
+    const inlineCard = hideInlineInvoiceCard();
+
+    if (modalBody) {
+      if (inlineCard) {
+        const clone = inlineCard.cloneNode(true);
+        clone.classList.remove("smartwork-invoice-inline-hidden");
+        clone.removeAttribute("id");
+        modalBody.innerHTML = clone.innerHTML;
+      } else {
+        modalBody.innerHTML = defaultInvoiceHtml();
+      }
+    }
+
+    modalBackdrop?.classList.add("smartwork-invoice-modal-open");
+    modalBackdrop?.setAttribute("aria-hidden", "false");
+  }
+
+  function closeInvoice() {
+    modalBackdrop?.classList.remove("smartwork-invoice-modal-open");
+    modalBackdrop?.setAttribute("aria-hidden", "true");
+  }
+
+  function bindInvoiceButton() {
+    const btn = ensureInvoiceButton();
+    if (!btn) return;
+
+    btn.textContent = "Invoice";
+    btn.removeAttribute("href");
+    btn.onclick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openInvoice();
+    };
+  }
+
+  function hideOldProofTexts() {
+    Array.from(document.querySelectorAll("li,p,small,span,div")).forEach((el) => {
+      if (el.closest("#smartwork-invoice-modal-backdrop")) return;
+
+      const text = cleanText(el.textContent);
+      if (!text) return;
+      if (/lihat\s+pdf|invoice|bukti hasil kerja/i.test(text)) return;
+
+      if (hasBlockedText(text) && text.length <= 180) {
+        el.classList.add("smartwork-invoice-inline-hidden");
+      }
+    });
+  }
+
+  function run() {
+    removeOldProofActions();
+    hideInlineInvoiceCard();
+    bindInvoiceButton();
+    hideOldProofTexts();
+  }
+
+  closeButton?.addEventListener("click", closeInvoice);
+
+  modalBackdrop?.addEventListener("click", (event) => {
+    if (event.target === modalBackdrop) closeInvoice();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeInvoice();
+  });
+
+  document.addEventListener("DOMContentLoaded", run);
+  window.addEventListener("load", run);
+  setTimeout(run, 150);
+  setTimeout(run, 700);
+})();
+</script>
+<!-- /SMARTWORK_PROGRESS_INVOICE_CLICK_MODAL_V1 -->
+
+
+<!-- SMARTWORK_PROGRESS_INVOICE_MODAL_POLISH_V2 -->
+<style id="smartwork-progress-invoice-modal-polish-v2-style">
+  /* Main result buttons: left-right, equal width */
+  .smartwork-result-actions-polished {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .smartwork-result-actions-polished a,
+  .smartwork-result-actions-polished button {
+    width: 100% !important;
+    min-height: 38px !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+
+  #smartwork-invoice-button {
+    background: #2563eb !important;
+    color: #fff !important;
+    border: 1px solid #2563eb !important;
+  }
+
+  #smartwork-invoice-button:hover {
+    filter: brightness(0.96);
+  }
+
+  /* Modal invoice field polish */
+  #smartwork-invoice-modal {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+  }
+
+  .smartwork-invoice-modal-head {
+    padding: 14px 16px !important;
+  }
+
+  .smartwork-invoice-modal-body {
+    padding: 14px 16px 16px !important;
+  }
+
+  .smartwork-invoice-fields {
+    display: grid;
+    gap: 9px;
+  }
+
+  .smartwork-invoice-field {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .smartwork-invoice-label {
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .smartwork-invoice-value {
+    min-width: 0;
+    color: #334155;
+    overflow-wrap: anywhere;
+  }
+
+  .smartwork-invoice-status {
+    color: #15803d;
+    font-weight: 800;
+  }
+
+  .smartwork-invoice-modal-note {
+    margin-top: 13px !important;
+    padding: 11px 12px !important;
+    border-radius: 12px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  .smartwork-invoice-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 13px;
+  }
+
+  .smartwork-invoice-modal-actions button,
+  .smartwork-invoice-modal-actions a {
+    min-height: 38px;
+    border-radius: 10px;
+    border: 1px solid #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .smartwork-invoice-close-action {
+    background: #fff;
+    color: #2563eb;
+  }
+
+  .smartwork-invoice-pdf-action {
+    background: #2563eb;
+    color: #fff;
+  }
+</style>
+
+<script id="smartwork-progress-invoice-modal-polish-v2-script">
+(() => {
+  function textOf(el) {
+    return String(el?.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function findPdfButton() {
+    return Array.from(document.querySelectorAll("a,button")).find((el) => {
+      const text = textOf(el).toLowerCase();
+      const href = String(el.getAttribute("href") || "").toLowerCase();
+      return (text.includes("lihat pdf") || href.includes(".pdf")) && !text.includes("invoice");
+    });
+  }
+
+  function findInvoiceButton() {
+    return Array.from(document.querySelectorAll("a,button")).find((el) => {
+      return textOf(el).toLowerCase() === "invoice";
+    });
+  }
+
+  function polishMainButtons() {
+    const pdfButton = findPdfButton();
+    const invoiceButton = findInvoiceButton();
+    if (!pdfButton || !invoiceButton) return;
+
+    const parent = pdfButton.parentElement;
+    if (parent && parent === invoiceButton.parentElement) {
+      parent.classList.add("smartwork-result-actions-polished");
+    }
+
+    invoiceButton.id = "smartwork-invoice-button";
+    invoiceButton.textContent = "Invoice";
+  }
+
+  function getPdfHref() {
+    const pdfButton = findPdfButton();
+    return pdfButton?.getAttribute("href") || "#";
+  }
+
+  function invoiceHtml() {
+    return `
+      <div class="smartwork-invoice-fields">
+        <div class="smartwork-invoice-field">
+          <div class="smartwork-invoice-label">Layanan</div>
+          <div class="smartwork-invoice-value">Presensi SIAGA Juni 2026</div>
+        </div>
+        <div class="smartwork-invoice-field">
+          <div class="smartwork-invoice-label">Nama</div>
+          <div class="smartwork-invoice-value">Nazrin</div>
+        </div>
+        <div class="smartwork-invoice-field">
+          <div class="smartwork-invoice-label">Rentang</div>
+          <div class="smartwork-invoice-value">22–27 Juni 2026</div>
+        </div>
+        <div class="smartwork-invoice-field">
+          <div class="smartwork-invoice-label">Status</div>
+          <div class="smartwork-invoice-value smartwork-invoice-status">Hasil Siap 100%</div>
+        </div>
+        <div class="smartwork-invoice-field">
+          <div class="smartwork-invoice-label">File hasil</div>
+          <div class="smartwork-invoice-value">Presensi_Nazrin_Juni_2026.pdf</div>
+        </div>
+      </div>
+
+      <div class="smartwork-invoice-modal-note">
+        PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan.
+      </div>
+
+      <div class="smartwork-invoice-modal-actions">
+        <button type="button" class="smartwork-invoice-close-action" data-smartwork-close-invoice="true">Tutup</button>
+        <a class="smartwork-invoice-pdf-action" href="${getPdfHref()}">Lihat PDF</a>
+      </div>
+    `;
+  }
+
+  function closeInvoice() {
+    const backdrop = document.getElementById("smartwork-invoice-modal-backdrop");
+    backdrop?.classList.remove("smartwork-invoice-modal-open");
+    backdrop?.setAttribute("aria-hidden", "true");
+  }
+
+  function bindInvoiceModal() {
+    const invoiceButton = findInvoiceButton();
+    const modalBody = document.getElementById("smartwork-invoice-modal-body");
+    const backdrop = document.getElementById("smartwork-invoice-modal-backdrop");
+
+    if (!invoiceButton || !modalBody || !backdrop) return;
+
+    invoiceButton.onclick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      modalBody.innerHTML = invoiceHtml();
+
+      modalBody.querySelector("[data-smartwork-close-invoice='true']")?.addEventListener("click", closeInvoice);
+
+      backdrop.classList.add("smartwork-invoice-modal-open");
+      backdrop.setAttribute("aria-hidden", "false");
+    };
+  }
+
+  function run() {
+    polishMainButtons();
+    bindInvoiceModal();
+  }
+
+  document.addEventListener("DOMContentLoaded", run);
+  window.addEventListener("load", run);
+  setTimeout(run, 150);
+  setTimeout(run, 700);
+})();
+</script>
+<!-- /SMARTWORK_PROGRESS_INVOICE_MODAL_POLISH_V2 -->
+
+
+<!-- SMARTWORK_PROGRESS_INVOICE_CLICK_FEEL_V3 -->
+<style id="smartwork-progress-invoice-click-feel-v3-style">
+  /* Make invoice feel alive like Lihat PDF */
+  #smartwork-invoice-button,
+  [data-smartwork-invoice-button="true"],
+  .smartwork-result-actions-polished button,
+  .smartwork-result-actions-polished a,
+  .smartwork-invoice-modal-actions button,
+  .smartwork-invoice-modal-actions a,
+  .smartwork-invoice-modal-close {
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: rgba(37, 99, 235, 0.16) !important;
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease,
+      filter 120ms ease,
+      background-color 120ms ease,
+      border-color 120ms ease !important;
+  }
+
+  #smartwork-invoice-button:hover,
+  [data-smartwork-invoice-button="true"]:hover {
+    filter: brightness(1.03) !important;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  #smartwork-invoice-button:active,
+  [data-smartwork-invoice-button="true"]:active {
+    filter: brightness(0.94) !important;
+    transform: translateY(0) scale(0.985) !important;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18) !important;
+  }
+
+  #smartwork-invoice-button:focus-visible,
+  [data-smartwork-invoice-button="true"]:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25) !important;
+    outline-offset: 2px !important;
+  }
+
+  .smartwork-result-actions-polished a:hover,
+  .smartwork-result-actions-polished button:hover,
+  .smartwork-invoice-modal-actions a:hover,
+  .smartwork-invoice-modal-actions button:hover,
+  .smartwork-invoice-modal-close:hover {
+    filter: brightness(1.03) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .smartwork-result-actions-polished a:active,
+  .smartwork-result-actions-polished button:active,
+  .smartwork-invoice-modal-actions a:active,
+  .smartwork-invoice-modal-actions button:active,
+  .smartwork-invoice-modal-close:active {
+    transform: translateY(0) scale(0.985) !important;
+  }
+</style>
+
+<script id="smartwork-progress-invoice-click-feel-v3-script">
+(() => {
+  function textOf(el) {
+    return String(el?.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function findInvoiceButton() {
+    return Array.from(document.querySelectorAll("a,button")).find((el) => {
+      return textOf(el).toLowerCase() === "invoice";
+    });
+  }
+
+  function reviveInvoiceButton() {
+    const btn = findInvoiceButton();
+    if (!btn) return;
+
+    btn.id = "smartwork-invoice-button";
+    btn.setAttribute("data-smartwork-invoice-button", "true");
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.removeAttribute("disabled");
+    btn.style.cursor = "pointer";
+    btn.style.pointerEvents = "auto";
+
+    btn.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        btn.click();
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", reviveInvoiceButton);
+  window.addEventListener("load", reviveInvoiceButton);
+  setTimeout(reviveInvoiceButton, 150);
+  setTimeout(reviveInvoiceButton, 700);
+})();
+</script>
+<!-- /SMARTWORK_PROGRESS_INVOICE_CLICK_FEEL_V3 -->
+
+
+<!-- SMARTWORK_PROGRESS_UNDUH_INVOICE_V5 -->
+<style id="smartwork-progress-unduh-invoice-v5-style">
+  .smartwork-invoice-download-action {
+    background: #2563eb !important;
+    color: #fff !important;
+    border: 1px solid #2563eb !important;
+    cursor: pointer !important;
+  }
+
+  .smartwork-invoice-download-action:hover {
+    filter: brightness(1.03) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22) !important;
+  }
+
+  .smartwork-invoice-download-action:active {
+    transform: translateY(0) scale(0.985) !important;
+  }
+</style>
+
+<script id="smartwork-progress-unduh-invoice-v5-script">
+(() => {
+  function downloadInvoice() {
+    const content = [
+      "INVOICE REQUEST SMARTWORK",
+      "",
+      "Layanan    : Presensi SIAGA Juni 2026",
+      "Nama       : Nazrin",
+      "Rentang    : 22-27 Juni 2026",
+      "Status     : Hasil Siap 100%",
+      "File hasil : Presensi_Nazrin_Juni_2026.pdf",
+      "",
+      "Catatan:",
+      "PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan."
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Invoice_Nazrin_Presensi_SIAGA_Juni_2026.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 800);
+  }
+
+  function patchInvoiceButton() {
+    document.querySelectorAll(".smartwork-invoice-pdf-action, .smartwork-invoice-download-action").forEach((el) => {
+      el.textContent = "Unduh Invoice";
+      el.classList.remove("smartwork-invoice-pdf-action");
+      el.classList.add("smartwork-invoice-download-action");
+
+      el.removeAttribute("href");
+      el.removeAttribute("download");
+      el.setAttribute("role", "button");
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("title", "Unduh Invoice");
+      el.setAttribute("aria-label", "Unduh Invoice");
+      el.style.cursor = "pointer";
+
+      el.onclick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        downloadInvoice();
+      };
+
+      el.onkeydown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          downloadInvoice();
+        }
+      };
+    });
+  }
+
+  document.addEventListener("click", () => setTimeout(patchInvoiceButton, 20), true);
+  document.addEventListener("DOMContentLoaded", patchInvoiceButton);
+  window.addEventListener("load", patchInvoiceButton);
+
+  setInterval(patchInvoiceButton, 400);
+})();
+</script>
+<!-- /SMARTWORK_PROGRESS_UNDUH_INVOICE_V5 -->
 
 </body>
 </html>
