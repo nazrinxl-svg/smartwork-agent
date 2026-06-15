@@ -7,6 +7,10 @@ import { fileURLToPath } from "url";
 
 import { handleSmartWorkProductionQueueApiNative } from "./smartwork-production-queue-api.mjs";
 
+import * as smartworkJobProgressFs from "node:fs";
+import * as smartworkJobProgressPath from "node:path";
+// SMARTWORK_JOB_PROGRESS_ENDPOINTS_V2 imports
+
 /* SMARTWORK_REDACT_STATUS_PAYLOAD_V1 */
 function __swRedactStatusPayloadV1(value) {
   if (Array.isArray(value)) return value.map(__swRedactStatusPayloadV1);
@@ -1243,7 +1247,166 @@ async function handleCompleteJob(req, res) {
   });
 }
 
+
+
+// SMARTWORK_JOB_PROGRESS_ENDPOINTS_V2 helpers
+function smartworkFindProductionQueueJobForApiV2(jobId) {
+  const safeId = String(jobId || "").trim();
+
+  if (!safeId || !/^[A-Za-z0-9._:-]+$/.test(safeId)) {
+    return null;
+  }
+
+  const queueRoot = smartworkJobProgressPath.join(process.cwd(), "data", "production-queue");
+  const buckets = ["pending", "running", "completed", "failed"];
+
+  for (const bucket of buckets) {
+    const directPath = smartworkJobProgressPath.join(queueRoot, bucket, safeId + ".json");
+    try {
+      const job = JSON.parse(smartworkJobProgressFs.readFileSync(directPath, "utf8"));
+      return {
+        bucket,
+        path: smartworkJobProgressPath.relative(process.cwd(), directPath),
+        job
+      };
+    } catch {}
+  }
+
+  for (const bucket of buckets) {
+    const dir = smartworkJobProgressPath.join(queueRoot, bucket);
+    let entries = [];
+    try {
+      entries = smartworkJobProgressFs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
+
+      const candidatePath = smartworkJobProgressPath.join(dir, entry.name);
+      try {
+        const job = JSON.parse(smartworkJobProgressFs.readFileSync(candidatePath, "utf8"));
+        if (job?.id === safeId || job?.jobId === safeId) {
+          return {
+            bucket,
+            path: smartworkJobProgressPath.relative(process.cwd(), candidatePath),
+            job
+          };
+        }
+      } catch {}
+    }
+  }
+
+  return null;
+}
+
+function smartworkBuildJobProgressPayloadForApiV2(found) {
+  const job = found?.job || {};
+  const status = job.status || found?.bucket || "unknown";
+
+  const percent =
+    Number.isFinite(Number(job.progress?.percent)) ? Number(job.progress.percent) :
+    Number.isFinite(Number(job.progressPercent)) ? Number(job.progressPercent) :
+    Number.isFinite(Number(job.percent)) ? Number(job.percent) :
+    Number.isFinite(Number(job.percentage)) ? Number(job.percentage) :
+    0;
+
+  const stage =
+    job.progress?.stage ||
+    job.phase ||
+    job.state ||
+    status;
+
+  return {
+    ok: true,
+    id: job.id || job.jobId || null,
+    jobId: job.id || job.jobId || null,
+    status,
+    bucket: found?.bucket || null,
+    path: found?.path || null,
+    module: job.module || job.service || null,
+    mode: job.mode || null,
+    accountRef: job.accountRef || null,
+    requestRange: job.requestRange || {
+      startDate: job.startDate || null,
+      endDate: job.endDate || null
+    },
+    requester: job.requester || null,
+    delivery: job.delivery || null,
+    safety: job.safety || null,
+    progress: {
+      percent,
+      stage,
+      status,
+      message: job.progress?.message || "",
+      ready: Boolean(job.artifacts?.pdfReady || job.artifacts?.proofReady || job.completedAt),
+      completed: status === "completed" || found?.bucket === "completed" || stage === "completed"
+    },
+    summary: job.summary || null,
+    artifacts: job.artifacts || null,
+    createdAt: job.createdAt || null,
+    updatedAt: job.updatedAt || null,
+    completedAt: job.completedAt || null,
+    job
+  };
+}
+
+function smartworkSendJobProgressJsonForApiV2(req, res, statusCode, payload) {
+  const origin = req?.headers?.origin || "*";
+  res.writeHead(statusCode, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+    "Access-Control-Allow-Origin": origin,
+    "Vary": "Origin"
+  });
+  res.end(JSON.stringify(payload, null, 2));
+}
+// SMARTWORK_JOB_PROGRESS_ENDPOINTS_V2 helpers
+
 const server = http.createServer(async (req, res) => {
+
+    // SMARTWORK_JOB_PROGRESS_ENDPOINTS_V2 routes
+    if (String(req.method || "").toUpperCase() === "GET") {
+      const smartworkProgressUrl = new URL(req.url || "/", "http://localhost");
+      const smartworkProgressPath = smartworkProgressUrl.pathname;
+      let smartworkProgressJobId = null;
+
+      const jobsProgressMatch = smartworkProgressPath.match(/^\/api\/smartwork\/jobs\/([^/]+)\/progress$/);
+      const progressPathMatch = smartworkProgressPath.match(/^\/api\/smartwork\/progress\/([^/]+)$/);
+      const jobDetailMatch = smartworkProgressPath.match(/^\/api\/smartwork\/jobs\/([^/]+)$/);
+
+      if (jobsProgressMatch) {
+        smartworkProgressJobId = jobsProgressMatch[1];
+      } else if (progressPathMatch) {
+        smartworkProgressJobId = progressPathMatch[1];
+      } else if (smartworkProgressPath === "/api/smartwork/progress" && smartworkProgressUrl.searchParams.get("id")) {
+        smartworkProgressJobId = smartworkProgressUrl.searchParams.get("id");
+      } else if (smartworkProgressPath === "/api/smartwork/jobs" && smartworkProgressUrl.searchParams.get("id")) {
+        smartworkProgressJobId = smartworkProgressUrl.searchParams.get("id");
+      } else if (jobDetailMatch && jobDetailMatch[1] !== "health") {
+        smartworkProgressJobId = jobDetailMatch[1];
+      }
+
+      if (smartworkProgressJobId && smartworkProgressJobId !== "health") {
+        const found = smartworkFindProductionQueueJobForApiV2(smartworkProgressJobId);
+
+        if (!found) {
+          smartworkSendJobProgressJsonForApiV2(req, res, 404, {
+            ok: false,
+            status: 404,
+            error: "job_not_found",
+            jobId: smartworkProgressJobId
+          });
+          return;
+        }
+
+        smartworkSendJobProgressJsonForApiV2(req, res, 200, smartworkBuildJobProgressPayloadForApiV2(found));
+        return;
+      }
+    }
+    // SMARTWORK_JOB_PROGRESS_ENDPOINTS_V2 routes
+
 
 /* SMARTWORK_PRODUCTION_QUEUE_API_INSTALL_V1 */
 if (handleSmartWorkProductionQueueApiNative(req, res)) return;
