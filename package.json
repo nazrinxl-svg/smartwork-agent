@@ -161,7 +161,9 @@
     "smartui:sentinel": "node scripts/smartwork-ui-sentinel-readonly.mjs",
     "smartui:sentinel:strict": "node scripts/smartwork-ui-sentinel-readonly.mjs --strict",
     "smartui:font-sentinel": "node scripts/smartwork-ui-font-sentinel-v2.mjs",
-    "smartui:font-sentinel:strict": "node scripts/smartwork-ui-font-sentinel-v2.mjs --strict"
+    "smartui:font-sentinel:strict": "node scripts/smartwork-ui-font-sentinel-v2.mjs --strict",
+    "build": "node scripts/smartwork-generate-firebase-config.mjs",
+    "build:firebase-config:check": "node scripts/smartwork-generate-firebase-config.mjs --check"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
