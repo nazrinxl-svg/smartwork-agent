@@ -2213,6 +2213,25 @@ nav.bottom-nav {
 </script>
 
 
+<script id="SMARTWORK_PUBLIC_HOST_DISABLE_OLD_PRODUCTION_BRIDGE">
+/* SMARTWORK_PUBLIC_HOST_DISABLE_OLD_PRODUCTION_BRIDGE
+   Public Vercel/API hosts must not use the legacy same-origin queue bridge.
+   The public production path is the VPS progress API:
+   https://api.smartwork-agent.id/api/smartwork/jobs/:jobId/progress */
+(() => {
+  const publicHosts = new Set([
+    "smartwork-agent-orcin.vercel.app",
+    "smartwork-agent.id",
+    "api.smartwork-agent.id"
+  ]);
+
+  const host = String(location.hostname || "").toLowerCase();
+  if (!publicHosts.has(host)) return;
+
+  window.__smartworkProductionProgressBridgeDisabledForPublicHost = true;
+  window.__smartworkProductionProgressBridgeInstalled = true;
+})();
+</script>
 <script id="smartwork-production-progress-bridge-v1">
 /* SMARTWORK_PRODUCTION_PROGRESS_BRIDGE_V1
    Reads production queue job status from /api/smartwork/jobs/:jobId.
@@ -3340,5 +3359,197 @@ nav.bottom-nav {
 </script>
 <!-- /SMARTWORK_PROGRESS_UNDUH_INVOICE_V5 -->
 
+<script id="SMARTWORK_LIVE_STATE_MAIN_CARD_FORCE_RENDERER">
+/* SMARTWORK_LIVE_STATE_MAIN_CARD_FORCE_RENDERER
+   Makes the visible main progress card prefer smartwork_progress_live_state
+   from the VPS public progress API when it is valid and fresh enough. */
+(() => {
+  const LIVE_KEY = "smartwork_progress_live_state";
+  const allowedSources = new Set([
+    "smartwork-vps-progress-public-api",
+    "SMARTWORK_PROGRESS_LIVE_STATE"
+  ]);
+
+  function readJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getActiveJobId() {
+    const direct = localStorage.getItem("smartwork_active_job_id");
+    if (direct) return direct;
+
+    const productionJob = readJson("smartwork_production_job");
+    return (
+      productionJob?.jobId ||
+      productionJob?.id ||
+      productionJob?.job?.id ||
+      productionJob?.job?.jobId ||
+      null
+    );
+  }
+
+  function toNumber(value, fallback = 0) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : fallback;
+  }
+
+  function getPercent(state) {
+    return Math.max(0, Math.min(100, toNumber(
+      state?.percent ??
+      state?.progressPercent ??
+      state?.progress ??
+      state?.percentage,
+      0
+    )));
+  }
+
+  function isValidLiveState(state) {
+    if (!state || typeof state !== "object") return false;
+
+    const source = String(state.source || state.mode || "");
+    const sourceOk = allowedSources.has(source) ||
+      source === "smartwork-vps-progress-public-api" ||
+      state.mode === "SMARTWORK_PROGRESS_LIVE_STATE";
+
+    const percent = getPercent(state);
+    const hasPercent = Number.isFinite(percent);
+    const hasUpdatedAt = Boolean(state.updatedAt);
+    const activeJobId = getActiveJobId();
+    const stateJobId = state.jobId || state.id || state.job?.id || state.job?.jobId || null;
+    const jobOk = !activeJobId || !stateJobId || String(activeJobId) === String(stateJobId);
+
+    return sourceOk && hasPercent && hasUpdatedAt && jobOk;
+  }
+
+  function isCompleted(state, percent) {
+    const status = String(
+      state?.statusText ||
+      state?.status ||
+      state?.stage ||
+      state?.currentStep ||
+      ""
+    ).toLowerCase();
+
+    return percent >= 100 || /hasil siap|hasil_siap|completed|complete|selesai|done/.test(status);
+  }
+
+  function setTextById(ids, value) {
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+  }
+
+  function setTextBySelector(selectors, value) {
+    for (const selector of selectors) {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.textContent = value;
+      });
+    }
+  }
+
+  function setProgressStyle(percent) {
+    const progressText = `${percent}%`;
+
+    setTextById([
+      "progressPercent",
+      "progressValue",
+      "progressNumber",
+      "mainProgressPercent",
+      "heroPercent",
+      "ringPercent",
+      "percentText"
+    ], progressText);
+
+    setTextBySelector([
+      "[data-smartwork-progress-percent]",
+      "[data-progress-percent]",
+      "[data-percent]"
+    ], progressText);
+
+    document.querySelectorAll("progress").forEach((el) => {
+      el.max = 100;
+      el.value = percent;
+    });
+
+    document.querySelectorAll("[role='progressbar']").forEach((el) => {
+      el.setAttribute("aria-valuenow", String(percent));
+      el.setAttribute("aria-valuemin", "0");
+      el.setAttribute("aria-valuemax", "100");
+      el.style.setProperty("--progress", `${percent}%`);
+      el.style.setProperty("--percent", `${percent}%`);
+    });
+
+    document.documentElement.style.setProperty("--smartwork-progress-percent", `${percent}%`);
+    document.body.style.setProperty("--smartwork-progress-percent", `${percent}%`);
+  }
+
+  function summaryValue(state, keys, fallback) {
+    const summary = state?.summary || state?.raw?.summary || {};
+    for (const key of keys) {
+      const value = summary[key] ?? state[key];
+      if (value !== undefined && value !== null && value !== "") return value;
+    }
+    return fallback;
+  }
+
+  function renderLiveState() {
+    const state = readJson(LIVE_KEY);
+    if (!isValidLiveState(state)) return false;
+
+    const percent = getPercent(state);
+    const completed = isCompleted(state, percent);
+
+    const total = summaryValue(state, ["total", "totalDays", "planned", "plannedDays"], null);
+    const filled = summaryValue(state, ["filled", "alreadyFilled", "done", "completedDays"], null);
+    const needsPlan = summaryValue(state, ["needsPlan", "remaining", "pending", "needCheck"], null);
+
+    const title = completed ? "Hasil Siap" : "Diproses";
+    const message = state.message || (completed
+      ? "Progress selesai. PDF & bukti siap diunduh."
+      : "Progress sedang diproses dari VPS queue.");
+
+    document.body.dataset.smartworkLiveStateMainCard = "active";
+    document.body.dataset.smartworkProgressSource = "smartwork_progress_live_state";
+
+    setTextById(["heroTitle", "mainStatusTitle", "progressStatusTitle", "statusTitle"], title);
+    setTextById(["heroText", "mainStatusText", "progressStatusText", "statusText"], message);
+    setTextById(["finishStatus", "statusBadge", "progressBadge"], title);
+
+    if (total !== null) setTextById(["summaryTotal", "totalDays", "plannedDays"], String(total));
+    if (filled !== null) setTextById(["summaryFilled", "alreadyFilled", "filledDays"], String(filled));
+    if (needsPlan !== null) setTextById(["summaryNeedsPlan", "needsPlan", "remainingDays"], String(needsPlan));
+
+    setProgressStyle(percent);
+
+    if (completed) {
+      document.body.dataset.smartworkAuthoritative = "complete";
+      document.body.dataset.smartworkProgressComplete = "true";
+      window.__SMARTWORK_REPORTS_READY__ = true;
+      setTextById(["artifactStatus", "pdfStatus", "proofStatus"], "Siap");
+    }
+
+    return true;
+  }
+
+  window.SmartWorkLiveStateMainCardForceRenderer = { render: renderLiveState };
+
+  document.addEventListener("DOMContentLoaded", renderLiveState);
+  window.addEventListener("load", renderLiveState);
+  window.addEventListener("storage", (event) => {
+    if (event.key === LIVE_KEY) renderLiveState();
+  });
+  window.addEventListener("smartwork:progress-live-state-updated", renderLiveState);
+
+  [50, 150, 300, 700, 1200, 2400].forEach((ms) => setTimeout(renderLiveState, ms));
+  setInterval(renderLiveState, 1200);
+})();
+</script>
 </body>
 </html>
+
