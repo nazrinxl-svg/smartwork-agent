@@ -1,17 +1,17 @@
 {
   "mode": "SMARTWORK_AUTH_RESET_SUPER_LOCK",
-  "generatedAt": "2026-06-13T12:51:26.383Z",
+  "generatedAt": "2026-06-15T02:47:59.7345613Z",
   "approvedBy": "Naz",
-  "approvedState": "AUTH_REGISTER_RESET_PASSWORD_UX_APPROVED_PHASE5ZW_D18",
+  "approvedState": "AUTH_FIREBASE_CONFIG_VERCEL_FIX",
   "rule": "Any byte change to protected files fails guard until Naz explicitly approves a new baseline.",
   "protectedFiles": [
     {
       "file": "public/index.html",
-      "sha256": "03c1a9c47dc3487efdf1e088fb034a5dc8d625d813c0c133de976b83c62e12dd"
+      "sha256": "c3349cbea0fac824fa227ab11df4ab106e47d175db234d1d6dbea2ff9d6ff909"
     },
     {
       "file": "public/reset-password.html",
-      "sha256": "8801a2c56a8db46c0a2f3cd05d7503bae62c2cd6db19dc53aefbdc1c82e8f765"
+      "sha256": "698021c54d1c05e9a185930f6e770ac3138c24f1c0cfadc75e86554ebb5f42c5"
     },
     {
       "file": "public/smartwork-logo.png",
