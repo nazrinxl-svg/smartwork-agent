@@ -3730,17 +3730,19 @@ nav.bottom-nav {
     setByIds(["filledVal", "filled", "summaryFilled", "alreadyFilled", "filledDays"], filled);
     setByIds(["needsVal", "needsPlan", "summaryNeedsPlan", "remainingDays"], needs);
 
-    document.querySelectorAll("*").forEach((el) => {
-      const text = (el.textContent || "").trim();
+    setByIds([
+      "heroTitle",
+      "mainStatusTitle",
+      "progressStatusTitle",
+      "statusTitle"
+    ], "Hasil Siap");
 
-      if (text === "Agent sedang bekerja") {
-        setText(el, "Hasil Siap");
-      }
-
-      if (/sedang diproses oleh agent|Progress sedang diproses|Production worker dry-run lifecycle completed/i.test(text)) {
-        setText(el, "PDF hasil siap diunduh dari aplikasi.");
-      }
-    });
+    setByIds([
+      "heroText",
+      "mainStatusText",
+      "progressStatusText",
+      "statusText"
+    ], "PDF hasil siap diunduh dari aplikasi.");
 
     document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex, [class*='finish-normal']").forEach((el) => {
       setText(el, `Hasil Siap ${percentText}`);
