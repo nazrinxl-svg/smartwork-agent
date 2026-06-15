@@ -1,13 +1,13 @@
 {
   "mode": "SMARTWORK_AUTH_RESET_SUPER_LOCK",
-  "generatedAt": "2026-06-15T02:47:59.7345613Z",
+  "generatedAt": "2026-06-15T05:47:27.229Z",
   "approvedBy": "Naz",
-  "approvedState": "AUTH_FIREBASE_CONFIG_VERCEL_FIX",
+  "approvedState": "AUTH_LOGIN_FRIENDLY_ERROR_MESSAGES",
   "rule": "Any byte change to protected files fails guard until Naz explicitly approves a new baseline.",
   "protectedFiles": [
     {
       "file": "public/index.html",
-      "sha256": "c3349cbea0fac824fa227ab11df4ab106e47d175db234d1d6dbea2ff9d6ff909"
+      "sha256": "e8e7c426136db0353c1fae09864bde8fc24553e587ee1a05e0b5a5a2cb4c398e"
     },
     {
       "file": "public/reset-password.html",

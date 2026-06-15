@@ -568,6 +568,32 @@
     localStorage.setItem("smartwork_user", JSON.stringify(payload));
   }
 
+  function getFriendlyAuthMessage(error) {
+    const code = error?.code || "";
+
+    if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
+      return "Email atau password tidak cocok. Cek kembali, atau gunakan Lupa password.";
+    }
+
+    if (code === "auth/too-many-requests") {
+      return "Terlalu banyak percobaan login. Tunggu beberapa menit atau reset password.";
+    }
+
+    if (code === "auth/network-request-failed") {
+      return "Koneksi internet bermasalah. Coba lagi beberapa saat.";
+    }
+
+    if (code === "auth/operation-not-allowed") {
+      return "Login email/password belum aktif di Firebase.";
+    }
+
+    if (code === "auth/invalid-email") {
+      return "Format email belum benar.";
+    }
+
+    return "Login gagal. Cek email/password atau coba Lupa password.";
+  }
+
   function openModal(mode) {
     if (!modal) return;
     setNote("");
@@ -645,7 +671,7 @@
       window.location.href = "/home.html";
     } catch (error) {
       console.error("[SmartWork Auth] login failed", error);
-      setLoginStatus("Login gagal. Cek email/password atau aktifkan Email/Password di Firebase.", "err");
+      setLoginStatus(getFriendlyAuthMessage(error), "err");
     } finally {
       localLoginBtn.disabled = false;
     }
