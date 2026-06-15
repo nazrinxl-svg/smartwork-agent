@@ -1333,14 +1333,23 @@ nav.bottom-nav {
 <script id="smartwork-phase5v-vps-api-bridge">
 (() => {
   const PHASE = "5V";
+  const SMARTWORK_PUBLIC_API_BASE = "https://api.smartwork-agent.id";
+  const SMARTWORK_LEGACY_API_BASES = new Set([
+    "http://103.152.242.193:3107",
+    "http://127.0.0.1:3107",
+    "http://localhost:3107"
+  ]);
+
   const DEFAULT_API_BASE = (() => {
-  const { hostname, port, origin } = window.location;
-  if ((hostname === "103.152.242.193" && port === "3108") || hostname === "smartwork-agent.id") {
-    return origin;
-  }
-  return "http://103.152.242.193:3107";
-})();
-  const API_BASE = (localStorage.getItem("smartwork_vps_api_base") || DEFAULT_API_BASE).replace(/\/+$/, "");
+    const { hostname, port, origin } = window.location;
+    if ((hostname === "103.152.242.193" && port === "3108") || hostname === "smartwork-agent.id" || hostname === "api.smartwork-agent.id") {
+      return origin;
+    }
+    return SMARTWORK_PUBLIC_API_BASE;
+  })();
+
+  const savedApiBase = String(localStorage.getItem("smartwork_vps_api_base") || "").replace(/\/+$/, "");
+  const API_BASE = (!savedApiBase || SMARTWORK_LEGACY_API_BASES.has(savedApiBase)) ? DEFAULT_API_BASE : savedApiBase;
   localStorage.setItem("smartwork_vps_api_base", API_BASE);
 
   const HEALTH_PATH = "/api/smartwork/jobs/health";
