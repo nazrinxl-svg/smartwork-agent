@@ -1,6 +1,6 @@
 {
   "mode": "SMARTWORK_UI_HARD_LOCK_BASELINE",
-  "lockedAt": "2026-06-14T16:28:50.094Z",
+  "lockedAt": "2026-06-15T14:45:14.810Z",
   "rule": "Exact hash baseline. No login text guessing. Any protected UI change must be explicit, verified, then re-locked.",
   "protectedFiles": [
     "public/index.html",
@@ -13,32 +13,32 @@
   ],
   "files": {
     "public/index.html": {
-      "sha256": "03c1a9c47dc3487efdf1e088fb034a5dc8d625d813c0c133de976b83c62e12dd",
-      "bytes": 23711
+      "sha256": "e8e7c426136db0353c1fae09864bde8fc24553e587ee1a05e0b5a5a2cb4c398e",
+      "bytes": 24107
     },
     "public/home.html": {
-      "sha256": "75ca33df12a4ea74570139ffe8a6cca19af6aada23b5aa7faeb01e4d4f134068",
-      "bytes": 35522
+      "sha256": "20571f313a2e5d4bd42b5a5b09aab5be8057c64495d11cc5a80bdb89ca035e3c",
+      "bytes": 35530
     },
     "public/request.html": {
-      "sha256": "36ca494d042f48acdf6afe3583075e59662593c108238b7f26d7e71a5a929a52",
-      "bytes": 65976
+      "sha256": "36622630b50c15d287b2938c2ef6a52c3bc046e8595ee2f28f38846c0edce850",
+      "bytes": 69755
     },
     "public/progress.html": {
-      "sha256": "e47609b26ea271087a10c2c0d779e56dd67450e5a3bd069af47df01b5022affe",
-      "bytes": 103344
+      "sha256": "2a92e6c128b8525ee2a1ab7a6d36e4879f1f2835cc1c26003373a1546a74f6d9",
+      "bytes": 135597
     },
     "public/history.html": {
-      "sha256": "699da5fb2061d19de3afa1f734bc98c626d567a4f7fd4fa8d84cc8d7a8a3e203",
-      "bytes": 39161
+      "sha256": "757aa42d82ec073c2cfaac94f3a29ab9fb6cec23699e6fc8829a1d05dbb2e09e",
+      "bytes": 39256
     },
     "public/profile.html": {
-      "sha256": "7d29ded373856c6c07730036d11f9883b9c6923b217503f449c746656ee67d36",
-      "bytes": 16963
+      "sha256": "f8c34871b684750e110a601beb68ef7e689f65bc509daabd1a0d77bcdde9bfc1",
+      "bytes": 16994
     },
     "public/smartwork-bottom-nav.css": {
-      "sha256": "6860c651cb2171e0256c3d23960c4270e1f494c3cc4fe0528f09345be28c0152",
-      "bytes": 2602
+      "sha256": "8659d4d22c13fe349a98587ca224109641e26bce911552cb113b92a4136d4bd2",
+      "bytes": 2707
     }
   }
 }
