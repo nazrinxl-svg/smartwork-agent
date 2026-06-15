@@ -3644,6 +3644,145 @@ nav.bottom-nav {
   setInterval(hardenVisibleProgress, 1200);
 })();
 </script>
+<script id="SMARTWORK_VISIBLE_ZERO_PERCENT_MUTATION_GUARD">
+/* SMARTWORK_VISIBLE_ZERO_PERCENT_MUTATION_GUARD
+   Keeps legacy visible percent nodes aligned after older renderers overwrite them.
+   Frontend-only. */
+(() => {
+  const LIVE_KEY = "smartwork_progress_live_state";
+  let pending = false;
+
+  function readLiveState() {
+    try {
+      const raw = localStorage.getItem(LIVE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function rawPercent(state) {
+    const value = Number(
+      state?.percent ??
+      state?.progressPercent ??
+      state?.progress ??
+      state?.percentage
+    );
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function getPercent(state) {
+    const bodyComplete = document.body?.dataset?.smartworkProgressComplete === "true";
+    const value = rawPercent(state);
+    if (bodyComplete && value < 100) return 100;
+    return Math.max(0, Math.min(100, value));
+  }
+
+  function shouldForce(state, percent) {
+    const bodyComplete = document.body?.dataset?.smartworkProgressComplete === "true";
+    const status = String(
+      state?.statusText ||
+      state?.status ||
+      state?.stage ||
+      state?.currentStep ||
+      ""
+    ).toLowerCase();
+
+    const source = String(state?.source || "");
+    const mode = String(state?.mode || "");
+    const trusted = (
+      source === "smartwork-vps-progress-public-api" ||
+      source === "smartwork-production-progress-bridge-live-mirror" ||
+      mode === "SMARTWORK_PROGRESS_LIVE_STATE"
+    );
+
+    return bodyComplete || (trusted && (percent >= 100 || /hasil siap|hasil_siap|completed|complete|selesai|done/.test(status)));
+  }
+
+  function setText(el, value) {
+    if (el && el.textContent !== value) el.textContent = value;
+  }
+
+  function forceVisiblePercent() {
+    pending = false;
+
+    const state = readLiveState();
+    const percent = getPercent(state);
+    if (!shouldForce(state, percent)) return false;
+
+    const percentText = `${percent}%`;
+    const pillText = `Hasil Siap ${percentText}`;
+
+    document.body.dataset.smartworkVisibleZeroMutationGuard = "true";
+    document.body.dataset.smartworkProgressComplete = "true";
+    document.body.dataset.smartworkAuthoritative = "complete";
+
+    document.querySelectorAll(".percent, [class*='percent']").forEach((el) => {
+      if ((el.textContent || "").trim() === "0%" || el.classList.contains("percent")) {
+        setText(el, percentText);
+      }
+    });
+
+    document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex, [class*='finish-normal']").forEach((el) => {
+      const text = (el.textContent || "").trim();
+      if (/0%|Diproses|Hasil Siap/i.test(text)) setText(el, pillText);
+    });
+
+    document.querySelectorAll(".progressWrap").forEach((wrap) => {
+      wrap.style.setProperty("--progress", percentText);
+      wrap.style.setProperty("--percent", percentText);
+      wrap.setAttribute("aria-valuenow", String(percent));
+      wrap.setAttribute("aria-valuemin", "0");
+      wrap.setAttribute("aria-valuemax", "100");
+
+      wrap.querySelectorAll(".percent, [class*='percent']").forEach((child) => {
+        setText(child, percentText);
+      });
+
+      if (wrap.children.length === 0 && (wrap.textContent || "").trim() === "0%") {
+        setText(wrap, percentText);
+      }
+    });
+
+    document.querySelectorAll("*").forEach((el) => {
+      const text = (el.textContent || "").trim();
+      const className = String(el.className || "");
+      const inProgressWrap = Boolean(el.closest?.(".progressWrap"));
+      if (text === "0%" && (inProgressWrap || /percent|progress/i.test(className))) {
+        setText(el, percentText);
+      }
+    });
+
+    return true;
+  }
+
+  function scheduleForce() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(forceVisiblePercent);
+  }
+
+  window.SmartWorkVisibleZeroPercentMutationGuard = { render: forceVisiblePercent };
+
+  document.addEventListener("DOMContentLoaded", forceVisiblePercent);
+  window.addEventListener("load", forceVisiblePercent);
+  window.addEventListener("smartwork:progress-live-state-updated", forceVisiblePercent);
+  window.addEventListener("storage", (event) => {
+    if (event.key === LIVE_KEY) forceVisiblePercent();
+  });
+
+  if (document.body) {
+    new MutationObserver(scheduleForce).observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
+  [50, 150, 300, 700, 1200, 2400].forEach((ms) => setTimeout(forceVisiblePercent, ms));
+  setInterval(forceVisiblePercent, 500);
+})();
+</script>
 </body>
 </html>
 
