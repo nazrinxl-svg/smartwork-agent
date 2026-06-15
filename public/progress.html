@@ -3720,11 +3720,56 @@ nav.bottom-nav {
     });
   }
 
+  /* SMARTWORK_COMPLETED_SUMMARY_FALLBACK_V1
+     Prefer API/live summary. If completed live state has no summary, use app-only dry-run fallback 1/1/0. */
+  function readStorageJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function hasSummaryValue(summary) {
+    if (!summary || typeof summary !== "object") return false;
+    return ["total", "alreadyFilled", "filled", "completed", "needsPlan", "remaining", "needCheck"]
+      .some((key) => summary[key] !== undefined && summary[key] !== null && summary[key] !== "");
+  }
+
+  function bestSummary(state) {
+    const storageStates = [
+      readStorageJson("smartwork_progress_live_state"),
+      readStorageJson("smartwork_production_progress_state"),
+      readStorageJson("smartwork_production_job"),
+      readStorageJson("smartwork_vps_last_status")
+    ];
+
+    const candidates = [
+      state,
+      state?.raw,
+      state?.job,
+      state?.raw?.job,
+      ...storageStates,
+      ...storageStates.map((item) => item?.raw),
+      ...storageStates.map((item) => item?.job),
+      ...storageStates.map((item) => item?.raw?.job)
+    ].filter(Boolean);
+
+    for (const item of candidates) {
+      if (hasSummaryValue(item.summary)) return item.summary;
+      if (hasSummaryValue(item)) return item;
+    }
+
+    return {};
+  }
   function syncCompletedCopy(state, percentText) {
-    const summary = state?.summary || state?.raw?.summary || state?.job?.summary || {};
-    const total = firstDefined(summary.total, state?.total, 0);
-    const filled = firstDefined(summary.alreadyFilled, summary.filled, summary.completed, state?.alreadyFilled, state?.filled, 0);
-    const needs = firstDefined(summary.needsPlan, summary.remaining, summary.needCheck, state?.needsPlan, 0);
+    const summary = bestSummary(state);
+    const completeFallback = percentText === "100%" || document.body?.dataset?.smartworkProgressComplete === "true";
+
+    const total = firstDefined(summary.total, state?.total, completeFallback ? 1 : 0);
+    const filled = firstDefined(summary.alreadyFilled, summary.filled, summary.completed, state?.alreadyFilled, state?.filled, completeFallback ? total : 0);
+    const needs = firstDefined(summary.needsPlan, summary.remaining, summary.needCheck, state?.needsPlan, completeFallback ? 0 : 0);
 
     setByIds(["totalVal", "total", "summaryTotal", "totalDays", "plannedDays"], total);
     setByIds(["filledVal", "filled", "summaryFilled", "alreadyFilled", "filledDays"], filled);
