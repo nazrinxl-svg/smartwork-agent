@@ -2539,6 +2539,45 @@ nav.bottom-nav {
       readAt: new Date().toISOString()
     };
 
+    try {
+      const completed = status === "completed" || percent >= 100;
+      const artifacts = json.artifacts || job.artifacts || {};
+      const summary = json.summary || job.summary || {};
+
+      const liveState = {
+        mode: "SMARTWORK_PROGRESS_LIVE_STATE",
+        source: "smartwork-vps-progress-public-api",
+        updatedAt: proof.readAt,
+        jobId,
+        status: completed ? "HASIL_SIAP" : String(status || "DIPROSES").toUpperCase(),
+        statusText: completed ? "Hasil Siap" : "Diproses",
+        percent,
+        progressPercent: percent,
+        stage,
+        currentStep: stage,
+        message,
+        completed,
+        safety: proof.safety,
+        summary,
+        artifacts: {
+          pdfReady: Boolean(artifacts.pdfReady || completed),
+          proofReady: Boolean(artifacts.proofReady || completed),
+          appOnly: artifacts.appOnly !== false
+        }
+      };
+
+      localStorage.setItem("smartwork_active_job_id", jobId);
+      localStorage.setItem("smartwork_progress_live_state", JSON.stringify(liveState));
+      localStorage.setItem("smartwork_production_progress_state", JSON.stringify(liveState));
+      localStorage.setItem("smartwork_production_job", JSON.stringify({ jobId, job: json.job || json }));
+
+      if (typeof window.__smartworkPhase5gMirrorProductionProgressToLiveState === "function") {
+        window.__smartworkPhase5gMirrorProductionProgressToLiveState();
+      }
+
+      window.dispatchEvent(new CustomEvent("smartwork:progress-live-state-updated", { detail: liveState }));
+    } catch {}
+
     localStorage.setItem("smartwork_vps_last_status", JSON.stringify(proof));
     render("Job " + jobId + " - " + status + " - " + percent + "% - " + message);
     window.dispatchEvent(new CustomEvent("smartwork:vps-status-ok", { detail: proof }));

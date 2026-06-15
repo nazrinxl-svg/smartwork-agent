@@ -1265,6 +1265,23 @@ nav.bottom-nav {
     } catch {}
   }
 
+  const SMARTWORK_DISABLE_SAME_ORIGIN_QUEUE_BRIDGE =
+    ["smartwork-agent-orcin.vercel.app", "smartwork-agent.id", "api.smartwork-agent.id"].includes(window.location.hostname);
+
+  if (SMARTWORK_DISABLE_SAME_ORIGIN_QUEUE_BRIDGE) {
+    window.SmartWorkProductionQueueBridge = {
+      readFormSnapshot,
+      submit: async function () {
+        return {
+          ok: true,
+          skipped: true,
+          reason: "same_origin_queue_bridge_disabled_public_api_active"
+        };
+      }
+    };
+    return;
+  }
+
   async function submitProductionJobBridge() {
     const payload = readFormSnapshot();
 
@@ -1601,12 +1618,27 @@ nav.bottom-nav {
     localStorage.setItem("smartwork_active_job_id", payload.jobId);
 
     const submit = await postToVps(payload);
+    const createdJobId =
+      submit?.json?.jobId ||
+      submit?.json?.id ||
+      submit?.json?.job?.id ||
+      submit?.jobId ||
+      submit?.job?.id ||
+      payload.jobId;
+
+    localStorage.setItem("smartwork_active_job_id", createdJobId);
+    localStorage.setItem("smartwork_production_job_id", createdJobId);
+    localStorage.setItem("smartwork_production_job", JSON.stringify({
+      jobId: createdJobId,
+      job: submit?.json?.job || submit?.job || null,
+      submit
+    }));
 
     const proof = {
       ok: true,
       phase: PHASE,
       apiBase: API_BASE,
-      jobId: payload.jobId,
+      jobId: createdJobId,
       submit,
       healthBefore,
       submittedAt: new Date().toISOString(),
@@ -1614,7 +1646,7 @@ nav.bottom-nav {
     };
 
     localStorage.setItem("smartwork_vps_last_submit", JSON.stringify(proof));
-    status("Request dry-run masuk VPS queue: " + payload.jobId);
+    status("Request dry-run masuk VPS queue: " + createdJobId);
     window.dispatchEvent(new CustomEvent("smartwork:vps-submit-ok", { detail: proof }));
     return proof;
   }
@@ -1664,6 +1696,9 @@ nav.bottom-nav {
       }
       const submit = await postToVps(payload);
       const createdJobId =
+        submit?.json?.jobId ||
+        submit?.json?.id ||
+        submit?.json?.job?.id ||
         submit?.jobId ||
         submit?.job?.id ||
         submit?.id ||
