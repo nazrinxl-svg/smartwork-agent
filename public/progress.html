@@ -3550,6 +3550,100 @@ nav.bottom-nav {
   setInterval(renderLiveState, 1200);
 })();
 </script>
+<script id="SMARTWORK_VISIBLE_ZERO_PERCENT_HARDENER">
+/* SMARTWORK_VISIBLE_ZERO_PERCENT_HARDENER
+   Hardens legacy visible progress elements that still show 0% after
+   smartwork_progress_live_state is complete. Frontend-only. */
+(() => {
+  const LIVE_KEY = "smartwork_progress_live_state";
+
+  function readLiveState() {
+    try {
+      const raw = localStorage.getItem(LIVE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function toPercent(state) {
+    const value = Number(
+      state?.percent ??
+      state?.progressPercent ??
+      state?.progress ??
+      state?.percentage ??
+      0
+    );
+    if (!Number.isFinite(value)) return 0;
+    return Math.max(0, Math.min(100, value));
+  }
+
+  function isTrustedLiveState(state) {
+    const source = String(state?.source || "");
+    const mode = String(state?.mode || "");
+    return Boolean(state?.updatedAt) && (
+      source === "smartwork-vps-progress-public-api" ||
+      source === "smartwork-production-progress-bridge-live-mirror" ||
+      mode === "SMARTWORK_PROGRESS_LIVE_STATE"
+    );
+  }
+
+  function isComplete(state, percent) {
+    const status = String(
+      state?.statusText ||
+      state?.status ||
+      state?.stage ||
+      state?.currentStep ||
+      ""
+    ).toLowerCase();
+
+    return percent >= 100 || /hasil siap|hasil_siap|completed|complete|selesai|done/.test(status);
+  }
+
+  function setAll(selectors, value) {
+    selectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.textContent = value;
+      });
+    });
+  }
+
+  function hardenVisibleProgress() {
+    const state = readLiveState();
+    if (!isTrustedLiveState(state)) return false;
+
+    const percent = toPercent(state);
+    const complete = isComplete(state, percent);
+    const percentText = `${percent}%`;
+    const statusText = complete ? "Hasil Siap" : "Diproses";
+    const pillText = `${statusText} ${percentText}`;
+
+    setAll([".percent"], percentText);
+    setAll([".statusPill", ".finish-normal-text", ".finish-normal-tex", "[class*='finish-normal']"], pillText);
+
+    document.querySelectorAll(".progressWrap").forEach((el) => {
+      el.style.setProperty("--progress", percentText);
+      el.style.setProperty("--percent", percentText);
+      el.setAttribute("aria-valuenow", String(percent));
+    });
+
+    document.body.dataset.smartworkVisibleProgressHardened = "true";
+    return true;
+  }
+
+  window.SmartWorkVisibleZeroPercentHardener = { render: hardenVisibleProgress };
+
+  document.addEventListener("DOMContentLoaded", hardenVisibleProgress);
+  window.addEventListener("load", hardenVisibleProgress);
+  window.addEventListener("smartwork:progress-live-state-updated", hardenVisibleProgress);
+  window.addEventListener("storage", (event) => {
+    if (event.key === LIVE_KEY) hardenVisibleProgress();
+  });
+
+  [50, 150, 300, 700, 1200, 2400].forEach((ms) => setTimeout(hardenVisibleProgress, ms));
+  setInterval(hardenVisibleProgress, 1200);
+})();
+</script>
 </body>
 </html>
 
