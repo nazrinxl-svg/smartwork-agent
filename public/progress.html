@@ -2127,6 +2127,75 @@ nav.bottom-nav {
       .find((el) => /Alur Kerja Agent/i.test(el.querySelector(".cardTitle")?.textContent || ""));
 
     if (flowCard) {
+      /* SMARTWORK_COMPLETED_TIMELINE_GREEN_CHECK_V1
+         Completed timeline must show green checked steps, not grey pending dots. */
+      flowCard.dataset.smartworkTimelineComplete = "true";
+
+      const timelineGreen = "#22c55e";
+      const timelineGreenSoft = "#dcfce7";
+      const timelineGreenDark = "#166534";
+
+      const dotSelectors = [
+        ".stepIcon",
+        ".stepDot",
+        ".stepCheck",
+        ".stepCircle",
+        ".timelineDot",
+        ".timelineIcon",
+        ".stepMarker",
+        ".stepNumber"
+      ];
+
+      const dots = new Set();
+
+      dotSelectors.forEach((selector) => {
+        flowCard.querySelectorAll(selector).forEach((el) => dots.add(el));
+      });
+
+      flowCard.querySelectorAll(".step").forEach((step) => {
+        const first = step.firstElementChild;
+        if (first) dots.add(first);
+      });
+
+      if (!dots.size) {
+        flowCard.querySelectorAll("div, span").forEach((el) => {
+          const text = (el.textContent || "").trim();
+          const rect = el.getBoundingClientRect?.();
+          const looksLikeDot =
+            text === "✓" ||
+            text === "✔" ||
+            (rect && rect.width >= 22 && rect.width <= 56 && rect.height >= 22 && rect.height <= 56);
+
+          if (looksLikeDot && !el.closest(".stepText") && !el.closest(".stepTitle")) {
+            dots.add(el);
+          }
+        });
+      }
+
+      dots.forEach((el) => {
+        el.textContent = "✓";
+        el.style.background = timelineGreen;
+        el.style.backgroundColor = timelineGreen;
+        el.style.color = "#ffffff";
+        el.style.borderColor = timelineGreen;
+        el.style.boxShadow = "0 10px 24px rgba(34, 197, 94, 0.24)";
+        el.style.opacity = "1";
+        el.style.fontWeight = "800";
+      });
+
+      flowCard.querySelectorAll(".stepLine, .timelineLine, .flowLine").forEach((el) => {
+        el.style.background = timelineGreenSoft;
+        el.style.backgroundColor = timelineGreenSoft;
+        el.style.opacity = "1";
+      });
+
+      flowCard.querySelectorAll(".stepTitle").forEach((el) => {
+        el.style.color = "#64748b";
+      });
+
+      flowCard.querySelectorAll("[data-flow-time]").forEach((el) => {
+        el.style.color = timelineGreenDark;
+      });
       const badge = flowCard.querySelector(".doneTag");
       if (badge) {
         badge.textContent = needs > 0 ? "Menunggu" : "Diproses";
@@ -3797,6 +3866,75 @@ nav.bottom-nav {
       .find((el) => /Alur Kerja Agent/i.test(el.querySelector(".cardTitle")?.textContent || ""));
 
     if (flowCard) {
+      /* SMARTWORK_COMPLETED_TIMELINE_GREEN_CHECK_V1
+         Completed timeline must show green checked steps, not grey pending dots. */
+      flowCard.dataset.smartworkTimelineComplete = "true";
+
+      const timelineGreen = "#22c55e";
+      const timelineGreenSoft = "#dcfce7";
+      const timelineGreenDark = "#166534";
+
+      const dotSelectors = [
+        ".stepIcon",
+        ".stepDot",
+        ".stepCheck",
+        ".stepCircle",
+        ".timelineDot",
+        ".timelineIcon",
+        ".stepMarker",
+        ".stepNumber"
+      ];
+
+      const dots = new Set();
+
+      dotSelectors.forEach((selector) => {
+        flowCard.querySelectorAll(selector).forEach((el) => dots.add(el));
+      });
+
+      flowCard.querySelectorAll(".step").forEach((step) => {
+        const first = step.firstElementChild;
+        if (first) dots.add(first);
+      });
+
+      if (!dots.size) {
+        flowCard.querySelectorAll("div, span").forEach((el) => {
+          const text = (el.textContent || "").trim();
+          const rect = el.getBoundingClientRect?.();
+          const looksLikeDot =
+            text === "✓" ||
+            text === "✔" ||
+            (rect && rect.width >= 22 && rect.width <= 56 && rect.height >= 22 && rect.height <= 56);
+
+          if (looksLikeDot && !el.closest(".stepText") && !el.closest(".stepTitle")) {
+            dots.add(el);
+          }
+        });
+      }
+
+      dots.forEach((el) => {
+        el.textContent = "✓";
+        el.style.background = timelineGreen;
+        el.style.backgroundColor = timelineGreen;
+        el.style.color = "#ffffff";
+        el.style.borderColor = timelineGreen;
+        el.style.boxShadow = "0 10px 24px rgba(34, 197, 94, 0.24)";
+        el.style.opacity = "1";
+        el.style.fontWeight = "800";
+      });
+
+      flowCard.querySelectorAll(".stepLine, .timelineLine, .flowLine").forEach((el) => {
+        el.style.background = timelineGreenSoft;
+        el.style.backgroundColor = timelineGreenSoft;
+        el.style.opacity = "1";
+      });
+
+      flowCard.querySelectorAll(".stepTitle").forEach((el) => {
+        el.style.color = "#64748b";
+      });
+
+      flowCard.querySelectorAll("[data-flow-time]").forEach((el) => {
+        el.style.color = timelineGreenDark;
+      });
       const badge = flowCard.querySelector(".doneTag");
       if (badge) {
         setText(badge, "Selesai");
