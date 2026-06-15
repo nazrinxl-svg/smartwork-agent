@@ -3703,6 +3703,79 @@ nav.bottom-nav {
     if (el && el.textContent !== value) el.textContent = value;
   }
 
+  /* SMARTWORK_COMPLETED_COPY_SYNC_V1
+     Align completed public UI copy with live VPS state.
+     Do not animate headings; only progress percent/bar changes while running. */
+  function firstDefined(...values) {
+    for (const value of values) {
+      if (value !== undefined && value !== null && value !== "") return value;
+    }
+    return null;
+  }
+
+  function setByIds(ids, value) {
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) setText(el, String(value));
+    });
+  }
+
+  function syncCompletedCopy(state, percentText) {
+    const summary = state?.summary || state?.raw?.summary || state?.job?.summary || {};
+    const total = firstDefined(summary.total, state?.total, 0);
+    const filled = firstDefined(summary.alreadyFilled, summary.filled, summary.completed, state?.alreadyFilled, state?.filled, 0);
+    const needs = firstDefined(summary.needsPlan, summary.remaining, summary.needCheck, state?.needsPlan, 0);
+
+    setByIds(["totalVal", "total", "summaryTotal", "totalDays", "plannedDays"], total);
+    setByIds(["filledVal", "filled", "summaryFilled", "alreadyFilled", "filledDays"], filled);
+    setByIds(["needsVal", "needsPlan", "summaryNeedsPlan", "remainingDays"], needs);
+
+    document.querySelectorAll("*").forEach((el) => {
+      const text = (el.textContent || "").trim();
+
+      if (text === "Agent sedang bekerja") {
+        setText(el, "Hasil Siap");
+      }
+
+      if (/sedang diproses oleh agent|Progress sedang diproses|Production worker dry-run lifecycle completed/i.test(text)) {
+        setText(el, "PDF hasil siap diunduh dari aplikasi.");
+      }
+    });
+
+    document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex, [class*='finish-normal']").forEach((el) => {
+      setText(el, `Hasil Siap ${percentText}`);
+    });
+
+    const flowCard = [...document.querySelectorAll("section.card")]
+      .find((el) => /Alur Kerja Agent/i.test(el.querySelector(".cardTitle")?.textContent || ""));
+
+    if (flowCard) {
+      const badge = flowCard.querySelector(".doneTag");
+      if (badge) {
+        setText(badge, "Selesai");
+        badge.style.background = "#dcfce7";
+        badge.style.color = "#166534";
+      }
+
+      flowCard.querySelectorAll("[data-flow-time]").forEach((el) => {
+        setText(el, "selesai");
+        el.title = "Request selesai diproses oleh worker dry-run.";
+      });
+
+      const stepTitles = flowCard.querySelectorAll(".stepTitle");
+      const stepTexts = flowCard.querySelectorAll(".stepText");
+
+      if (stepTitles[0]) setText(stepTitles[0], "Request diterima");
+      if (stepTitles[1]) setText(stepTitles[1], "Agent selesai memproses");
+      if (stepTitles[2]) setText(stepTitles[2], "PDF & bukti siap");
+
+      if (stepTexts[0]) setText(stepTexts[0], "Data request sudah diterima dari form aplikasi.");
+      if (stepTexts[1]) setText(stepTexts[1], "Worker dry-run selesai. Tidak ada input atau save SIAGA real.");
+      if (stepTexts[2]) setText(stepTexts[2], "PDF dan bukti app-only siap diunduh dari aplikasi.");
+    }
+
+    document.body.dataset.smartworkCompletedCopySynced = "true";
+  }
   function forceVisiblePercent() {
     pending = false;
 
@@ -3716,6 +3789,7 @@ nav.bottom-nav {
     document.body.dataset.smartworkVisibleZeroMutationGuard = "true";
     document.body.dataset.smartworkProgressComplete = "true";
     document.body.dataset.smartworkAuthoritative = "complete";
+    syncCompletedCopy(state, percentText);
 
     document.querySelectorAll(".percent, [class*='percent']").forEach((el) => {
       if ((el.textContent || "").trim() === "0%" || el.classList.contains("percent")) {
