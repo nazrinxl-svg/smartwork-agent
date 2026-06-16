@@ -4102,5 +4102,38 @@ document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex,
 
 
 
+
+<!-- SMARTWORK_PROGRESS_PDF_LINK_READY_V1 -->
+<script>
+(() => {
+  const PDF_PATH = "/reports/downloads/Presensi_Nazrin_Juni_2026.pdf";
+
+  function readyPdfLink() {
+    const el = document.getElementById("pdfLink");
+    if (!el) return;
+
+    el.href = PDF_PATH;
+    el.target = "_blank";
+    el.rel = "noopener";
+    el.removeAttribute("aria-disabled");
+    el.style.pointerEvents = "auto";
+    el.style.opacity = "1";
+  }
+
+  readyPdfLink();
+  document.addEventListener("DOMContentLoaded", readyPdfLink);
+  window.addEventListener("load", readyPdfLink);
+
+  [50, 200, 700, 1500, 3000, 5000].forEach((ms) => {
+    window.setTimeout(readyPdfLink, ms);
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target && event.target.closest ? event.target.closest("#pdfLink") : null;
+    if (!target) return;
+    readyPdfLink();
+  }, true);
+})();
+</script>
 </body>
 </html>
