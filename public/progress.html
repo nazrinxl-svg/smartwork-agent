@@ -1438,8 +1438,8 @@
         </div>        <div class="step">
           <div class="check">&#10003;</div>
           <div>
-            <div class="stepTitle">Agent selesai memproses</div>
-            <div class="stepText">Worker dry-run selesai. Tidak ada real save/send ke SIAGA.</div>
+            <div class="stepTitle">Agent memproses data</div>
+            <div class="stepText">Worker dry-run berhasil. Tidak ada real save/send ke SIAGA.</div>
           </div>
           <div class="time"><span class="time"><span data-flow-time="process">--:--</span></span></div>
         </div>
@@ -2096,8 +2096,9 @@ nav.bottom-nav {
     setBar(100);
 
     document.querySelectorAll("[data-flow-time]").forEach((el) => {
-      el.textContent = "selesai";
-      el.title = "Request selesai berdasarkan verifikasi final";
+      el.textContent = "";
+      el.style.display = "none";
+      el.title = "Tahap sudah selesai.";
     });
 
     const pdfName = document.getElementById("pdfName");
@@ -4012,19 +4013,20 @@ nav.bottom-nav {
       }
 
       flowCard.querySelectorAll("[data-flow-time]").forEach((el) => {
-        setText(el, "selesai");
-        el.title = "Request selesai diproses oleh worker dry-run.";
+        setText(el, "");
+        el.style.display = "none";
+        el.title = "Tahap sudah selesai.";
       });
 
       const stepTitles = flowCard.querySelectorAll(".stepTitle");
       const stepTexts = flowCard.querySelectorAll(".stepText");
 
       if (stepTitles[0]) setText(stepTitles[0], "Request diterima");
-      if (stepTitles[1]) setText(stepTitles[1], "Agent selesai memproses");
+      if (stepTitles[1]) setText(stepTitles[1], "Agent memproses data");
       if (stepTitles[2]) setText(stepTitles[2], "PDF & bukti siap");
 
       if (stepTexts[0]) setText(stepTexts[0], "Data request sudah diterima dari form aplikasi.");
-      if (stepTexts[1]) setText(stepTexts[1], "Worker dry-run selesai. Tidak ada input atau save SIAGA real.");
+      if (stepTexts[1]) setText(stepTexts[1], "Worker dry-run berhasil. Tidak ada input atau save SIAGA real.");
       if (stepTexts[2]) setText(stepTexts[2], "PDF dan bukti app-only siap diunduh dari aplikasi.");
     }
 
