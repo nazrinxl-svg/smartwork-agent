@@ -130,13 +130,16 @@ function buildSelectedFromApiJob(apiJob, localSelection) {
   const teacherId = firstText(jobTeacherId(apiJob), borrow.teacherId, opts.teacherId);
   const teacherName = firstText(apiJob?.teacherName, apiJob?.requester?.name, borrow.teacherName);
   const schoolName = firstText(apiJob?.schoolName, borrow.schoolName);
-  const detailUrl = firstText(apiJob?.detailUrl, apiJob?.request?.detailUrl, borrow.detailUrl, process.env.SMARTWORK_DETAIL_URL);
+  /* SMARTWORK_BLOCK_BORROWED_DETAIL_URL_FOR_API_JOB_V1
+     Production API jobs must not borrow a previous local SIAGA detail URL.
+     SIAGA detail URLs are month-specific; borrowing can route a July request to June. */
+  const apiDetailUrl = firstText(apiJob?.detailUrl, apiJob?.request?.detailUrl, process.env.SMARTWORK_DETAIL_URL);
+  const borrowedDetailUrl = firstText(borrow.detailUrl);
+  const detailUrl = apiDetailUrl;
+  const detailUrlSource = detailUrl ? "production-api-or-env" : (borrowedDetailUrl ? "blocked-borrowed-local-identity" : "missing");
   const targetMonth = firstText(apiJob?.targetMonth, monthNameFromDate(startDate));
   const targetYear = firstText(apiJob?.targetYear, yearFromDate(startDate));
 
-  if (!detailUrl) {
-    throw new Error("API job valid, tapi detailUrl kosong. Tidak aman untuk lanjut preview/SIAGA.");
-  }
 
   const raw = {
     jobId,
@@ -152,6 +155,14 @@ function buildSelectedFromApiJob(apiJob, localSelection) {
     targetMonth,
     targetYear,
     detailUrl,
+    detailUrlReady: Boolean(detailUrl),
+    detailUrlSource,
+    detailUrlSafety: {
+      borrowedLocalDetailUrlBlocked: !apiDetailUrl && Boolean(borrowedDetailUrl),
+      reason: !apiDetailUrl && borrowedDetailUrl
+        ? "Blocked stale local SIAGA detailUrl for production API job."
+        : "Detail URL supplied by API/env or absent."
+    },
     createdAt: apiJob?.createdAt || new Date().toISOString(),
     source: firstText(apiJob?.source, "smartwork-production-api-job"),
     productionJob: {
@@ -271,6 +282,41 @@ if (!selected) {
 }
 
 const localRequest = buildLocalSiagaRequest(selected);
+
+/* SMARTWORK_FINAL_SANITIZE_BLOCKED_DETAIL_URL_V1
+   normalizeSmartworkRequest can enrich missing detailUrl from old intake files.
+   For production API jobs, if stale local detailUrl was explicitly blocked,
+   remove it again after buildLocalSiagaRequest and before writing local/job/report. */
+if (
+  selectedSource === "production-api" &&
+  selected?.raw?.detailUrlSafety?.borrowedLocalDetailUrlBlocked === true
+) {
+  localRequest.detailUrl = "";
+  localRequest.detailUrlReady = false;
+  localRequest.detailUrlSource = selected.raw.detailUrlSource || "blocked-borrowed-local-identity";
+  localRequest.detailUrlSafety = selected.raw.detailUrlSafety;
+
+  if (Array.isArray(localRequest.accounts)) {
+    localRequest.accounts = localRequest.accounts.map((account) => ({
+      ...account,
+      detailUrl: "",
+      detailUrlReady: false,
+      detailUrlSource: localRequest.detailUrlSource,
+      detailUrlSafety: localRequest.detailUrlSafety
+    }));
+  }
+
+  if (selected.normalized) {
+    selected.normalized.detailUrl = null;
+    if (selected.normalized.account) {
+      selected.normalized.account.detailUrl = "";
+      selected.normalized.account.detailUrlReady = false;
+      selected.normalized.account.detailUrlSource = localRequest.detailUrlSource;
+      selected.normalized.account.detailUrlSafety = localRequest.detailUrlSafety;
+    }
+  }
+}
+
 const localRequestPath = path.join(ROOT, "data", "siaga-attendance-request.local.json");
 writeJsonSafe(localRequestPath, localRequest);
 

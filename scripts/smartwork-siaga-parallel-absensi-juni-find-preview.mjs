@@ -4,6 +4,7 @@ import { chromium } from "playwright";
 
 const root = process.cwd();
 const dataPath = path.join(root, "data", "teacher-accounts.local.json");
+const requestPath = path.join(root, "data", "siaga-attendance-request.local.json");
 const reportsDir = path.join(root, "reports");
 const shotsDir = path.join(root, "shots");
 const profileRoot = path.join(root, "browser-profile", "parallel-siaga-real");
@@ -26,6 +27,48 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
 }
+
+/* SMARTWORK_DYNAMIC_TARGET_MONTH_FIND_V1 */
+function readJsonSafe(filePath, fallback = null) {
+  if (!fs.existsSync(filePath)) return fallback;
+  const raw = fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "").trim();
+  return raw ? JSON.parse(raw) : fallback;
+}
+
+function monthNameFromDate(value) {
+  const m = String(value || "").match(/^(\d{4})-(\d{2})-\d{2}$/);
+  const map = {
+    "01": "Januari",
+    "02": "Februari",
+    "03": "Maret",
+    "04": "April",
+    "05": "Mei",
+    "06": "Juni",
+    "07": "Juli",
+    "08": "Agustus",
+    "09": "September",
+    "10": "Oktober",
+    "11": "November",
+    "12": "Desember"
+  };
+  return m ? map[m[2]] || "" : "";
+}
+
+function yearFromDate(value) {
+  const m = String(value || "").match(/^(\d{4})-\d{2}-\d{2}$/);
+  return m ? m[1] : "";
+}
+
+function readActiveTarget() {
+  const request = readJsonSafe(requestPath, {});
+  const account = Array.isArray(request?.accounts) ? request.accounts[0] || {} : {};
+  const startDate = request?.startDate || account?.startDate || "";
+  return {
+    month: String(request?.targetMonth || request?.target?.month || account?.targetMonth || monthNameFromDate(startDate) || "Juni").trim(),
+    year: String(request?.targetYear || request?.target?.year || account?.targetYear || yearFromDate(startDate) || "2026").trim()
+  };
+}
+/* END_SMARTWORK_DYNAMIC_TARGET_MONTH_FIND_V1 */
 
 function readLocalAccounts() {
   if (!fs.existsSync(dataPath)) {
@@ -71,8 +114,9 @@ const parallelLimit = targetTeacherId ? 1 : Number(raw.parallelLimit || 2);
 }
 
 async function findJuniDetail(page, log) {
-  const TARGET_MONTH = "Juni";
-  const TARGET_YEAR = "2026";
+  const activeTarget = readActiveTarget();
+  const TARGET_MONTH = activeTarget.month || "Juni";
+  const TARGET_YEAR = String(activeTarget.year || "2026");
 
   const data = await page.evaluate(() => {
     const rows = Array.from(document.querySelectorAll("table tbody tr, table tr")).map((tr, index) => {
@@ -127,6 +171,8 @@ async function findJuniDetail(page, log) {
   log.push(`[${now()}] STRICT_TARGET_CANDIDATES=${candidates.length}`);
 
   return {
+    targetMonth: TARGET_MONTH,
+    targetYear: TARGET_YEAR,
     strictRows,
     candidates,
     best: candidates[0] || null
@@ -146,6 +192,14 @@ async function ensureGuruSession(page, worker, log) {
 
   if (!looksLogin) {
     log.push(`[${now()}] SESSION_UNKNOWN_URL=${page.url()}`);
+    return false;
+  }
+
+  /* SMARTWORK_BLOCK_LOGIN_FALLBACK_BY_DEFAULT_V1
+     Finder is read-only. Do not type SIAGA credentials unless explicitly allowed. */
+  if (process.env.SMARTWORK_ALLOW_SIAGA_LOGIN_FALLBACK !== "1") {
+    log.push(`[${now()}] LOGIN_FALLBACK_BLOCKED_BY_DEFAULT=true`);
+    log.push(`[${now()}] LOGIN_FALLBACK_ALLOW_ENV=SMARTWORK_ALLOW_SIAGA_LOGIN_FALLBACK=1`);
     return false;
   }
 
@@ -257,10 +311,14 @@ async function runWorker(worker, index) {
 
     await page.screenshot({ path: screenshotPath, fullPage: true });
 
+    const targetMonth = findResult.targetMonth || "Juni";
+    const targetYear = String(findResult.targetYear || "2026");
+    const targetDetailTextPattern = new RegExp(`${targetMonth}\\s+${targetYear}`, "i");
+
     const successLikely =
       /\/guru\/absensi\/detail\/\d+/i.test(finalUrl) &&
       /Detail Absensi/i.test(bodyText) &&
-      /Juni\s+2026/i.test(bodyText);
+      targetDetailTextPattern.test(bodyText);
 
     log.push(`[${now()}] FINAL_TITLE=${finalTitle}`);
     log.push(`[${now()}] FINAL_URL=${finalUrl}`);

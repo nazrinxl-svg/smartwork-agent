@@ -16,9 +16,148 @@ const SIAGA_GURU_URL = "https://siagapendis.kemenag.go.id/guru";
 const SIAGA_ABSENSI_URL = "https://siagapendis.kemenag.go.id/guru/absensi";
 const SIAGA_ABSENSI_CREATE_URL = "https://siagapendis.kemenag.go.id/guru/absensi/create";
 
-const TARGET_MONTH = "Juni";
-const TARGET_YEAR = "2026";
-const TARGET_SCHOOL_TEXT = "SDN 6 CITRA DAMAI";
+// SMARTWORK_DYNAMIC_TARGET_MONTH_CREATE_PREVIEW_V1
+const requestPath = path.join(root, "data", "smartwork-latest-siaga-request.local.json");
+const jobPath = path.join(root, "data", "smartwork-latest-siaga-job.local.json");
+// SMARTWORK_SYNC_REPORT_TARGET_FALLBACK_V1
+const syncReportPath = path.join(root, "reports", "smartwork-sync-latest-request-report.json");
+
+const MONTH_NAMES = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember"
+];
+
+function readJsonSafe(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) return null;
+    const raw = fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "").trim();
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function firstText(...values) {
+  for (const value of values) {
+    const text = String(value || "").trim();
+    if (text) return text;
+  }
+  return "";
+}
+
+function monthNameFromDate(value) {
+  const text = String(value || "").trim();
+  const match = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return "";
+  return MONTH_NAMES[Number(match[2]) - 1] || "";
+}
+
+function yearFromDate(value) {
+  const text = String(value || "").trim();
+  const match = text.match(/^(\d{4})-/);
+  return match ? match[1] : "";
+}
+
+function readActiveTarget() {
+  const syncReport = readJsonSafe(syncReportPath) || {};
+  const request = readJsonSafe(requestPath) || syncReport.selectedRequest?.normalized || {};
+  const job = readJsonSafe(jobPath) || syncReport.job || {};
+
+  const account =
+    Array.isArray(request.accounts) && request.accounts.length
+      ? request.accounts[0]
+      : request.account || request.normalized?.account || request.raw?.account || job.account || {};
+
+  const startDate = firstText(
+    request.startDate,
+    request.request?.startDate,
+    request.normalized?.startDate,
+    request.raw?.startDate,
+    request.selected?.startDate,
+    syncReport.selectedRequest?.normalized?.startDate,
+    syncReport.job?.startDate,
+    job.startDate,
+    job.request?.startDate
+  );
+
+  const month = firstText(
+    request.targetMonth,
+    request.month,
+    request.normalized?.targetMonth,
+    request.raw?.targetMonth,
+    request.selected?.targetMonth,
+    syncReport.selectedRequest?.normalized?.targetMonth,
+    syncReport.job?.targetMonth,
+    job.targetMonth,
+    job.month,
+    monthNameFromDate(startDate)
+  );
+
+  const year = firstText(
+    request.targetYear,
+    request.year,
+    request.normalized?.targetYear,
+    request.raw?.targetYear,
+    request.selected?.targetYear,
+    syncReport.selectedRequest?.normalized?.targetYear,
+    syncReport.job?.targetYear,
+    job.targetYear,
+    job.year,
+    yearFromDate(startDate)
+  );
+
+  const school = firstText(
+    request.schoolName,
+    request.school,
+    request.sekolah,
+    request.sekolahName,
+    request.normalized?.schoolName,
+    request.raw?.schoolName,
+    syncReport.selectedRequest?.normalized?.schoolName,
+    syncReport.selectedRequest?.normalized?.account?.schoolName,
+    syncReport.job?.schoolName,
+    account.schoolName,
+    account.school,
+    account.sekolah,
+    account.sekolahName,
+    job.schoolName,
+    job.school
+  );
+
+  const teacherId = firstText(
+    process.env.TARGET_TEACHER_ID,
+    request.teacherId,
+    request.normalized?.teacherId,
+    request.raw?.teacherId,
+    syncReport.selectedRequest?.normalized?.teacherId,
+    syncReport.job?.teacherId,
+    account.teacherId,
+    job.teacherId
+  );
+
+  return {
+    teacherId,
+    month,
+    year: String(year || "").trim(),
+    school,
+    startDate
+  };
+}
+
+const ACTIVE_TARGET = readActiveTarget();
+const TARGET_MONTH = ACTIVE_TARGET.month;
+const TARGET_YEAR = ACTIVE_TARGET.year;
+const TARGET_SCHOOL_TEXT = ACTIVE_TARGET.school;
 
 function now() {
   return new Date().toISOString();
@@ -56,7 +195,17 @@ function readLocalAccounts() {
     throw new Error("Tidak ada akun enabled di data/teacher-accounts.local.json");
   }
 
-  return { parallelLimit, jobs };
+  // SMARTWORK_TARGET_TEACHER_FILTER_CREATE_PREVIEW_V1
+  const targetTeacherId = firstText(process.env.TARGET_TEACHER_ID, ACTIVE_TARGET.teacherId);
+  const filteredJobs = targetTeacherId
+    ? jobs.filter((job) => job.teacherId === targetTeacherId)
+    : jobs;
+
+  if (filteredJobs.length === 0) {
+    throw new Error(`Target teacherId tidak ditemukan di akun enabled: ${targetTeacherId}`);
+  }
+
+  return { parallelLimit, jobs: filteredJobs };
 }
 
 async function hasTargetMonth(page, log) {
@@ -84,14 +233,34 @@ async function selectByText(page, selector, targetText, label, log) {
 
     const normalizedTarget = String(targetText || "").toLowerCase().trim();
     const options = Array.from(select.options || []);
-    const option =
-      options.find((opt) => String(opt.textContent || "").toLowerCase().trim() === normalizedTarget) ||
-      options.find((opt) => String(opt.textContent || "").toLowerCase().includes(normalizedTarget));
+    let option = null;
+
+    if (!normalizedTarget) {
+      const usableOptions = options.filter((opt) => {
+        const text = String(opt.textContent || "").toLowerCase().trim();
+        return String(opt.value || "").trim() && !/^pilih\b/.test(text);
+      });
+
+      if (usableOptions.length === 1) {
+        option = usableOptions[0];
+      } else {
+        return {
+          ok: false,
+          reason: "target_text_empty_and_not_unique",
+          available: options.map((opt) => opt.textContent).slice(0, 30)
+        };
+      }
+    } else {
+      option =
+        options.find((opt) => String(opt.textContent || "").toLowerCase().trim() === normalizedTarget) ||
+        options.find((opt) => String(opt.textContent || "").toLowerCase().includes(normalizedTarget));
+    }
 
     if (!option) {
       return {
         ok: false,
         reason: "option_not_found",
+        targetText,
         available: options.map((opt) => opt.textContent).slice(0, 30)
       };
     }
@@ -339,6 +508,12 @@ async function main() {
   console.log("RULE=VISIBLE_PREVIEW_ONLY_STOP_BEFORE_SAVE");
   console.log("TARGET_MONTH=" + TARGET_MONTH);
   console.log("TARGET_YEAR=" + TARGET_YEAR);
+  console.log("TARGET_SCHOOL_TEXT=" + (TARGET_SCHOOL_TEXT || "[auto-single-school-option]"));
+  console.log("TARGET_TEACHER_ID=" + (ACTIVE_TARGET.teacherId || "[all-enabled-or-env]"));
+
+  if (!TARGET_MONTH || !TARGET_YEAR) {
+    throw new Error("Target bulan/tahun kosong. Jalankan sync request aktif dulu.");
+  }
 
   const { parallelLimit, jobs } = readLocalAccounts();
 

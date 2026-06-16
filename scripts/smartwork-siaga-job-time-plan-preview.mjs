@@ -127,6 +127,42 @@ function requestRange(request) {
   };
 }
 
+/* SMARTWORK_TIME_PLAN_ACTIVE_TARGET_GUARD_V1 */
+function requestTarget(request) {
+  const account = Array.isArray(request?.accounts) ? request.accounts[0] || {} : {};
+  return {
+    month: String(request?.targetMonth || request?.target?.month || account?.targetMonth || "").trim(),
+    year: String(request?.targetYear || request?.target?.year || account?.targetYear || "").trim()
+  };
+}
+
+function requestDetailJob(request) {
+  const account = Array.isArray(request?.accounts) ? request.accounts[0] || {} : {};
+  const detailUrl = String(request?.detailUrl || account?.detailUrl || "").trim();
+  if (!detailUrl) return null;
+  return {
+    index: 0,
+    teacherId: request?.teacherId || account?.teacherId || TARGET_TEACHER_ID || "guru-001",
+    teacherName: request?.teacherName || account?.teacherName || request?.teacherId || account?.teacherId || "guru-001",
+    wa: request?.wa || account?.wa || "",
+    detailUrl,
+    profileDir: path.join(profileRoot, `${request?.teacherId || account?.teacherId || TARGET_TEACHER_ID || "guru-001"}-siaga`)
+  };
+}
+
+function runnerDetailMatchesRequestTarget(item, request) {
+  const target = requestTarget(request);
+  if (!target.month || !target.year) return true;
+  const text = [
+    item?.bestCandidate?.targetMonth,
+    item?.bestCandidate?.targetYear,
+    item?.bestCandidate?.rowText,
+    item?.bodyPreview
+  ].filter(Boolean).join(" ");
+  return new RegExp(target.month, "i").test(text) && text.includes(String(target.year));
+}
+/* END_SMARTWORK_TIME_PLAN_ACTIVE_TARGET_GUARD_V1 */
+
 function isOutsideRequestRange(dayNumber, request) {
   const iso = toIsoDateFromDay(dayNumber, request);
   const range = requestRange(request);
@@ -150,7 +186,12 @@ function isExceptionDate(dayNumber, request) {
   });
 }
 
-function collectDetailJobs(runnerReport) {
+function collectDetailJobs(runnerReport, request) {
+  const activeDetailJob = requestDetailJob(request);
+  if (activeDetailJob) {
+    return [activeDetailJob];
+  }
+
   if (TARGET_TEACHER_ID && TARGET_DETAIL_URL) {
     return [{
       index: 0,
@@ -165,6 +206,7 @@ function collectDetailJobs(runnerReport) {
   const results = runnerReport?.reports?.juniFind?.results || [];
 
   return results
+    .filter((item) => runnerDetailMatchesRequestTarget(item, request))
     .filter((item) => item?.status === "juni_detail_preview_success" && item?.currentUrl)
     .filter((item) => !TARGET_TEACHER_ID || item.teacherId === TARGET_TEACHER_ID)
     .map((item, index) => ({
@@ -357,7 +399,7 @@ async function main() {
     throw new Error("Runner report belum punya hasil juniFind. Jalankan npm run siaga:job:runner-preview dulu.");
   }
 
-  const jobs = collectDetailJobs(runnerReport);
+  const jobs = collectDetailJobs(runnerReport, request);
 
   if (jobs.length === 0) {
     throw new Error(`Tidak ada detail job dari runner report untuk target: ${TARGET_TEACHER_ID || "ALL"}`);
