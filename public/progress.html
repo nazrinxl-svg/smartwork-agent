@@ -2629,7 +2629,7 @@ nav.bottom-nav {
     if (!el) {
       el = document.createElement("section");
       el.id = "smartwork-phase5w-vps-progress";
-      el.style.cssText = "margin:12px;padding:12px;border:1px solid #dbeafe;background:#eff6ff;border-radius:16px;color:#1e3a8a;font:12px/1.45 'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;";
+      el.style.cssText = "display:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;height:0!important;overflow:hidden!important;";
       el.innerHTML = "<div style='font-weight:700;margin-bottom:4px'>VPS Queue Status</div><div data-smartwork-vps-text>Menunggu job VPS...</div>";
       (document.querySelector("main,.container,.app") || document.body).appendChild(el);
     }
