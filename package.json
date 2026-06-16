@@ -163,7 +163,11 @@
     "smartui:font-sentinel": "node scripts/smartwork-ui-font-sentinel-v2.mjs",
     "smartui:font-sentinel:strict": "node scripts/smartwork-ui-font-sentinel-v2.mjs --strict",
     "build": "node scripts/smartwork-generate-firebase-config.mjs",
-    "build:firebase-config:check": "node scripts/smartwork-generate-firebase-config.mjs --check"
+    "build:firebase-config:check": "node scripts/smartwork-generate-firebase-config.mjs --check",
+    "smartwork:norepeat": "node scripts/smartwork-no-repeat-control-agent.mjs",
+    "smartwork:norepeat:test": "node scripts/smartwork-no-repeat-control-agent-test-suite.mjs",
+    "smartwork:guarded": "node scripts/smartwork-guarded-command-runner.mjs",
+    "smartwork:guarded:test": "node scripts/smartwork-guarded-command-runner-test.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
