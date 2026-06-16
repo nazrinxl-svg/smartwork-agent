@@ -127,6 +127,40 @@ function phase5jCanCompleteDryRunJob(job) {
   );
 }
 
+
+/* SMARTWORK_PHASE5V_DERIVE_DRY_RUN_SUMMARY_FROM_RANGE_V1 */
+function phase5vParseDateOnly(value) {
+  const text = String(value || "").trim();
+  const m = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return null;
+  const date = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function phase5vInclusiveRequestDayCount(job) {
+  const range = job?.requestRange || job?.request?.requestRange || {};
+  const start = phase5vParseDateOnly(range.startDate || job?.startDate || job?.request?.startDate);
+  const end = phase5vParseDateOnly(range.endDate || job?.endDate || job?.request?.endDate);
+
+  if (!start || !end || end < start) return 1;
+
+  const oneDay = 24 * 60 * 60 * 1000;
+  return Math.max(1, Math.floor((end.getTime() - start.getTime()) / oneDay) + 1);
+}
+
+function phase5vCompletedDryRunSummary(job) {
+  const total = phase5vInclusiveRequestDayCount(job);
+  return {
+    total,
+    completed: total,
+    alreadyFilled: total,
+    skipped: 0,
+    needsPlan: 0,
+    percent: 100
+  };
+}
+/* END_SMARTWORK_PHASE5V_DERIVE_DRY_RUN_SUMMARY_FROM_RANGE_V1 */
+
 function phase5jCompleteDryRunJob(jobPath) {
   const job = readJson(jobPath);
   const now = new Date().toISOString();
@@ -191,14 +225,7 @@ function phase5jCompleteDryRunJob(jobPath) {
     percent: 100,
     progressPercent: 100,
     percentage: 100,
-    summary: {
-      total: 1,
-      completed: 1,
-      alreadyFilled: 1,
-      skipped: 0,
-      needsPlan: 0,
-      percent: 100
-    },
+    summary: phase5vCompletedDryRunSummary(running.job),
     artifacts: {
       pdfReady: true,
       proofReady: true,
