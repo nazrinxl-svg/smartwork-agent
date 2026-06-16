@@ -1,6 +1,6 @@
 {
   "mode": "SMARTWORK_UI_HARD_LOCK_BASELINE",
-  "lockedAt": "2026-06-16T01:33:03.472Z",
+  "lockedAt": "2026-06-16T01:54:30.522Z",
   "rule": "Exact hash baseline. No login text guessing. Any protected UI change must be explicit, verified, then re-locked.",
   "protectedFiles": [
     "public/index.html",
@@ -25,8 +25,8 @@
       "bytes": 69755
     },
     "public/progress.html": {
-      "sha256": "d6cdcb5896561dc3929f397f4c48ed7006dc3590e76c58913621623848e22171",
-      "bytes": 131815
+      "sha256": "d24a50e2f4ce6aa738145ada7bbf6e2f9860fe2431e18deeabae6ddb327375b4",
+      "bytes": 131862
     },
     "public/history.html": {
       "sha256": "757aa42d82ec073c2cfaac94f3a29ab9fb6cec23699e6fc8829a1d05dbb2e09e",
