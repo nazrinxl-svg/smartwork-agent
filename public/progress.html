@@ -3605,6 +3605,18 @@ nav.bottom-nav {
   }
 
   function renderLiveState() {
+    const existingComplete =
+      document.body?.dataset?.smartworkAuthoritative === "complete" ||
+      document.body?.dataset?.smartworkProgressComplete === "true" ||
+      window.__SMARTWORK_REPORTS_READY__ === true;
+
+    const visibleComplete =
+      /Hasil Siap/i.test(document.querySelector("[data-finish-text]")?.textContent || "") ||
+      /Hasil Siap/i.test(document.querySelector(".statusPill")?.textContent || "") ||
+      /100%/.test(document.querySelector(".percent")?.textContent || "");
+
+    if (existingComplete && visibleComplete) return false;
+
     const state = readJson(LIVE_KEY);
     if (!isValidLiveState(state)) return false;
 
@@ -3616,9 +3628,9 @@ nav.bottom-nav {
     const needsPlan = summaryValue(state, ["needsPlan", "remaining", "pending", "needCheck"], null);
 
     const title = completed ? "Hasil Siap" : "Diproses";
-    const message = state.message || (completed
-      ? "Progress selesai. PDF & bukti siap diunduh."
-      : "Progress sedang diproses dari VPS queue.");
+    const message = completed
+      ? "PDF hasil siap diunduh dari aplikasi."
+      : (state.message || "Progress sedang diproses dari VPS queue.");
 
     document.body.dataset.smartworkLiveStateMainCard = "active";
     document.body.dataset.smartworkProgressSource = "smartwork_progress_live_state";
