@@ -1416,16 +1416,16 @@
         </div>        <div class="step">
           <div class="check">&#10003;</div>
           <div>
-            <div class="stepTitle">Agent memproses SIAGA</div>
-            <div class="stepText">Login, input presensi, dan verifikasi dilakukan sesuai request.</div>
+            <div class="stepTitle">Agent selesai memproses</div>
+            <div class="stepText">Worker dry-run selesai. Tidak ada real save/send ke SIAGA.</div>
           </div>
           <div class="time"><span class="time"><span data-flow-time="process">--:--</span></span></div>
         </div>
         <div class="step">
           <div class="check">&#10003;</div>
           <div>
-            <div class="stepTitle">PDF & bukti dibuat</div>
-            <div class="stepText">Presensi PDF dan proof report sudah cocok dengan request aktif.</div>
+            <div class="stepTitle">PDF & bukti siap</div>
+            <div class="stepText">PDF dan bukti app-only siap diunduh dari request aktif.</div>
           </div>
           <div class="time"><span class="time"><span data-flow-time="proof">--:--</span></span></div>
           
@@ -4005,16 +4005,6 @@ nav.bottom-nav {
         setText(wrap, percentText);
       }
     });
-
-    document.querySelectorAll("*").forEach((el) => {
-      const text = (el.textContent || "").trim();
-      const className = String(el.className || "");
-      const inProgressWrap = Boolean(el.closest?.(".progressWrap"));
-      if (text === "0%" && (inProgressWrap || /percent|progress/i.test(className))) {
-        setText(el, percentText);
-      }
-    });
-
     return true;
   }
 
@@ -4032,195 +4022,12 @@ nav.bottom-nav {
   window.addEventListener("storage", (event) => {
     if (event.key === LIVE_KEY) forceVisiblePercent();
   });
-
-  if (document.body) {
-    new MutationObserver(scheduleForce).observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
-  }
-
-  [50, 150, 300, 700, 1200, 2400].forEach((ms) => setTimeout(forceVisiblePercent, ms));
-  setInterval(forceVisiblePercent, 500);
+[50, 150, 300, 700, 1200, 2400].forEach((ms) => setTimeout(forceVisiblePercent, ms));
 })();
 </script>
 
 
 
 
-<!-- SMARTWORK_PROGRESS_COMPLETED_RENDER_REPAIR_START -->
-<style id="smartwork-progress-completed-render-repair-style">
-  section.card[data-smartwork-timeline-complete="true"] .step {
-    opacity: 1 !important;
-    filter: none !important;
-  }
-
-  section.card[data-smartwork-timeline-complete="true"] .step > :first-child,
-  section.card[data-smartwork-timeline-complete="true"] .step .check,
-  section.card[data-smartwork-timeline-complete="true"] .step .dot {
-    opacity: 1 !important;
-    filter: none !important;
-    background: rgb(34, 197, 94) !important;
-    border-color: rgb(34, 197, 94) !important;
-    color: #fff !important;
-  }
-
-  section.card[data-smartwork-timeline-complete="true"] .step > :first-child * {
-    color: #fff !important;
-    opacity: 1 !important;
-    filter: none !important;
-  }
-</style>
-<script>
-(() => {
-  const GREEN = "rgb(34, 197, 94)";
-
-  const parseJson = (raw) => {
-    try { return raw ? JSON.parse(raw) : null; } catch { return null; }
-  };
-
-  const getJson = (key) => parseJson(localStorage.getItem(key));
-
-  const isCompleted = () => {
-    const bodyText = String(document.body?.textContent || "").toLowerCase();
-
-    if (
-      bodyText.includes("hasil siap 100%") ||
-      bodyText.includes("alur kerja agent") && bodyText.includes("selesai") ||
-      bodyText.includes("pdf hasil siap")
-    ) {
-      return true;
-    }
-
-    for (const key of ["smartwork_progress_live_state", "smartwork_production_progress_state", "smartwork_production_job"]) {
-      const data = getJson(key);
-      if (!data) continue;
-
-      const status = String(data?.status || data?.state || data?.job?.status || data?.job?.state || "").toLowerCase();
-
-      const percent = Number(
-        data?.percent ??
-        data?.progressPercent ??
-        data?.progress?.percent ??
-        data?.job?.percent ??
-        data?.job?.progress ??
-        data?.job?.progressPercent ??
-        0
-      );
-
-      const text = JSON.stringify(data).toLowerCase();
-
-      if (status === "completed" || status === "complete" || percent >= 100 || text.includes("hasil siap")) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const findFlowCard = () => {
-    return [...document.querySelectorAll("section.card")]
-      .find((card) => String(card.textContent || "").toLowerCase().includes("alur kerja agent"));
-  };
-
-  const getTextBox = (step) => {
-    const children = [...step.children];
-    return children.find((child) => child !== step.firstElementChild) || step;
-  };
-
-  const setStepText = (step, title, desc) => {
-    const box = getTextBox(step);
-    const status = [...step.querySelectorAll("*")]
-      .find((el) => String(el.textContent || "").trim().toLowerCase() === "selesai");
-
-    const marker = step.querySelector(".check, .dot") || step.firstElementChild;
-
-    if (box && box !== step) {
-      box.innerHTML = `<strong>${title}</strong><br><span>${desc}</span>`;
-    } else {
-      step.innerHTML = "";
-      if (marker) step.appendChild(marker);
-      const div = document.createElement("div");
-      div.innerHTML = `<strong>${title}</strong><br><span>${desc}</span>`;
-      step.appendChild(div);
-    }
-
-    if (status) status.textContent = "selesai";
-  };
-
-  const forceMarker = (step) => {
-    const marker = step.querySelector(".check, .dot") || step.firstElementChild;
-    if (!marker) return;
-
-    marker.textContent = "✓";
-    marker.style.setProperty("background", GREEN, "important");
-    marker.style.setProperty("border-color", GREEN, "important");
-    marker.style.setProperty("color", "#fff", "important");
-    marker.style.setProperty("opacity", "1", "important");
-    marker.style.setProperty("filter", "none", "important");
-  };
-
-  const normalizeCompletedTimeline = () => {
-    if (!isCompleted()) return false;
-
-    const card = findFlowCard();
-    if (!card) return false;
-
-    card.dataset.smartworkTimelineComplete = "true";
-
-    const wanted = [
-      {
-        title: "Request diterima",
-        desc: "Data request sudah diterima dari form aplikasi."
-      },
-      {
-        title: "Agent selesai memproses",
-        desc: "Worker dry-run selesai. Tidak ada input atau save SIAGA real."
-      },
-      {
-        title: "PDF & bukti siap",
-        desc: "PDF dan bukti app-only siap diunduh dari aplikasi."
-      }
-    ];
-
-    let steps = [...card.querySelectorAll(".step")];
-
-    while (steps.length < 3 && steps.length > 0) {
-      const clone = steps[steps.length - 1].cloneNode(true);
-      steps[steps.length - 1].after(clone);
-      steps = [...card.querySelectorAll(".step")];
-    }
-
-    steps.slice(0, 3).forEach((step, index) => {
-      step.style.setProperty("opacity", "1", "important");
-      step.style.setProperty("filter", "none", "important");
-      setStepText(step, wanted[index].title, wanted[index].desc);
-      forceMarker(step);
-    });
-
-    return true;
-  };
-
-  const run = () => {
-    normalizeCompletedTimeline();
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run);
-  } else {
-    run();
-  }
-
-  window.addEventListener("smartwork:progress:update", run);
-  window.addEventListener("smartwork-progress-update", run);
-  window.addEventListener("storage", run);
-
-  setTimeout(run, 100);
-  setTimeout(run, 500);
-  setTimeout(run, 1200);
-})();
-</script>
-<!-- SMARTWORK_PROGRESS_COMPLETED_RENDER_REPAIR_END -->
 </body>
 </html>
