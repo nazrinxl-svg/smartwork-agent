@@ -78,3 +78,8 @@ android/phase5zt-o/
 
 # Local Play Console handoff artifacts
 release-local/
+
+# Allow public PDF downloads for deployed app
+!public/reports/
+!public/reports/downloads/
+!public/reports/downloads/*.pdf
