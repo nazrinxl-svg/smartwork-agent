@@ -2616,13 +2616,74 @@ nav.bottom-nav {
   localStorage.setItem("smartwork_vps_api_base", API_BASE);
 
   function getJobId() {
-    const direct = localStorage.getItem("smartwork_active_job_id");
-    if (direct) return direct;
-    try {
-      return JSON.parse(localStorage.getItem("smartwork_vps_last_submit") || "{}").jobId || "";
-    } catch {
-      return "";
+    const params = new URLSearchParams(location.search);
+    const fromQuery = params.get("jobId") || params.get("productionJobId") || params.get("id");
+    if (fromQuery) return String(fromQuery).trim();
+
+    const candidates = [];
+    const pushCandidate = (value) => {
+      const raw = String(value || "").trim();
+      if (!raw) return;
+
+      const matches = raw.match(/\b(?:phase5v-app-dry-run-\d+|job-\d+-[a-z0-9]+)\b/gi) || [];
+      if (matches.length) {
+        candidates.push(...matches);
+        return;
+      }
+
+      if (/^[a-z0-9._:-]+$/i.test(raw)) {
+        candidates.push(raw);
+      }
+    };
+
+    const scalarKeys = [
+      "smartwork_active_job_id",
+      "smartwork_latest_job_id",
+      "smartwork_current_job_id",
+      "smartwork_progress_job_id",
+      "smartwork_production_job_id"
+    ];
+
+    for (const key of scalarKeys) {
+      pushCandidate(localStorage.getItem(key));
     }
+
+    const objectKeys = [
+      "smartwork_vps_last_submit",
+      "smartwork_production_job",
+      "smartwork_request_server",
+      "smartwork_request"
+    ];
+
+    for (const key of objectKeys) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "null");
+        pushCandidate(value?.jobId);
+        pushCandidate(value?.id);
+        pushCandidate(value?.job?.jobId);
+        pushCandidate(value?.job?.id);
+        pushCandidate(value?.data?.jobId);
+        pushCandidate(value?.data?.id);
+      } catch {}
+    }
+
+    try {
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const key = localStorage.key(i);
+        const value = String(localStorage.getItem(key) || "");
+        const matches = value.match(/\b(?:phase5v-app-dry-run-\d+|job-\d+-[a-z0-9]+)\b/gi) || [];
+        candidates.push(...matches);
+      }
+    } catch {}
+
+    const unique = Array.from(new Set(candidates));
+    unique.sort((a, b) => {
+      const at = Number((String(a).match(/\d{10,}/) || [0])[0]);
+      const bt = Number((String(b).match(/\d{10,}/) || [0])[0]);
+      return bt - at;
+    });
+
+    return unique[0] || "";
   }
 
   function box() {
@@ -2704,6 +2765,10 @@ nav.bottom-nav {
       };
 
       localStorage.setItem("smartwork_active_job_id", jobId);
+      localStorage.setItem("smartwork_latest_job_id", jobId);
+      localStorage.setItem("smartwork_current_job_id", jobId);
+      localStorage.setItem("smartwork_progress_job_id", jobId);
+      localStorage.setItem("smartwork_production_job_id", jobId);
       localStorage.setItem("smartwork_progress_live_state", JSON.stringify(liveState));
       localStorage.setItem("smartwork_production_progress_state", JSON.stringify(liveState));
       localStorage.setItem("smartwork_production_job", JSON.stringify({ jobId, job: json.job || json }));
