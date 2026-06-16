@@ -2108,6 +2108,18 @@ nav.bottom-nav {
   }
 
   function renderNotComplete(live, finalProgress) {
+    const existingComplete =
+      document.body?.dataset?.smartworkAuthoritative === "complete" ||
+      document.body?.dataset?.smartworkProgressComplete === "true" ||
+      window.__SMARTWORK_REPORTS_READY__ === true;
+
+    const visibleComplete =
+      /Hasil Siap/i.test(document.querySelector("[data-finish-text]")?.textContent || "") ||
+      /Hasil Siap/i.test(document.querySelector(".statusPill")?.textContent || "") ||
+      /100%/.test(document.querySelector(".percent")?.textContent || "");
+
+    if (existingComplete && visibleComplete) return false;
+
     const request = live?.request || finalProgress?.request || {};
     const summary = finalProgress?.summary || live?.summary || {};
     const range = rangeOf(request);
@@ -3714,6 +3726,15 @@ nav.bottom-nav {
 
     setAll([".percent"], percentText);
     setAll([".statusPill", ".finish-normal-text", ".finish-normal-tex", "[class*='finish-normal']"], pillText);
+    if (complete) {
+      setAll(["#heroTitle", "#mainStatusTitle", "#progressStatusTitle", "#statusTitle"], "Hasil Siap");
+      setAll(["#heroText", "#mainStatusText", "#progressStatusText", "#statusText"], "PDF hasil siap diunduh dari aplikasi.");
+    }
+
+    document.querySelectorAll(".barFill").forEach((el) => {
+      el.style.width = percentText;
+      el.setAttribute("aria-valuenow", String(percent));
+    });
 
     document.querySelectorAll(".progressWrap").forEach((el) => {
       el.style.setProperty("--progress", percentText);
@@ -4007,7 +4028,12 @@ nav.bottom-nav {
       }
     });
 
-    document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex, [class*='finish-normal']").forEach((el) => {
+    
+    document.querySelectorAll(".barFill").forEach((el) => {
+      el.style.width = percentText;
+      el.setAttribute("aria-valuenow", String(percent));
+    });
+document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex, [class*='finish-normal']").forEach((el) => {
       const text = (el.textContent || "").trim();
       if (/0%|Diproses|Hasil Siap/i.test(text)) setText(el, pillText);
     });
