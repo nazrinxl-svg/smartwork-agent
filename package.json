@@ -167,7 +167,10 @@
     "smartwork:norepeat": "node scripts/smartwork-no-repeat-control-agent.mjs",
     "smartwork:norepeat:test": "node scripts/smartwork-no-repeat-control-agent-test-suite.mjs",
     "smartwork:guarded": "node scripts/smartwork-guarded-command-runner.mjs",
-    "smartwork:guarded:test": "node scripts/smartwork-guarded-command-runner-test.mjs"
+    "smartwork:guarded:test": "node scripts/smartwork-guarded-command-runner-test.mjs",
+    "smartwork:auto-loop:once": "node scripts/smartwork-autonomous-control-loop.mjs",
+    "smartwork:auto-loop": "node scripts/smartwork-autonomous-control-loop.mjs --loop --interval-ms=120000",
+    "smartwork:auto-status": "node scripts/smartwork-autonomous-control-status.mjs"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
