@@ -2275,6 +2275,17 @@ nav.bottom-nav {
     }
   }
 
+  function hasRenderableProgressSource(live, finalProgress) {
+    return Boolean(
+      live?.updatedAt ||
+      live?.status ||
+      live?.percent !== undefined ||
+      finalProgress?.ok === true ||
+      finalProgress?.summary ||
+      finalProgress?.request
+    );
+  }
+
   async function refresh() {
     const [live, app, finalProgress] = await Promise.all([
       readJson(urls.live),
@@ -2304,7 +2315,7 @@ nav.bottom-nav {
 
     if (finalReady) {
       renderComplete(app, finalProgress, live);
-    } else {
+    } else if (hasRenderableProgressSource(live, finalProgress)) {
       renderNotComplete(live || {}, finalProgress || {});
     }
   }
