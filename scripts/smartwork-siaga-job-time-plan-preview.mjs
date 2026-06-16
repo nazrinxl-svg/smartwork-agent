@@ -15,6 +15,15 @@ const requestPath = path.join(root, "data", "siaga-attendance-request.local.json
 const outputPath = path.join(reportsDir, "siaga-job-time-plan-preview-report.json");
 
 const TARGET_TEACHER_ID = process.env.TARGET_TEACHER_ID || "";
+// SMARTWORK_TIME_PLAN_RESOLVE_RELATIVE_DETAIL_URL_V3
+function resolveSiagaUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return raw;
+  if (/^https?:\/\//i.test(raw)) return raw;
+  if (raw.startsWith("/")) return "https://siagapendis.kemenag.go.id" + raw;
+  return "https://siagapendis.kemenag.go.id/" + raw.replace(/^\/+/, "");
+}
+
 const TARGET_DETAIL_URL = process.env.TARGET_DETAIL_URL || "";
 
 function now() {
@@ -328,7 +337,7 @@ async function runForJob(job, request) {
     });
 
     const page = browser.pages()[0] || await browser.newPage();
-    await page.goto(job.detailUrl, { waitUntil: "domcontentloaded", timeout: 45000 });
+    await page.goto(resolveSiagaUrl(job.detailUrl), { waitUntil: "domcontentloaded", timeout: 45000 });
     await page.waitForTimeout(3000);
 
     const rows = await extractRowsFromDetail(page);
