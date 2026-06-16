@@ -189,11 +189,96 @@ function datesMentioned(text) {
   return [...out].sort();
 }
 
+
+function checkStartOverAlreadyValid(text) {
+  const raw = String(text || "");
+  const lower = raw.toLowerCase();
+
+  const startOverIntent =
+    /buat\s+ulang|bikin\s+ulang|mulai\s+dari\s+nol|dari\s+awal|start\s*over|from\s*scratch|rebuild|recreate|reset\s+agent|ulang\s+agent/i.test(raw);
+
+  const targetAgent =
+    /no-repeat|norepeat|guarded|command\s+runner|smartwork\s+no-repeat|smartwork:guarded|agent\s+kontrol|agent\s+ulang/i.test(raw);
+
+  if (!startOverIntent || !targetAgent) {
+    return { match: false, alreadyValid: false };
+  }
+
+  const requiredFiles = [
+    "scripts/smartwork-no-repeat-control-agent.mjs",
+    "scripts/smartwork-no-repeat-control-agent-test-suite.mjs",
+    "scripts/smartwork-guarded-command-runner.mjs",
+    "scripts/smartwork-guarded-command-runner-test.mjs"
+  ];
+
+  const filesReady = requiredFiles.every((rel) => fs.existsSync(path.join(ROOT, rel)));
+
+  const pkg = readJson("package.json", {});
+  const scriptsReady =
+    !!pkg?.scripts?.["smartwork:norepeat"] &&
+    !!pkg?.scripts?.["smartwork:norepeat:test"] &&
+    !!pkg?.scripts?.["smartwork:guarded"] &&
+    !!pkg?.scripts?.["smartwork:guarded:test"];
+
+  const noRepeatSuite = readJson("reports/smartwork-no-repeat-control-agent-test-suite-report.json", {});
+  const guardedSuite = readJson("reports/smartwork-guarded-command-runner-test-report.json", {});
+
+  const noRepeatSuiteOk =
+    noRepeatSuite?.ok === true &&
+    Number(noRepeatSuite?.passed || 0) >= Number(noRepeatSuite?.total || 0) &&
+    Number(noRepeatSuite?.total || 0) >= 8;
+
+  const guardedSuiteOk =
+    guardedSuite?.ok === true &&
+    guardedSuite?.tests?.blockDangerousCommand?.ok === true &&
+    guardedSuite?.tests?.blockDangerousCommand?.markerCreated === false &&
+    guardedSuite?.tests?.passSafeCommand?.ok === true &&
+    guardedSuite?.tests?.passSafeCommand?.markerCreated === true;
+
+  let commitSeen = false;
+  try {
+    const log = execSync("git log -20 --oneline", { cwd: ROOT, encoding: "utf8" });
+    commitSeen = /Add SmartWork no-repeat guarded command agent|8c024c1/i.test(log);
+  } catch {
+    commitSeen = false;
+  }
+
+  const alreadyValid = filesReady && scriptsReady && (noRepeatSuiteOk || guardedSuiteOk || commitSeen);
+
+  return {
+    match: true,
+    alreadyValid,
+    evidence: {
+      filesReady,
+      scriptsReady,
+      noRepeatSuiteOk,
+      guardedSuiteOk,
+      commitSeen,
+      requiredFiles
+    }
+  };
+}
+
 function makeDecision({ intent, command, allowRealSave }, evidence) {
   const text = `${intent}\n${command}`;
   const lower = text.toLowerCase();
   const blocks = [];
   const warnings = [];
+
+  const startOverCheck = checkStartOverAlreadyValid(text);
+  if (startOverCheck.match && startOverCheck.alreadyValid) {
+    blocks.push({
+      code: "BLOCK_START_OVER_WHEN_AGENT_ALREADY_VALID",
+      reason: "No-repeat guarded command agent sudah ada dan sudah tervalidasi. Jangan buat ulang dari awal; lanjutkan dengan validasi/patch kecil.",
+      evidence: startOverCheck.evidence
+    });
+  } else if (startOverCheck.match) {
+    warnings.push({
+      code: "WARN_START_OVER_NEEDS_EVIDENCE_CHECK",
+      reason: "Intent meminta buat ulang dari awal. Cek evidence dulu sebelum rebuild.",
+      evidence: startOverCheck.evidence
+    });
+  }
 
   if (/guru-002|guru002/i.test(text)) {
     blocks.push({
@@ -277,6 +362,14 @@ function makeRecommendations(decision, evidence, activeRequest) {
   const blockCodes = new Set((decision.blocks || []).map((b) => b.code));
   const warningCodes = new Set((decision.warnings || []).map((w) => w.code));
   const suggestions = [];
+
+  if (blockCodes.has("BLOCK_START_OVER_WHEN_AGENT_ALREADY_VALID")) {
+    suggestions.push({
+      priority: "HIGH",
+      action: "DO_NOT_REBUILD_VALID_AGENT",
+      message: "Agent/runner sudah valid. Jangan buat ulang dari awal; gunakan patch kecil, test suite, atau guarded runner."
+    });
+  }
 
   if (blockCodes.has("BLOCK_REAL_OR_FORM_INPUT_WITHOUT_APPROVAL")) {
     suggestions.push({

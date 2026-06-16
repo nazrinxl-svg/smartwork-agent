@@ -79,6 +79,14 @@ function runCase(testCase) {
 
 const cases = [
   {
+    name: "block-start-over-existing-valid-agent",
+    intent: "Saya mau buat ulang dari awal SmartWork no-repeat guarded command agent padahal agent sudah valid 8/8, guarded runner sudah OK, dan commit 8c024c1 sudah ada.",
+    expectExit: 2,
+    expectDecision: "BLOCK",
+    requiredBlocks: ["BLOCK_START_OVER_WHEN_AGENT_ALREADY_VALID"],
+    requiredSuggestions: ["DO_NOT_REBUILD_VALID_AGENT"]
+  },
+  {
     name: "block-repeat-save-completed-date",
     intent: "Saya mau input ulang SIAGA tanggal 2026-06-22 pakai npm run siaga:job:save-confirmed",
     expectExit: 2,
