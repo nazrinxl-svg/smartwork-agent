@@ -972,6 +972,21 @@
         notes: data.notes || ""
       };
 
+      // SMARTWORK_SKIP_LEGACY_REQUESTS_ON_PUBLIC_API_V1
+      // Public Vercel/app hosts do not serve the legacy /api/requests JSON endpoint.
+      // Skip this legacy path so it does not parse an HTML 404/redirect as JSON.
+      // The VPS queue bridge below still submits the real dry-run request to api.smartwork-agent.id.
+      const SMARTWORK_PUBLIC_APP_HOSTS = new Set([
+        "smartwork-agent-orcin.vercel.app",
+        "smartwork-agent.id",
+        "www.smartwork-agent.id"
+      ]);
+
+      if (SMARTWORK_PUBLIC_APP_HOSTS.has(window.location.hostname)) {
+        savedBox.textContent = "Request tersimpan lokal. Mengirim ke VPS queue dry-run...";
+        return;
+      }
+
       savedBox.textContent = "Menyimpan request ke server...";
 
       try {
