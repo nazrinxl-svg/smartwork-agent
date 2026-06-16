@@ -134,8 +134,14 @@ function smartworkEnsurePlannerTargetFromUiDateRange(request) {
   };
 
   const m = String(startDate).match(/^(\d{4})-(\d{2})-\d{2}$/);
-  const derivedYear = m ? Number(m[1]) : Number(next.targetYear || account.targetYear || 2026);
-  const derivedMonth = m ? monthNames[m[2]] : (next.targetMonth || account.targetMonth || "Juni");
+  const derivedYear = m ? Number(m[1]) : Number(next.targetYear || account.targetYear || 0);
+  if (!derivedYear) {
+    throw new Error("STOP_MONTH_AGNOSTIC: planner butuh startDate atau targetYear dari request aktif.");
+  }
+  const derivedMonth = m ? monthNames[m[2]] : (next.targetMonth || account.targetMonth || "");
+  if (!derivedMonth) {
+    throw new Error("STOP_MONTH_AGNOSTIC: planner butuh startDate atau targetMonth dari request aktif.");
+  }
 
   next.target = {
     ...(next.target || {}),
@@ -163,12 +169,18 @@ function smartworkEnsurePlannerTargetFromUiDateRange(request) {
    No browser. No login. No input. No save. No delete. */
 function smartworkSanitizePlannerExceptionsFromUiDateRange(request) {
   const next = { ...(request || {}) };
-  const targetYear = Number(next?.target?.year || next?.targetYear || 2026);
+  const targetYear = Number(next?.target?.year || next?.targetYear || 0);
+  if (!targetYear) {
+    throw new Error("STOP_MONTH_AGNOSTIC: targetYear wajib berasal dari request aktif.");
+  }
   const monthMap = {
     januari: "01", februari: "02", maret: "03", april: "04", mei: "05", juni: "06",
     juli: "07", agustus: "08", september: "09", oktober: "10", november: "11", desember: "12"
   };
-  const targetMonthName = String(next?.target?.month || next?.targetMonth || "Juni").toLowerCase();
+  const targetMonthName = String(next?.target?.month || next?.targetMonth || "").toLowerCase();
+  if (!targetMonthName) {
+    throw new Error("STOP_MONTH_AGNOSTIC: targetMonth wajib berasal dari request aktif.");
+  }
   const targetMonth = monthMap[targetMonthName] || "06";
   const ignored = [];
 

@@ -66,8 +66,8 @@ try {
 const teacherId = pick(localReq.teacherId, localReq?.request?.teacherId, checkpoint.teacherId, "guru-001");
 const teacherName = pick(localReq.teacherName, localReq?.request?.teacherName, checkpoint.teacherName, "Nazrin");
 
-const startDate = pick(localReq.startDate, localReq?.request?.startDate, checkpoint.requestRange?.split("..")?.[0], "2026-06-01");
-const endDate = pick(localReq.endDate, localReq?.request?.endDate, checkpoint.requestRange?.split("..")?.[1], "2026-06-06");
+const startDate = pick(localReq.startDate, localReq?.request?.startDate, checkpoint.requestRange?.split("..")?.[0], "");
+const endDate = pick(localReq.endDate, localReq?.request?.endDate, checkpoint.requestRange?.split("..")?.[1], "");
 const requestRange = `${startDate}..${endDate}`;
 
 const pdfPath = pick(

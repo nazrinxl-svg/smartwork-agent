@@ -97,7 +97,27 @@ function toHHMM(value) {
 }
 
 function targetDateFromRow(row) {
-  return `2026-06-${pad2(row.tanggal)}`;
+  const directDate =
+    row.date ||
+    row.tanggalIso ||
+    row.isoDate ||
+    (typeof row.tanggal === "string" && /^\\d{4}-\\d{2}-\\d{2}$/.test(row.tanggal) ? row.tanggal : "");
+
+  if (directDate) return directDate;
+
+  const rangeStart =
+    job?.startDate ||
+    job?.request?.startDate ||
+    request?.startDate ||
+    process.env.SMARTWORK_START_DATE ||
+    "";
+
+  const m = String(rangeStart).match(/^(\\d{4})-(\\d{2})-\\d{2}$/);
+  if (!m) {
+    throw new Error("STOP_MONTH_AGNOSTIC: startDate wajib valid sebelum membentuk tanggal SIAGA.");
+  }
+
+  return `${m[1]}-${m[2]}-${pad2(row.tanggal)}`;
 }
 
 async function screenshot(page, name, fullPage = false) {

@@ -31,7 +31,10 @@ function pick(...values) {
   return "";
 }
 
-function toIsoDate(value, year = 2026, month = 6) {
+function toIsoDate(value, year, month) {
+  if (!year || !month) {
+    throw new Error("STOP_MONTH_AGNOSTIC: year/month wajib berasal dari request aktif, bukan default Juni.");
+  }
   if (value === undefined || value === null) return "";
   const s = String(value).trim();
 
