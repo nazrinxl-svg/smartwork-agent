@@ -1606,7 +1606,29 @@ nav.bottom-nav {
     setText("needsPlan", data.needsPlan ?? DEFAULTS.needsPlan);
     setText("pdfName", String(data.pdfFile || DEFAULTS.pdfFile).split(/[\\/]/).pop());
 
-    setHref("pdfLink", data.pdfFile || DEFAULTS.pdfFile);
+    const activeRange = (() => {
+      try { return String(localStorage.getItem("smartwork_progress_active_range") || "").trim(); } catch { return ""; }
+    })();
+    const resultRange = String(range || "").trim();
+    const pdfPath = data.pdfFile || DEFAULTS.pdfFile;
+    const pdfIsStale = Boolean(activeRange && resultRange && activeRange !== resultRange);
+    const pdfIsOldFallback = Boolean(String(pdfPath || "").includes("Presensi_Nazrin_Juni_2026.pdf"));
+
+    if (pdfIsStale || pdfIsOldFallback) {
+      const pdf = $("pdfLink");
+      if (pdf) {
+        pdf.removeAttribute("href");
+        pdf.setAttribute("aria-disabled", "true");
+        pdf.style.opacity = "0.55";
+        pdf.style.pointerEvents = "none";
+        pdf.textContent = "PDF lama diblokir";
+        pdf.title = pdfIsStale
+          ? "PDF lama diblokir karena range artifact berbeda dari request aktif."
+          : "PDF lama diblokir karena link masih menunjuk ke file presensi lama.";
+      }
+    } else {
+      setHref("pdfLink", pdfPath);
+    }
     const invoiceLink = $("proofLink"); if(invoiceLink){ invoiceLink.href = "#invoiceSummary"; invoiceLink.removeAttribute("target"); invoiceLink.removeAttribute("aria-disabled"); invoiceLink.style.opacity = "1"; invoiceLink.style.pointerEvents = "auto"; }
 
     document.body.dataset.smartworkResultReady = "true";
@@ -1897,11 +1919,30 @@ nav.bottom-nav {
     actions.style.flexWrap = "wrap";
 
     const pdf = document.createElement("a");
-    pdf.href = fileUrl(pdfPath);
-    pdf.target = "_blank";
-    pdf.rel = "noopener";
-    pdf.textContent = "Unduh PDF";
-    pdf.style.cssText = "font-size:12px;font-weight:700;color:#2563eb;text-decoration:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:8px 10px;";
+    const activeRangeForProofPdf = (() => {
+      try { return String(localStorage.getItem("smartwork_progress_active_range") || "").trim(); } catch { return ""; }
+    })();
+    const proofPdfUrl = fileUrl(pdfPath);
+    const proofPdfIsOldFallback = Boolean(String(proofPdfUrl || "").includes("Presensi_Nazrin_Juni_2026.pdf"));
+
+    if (proofPdfIsOldFallback) {
+      pdf.removeAttribute("href");
+      pdf.setAttribute("aria-disabled", "true");
+      pdf.textContent = "PDF lama diblokir";
+      pdf.title = "PDF lama diblokir karena masih menunjuk ke file presensi lama.";
+      pdf.style.cssText = "font-size:12px;font-weight:700;color:#92400e;text-decoration:none;background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:8px 10px;opacity:.75;pointer-events:none;";
+      pdf.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      }, true);
+    } else {
+      pdf.href = proofPdfUrl;
+      pdf.target = "_blank";
+      pdf.rel = "noopener";
+      pdf.textContent = "Unduh PDF";
+      pdf.style.cssText = "font-size:12px;font-weight:700;color:#2563eb;text-decoration:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:8px 10px;";
+    }
 
     const proof = document.createElement("a");
     proof.href = fileUrl(proofPath);
@@ -4168,37 +4209,6 @@ document.querySelectorAll(".statusPill, .finish-normal-text, .finish-normal-tex,
 
 
 
-<!-- SMARTWORK_PROGRESS_PDF_LINK_READY_V1 -->
-<script>
-(() => {
-  const PDF_PATH = "/reports/downloads/Presensi_Nazrin_Juni_2026.pdf";
 
-  function readyPdfLink() {
-    const el = document.getElementById("pdfLink");
-    if (!el) return;
-
-    el.href = PDF_PATH;
-    el.target = "_blank";
-    el.rel = "noopener";
-    el.removeAttribute("aria-disabled");
-    el.style.pointerEvents = "auto";
-    el.style.opacity = "1";
-  }
-
-  readyPdfLink();
-  document.addEventListener("DOMContentLoaded", readyPdfLink);
-  window.addEventListener("load", readyPdfLink);
-
-  [50, 200, 700, 1500, 3000, 5000].forEach((ms) => {
-    window.setTimeout(readyPdfLink, ms);
-  });
-
-  document.addEventListener("click", (event) => {
-    const target = event.target && event.target.closest ? event.target.closest("#pdfLink") : null;
-    if (!target) return;
-    readyPdfLink();
-  }, true);
-})();
-</script>
 </body>
 </html>
