@@ -1629,7 +1629,25 @@ nav.bottom-nav {
     } else {
       setHref("pdfLink", pdfPath);
     }
-    const invoiceLink = $("proofLink"); if(invoiceLink){ invoiceLink.href = "#invoiceSummary"; invoiceLink.removeAttribute("target"); invoiceLink.removeAttribute("aria-disabled"); invoiceLink.style.opacity = "1"; invoiceLink.style.pointerEvents = "auto"; }
+    const invoiceLink = $("proofLink");
+    if (invoiceLink) {
+      if (pdfIsStale || pdfIsOldFallback) {
+        invoiceLink.removeAttribute("href");
+        invoiceLink.setAttribute("aria-disabled", "true");
+        invoiceLink.style.opacity = "0.55";
+        invoiceLink.style.pointerEvents = "none";
+        invoiceLink.style.cursor = "not-allowed";
+        invoiceLink.title = "Invoice diblokir karena hasil lama/stale.";
+      } else {
+        invoiceLink.href = "#invoiceSummary";
+        invoiceLink.removeAttribute("target");
+        invoiceLink.removeAttribute("aria-disabled");
+        invoiceLink.style.opacity = "1";
+        invoiceLink.style.pointerEvents = "auto";
+        invoiceLink.style.cursor = "pointer";
+        invoiceLink.removeAttribute("title");
+      }
+    }
 
     document.body.dataset.smartworkResultReady = "true";
   }
@@ -3324,6 +3342,25 @@ nav.bottom-nav {
       event.preventDefault();
       event.stopPropagation();
 
+      const pdfButton = findPdfButton();
+      const pdfHref = pdfButton?.getAttribute("href") || "";
+      const pdfBlocked =
+        !pdfHref ||
+        pdfHref === "#" ||
+        pdfButton?.getAttribute("aria-disabled") === "true" ||
+        String(pdfButton?.textContent || "").includes("PDF lama diblokir");
+
+      if (pdfBlocked) {
+        invoiceButton.removeAttribute("href");
+        invoiceButton.setAttribute("aria-disabled", "true");
+        invoiceButton.style.opacity = "0.55";
+        invoiceButton.style.pointerEvents = "none";
+        invoiceButton.style.cursor = "not-allowed";
+        invoiceButton.title = "Invoice diblokir karena PDF lama/stale.";
+        closeInvoice();
+        return false;
+      }
+
       modalBody.innerHTML = invoiceHtml();
 
       modalBody.querySelector("[data-smartwork-close-invoice='true']")?.addEventListener("click", closeInvoice);
@@ -3425,10 +3462,36 @@ nav.bottom-nav {
     btn.id = "smartwork-invoice-button";
     btn.setAttribute("data-smartwork-invoice-button", "true");
     btn.setAttribute("role", "button");
+        const pdfButton = Array.from(document.querySelectorAll("a,button")).find((el) => {
+      const text = String(el.textContent || "").toLowerCase();
+      const href = String(el.getAttribute("href") || "").toLowerCase();
+      return (text.includes("pdf") || href.includes(".pdf")) && !text.includes("invoice");
+    });
+    const pdfHref = pdfButton?.getAttribute("href") || "";
+    const pdfBlocked =
+      !pdfHref ||
+      pdfHref === "#" ||
+      pdfButton?.getAttribute("aria-disabled") === "true" ||
+      String(pdfButton?.textContent || "").includes("PDF lama diblokir");
+
+    if (pdfBlocked) {
+      btn.removeAttribute("href");
+      btn.setAttribute("aria-disabled", "true");
+      btn.setAttribute("tabindex", "-1");
+      btn.style.cursor = "not-allowed";
+      btn.style.pointerEvents = "none";
+      btn.style.opacity = "0.55";
+      btn.title = "Invoice diblokir karena PDF lama/stale.";
+      return;
+    }
+
     btn.setAttribute("tabindex", "0");
     btn.removeAttribute("disabled");
+    btn.removeAttribute("aria-disabled");
     btn.style.cursor = "pointer";
     btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
+    btn.removeAttribute("title");
 
     btn.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
