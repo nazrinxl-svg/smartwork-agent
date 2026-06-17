@@ -1494,9 +1494,9 @@
       <div class="invoiceGrid">
         <div class="invoiceRow"><span class="invoiceLabel">Layanan</span><span class="invoiceValue">Presensi SIAGA Juni 2026</span></div>
         <div class="invoiceRow"><span class="invoiceLabel">Nama</span><span class="invoiceValue">Nazrin</span></div>
-        <div class="invoiceRow"><span class="invoiceLabel">Rentang</span><span class="invoiceValue">22–27 Juni 2026</span></div>
-        <div class="invoiceRow"><span class="invoiceLabel">Status</span><span class="invoiceValue">Hasil Siap 100%</span></div>
-        <div class="invoiceRow"><span class="invoiceLabel">File hasil</span><span class="invoiceValue">Presensi_Nazrin_Juni_2026.pdf</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">Rentang</span><span class="invoiceValue">Menunggu request aktif</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">Status</span><span class="invoiceValue">Menunggu hasil baru</span></div>
+        <div class="invoiceRow"><span class="invoiceLabel">File hasil</span><span class="invoiceValue">Belum tersedia</span></div>
         <div class="invoiceNote">PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan.</div>
       </div>
     </section>
@@ -1915,7 +1915,7 @@ nav.bottom-nav {
     const card = document.querySelector("#pdfName")?.closest(".proofCard");
     if (!card) return;
 
-    const pdfName = fileName(pdfPath) || "Presensi_Nazrin_Juni_2026.pdf";
+    const pdfName = fileName(pdfPath) || "Belum tersedia";
     const proofName = fileName(proofPath) || "smartwork-siaga-proof-report.txt";
 
     card.innerHTML = "";
@@ -2161,7 +2161,7 @@ nav.bottom-nav {
     });
 
     const pdfName = document.getElementById("pdfName");
-    if (pdfName) pdfName.textContent = "Presensi_Nazrin_Juni_2026.pdf";
+    if (pdfName) pdfName.textContent = "Belum tersedia";
 
     const fileMeta = pdfName?.closest(".fileMeta")?.querySelector("p");
     if (fileMeta) fileMeta.textContent = "PDF & bukti laporan siap untuk request aktif.";
@@ -3042,13 +3042,13 @@ nav.bottom-nav {
     const fileName =
       cleanText(document.querySelector("[data-pdf-name]")?.textContent) ||
       cleanText(document.querySelector(".pdf-name")?.textContent) ||
-      "Presensi_Nazrin_Juni_2026.pdf";
+      "Belum tersedia";
 
     return `
       <div class="smartwork-invoice-row"><strong>Layanan</strong><span>Presensi SIAGA Juni 2026</span></div>
       <div class="smartwork-invoice-row"><strong>Nama</strong><span>Nazrin</span></div>
-      <div class="smartwork-invoice-row"><strong>Rentang</strong><span>22–27 Juni 2026</span></div>
-      <div class="smartwork-invoice-row"><strong>Status</strong><span>Hasil Siap 100%</span></div>
+      <div class="smartwork-invoice-row"><strong>Rentang</strong><span>Menunggu request aktif</span></div>
+      <div class="smartwork-invoice-row"><strong>Status</strong><span>Menunggu hasil baru</span></div>
       <div class="smartwork-invoice-row"><strong>File hasil</strong><span>${fileName}</span></div>
       <div class="smartwork-invoice-modal-note">PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan.</div>
     `;
@@ -3302,15 +3302,15 @@ nav.bottom-nav {
         </div>
         <div class="smartwork-invoice-field">
           <div class="smartwork-invoice-label">Rentang</div>
-          <div class="smartwork-invoice-value">22–27 Juni 2026</div>
+          <div class="smartwork-invoice-value">Menunggu request aktif</div>
         </div>
         <div class="smartwork-invoice-field">
           <div class="smartwork-invoice-label">Status</div>
-          <div class="smartwork-invoice-value smartwork-invoice-status">Hasil Siap 100%</div>
+          <div class="smartwork-invoice-value smartwork-invoice-status">Menunggu hasil baru</div>
         </div>
         <div class="smartwork-invoice-field">
           <div class="smartwork-invoice-label">File hasil</div>
-          <div class="smartwork-invoice-value">Presensi_Nazrin_Juni_2026.pdf</div>
+          <div class="smartwork-invoice-value">Belum tersedia</div>
         </div>
       </div>
 
@@ -3538,9 +3538,9 @@ nav.bottom-nav {
       "",
       "Layanan    : Presensi SIAGA Juni 2026",
       "Nama       : Nazrin",
-      "Periode    : 2026-06-22 s.d. 2026-06-27",
-      "Status     : Hasil Siap 100%",
-      "File hasil : Presensi_Nazrin_Juni_2026.pdf",
+      "Periode    : Belum ada periode aktif",
+      "Status     : Menunggu hasil baru",
+      "File hasil : Belum tersedia",
       "",
       "Catatan:",
       "PDF adalah bukti hasil utama. Invoice ini hanya ringkasan request dan status pekerjaan."
